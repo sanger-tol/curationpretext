@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-core/curationpretext
+    sanger-tol/curationpretext
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-core/curationpretext
+    Github : https://github.com/sanger-tol/curationpretext
     Website: https://nf-co.re/curationpretext
     Slack  : https://nfcore.slack.com/channels/curationpretext
 ----------------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ WorkflowMain.initialise(workflow, params, log)
 include { CURATIONPRETEXT } from './workflows/curationpretext'
 
 //
-// WORKFLOW: Run main nf-core/curationpretext analysis pipeline
+// WORKFLOW: Run main sanger-tol/curationpretext analysis pipeline
 //
 workflow NFCORE_CURATIONPRETEXT {
     CURATIONPRETEXT ()

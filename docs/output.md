@@ -1,4 +1,4 @@
-# nf-core/curationpretext: Output
+# sanger-tol/curationpretext: Output
 
 ## Introduction
 

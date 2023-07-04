@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/curationpretext/master/nextflow_schema.json",
-    "title": "nf-core/curationpretext pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/sanger-tol/curationpretext/master/nextflow_schema.json",
+    "title": "sanger-tol/curationpretext pipeline parameters",
     "description": "A simple pipeline to generate pretext files for genomic curation.",
     "type": "object",
     "definitions": {

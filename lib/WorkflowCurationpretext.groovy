@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the workflow/curationpretext.nf in the nf-core/curationpretext pipeline
+// This file holds several functions specific to the workflow/curationpretext.nf in the sanger-tol/curationpretext pipeline
 //
 
 import nextflow.Nextflow

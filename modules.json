@@ -1,6 +1,6 @@
 {
-    "name": "nf-core/curationpretext",
-    "homePage": "https://github.com/nf-core/curationpretext",
+    "name": "sanger-tol/curationpretext",
+    "homePage": "https://github.com/sanger-tol/curationpretext",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {
