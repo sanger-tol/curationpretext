@@ -33,7 +33,8 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CURATIONPRETEXT } from './workflows/curationpretext'
+include { CURATIONPRETEXT_ALLF } from './workflows/curationpretext_allf'
+include { CURATIONPRETEXT_MAPS } from './workflows/curationpretext_maps'
 
 //
 // WORKFLOW: Run main sanger-tol/curationpretext analysis pipeline
@@ -44,14 +45,6 @@ workflow SANGERTOL_CURATIONPRETEXT_ALL_FILES {
 
 workflow SANGERTOL_CURATIONPRETEXT_MAPS {
     CURATIONPRETEXT_MAPS ()
-}
-
-workflow SANGERTOL_CURATIONPRETEXT_HIRES {
-    CURATIONPRETEXT_HIRE ()
-}
-
-workflow SANGERTOL_CURATIONPRETEXT_NORMAL {
-    CURATIONPRETEXT_NORM ()
 }
 
 /*
@@ -70,14 +63,6 @@ workflow ALL_FILES {
 
 workflow MAPS_ONLY {
     SANGERTOL_CURATIONPRETEXT_MAPS ()
-}
-
-workflow HIRES {
-    SANGERTOL_CURATIONPRETEXT_HIRES ()
-}
-
-workflow NORMAL {
-    SANGERTOL_CURATIONPRETEXT_NORMAL ()
 }
 
 /*
