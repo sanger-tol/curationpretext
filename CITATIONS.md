@@ -1,4 +1,4 @@
-# nf-core/curationpretext: Citations
+# sanger-tol/curationpretext: Citations
 
 ## [nf-core](https://pubmed.ncbi.nlm.nih.gov/32055031/)
 

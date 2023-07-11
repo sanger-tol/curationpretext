@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-core/curationpretext
+    sanger-tol/curationpretext
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-core/curationpretext
+    Github : https://github.com/sanger-tol/curationpretext
     Website: https://nf-co.re/curationpretext
     Slack  : https://nfcore.slack.com/channels/curationpretext
 ----------------------------------------------------------------------------------------
@@ -33,13 +33,18 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CURATIONPRETEXT } from './workflows/curationpretext'
+include { CURATIONPRETEXT_ALLF } from './workflows/curationpretext_allf'
+include { CURATIONPRETEXT_MAPS } from './workflows/curationpretext_maps'
 
 //
-// WORKFLOW: Run main nf-core/curationpretext analysis pipeline
+// WORKFLOW: Run main sanger-tol/curationpretext analysis pipeline
 //
-workflow NFCORE_CURATIONPRETEXT {
-    CURATIONPRETEXT ()
+workflow SANGERTOL_CURATIONPRETEXT_ALL_FILES {
+    CURATIONPRETEXT_ALLF ()
+}
+
+workflow SANGERTOL_CURATIONPRETEXT_MAPS {
+    CURATIONPRETEXT_MAPS ()
 }
 
 /*
@@ -52,8 +57,12 @@ workflow NFCORE_CURATIONPRETEXT {
 // WORKFLOW: Execute a single named workflow for the pipeline
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
-workflow {
-    NFCORE_CURATIONPRETEXT ()
+workflow ALL_FILES {
+    SANGERTOL_CURATIONPRETEXT_ALL_FILES ()
+}
+
+workflow MAPS_ONLY {
+    SANGERTOL_CURATIONPRETEXT_MAPS ()
 }
 
 /*

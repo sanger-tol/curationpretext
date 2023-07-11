@@ -1,4 +1,4 @@
-# ![nf-core/curationpretext](docs/images/nf-core-curationpretext_logo_light.png#gh-light-mode-only) ![nf-core/curationpretext](docs/images/nf-core-curationpretext_logo_dark.png#gh-dark-mode-only)
+# ![sanger-tol/curationpretext](docs/images/nf-core-curationpretext_logo_light.png#gh-light-mode-only) ![sanger-tol/curationpretext](docs/images/nf-core-curationpretext_logo_dark.png#gh-dark-mode-only)
 
 [![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/curationpretext/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
@@ -6,26 +6,20 @@
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
-[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/nf-core/curationpretext)
+[![Launch on Nextflow Tower](https://img.shields.io/badge/Launch%20%F0%9F%9A%80-Nextflow%20Tower-%234256e7)](https://tower.nf/launch?pipeline=https://github.com/sanger-tol/curationpretext)
 
 [![Get help on Slack](http://img.shields.io/badge/slack-nf--core%20%23curationpretext-4A154B?labelColor=000000&logo=slack)](https://nfcore.slack.com/channels/curationpretext)[![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)[![Follow on Mastodon](https://img.shields.io/badge/mastodon-nf__core-6364ff?labelColor=FFFFFF&logo=mastodon)](https://mstdn.science/@nf_core)[![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
 
 ## Introduction
 
-**nf-core/curationpretext** is a bioinformatics pipeline that ...
-
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+**sanger-tol/curationpretext** is a bioinformatics pipeline typically used in conjunction with [TreeVal](https://github.com/sanger-tol/treeval) to generate pretext maps (and optionally telomeric, gap, coverage and repeat density plots which can be ingested into pretext) for the manual curation of high quality genomes.
 
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. Generate Maps - Generates pretext maps aswell as a static image.
+
+2. Accessory files - Generates the repeat density, gap, telomere and coverage tracks.
 
 ## Usage
 
@@ -34,31 +28,38 @@
 > to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline)
 > with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+Currently, the pipeline uses the following flags:
 
-First, prepare a samplesheet with your input data that looks as follows:
+- --fasta 
+   - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
 
-`samplesheet.csv`:
+- --pacbio 
+   - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
 
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-```
+- --cram 
+   - The directory of the cram *and* cram.crai files, e.g, `/path/to/cram/`
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+- --teloseq
+   - A telomeric sequence, e.g, `TTAGGG`
 
--->
+- -entry
+   - ALL_FILES generates all accessory files as well as pretext maps
+   - MAPS generates only the pretext maps and static images
 
 Now, you can run the pipeline using:
 
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
-nextflow run nf-core/curationpretext \
+nextflow run sanger-tol/curationpretext \
    -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
-   --outdir <OUTDIR>
+   --fasta path/to/assembly.fa \
+   --cram path/to/cram/ \
+   --pacbio path/to/pacbio/fasta/ \
+   --teloseq TTAGGG \
+   -entry { ALL_FILES | MAPS } \
+   --outdir path/to/outdir/
+
 ```
 
 > **Warning:**
@@ -76,11 +77,13 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/curationpretext was originally written by Damon-Lee B Pointon (@DLBPointon).
+sanger-tol/curationpretext was originally written by Damon-Lee B Pointon (@DLBPointon).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- @yumisims
+
+- @weaglesBio
 
 ## Contributions and Support
 
@@ -91,7 +94,7 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 ## Citations
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  nf-core/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
+<!-- If you use  sanger-tol/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
 
 <!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 

@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the main.nf workflow in the nf-core/curationpretext pipeline
+// This file holds several functions specific to the main.nf workflow in the sanger-tol/curationpretext pipeline
 //
 
 import nextflow.Nextflow
@@ -81,9 +81,9 @@ class WorkflowMain {
         // Check AWS batch settings
         NfcoreTemplate.awsBatch(workflow, params)
 
-        // Check input has been provided
-        if (!params.input) {
-            Nextflow.error("Please provide an input samplesheet to the pipeline e.g. '--input samplesheet.csv'")
+        // Check sample has been provided
+        if (!params.sample) {
+            Nextflow.error("Please provide a sample id. '--sample David'")
         }
     }
     //
