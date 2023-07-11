@@ -34,7 +34,7 @@
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-folder-open"
                 },
-                "telo_seq": {
+                "teloseq": {
                     "type": "string",
                     "description": "Telomeric Motif for search, defaults to TTAGGG",
                     "help_text": "Give me a telomeric motif",

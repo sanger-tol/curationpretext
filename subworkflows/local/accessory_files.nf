@@ -53,11 +53,12 @@ workflow ACCESSORY_FILES {
     //
     // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH PACBIO READS AND REFERENCE
     //
-    //TELO_FINDER (   GET_LARGEST_SCAFF.out.max_scaff_size,
-    //                reference_tuple,
-    //                teloseq <
-    //)
-    //ch_versions = ch_versions.mix(TELO_FINDER.out.versions) 
+    TELO_FINDER (
+        GET_LARGEST_SCAFF.out.scaff_size,
+        reference_tuple,
+        params.teloseq
+    )
+    ch_versions = ch_versions.mix(TELO_FINDER.out.versions) 
 
     //
     // SUBWORKFLOW: GENERATES A BIGWIG FOR A REPEAT DENSITY TRACK
@@ -76,15 +77,17 @@ workflow ACCESSORY_FILES {
         GENERATE_GENOME_FILE.out.dotgenome,
         pacbio_reads
     )
-    //ch_versions = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
+    ch_versions = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
 
 
     emit:
     gap_file            = GAP_FINDER.out.gap_file
-    gap_tabix           = GAP_FINDER.out.gap_tabix
     repeat_file         = REPEAT_DENSITY.out.repeat_density
-    //telo_file           = TELO_FINDER.out.bedgraph_file
-    //repeat_file         = 
-    //coverage_file       = 
+    telo_file           = TELO_FINDER.out.bedgraph_file
+    repeat_file         = REPEAT_DENSITY.out.repeat_density
+    coverage_bw         = LONGREAD_COVERAGE.out.ch_bigwig
+    mins_bed            = LONGREAD_COVERAGE.out.ch_minbed
+    half_bed            = LONGREAD_COVERAGE.out.ch_halfbed
+    maxs_bed            = LONGREAD_COVERAGE.out.ch_maxbed
     versions            = ch_versions.ifEmpty(null)
 }

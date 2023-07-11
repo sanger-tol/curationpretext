@@ -28,12 +28,19 @@ workflow GENERATE_MAPS {
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
-    SAMTOOLS_FAIDX ( reference_tuple, [[],[]] )
+    SAMTOOLS_FAIDX ( 
+        reference_tuple,
+        [[],[]]
+    )
+    ch_versions         = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
+
 
     //
     // MODULE: Indexing on reference output the folder of indexing files
     //
-    BWAMEM2_INDEX (reference_tuple)
+    BWAMEM2_INDEX (
+        reference_tuple
+    )
     ch_versions         = ch_versions.mix(BWAMEM2_INDEX.out.versions)
 
     Channel.of([[id: 'david'], hic_reads_path]).set { ch_hic_path }
@@ -41,17 +48,14 @@ workflow GENERATE_MAPS {
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
     //
-    GENERATE_CRAM_CSV ( ch_hic_path )
+    GENERATE_CRAM_CSV (
+        ch_hic_path
+    )
     ch_versions         = ch_versions.mix(GENERATE_CRAM_CSV.out.versions)
 
     //
     // LOGIC: organise all parametres into a channel for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
     //
-
-    println GENERATE_CRAM_CSV.out.csv
-    println reference_tuple
-    println BWAMEM2_INDEX.out.index
-
     GENERATE_CRAM_CSV.out.csv
         .splitCsv()
         .combine (reference_tuple)
@@ -75,7 +79,9 @@ workflow GENERATE_MAPS {
     //
     // MODULE: parallel proccessing bwa-mem2 alignment by given interval of containers from cram files
     //
-    CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT ( ch_filtering_input  )
+    CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT (
+        ch_filtering_input 
+    )
     ch_versions         = ch_versions.mix(CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.versions)
 
     //
@@ -100,7 +106,11 @@ workflow GENERATE_MAPS {
     //
     // MODULE: MERGE POSITION SORTED BAM FILES AND MARK DUPLICATES
     //
-    SAMTOOLS_MERGE ( collected_files_for_merge, reference_tuple, SAMTOOLS_FAIDX.out.fai )
+    SAMTOOLS_MERGE (
+        collected_files_for_merge,
+        reference_tuple,
+        SAMTOOLS_FAIDX.out.fai
+    )
     ch_versions         = ch_versions.mix ( SAMTOOLS_MERGE.out.versions )
 
     //
@@ -117,24 +127,36 @@ workflow GENERATE_MAPS {
     //
     // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR LOW RES
     //
-    PRETEXTMAP_STANDRD ( pretext_input.input_bam, pretext_input.reference )
+    PRETEXTMAP_STANDRD (
+        pretext_input.input_bam,
+        pretext_input.reference
+    )
     ch_versions         = ch_versions.mix(PRETEXTMAP_STANDRD.out.versions)
 
     //
     // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
     //
-    PRETEXTMAP_HIGHRES ( pretext_input.input_bam, pretext_input.reference )
+    PRETEXTMAP_HIGHRES (
+        pretext_input.input_bam,
+        pretext_input.reference
+    )
     ch_versions         = ch_versions.mix(PRETEXTMAP_HIGHRES.out.versions)
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT
     //
-    SNAPSHOT_HRES ( PRETEXTMAP_STANDRD.out.pretext )
+    SNAPSHOT_SRES (
+        PRETEXTMAP_STANDRD.out.pretext
+    )
+    ch_versions         = ch_versions.mix(SNAPSHOT_SRES.out.versions)
 
     //
-    // MODULE: GENERATE PNG FROM STANDARD PRETEXT
+    // MODULE: GENERATE PNG FROM HIRES PRETEXT
     //
-    SNAPSHOT_HRES ( PRETEXTMAP_HIGHRES.out.pretext )
+    SNAPSHOT_HRES (
+        PRETEXTMAP_HIGHRES.out.pretext
+    )
+    ch_versions         = ch_versions.mix(SNAPSHOT_HRES.out.versions)
 
     emit:
     standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext

@@ -31,29 +31,7 @@ workflow GAP_FINDER {
     )
     ch_versions     = ch_versions.mix( GAP_LENGTH.out.versions )
 
-    //
-    // LOGIC: Adding the largest scaffold size to the meta data so it can be used in the modules.config
-    //    
-    SEQTK_CUTN.out.bed
-        .combine(max_scaff_size)
-        .map {meta, row, scaff -> 
-            tuple([ id          : meta.id, 
-                    max_scaff   : scaff >= 500000000 ? 'csi': ''
-                ],
-                file(row)
-            )}
-        .set { modified_bed_ch }
-
-    //
-    // MODULE: BGZIP AND TABIX THE GAP FILE
-    //
-    TABIX_BGZIPTABIX (
-        modified_bed_ch
-    )
-    ch_versions     = ch_versions.mix( TABIX_BGZIPTABIX.out.versions )
-
     emit:
     gap_file        = GAP_LENGTH.out.bed
-    gap_tabix       = TABIX_BGZIPTABIX.out.gz_csi
     versions        = ch_versions.ifEmpty(null)
 }
