@@ -11,7 +11,7 @@ WorkflowCurationpretext.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.cram, params.fasta ]
+def checkPathParamList = [ params.cram, params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
@@ -54,10 +54,16 @@ workflow CURATIONPRETEXT_MAPS {
     main:
     ch_versions = Channel.empty()
 
+    Channel.of( [[id: params.sample], params.input] )
+        .set { reference_tuple }
+
+    Channel.of( [[id: params.sample], params.cram] )
+        .set { cram_reads }
+
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //
-    GENERATE_MAPS ( [[id: params.name], params.fasta], [[id: 'hic_files'],params.cram] )
+    GENERATE_MAPS ( reference_tuple, params.cram )
 
     //
     // SUBWORKFLOW: Collates version data from prior subworflows

@@ -30,13 +30,13 @@
 
 Currently, the pipeline uses the following flags:
 
-- --fasta 
+- --input
    - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
 
-- --pacbio 
+- --pacbio
    - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
 
-- --cram 
+- --cram
    - The directory of the cram *and* cram.crai files, e.g, `/path/to/cram/`
 
 - --teloseq
@@ -44,7 +44,7 @@ Currently, the pipeline uses the following flags:
 
 - -entry
    - ALL_FILES generates all accessory files as well as pretext maps
-   - MAPS generates only the pretext maps and static images
+   - MAPS_ONLY generates only the pretext maps and static images
 
 Now, you can run the pipeline using:
 
@@ -57,7 +57,7 @@ nextflow run sanger-tol/curationpretext \
    --cram path/to/cram/ \
    --pacbio path/to/pacbio/fasta/ \
    --teloseq TTAGGG \
-   -entry { ALL_FILES | MAPS } \
+   -entry { ALL_FILES | MAPS_ONLY } \
    --outdir path/to/outdir/
 
 ```
