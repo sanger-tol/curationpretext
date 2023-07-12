@@ -10,7 +10,7 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.cram, params.fasta ]
+def checkPathParamList = [ params.pacbio, params.cram, params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
@@ -46,7 +46,7 @@ workflow CURATIONPRETEXT_ALLF {
     main:
     ch_versions = Channel.empty()
 
-    Channel.of( [[id: params.sample], params.fasta] )
+    Channel.of( [[id: params.sample], params.input] )
         .set { reference_tuple }
 
     Channel.of( [[id: params.sample], params.pacbio] )
