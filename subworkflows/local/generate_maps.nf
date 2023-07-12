@@ -150,19 +150,20 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix(SNAPSHOT_SRES.out.versions)
 
+    // NOTE: SNAPSHOT HRES IS TEMPORARILY REMOVED DUE TO ISSUES WITH MEMORY
     //
     // MODULE: GENERATE PNG FROM HIRES PRETEXT
     //
-    SNAPSHOT_HRES (
-        PRETEXTMAP_HIGHRES.out.pretext
-    )
-    ch_versions         = ch_versions.mix(SNAPSHOT_HRES.out.versions)
+    //SNAPSHOT_HRES (
+    //    PRETEXTMAP_HIGHRES.out.pretext
+    //)
+    //ch_versions         = ch_versions.mix(SNAPSHOT_HRES.out.versions)
 
     emit:
     standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext
     standrd_snpshot     = SNAPSHOT_SRES.out.image
     highres_pretext     = PRETEXTMAP_HIGHRES.out.pretext
-    highres_snpshot     = SNAPSHOT_HRES.out.image
+    //highres_snpshot     = SNAPSHOT_HRES.out.image
     versions            = ch_versions.ifEmpty(null)
 
 }
