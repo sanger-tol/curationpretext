@@ -1,6 +1,9 @@
 repository_type: pipeline
 lint:
+  files_exist:
+    - assets/multiqc_config.yml
   files_unchanged:
+    - .github/workflows/linting.yml
     - LICENSE
     - .github/CONTRIBUTING.md
     - docs/README.md

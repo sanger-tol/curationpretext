@@ -14,6 +14,8 @@
 
 **sanger-tol/curationpretext** is a bioinformatics pipeline typically used in conjunction with [TreeVal](https://github.com/sanger-tol/treeval) to generate pretext maps (and optionally telomeric, gap, coverage and repeat density plots which can be ingested into pretext) for the manual curation of high quality genomes.
 
+This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. However, can be simply used to generate pretext maps.
+
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 
@@ -31,20 +33,24 @@
 Currently, the pipeline uses the following flags:
 
 - --input
-   - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
+
+  - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
 
 - --pacbio
-   - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
+
+  - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
 
 - --cram
-   - The directory of the cram *and* cram.crai files, e.g, `/path/to/cram/`
+
+  - The directory of the cram _and_ cram.crai files, e.g, `/path/to/cram/`
 
 - --teloseq
-   - A telomeric sequence, e.g, `TTAGGG`
+
+  - A telomeric sequence, e.g, `TTAGGG`
 
 - -entry
-   - ALL_FILES generates all accessory files as well as pretext maps
-   - MAPS_ONLY generates only the pretext maps and static images
+  - ALL_FILES generates all accessory files as well as pretext maps
+  - MAPS_ONLY generates only the pretext maps and static images
 
 Now, you can run the pipeline using:
 
