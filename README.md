@@ -31,20 +31,24 @@
 Currently, the pipeline uses the following flags:
 
 - --input
-   - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
+
+  - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
 
 - --pacbio
-   - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
+
+  - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
 
 - --cram
-   - The directory of the cram *and* cram.crai files, e.g, `/path/to/cram/`
+
+  - The directory of the cram _and_ cram.crai files, e.g, `/path/to/cram/`
 
 - --teloseq
-   - A telomeric sequence, e.g, `TTAGGG`
+
+  - A telomeric sequence, e.g, `TTAGGG`
 
 - -entry
-   - ALL_FILES generates all accessory files as well as pretext maps
-   - MAPS_ONLY generates only the pretext maps and static images
+  - ALL_FILES generates all accessory files as well as pretext maps
+  - MAPS_ONLY generates only the pretext maps and static images
 
 Now, you can run the pipeline using:
 
