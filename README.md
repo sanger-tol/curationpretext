@@ -14,6 +14,8 @@
 
 **sanger-tol/curationpretext** is a bioinformatics pipeline typically used in conjunction with [TreeVal](https://github.com/sanger-tol/treeval) to generate pretext maps (and optionally telomeric, gap, coverage and repeat density plots which can be ingested into pretext) for the manual curation of high quality genomes.
 
+This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. However, can be simply used to generate pretext maps.
+
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 

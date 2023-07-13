@@ -1,5 +1,7 @@
 repository_type: pipeline
 lint:
+  files_exist:
+    - assets/multiqc_config.yml
   files_unchanged:
     - LICENSE
     - .github/CONTRIBUTING.md
