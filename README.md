@@ -57,15 +57,25 @@ Now, you can run the pipeline using:
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
+// For ALL_FILES run
 nextflow run sanger-tol/curationpretext \
    -profile <docker/singularity/.../institute> \
    --fasta path/to/assembly.fa \
    --cram path/to/cram/ \
    --pacbio path/to/pacbio/fasta/ \
    --teloseq TTAGGG \
-   -entry { ALL_FILES | MAPS_ONLY } \
+   --sample { default is "pretext_rerun" }
+   -entry ALL_FILES \
    --outdir path/to/outdir/
 
+// For MAPS_ONLY run
+nextflow run sanger-tol/curationpretext \
+   -profile <docker/singularity/.../institute> \
+   --fasta path/to/assembly.fa \
+   --cram path/to/cram/ \
+   --sample { default is "pretext_rerun" }
+   -entry MAPS_ONLY \
+   --outdir path/to/outdir/
 ```
 
 > **Warning:**

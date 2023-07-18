@@ -28,7 +28,7 @@ workflow GENERATE_MAPS {
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
-    SAMTOOLS_FAIDX ( 
+    SAMTOOLS_FAIDX (
         reference_tuple,
         [[],[]]
     )
@@ -43,7 +43,7 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix(BWAMEM2_INDEX.out.versions)
 
-    Channel.of([[id: 'david'], hic_reads_path]).set { ch_hic_path }
+    Channel.of([[id: 'hic_path'], hic_reads_path]).set { ch_hic_path }
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
@@ -61,9 +61,9 @@ workflow GENERATE_MAPS {
         .combine (reference_tuple)
         .combine (BWAMEM2_INDEX.out.index)
         .map{ cram_id, cram_info, ref_id, ref_dir, bwa_id, bwa_path ->
-            tuple(  [ 
+            tuple(  [
                     id: cram_id.id
-                    ], 
+                    ],
                     file(cram_info[0]),
                     cram_info[1],
                     cram_info[2],
@@ -72,7 +72,7 @@ workflow GENERATE_MAPS {
                     cram_info[5],
                     cram_info[6],
                     bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1]
-            )                          
+            )
         }
        .set { ch_filtering_input }
 
@@ -80,7 +80,7 @@ workflow GENERATE_MAPS {
     // MODULE: parallel proccessing bwa-mem2 alignment by given interval of containers from cram files
     //
     CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT (
-        ch_filtering_input 
+        ch_filtering_input
     )
     ch_versions         = ch_versions.mix(CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.versions)
 
