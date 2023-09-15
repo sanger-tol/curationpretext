@@ -60,7 +60,7 @@ Now, you can run the pipeline using:
 // For ALL_FILES run
 nextflow run sanger-tol/curationpretext \
    -profile <docker/singularity/.../institute> \
-   --fasta path/to/assembly.fa \
+   --input path/to/assembly.fa \
    --cram path/to/cram/ \
    --pacbio path/to/pacbio/fasta/ \
    --teloseq TTAGGG \
@@ -71,7 +71,7 @@ nextflow run sanger-tol/curationpretext \
 // For MAPS_ONLY run
 nextflow run sanger-tol/curationpretext \
    -profile <docker/singularity/.../institute> \
-   --fasta path/to/assembly.fa \
+   --input path/to/assembly.fa \
    --cram path/to/cram/ \
    --sample { default is "pretext_rerun" }
    -entry MAPS_ONLY \
