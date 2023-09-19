@@ -9,16 +9,22 @@
 This is a sister pipeline to [TreeVal](https://github.com/sanger-tol/treeval/) which generated a plurality of data for the curation of reference-quality genomes. curationpretext is a subset of TreeVal that produces soley the Pretext maps and accessory files
 
 Currently, the pipeline expects input data to be in a specific format.
+
 The `--input` should be `.fasta` or `.fa` (the same format but differing suffix).
+
 The `--cram` should point to the folder containing `.cram` files along with a `.crai` per `.cram`.
+
 The `--pacbio` should point to the folder containing `.fasta.gz` files.
 
 If you do not have these file formats we have also included instructions on converting from common formats to our preferred format.
 If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
 
-The conversion documentation can be found in the [TreeVal Wiki](https://github.com/sanger-tol/treeval/wiki/Data-Preparation).
+The conversion documentation can be found in:
+  
+  - [TreeVal Wiki - PacBio Data](https://github.com/sanger-tol/treeval/wiki/Data-Preparation#pacbio-data).
+  - [TreeVal Wiki - Cram Data](https://github.com/sanger-tol/treeval/wiki/Data-Preparation#hic-data).
 
-The pipeline currently does not ingest the accessory files into the pretext map for you, however, we have included this code in the [TreeVal Wiki](https://github.com/sanger-tol/treeval/wiki/Ingesting-PreText-Accessory-Files).
+The pipeline currently does not ingest the accessory files into the pretext map for you, however, we have included this code in the [TreeVal Wiki - Ingesting PreText Accessory Files](https://github.com/sanger-tol/treeval/wiki/Ingesting-PreText-Accessory-Files).
 
 ## Running the pipeline
 
