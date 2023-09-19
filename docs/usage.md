@@ -62,7 +62,7 @@ Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <
 > The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run sanger-tol/curationpretext -profile docker -params-file params.yaml -entry <ALL_FILES/ONLY_MAPS>
+nextflow run sanger-tol/curationpretext -profile docker -params-file params.yaml -entry <ALL_FILES/MAPS_ONLY>
 ```
 
 with `params.yaml` containing:

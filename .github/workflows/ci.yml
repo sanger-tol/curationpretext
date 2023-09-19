@@ -44,10 +44,10 @@ jobs:
         run: |
           tree TreeValTinyData
 
-      - name: Run ONLY_MAPS pipeline with test data
+      - name: Run MAPS_ONLY pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} --input /home/runner/work/curationpretext/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa --pacbio /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/pacbio/ --cram /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/hic-arima/ --teloseq TTAGGG -profile test,docker --outdir ./results -entry ONLY_MAPS
+          nextflow run ${GITHUB_WORKSPACE} --input /home/runner/work/curationpretext/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa --pacbio /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/pacbio/ --cram /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/hic-arima/ --teloseq TTAGGG -profile test,docker --outdir ./results -entry MAPS_ONLY
 
       - name: Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
