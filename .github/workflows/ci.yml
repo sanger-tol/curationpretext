@@ -40,10 +40,6 @@ jobs:
         run: |
           curl https://dp24.cog.sanger.ac.uk/TreeValTinyData.tar.gz | tar xzf -
 
-      - name: Tree test data
-        run: |
-          tree TreeValTinyData
-
       - name: Run MAPS_ONLY pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
