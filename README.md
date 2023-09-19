@@ -12,16 +12,16 @@
 
 ## Introduction
 
-**sanger-tol/curationpretext** is a bioinformatics pipeline typically used in conjunction with [TreeVal](https://github.com/sanger-tol/treeval) to generate pretext maps (and optionally telomeric, gap, coverage and repeat density plots which can be ingested into pretext) for the manual curation of high quality genomes.
+**sanger-tol/curationpretext** is a bioinformatics pipeline typically used in conjunction with [TreeVal](https://github.com/sanger-tol/treeval) to generate pretext maps (and optionally telomeric, gap, coverage, and repeat density plots which can be ingested into pretext) for the manual curation of high quality genomes.
 
-This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. However, can be simply used to generate pretext maps.
+This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. This pipeline can be simply used to generate pretext maps, information on how to run this pipeline can be found in the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage).
 
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 
-1. Generate Maps - Generates pretext maps aswell as a static image.
+1. Generate Maps - Generates pretext maps as well as a static image.
 
-2. Accessory files - Generates the repeat density, gap, telomere and coverage tracks.
+2. Accessory files - Generates the repeat density, gap, telomere, and coverage tracks.
 
 ## Usage
 
@@ -34,19 +34,19 @@ Currently, the pipeline uses the following flags:
 
 - --input
 
-  - The absolute path to the assembled genome in, e.g, `/path/to/assembly.fa`
+  - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
 - --pacbio
 
-  - The directory of the fasta files generated from pacbio reads, e.g, `/path/to/fasta/`
+  - The directory of the fasta files generated from pacbio reads, e.g., `/path/to/fasta/`
 
 - --cram
 
-  - The directory of the cram _and_ cram.crai files, e.g, `/path/to/cram/`
+  - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
 
 - --teloseq
 
-  - A telomeric sequence, e.g, `TTAGGG`
+  - A telomeric sequence, e.g., `TTAGGG`
 
 - -entry
   - ALL_FILES generates all accessory files as well as pretext maps
@@ -81,15 +81,14 @@ nextflow run sanger-tol/curationpretext \
 > **Warning:**
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those
 > provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 
-For more details, please refer to the [usage documentation](https://nf-co.re/curationpretext/usage) and the [parameter documentation](https://nf-co.re/curationpretext/parameters).
+For more details, please refer to the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage) and the [parameter documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/parameters).
 
 ## Pipeline output
 
-To see the the results of a test run with a full size dataset refer to the [results](https://nf-co.re/curationpretext/results) tab on the nf-core website pipeline page.
+To see the the results of a test run with a full size dataset refer to the [results](https://pipelines.tol.sanger.ac.uk/curationpretext/results) tab on the nf-core website pipeline page.
 For more details about the output files and reports, please refer to the
-[output documentation](https://nf-co.re/curationpretext/output).
+[output documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/output).
 
 ## Credits
 
