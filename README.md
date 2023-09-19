@@ -65,7 +65,6 @@ nextflow run sanger-tol/curationpretext \
    --pacbio path/to/pacbio/fasta/ \
    --teloseq TTAGGG \
    --sample { default is "pretext_rerun" }
-   -entry ALL_FILES \
    --outdir path/to/outdir/
 
 // For MAPS_ONLY run

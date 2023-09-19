@@ -57,7 +57,7 @@ workflow SANGERTOL_CURATIONPRETEXT_MAPS {
 // WORKFLOW: Execute a single named workflow for the pipeline
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
-workflow ALL_FILES {
+workflow {
     SANGERTOL_CURATIONPRETEXT_ALL_FILES ()
 }
 
