@@ -74,7 +74,7 @@ workflow GENERATE_MAPS {
                     bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1]
             )
         }
-       .set { ch_filtering_input }
+    .set { ch_filtering_input }
 
     //
     // MODULE: parallel proccessing bwa-mem2 alignment by given interval of containers from cram files
