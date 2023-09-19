@@ -20,9 +20,9 @@ If you do not have these file formats we have also included instructions on conv
 If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
 
 The conversion documentation can be found in:
-  
-  - [TreeVal Wiki - PacBio Data](https://github.com/sanger-tol/treeval/wiki/Data-Preparation#pacbio-data).
-  - [TreeVal Wiki - Cram Data](https://github.com/sanger-tol/treeval/wiki/Data-Preparation#hic-data).
+
+- [TreeVal Wiki - PacBio Data](https://github.com/sanger-tol/treeval/wiki/Data-Preparation#pacbio-data).
+- [TreeVal Wiki - Cram Data](https://github.com/sanger-tol/treeval/wiki/Data-Preparation#hic-data).
 
 The pipeline currently does not ingest the accessory files into the pretext map for you, however, we have included this code in the [TreeVal Wiki - Ingesting PreText Accessory Files](https://github.com/sanger-tol/treeval/wiki/Ingesting-PreText-Accessory-Files).
 
@@ -36,7 +36,7 @@ nextflow run sanger-tol/curationpretext \
   --cram { path/to/cram/ } \
   --pacbio { path/to/pacbio/fasta/ } \
   --sample { default is "pretext_rerun" } \
-  --teloseq TTAGGG \
+  --teloseq {TTAGGG} \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
   -entry <ALL_FILES/MAPS_ONLY> \
@@ -68,12 +68,12 @@ nextflow run sanger-tol/curationpretext -profile docker -params-file params.yaml
 with `params.yaml` containing:
 
 ```yaml
-input: './samplesheet.csv'
-outdir: './results/'
-teloseq: 'GRCh37'
-sample: 'data'
-pacbio: 'pacbio_path'
-cram: 'cram_path'
+input: "./samplesheet.csv"
+outdir: "./results/"
+teloseq: "GRCh37"
+sample: "data"
+pacbio: "pacbio_path"
+cram: "cram_path"
 ```
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
