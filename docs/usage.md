@@ -16,9 +16,9 @@ The `--pacbio` should point to the folder containing `.fasta.gz` files.
 If you do not have these file formats we have also included instructions on converting from common formats to our preferred format.
 If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
 
-The conversion documentation can be found [HERE](conversion_docs.md).
+The conversion documentation can be found in the [TreeVal Wiki](https://github.com/sanger-tol/treeval/wiki/Data-Preparation).
 
-The pipeline currently does not ingest the accessory files into the pretext map for you, however we have included this code [HERE](https://github.com/sanger-tol/treeval/wiki/Ingesting-PreText-Accessory-Files).
+The pipeline currently does not ingest the accessory files into the pretext map for you, however, we have included this code in the [TreeVal Wiki](https://github.com/sanger-tol/treeval/wiki/Ingesting-PreText-Accessory-Files).
 
 ## Running the pipeline
 
