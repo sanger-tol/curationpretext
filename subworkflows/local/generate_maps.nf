@@ -134,13 +134,24 @@ workflow GENERATE_MAPS {
     ch_versions         = ch_versions.mix(PRETEXTMAP_STANDRD.out.versions)
 
     //
-    // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
+    // LOGIC: HIRES IS TOO INTENSIVE FOR RUNNING IN GITHUB CI SO THIS STOPS IT RUNNING
     //
-    PRETEXTMAP_HIGHRES (
-        pretext_input.input_bam,
-        pretext_input.reference
-    )
-    ch_versions         = ch_versions.mix(PRETEXTMAP_HIGHRES.out.versions)
+    if ( params.config_profile_name ) {
+        config_profile_name = params.config_profile_name
+    } else {
+        config_profile_name = 'Local'
+    }
+
+    if ( !config_profile_name.contains('GitHub') ) {
+        //
+        // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
+        //
+        PRETEXTMAP_HIGHRES (
+            pretext_input.input_bam,
+            pretext_input.reference
+        )
+        ch_versions         = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
+    }
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT
