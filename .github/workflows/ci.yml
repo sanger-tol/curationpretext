@@ -47,9 +47,9 @@ jobs:
       - name: Run ONLY_MAPS pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} --input /TreeValTinyData/assembly/draft/grTriPseu1.fa --pacbio /TreeValTinyData/genomic_data/pacbio/ --cram /TreeValTinyData/genomic_data/hic-arima/ --teloseq TTAGGG -profile test,docker --outdir ./results -entry ONLY_MAPS
+          nextflow run ${GITHUB_WORKSPACE} --input /home/runner/work/curationpretext/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa --pacbio /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/pacbio/ --cram /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/hic-arima/ --teloseq TTAGGG -profile test,docker --outdir ./results -entry ONLY_MAPS
 
       - name: Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} --input /TreeValTinyData/assembly/draft/grTriPseu1.fa --pacbio /TreeValTinyData/genomic_data/pacbio/ --cram /TreeValTinyData/genomic_data/hic-arima/ --teloseq TTAGGG -profile test,docker --outdir ./results -entry ALL_FILES
+          nextflow run ${GITHUB_WORKSPACE} --input /home/runner/work/curationpretext/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa --pacbio /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/pacbio/ --cram /home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/hic-arima/ --teloseq TTAGGG -profile test,docker --outdir ./results -entry ALL_FILES
