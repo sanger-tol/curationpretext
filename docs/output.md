@@ -25,11 +25,11 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
   - `coverage.bigWig`: Graph file containing coverage data. For Pretext ingestion.
   - `halfcoverage.bigWig`: Graph file containing coverage data where coverage is equal to half the max.
   - `maxcoverage.bigWig`: Graph file containing coverage data where coverage is max.
-  - `*_gap.bedgraph`:  Bed graph with locations of gaps in the sequence. For Pretext ingestion.
+  - `*_gap.bedgraph`: Bed graph with locations of gaps in the sequence. For Pretext ingestion.
   - `*_telomere.bed`: Bed file containing telomeric motif site.
   - `*_telomere.bedgraph`: Bed graph with locations of telomeric motif. For Pretext ingestion.
   - `*_repeat_density.bigWig`: Graph file containing relative repeat density across the genome. For Pretext ingestion.
-</details>
+  </details>
 
 The accessory files are generated in the `ALL_FILES` sub workflow, and are generated in order to be ingested into the pretext files which is detailed on the pipelines website.
 
