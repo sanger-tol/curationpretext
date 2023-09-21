@@ -62,7 +62,6 @@
 
   > Morgulis, A., et al. 2006. WindowMasker: window-based masker for sequenced genomes. Bioinformatics. 22(2). pp.134–141. doi: 10.1093/bioinformatics/bti774.
 
-
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)
