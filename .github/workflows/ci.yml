@@ -35,9 +35,17 @@ jobs:
         with:
           version: "${{ matrix.NXF_VER }}"
 
-      - name: Run pipeline with test data
-        # TODO nf-core: You can customise CI pipeline run tests as required
-        # For example: adding multiple test runs with different parameters
+      - name: Download test data
+        # Download A fungal test data set that is full enough to show some real output.
+        run: |
+          curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
+
+      - name: Run MAPS_ONLY pipeline with test data
+        # Remember that you can parallelise this by using strategy.matrix
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results -entry MAPS_ONLY
+
+      - name: Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
           nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
