@@ -10,10 +10,65 @@
 
 ## Pipeline tools
 
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [Bedtools](https://bedtools.readthedocs.io/en/latest/)
 
-- [MultiQC](https://pubmed.ncbi.nlm.nih.gov/27312411/)
-  > Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
+  > Quinlan, A.R. and Hall, I.M. 2010. ‘BEDTools: A flexible suite of utilities for comparing genomic features’, Bioinformatics, 26(6), pp. 841–842. doi:10.1093/bioinformatics/btq033.
+
+- [bwa-mem2](https://ieeexplore.ieee.org/document/8820962)
+
+  > Vasimuddin, Md. et al. 2019. ‘Efficient architecture-aware acceleration of BWA-mem for multicore systems’, 2019 IEEE International Parallel and Distributed Processing Symposium (IPDPS) [Preprint]. doi:10.1109/ipdps.2019.00041.
+
+- [coreutils](https://github.com/coreutils/coreutils)
+
+  > GNU Coreutils. 2023. coreutils [online]. https://github.com/coreutils/coreutils/releases/tag/v9.4. (Accessed on 25th September 2023).
+
+- [Find Telomere](https://github.com/VGP/vgp-assembly/tree/master/pipeline/telomere)
+
+  > VGP. 2022. vgp-assembly telomere [online]. https://github.com/VGP/vgp-assembly/tree/master/pipeline/telomere. (Accessed on 28th February 2023).
+
+- [Java](https://docs.oracle.com/javase/8/docs/api/overview-summary.html)
+
+  > Oracle. 2023. Java Documentation. https://docs.oracle.com/javase/8/docs/index.html. (Accessed on 25th September 2023).
+
+- [Minimap2](https://pubmed.ncbi.nlm.nih.gov/34623391/)
+
+  > Li, H. 2021. ‘New strategies to improve MINIMAP2 alignment accuracy’, Bioinformatics, 37(23), pp. 4572–4574. doi:10.1093/bioinformatics/btab705.
+
+- [Perl](https://perldoc.perl.org/perl)
+
+  > Perl Organisation. 2023. Perl Language Reference v5.36.0. https://perldoc.perl.org/perl. (Accessed 28th February 2023).
+
+- [PretextMap](https://github.com/wtsi-hpag/PretextMap)
+
+  > Harry, E. 2022. PretextView [online]. https://github.com/wtsi-hpag/PretextView. (Accessed on 7th June 2023).
+
+- [Python: 3.10](https://docs.python.org/3.10/whatsnew/3.10.html)
+
+  > Python Software Foundation. 2023. Python Language Reference v3.10. https://docs.python.org/3.10/whatsnew/3.10.html. (Accessed 28th February 2023).
+
+- [Samtools](https://pubmed.ncbi.nlm.nih.gov/33590861/)
+
+  > Di Tommaso, Paolo, et al. 2017. “Nextflow Enables Reproducible Computational Workflows.” Nature Biotechnology, 35(4), pp. 316–19, https://doi.org/10.1038/nbt.3820.
+
+- [SeqTK](https://github.com/lh3/seqtk)
+
+  > Li, Heng. 2023. seqtk [online]. https://github.com/lh3/seqtk. (Accessed on 7th June 2023).
+
+- [staden_io_lib / iolib](https://github.com/jkbonfield/io_lib)
+
+  > Bonfield JK. 2023. io_lib [online]. https://github.com/jkbonfield/io_lib. (Accessed on 7th June 2023).
+
+- [Tabix](http://www.htslib.org/doc/tabix.html)
+
+  > Li, Heng. 2023. tabix [online]. http://www.htslib.org/doc/tabix.html. (Accessed on 7th June 2023).
+
+- [UCSC tools](https://github.com/ucscGenomeBrowser/kent/tree/master)
+
+  > UCSC Genome Browser Group. 2023. kent [online]. https://github.com/ucscGenomeBrowser/kent/tree/master. (Accessed on 7th June 2023).
+
+- [WindowMasker](https://pubmed.ncbi.nlm.nih.gov/16287941/)
+
+  > Morgulis, A., et al. 2006. WindowMasker: window-based masker for sequenced genomes. Bioinformatics. 22(2). pp.134–141. doi: 10.1093/bioinformatics/bti774.
 
 ## Software packaging/containerisation tools
 
