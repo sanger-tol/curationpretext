@@ -18,9 +18,17 @@
 
   > Vasimuddin, Md. et al. 2019. ‘Efficient architecture-aware acceleration of BWA-mem for multicore systems’, 2019 IEEE International Parallel and Distributed Processing Symposium (IPDPS) [Preprint]. doi:10.1109/ipdps.2019.00041.
 
+- [coreutils](https://github.com/coreutils/coreutils)
+
+  > GNU Coreutils. 2023. coreutils [online]. https://github.com/coreutils/coreutils/releases/tag/v9.4. (Accessed on 25th September 2023).
+
 - [Find Telomere](https://github.com/VGP/vgp-assembly/tree/master/pipeline/telomere)
 
   > VGP. 2022. vgp-assembly telomere [online]. https://github.com/VGP/vgp-assembly/tree/master/pipeline/telomere. (Accessed on 28th February 2023).
+
+- [Java](https://docs.oracle.com/javase/8/docs/api/overview-summary.html)
+
+  > Oracle. 2023. Java Documentation. https://docs.oracle.com/javase/8/docs/index.html. (Accessed on 25th September 2023).
 
 - [Minimap2](https://pubmed.ncbi.nlm.nih.gov/34623391/)
 
