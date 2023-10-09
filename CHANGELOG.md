@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release of sanger-tol/curationpretext, created with the [sager-tol](https://nf-co.re/) template.
 
-### `Added`
+### Added
 
 - Subworkflow to generate tracks containing telomeric sites.
 - Subworkflow to generate Pretext maps and images
