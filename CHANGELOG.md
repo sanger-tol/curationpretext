@@ -17,14 +17,14 @@ Initial release of sanger-tol/curationpretext, created with the [sager-tol](http
 
 ### Parameters
 
-| Old Version | New Versions    |
-| ----------- | --------------  |
-|             | --input         |
-|             | --cram          |
-|             | --pacbio        |
-|             | --sample        |
-|             | --teloseq       |
-|             | -entry          |
+| Old Version | New Versions |
+| ----------- | ------------ |
+|             | --input      |
+|             | --cram       |
+|             | --pacbio     |
+|             | --sample     |
+|             | --teloseq    |
+|             | -entry       |
 
 ### Software Dependencies
 
