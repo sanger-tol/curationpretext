@@ -19,6 +19,32 @@ The `--pacbio` should point to the folder containing `.fasta.gz` files.
 If you do not have these file formats we have also included instructions on converting from common formats to our preferred format.
 If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
 
+## Prior to running CurationPretext
+
+<details markdown="1">
+  <summary>Details</summary>
+
+We provide a complete set of data that can be used to test the pipeline locally.
+
+By default the test.config file is set up to run on GitHub, however, should you want to test this locally you can follow the below instructions.
+
+First, choose a download location `${PRETEXT_TEST_DATA}` and run this command (this assumes you are inside the curationpretext directory):
+
+```
+PRETEXT_TEST_DATA=$(pwd)
+curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
+
+sed -i'' -e "s|/home/runner/work/curationpretext/curationpretext|${PRETEXT_TEST_DATA}|" conf/test.config
+```
+
+Then, you should be able to run the pipeline with:
+
+```
+nextflow run . -profile test,singularity
+```
+
+</details>
+
 ### HiC data Preparation
 
 <details markdown="1">
