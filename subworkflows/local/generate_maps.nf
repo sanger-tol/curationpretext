@@ -28,7 +28,7 @@ workflow GENERATE_MAPS {
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
-    SAMTOOLS_FAIDX ( 
+    SAMTOOLS_FAIDX (
         reference_tuple,
         [[],[]]
     )
@@ -43,7 +43,7 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix(BWAMEM2_INDEX.out.versions)
 
-    Channel.of([[id: 'david'], hic_reads_path]).set { ch_hic_path }
+    Channel.of([[id: 'hic_path'], hic_reads_path]).set { ch_hic_path }
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
@@ -61,9 +61,9 @@ workflow GENERATE_MAPS {
         .combine (reference_tuple)
         .combine (BWAMEM2_INDEX.out.index)
         .map{ cram_id, cram_info, ref_id, ref_dir, bwa_id, bwa_path ->
-            tuple(  [ 
+            tuple(  [
                     id: cram_id.id
-                    ], 
+                    ],
                     file(cram_info[0]),
                     cram_info[1],
                     cram_info[2],
@@ -72,15 +72,15 @@ workflow GENERATE_MAPS {
                     cram_info[5],
                     cram_info[6],
                     bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1]
-            )                          
+            )
         }
-       .set { ch_filtering_input }
+    .set { ch_filtering_input }
 
     //
     // MODULE: parallel proccessing bwa-mem2 alignment by given interval of containers from cram files
     //
     CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT (
-        ch_filtering_input 
+        ch_filtering_input
     )
     ch_versions         = ch_versions.mix(CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.versions)
 
@@ -134,13 +134,24 @@ workflow GENERATE_MAPS {
     ch_versions         = ch_versions.mix(PRETEXTMAP_STANDRD.out.versions)
 
     //
-    // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
+    // LOGIC: HIRES IS TOO INTENSIVE FOR RUNNING IN GITHUB CI SO THIS STOPS IT RUNNING
     //
-    PRETEXTMAP_HIGHRES (
-        pretext_input.input_bam,
-        pretext_input.reference
-    )
-    ch_versions         = ch_versions.mix(PRETEXTMAP_HIGHRES.out.versions)
+    if ( params.config_profile_name ) {
+        config_profile_name = params.config_profile_name
+    } else {
+        config_profile_name = 'Local'
+    }
+
+    if ( !config_profile_name.contains('GitHub') ) {
+        //
+        // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
+        //
+        PRETEXTMAP_HIGHRES (
+            pretext_input.input_bam,
+            pretext_input.reference
+        )
+        ch_versions         = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
+    }
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT
@@ -162,7 +173,7 @@ workflow GENERATE_MAPS {
     emit:
     standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext
     standrd_snpshot     = SNAPSHOT_SRES.out.image
-    highres_pretext     = PRETEXTMAP_HIGHRES.out.pretext
+    //highres_pretext     = PRETEXTMAP_HIGHRES.out.pretext
     //highres_snpshot     = SNAPSHOT_HRES.out.image
     versions            = ch_versions.ifEmpty(null)
 
