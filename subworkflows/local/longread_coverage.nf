@@ -151,7 +151,7 @@ workflow LONGREAD_COVERAGE {
     //
     // MODULE: BAM TO PRIMARY BED
     //
-    BEDTOOLS_BAMTOBED(SAMTOOLS_VIEW.out.bam)
+    BEDTOOLS_BAMTOBED(SAMTOOLS_VIEW_FILTER_PRIMARY.out.bam)
     ch_versions         = ch_versions.mix(BEDTOOLS_BAMTOBED.out.versions)
 
     //
