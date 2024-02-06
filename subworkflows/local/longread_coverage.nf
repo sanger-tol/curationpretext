@@ -122,7 +122,7 @@ workflow LONGREAD_COVERAGE {
     // LOGIC: PREPARING MERGE INPUT WITH REFERENCE GENOME AND REFERENCE INDEX
     //
     SAMTOOLS_SORT.out.bam
-        .combine( reference_ch )
+        .combine( reference_tuple )
         .multiMap { meta, bam, ref_meta, ref ->
                 bam_input       :   tuple(
                                         [   id          : meta.id,
@@ -257,7 +257,7 @@ workflow LONGREAD_COVERAGE {
     //
     GNU_SORT.out.sorted
         .combine( dot_genome )
-        .combine( reference_ch )
+        .combine( reference_tuple )
         .multiMap { meta, file, meta_my_genome, my_genome, ref_meta, ref ->
             ch_coverage_bed :   tuple (
                                     [   id: ref_meta.id,
@@ -291,7 +291,7 @@ workflow LONGREAD_COVERAGE {
     //
     LONGREADCOVERAGESCALELOG.out.bed
         .combine( dot_genome )
-        .combine(reference_ch)
+        .combine(reference_tuple)
         .multiMap { meta, file, meta_my_genome, my_genome, ref_meta, ref ->
             ch_coverage_bed :   tuple ([ id: ref_meta.id, single_end: true], file)
             genome_file     :   my_genome

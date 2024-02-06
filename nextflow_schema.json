@@ -27,6 +27,12 @@
                     "help_text": "You need the input fasta file directory",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "pacbio_type": {
+                    "type": "string",
+                    "description": "Type of PacBio data",
+                    "help_text": "Choose between {'hifi', 'illumina', 'ont'}",
+                    "fa_icon": "fas fa-folder-open"
+                },
                 "cram": {
                     "type": "string",
                     "format": "directory-path",
