@@ -46,9 +46,9 @@ workflow LONGREAD_COVERAGE {
     //
     // LOGIC: PREPARE FOR MINIMAP2, USING READ_TYPE AS FILTER TO DEFINE THE MAPPING METHOD, CHECK YAML_INPUT.NF
     //
-    reference_ch
+    reference_tuple
         .combine( ch_reads_path )
-        .combine( read_ch )
+        .combine( reads_path )
         .map { meta, ref, reads_path, read_meta, readfolder ->
             tuple(
                 [   id          : meta.id,

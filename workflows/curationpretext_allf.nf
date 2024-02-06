@@ -58,7 +58,9 @@ workflow CURATIONPRETEXT_ALLF {
 
     Channel.of(
         [
-            [   id: params.sample   ],
+            [   id:         params.sample,
+                single_end: true,
+                read_type:  params.pacbio_type],
             params.pacbio
         ]
     )
