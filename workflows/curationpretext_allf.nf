@@ -46,14 +46,31 @@ workflow CURATIONPRETEXT_ALLF {
     main:
     ch_versions = Channel.empty()
 
-    Channel.of( [[id: params.sample], params.input] )
-        .set { reference_tuple }
+    Channel.of(
+        [
+            [   id: params.sample,
+                aligner: params.aligner
+            ],
+            params.input
+        ]
+    )
+    .set { reference_tuple }
 
-    Channel.of( [[id: params.sample], params.pacbio] )
-        .set { pacbio_reads }
+    Channel.of(
+        [
+            [   id: params.sample   ],
+            params.pacbio
+        ]
+    )
+    .set { pacbio_reads }
 
-    Channel.of( [[id: params.sample], params.cram] )
-        .set { cram_reads }
+    Channel.of(
+        [
+            [   id: params.sample   ],
+            params.cram
+        ]
+    )
+    .set { cram_reads }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
@@ -64,6 +81,19 @@ workflow CURATIONPRETEXT_ALLF {
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //
     GENERATE_MAPS ( reference_tuple, params.cram )
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_SNDRD (
+        GENERATE_MAPS.out.standrd_pretext,
+        ACCESSORY_FILES.out.gap_file,
+        ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.telo_file,
+        ACCESSORY_FILES.out.repeat_file
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
     //
     // SUBWORKFLOW: Collates version data from prior subworflows

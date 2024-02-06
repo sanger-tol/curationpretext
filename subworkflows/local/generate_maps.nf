@@ -6,16 +6,14 @@
 
 include { BAMTOBED_SORT                             } from '../../modules/local/bamtobed_sort.nf'
 include { GENERATE_CRAM_CSV                         } from '../../modules/local/generate_cram_csv'
-include { CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT    } from '../../modules/local/cram_filter_align_bwamem2_fixmate_sort'
-
 include { BWAMEM2_INDEX                             } from '../../modules/nf-core/bwamem2/index/main'
-include { SAMTOOLS_MERGE                            } from '../../modules/nf-core/samtools/merge/main'
 include { SAMTOOLS_FAIDX                            } from '../../modules/nf-core/samtools/faidx/main'
 include { PRETEXTMAP as PRETEXTMAP_STANDRD          } from '../../modules/nf-core/pretextmap/main'
 include { PRETEXTMAP as PRETEXTMAP_HIGHRES          } from '../../modules/nf-core/pretextmap/main'
 include { PRETEXTSNAPSHOT as SNAPSHOT_SRES          } from '../../modules/nf-core/pretextsnapshot/main'
 include { PRETEXTSNAPSHOT as SNAPSHOT_HRES          } from '../../modules/nf-core/pretextsnapshot/main'
-
+include { HIC_MINIMAP2                              } from '../../subworkflows/local/hic_minimap2'
+include { HIC_BWAMEM2                               } from '../../subworkflows/local/hic_bwamem2'
 
 workflow GENERATE_MAPS {
     take:
@@ -43,7 +41,13 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix(BWAMEM2_INDEX.out.versions)
 
-    Channel.of([[id: 'hic_path'], hic_reads_path]).set { ch_hic_path }
+    Channel.of(
+        [
+            [id: 'hic_path'],
+            hic_reads_path
+        ]
+    )
+    .set { ch_hic_path }
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
@@ -54,72 +58,56 @@ workflow GENERATE_MAPS {
     ch_versions         = ch_versions.mix(GENERATE_CRAM_CSV.out.versions)
 
     //
-    // LOGIC: organise all parametres into a channel for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
+    // LOGIC: make branches for different hic aligner.
     //
-    GENERATE_CRAM_CSV.out.csv
-        .splitCsv()
-        .combine (reference_tuple)
-        .combine (BWAMEM2_INDEX.out.index)
-        .map{ cram_id, cram_info, ref_id, ref_dir, bwa_id, bwa_path ->
-            tuple(  [
-                    id: cram_id.id
-                    ],
-                    file(cram_info[0]),
-                    cram_info[1],
-                    cram_info[2],
-                    cram_info[3],
-                    cram_info[4],
-                    cram_info[5],
-                    cram_info[6],
-                    bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1]
-            )
-        }
-    .set { ch_filtering_input }
-
-    //
-    // MODULE: parallel proccessing bwa-mem2 alignment by given interval of containers from cram files
-    //
-    CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT (
-        ch_filtering_input
-    )
-    ch_versions         = ch_versions.mix(CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.versions)
-
-    //
-    // LOGIC: PREPARING BAMS FOR MERGE
-    //
-    CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.mappedbam
-        .map{ meta, file ->
-            tuple( file )
-        }
-        .collect()
-        .map { file ->
-            tuple (
-                [
-                id: file[0].toString().split('/')[-1].split('_')[0]  // Change to sample_id
+    hic_reads_path
+        .combine( reference_tuple )
+        .map{ meta, hic_read_path, ref_meta, ref->
+            tuple(
+                [   id:         ref_meta,
+                    aligner:    meta.aligner
                 ],
-                file
+                ref
             )
         }
-        .set { collected_files_for_merge }
-
+        .branch {
+            minimap2:           it[0].aligner == "minimap2"
+            bwamem2:            it[0].aligner == "bwamem2"
+        }
+        .set{ ch_aligner }
 
     //
-    // MODULE: MERGE POSITION SORTED BAM FILES AND MARK DUPLICATES
+    // SUBWORKFLOW: mapping hic reads using minimap2
     //
-    SAMTOOLS_MERGE (
-        collected_files_for_merge,
-        reference_tuple,
-        SAMTOOLS_FAIDX.out.fai
+    HIC_MINIMAP2 (
+        ch_aligner.minimap2,
+        GENERATE_CRAM_CSV.out.csv,
+        reference_index
     )
-    ch_versions         = ch_versions.mix ( SAMTOOLS_MERGE.out.versions )
+    ch_versions             = ch_versions.mix( HIC_MINIMAP2.out.versions )
+    mergedbam               = HIC_MINIMAP2.out.mergedbam
+
+    //
+    // SUBWORKFLOW: mapping hic reads using bwamem2
+    //
+    HIC_BWAMEM2 (
+        ch_aligner.bwamem2,
+        GENERATE_CRAM_CSV.out.csv,
+        reference_index
+    )
+    ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
+    mergedbam               = mergedbam.mix(HIC_BWAMEM2.out.mergedbam)
 
     //
     // LOGIC: PREPARING PRETEXT MAP INPUT
     //
-    SAMTOOLS_MERGE.out.bam
+    mergedbam
         .combine( reference_tuple )
         .multiMap { bam_meta, bam, ref_meta, ref_fa ->
-            input_bam:  tuple(bam_meta, bam)
+            input_bam:  tuple( [    id: bam_meta.id,
+                                    sz: file( bam ).size() ],
+                                bam
+                        )
             reference:  ref_fa
         }
         .set { pretext_input }
@@ -169,6 +157,8 @@ workflow GENERATE_MAPS {
     //    PRETEXTMAP_HIGHRES.out.pretext
     //)
     //ch_versions         = ch_versions.mix(SNAPSHOT_HRES.out.versions)
+
+
 
     emit:
     standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext
