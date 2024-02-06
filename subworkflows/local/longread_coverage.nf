@@ -34,7 +34,7 @@ workflow LONGREAD_COVERAGE {
     //
     // LOGIC: TAKE THE READ FOLDER AS INPUT AND GENERATE THE CHANNEL OF READ FILES
     //
-    ch_grabbed_reads_path   = GrabFiles( read_ch )
+    ch_grabbed_reads_path   = GrabFiles( reads_path )
 
     ch_grabbed_reads_path
         .map { meta, files ->
