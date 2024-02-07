@@ -50,7 +50,8 @@ workflow HIC_MINIMAP2 {
                 cram_info[4],
                 cram_info[5],
                 cram_info[6],
-                mmi_path.toString()
+                mmi_path.toString(),
+                ref_dir
             )
     }
     .set { ch_filtering_input }
@@ -60,11 +61,9 @@ workflow HIC_MINIMAP2 {
     //
     CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT (
         ch_filtering_input
-
     )
     ch_versions         = ch_versions.mix( CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT.out.versions )
     mappedbam_ch        = CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT.out.mappedbam
-
 
     //
     // LOGIC: PREPARING BAMS FOR MERGE
@@ -96,6 +95,6 @@ workflow HIC_MINIMAP2 {
 
 
     emit:
-    mergedbam               = SAMTOOLS_MERGE.out.bam
+    mergedbam           = SAMTOOLS_MERGE.out.bam
     versions            = ch_versions.ifEmpty(null)
 }

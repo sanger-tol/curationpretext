@@ -9,7 +9,6 @@ include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MAX          } from '../../modules/nf
 include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MIN          } from '../../modules/nf-core/bedtools/merge/main'
 include { GNU_SORT                                      } from '../../modules/nf-core/gnu/sort/main'
 include { MINIMAP2_INDEX                                } from '../../modules/nf-core/minimap2/index/main'
-include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_SPLIT        } from '../../modules/nf-core/minimap2/align/main'
 include { MINIMAP2_ALIGN                                } from '../../modules/nf-core/minimap2/align/main'
 include { SAMTOOLS_MERGE                                } from '../../modules/nf-core/samtools/merge/main'
 include { SAMTOOLS_SORT                                 } from '../../modules/nf-core/samtools/sort/main'
@@ -19,14 +18,16 @@ include { UCSC_BEDGRAPHTOBIGWIG as BED2BW_LOG           } from '../../modules/nf
 include { GRAPHOVERALLCOVERAGE                          } from '../../modules/local/graphoverallcoverage'
 include { GETMINMAXPUNCHES                              } from '../../modules/local/getminmaxpunches'
 include { FINDHALFCOVERAGE                              } from '../../modules/local/findhalfcoverage'
+include { LONGREADCOVERAGESCALELOG                      } from '../../modules/local/longreadcoveragescalelog'
 
 
 workflow LONGREAD_COVERAGE {
 
     take:
-    reference_tuple     // Channel: [ val(meta), path(reference_file) ]
-    dot_genome          // Channel: [ val(meta), [ path(datafile) ] ]
-    reads_path          // Channel: [ val(meta), val( str ) ]
+    reference_tuple     // Channel: [ val(meta), path( reference_file ) ]
+    reference_index     // Channel: [ val(meta), path( reference_indx ) ]
+    dot_genome          // Channel: [ val(meta), [  path( datafile )  ] ]
+    reads_path          // Channel: [ val(meta),        val( str )      ]
 
     main:
     ch_versions             = Channel.empty()
@@ -276,7 +277,7 @@ workflow LONGREAD_COVERAGE {
         bed2bw_normal_input.ch_coverage_bed,
         bed2bw_normal_input.genome_file
     )
-    ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
+    ch_versions         = ch_versions.mix( BED2BW_NORMAL.out.versions )
 
     //
     // MODULE: CONVERT COVERAGE TO LOG
@@ -311,7 +312,8 @@ workflow LONGREAD_COVERAGE {
     ch_minbed           = BEDTOOLS_MERGE_MIN.out.bed
     ch_halfbed          = FINDHALFCOVERAGE.out.bed
     ch_maxbed           = BEDTOOLS_MERGE_MAX.out.bed
-    ch_bigwig           = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
+    ch_bigwig           = BED2BW_NORMAL.out.bigwig
+    ch_bigwig_log       = BED2BW_LOG.out.bigwig
     versions            = ch_versions
 }
 

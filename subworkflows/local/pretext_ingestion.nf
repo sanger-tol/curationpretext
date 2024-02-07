@@ -17,6 +17,7 @@ workflow PRETEXT_INGESTION {
     // LOGIC: GAP OR TELOMERE FILES CAN SOMETIMES BE EMPTY
     //          CHECK IF EMPTY AND ASSIGN APPROPRIATE BRANCHING
     //
+
     gap_file
         .map { meta, gap_file ->
             tuple( [    id: meta.id,
@@ -28,8 +29,8 @@ workflow PRETEXT_INGESTION {
         .set { ch_gap }
 
     telomere_file
-        .map { meta, telo_file ->
-            tuple( [    id: meta.id,
+        .map { telo_file ->
+            tuple( [    id: 'telo_file',
                         sz: telo_file.size().toInteger(),
                         ft: 'telomere' ],
                         telo_file

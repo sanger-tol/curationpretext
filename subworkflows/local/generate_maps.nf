@@ -18,7 +18,7 @@ include { HIC_BWAMEM2                               } from '../../subworkflows/l
 workflow GENERATE_MAPS {
     take:
     reference_tuple     // Channel [ val(meta), path(file) ]
-    hic_reads_path      // Channel [ path(directory) ]
+    hic_reads_path      // Channel [    path(directory)    ]
 
     main:
     ch_versions         = Channel.empty()
@@ -30,8 +30,7 @@ workflow GENERATE_MAPS {
         reference_tuple,
         [[],[]]
     )
-    ch_versions         = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
-
+    ch_versions         = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
 
     //
     // MODULE: Indexing on reference output the folder of indexing files
@@ -39,33 +38,25 @@ workflow GENERATE_MAPS {
     BWAMEM2_INDEX (
         reference_tuple
     )
-    ch_versions         = ch_versions.mix(BWAMEM2_INDEX.out.versions)
-
-    Channel.of(
-        [
-            [id: 'hic_path'],
-            hic_reads_path
-        ]
-    )
-    .set { ch_hic_path }
+    ch_versions         = ch_versions.mix( BWAMEM2_INDEX.out.versions )
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
     //
     GENERATE_CRAM_CSV (
-        ch_hic_path
+        hic_reads_path
     )
-    ch_versions         = ch_versions.mix(GENERATE_CRAM_CSV.out.versions)
+    ch_versions         = ch_versions.mix( GENERATE_CRAM_CSV.out.versions )
 
     //
     // LOGIC: make branches for different hic aligner.
     //
     hic_reads_path
         .combine( reference_tuple )
-        .map{ meta, hic_read_path, ref_meta, ref->
+        .map{ meta, hic_read_path, ref_meta, ref ->
             tuple(
-                [   id:         ref_meta,
-                    aligner:    meta.aligner
+                [   id:         ref_meta.id,
+                    aligner:    ref_meta.aligner
                 ],
                 ref
             )
@@ -76,13 +67,15 @@ workflow GENERATE_MAPS {
         }
         .set{ ch_aligner }
 
+    ch_aligner.minimap2.view()
+
     //
     // SUBWORKFLOW: mapping hic reads using minimap2
     //
     HIC_MINIMAP2 (
         ch_aligner.minimap2,
         GENERATE_CRAM_CSV.out.csv,
-        reference_index
+        SAMTOOLS_FAIDX.out.fai
     )
     ch_versions             = ch_versions.mix( HIC_MINIMAP2.out.versions )
     mergedbam               = HIC_MINIMAP2.out.mergedbam
@@ -93,10 +86,11 @@ workflow GENERATE_MAPS {
     HIC_BWAMEM2 (
         ch_aligner.bwamem2,
         GENERATE_CRAM_CSV.out.csv,
-        reference_index
+        SAMTOOLS_FAIDX.out.fai,
+        BWAMEM2_INDEX.out.index
     )
     ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
-    mergedbam               = mergedbam.mix(HIC_BWAMEM2.out.mergedbam)
+    mergedbam               = HIC_BWAMEM2.out.mergedbam
 
     //
     // LOGIC: PREPARING PRETEXT MAP INPUT
@@ -104,9 +98,11 @@ workflow GENERATE_MAPS {
     mergedbam
         .combine( reference_tuple )
         .multiMap { bam_meta, bam, ref_meta, ref_fa ->
-            input_bam:  tuple( [    id: bam_meta.id,
-                                    sz: file( bam ).size() ],
-                                bam
+            input_bam:  tuple(
+                            [   id: bam_meta.id,
+                                sz: file( bam ).size()
+                            ],
+                            bam
                         )
             reference:  ref_fa
         }
@@ -119,18 +115,13 @@ workflow GENERATE_MAPS {
         pretext_input.input_bam,
         pretext_input.reference
     )
-    ch_versions         = ch_versions.mix(PRETEXTMAP_STANDRD.out.versions)
+    ch_versions         = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
     //
     // LOGIC: HIRES IS TOO INTENSIVE FOR RUNNING IN GITHUB CI SO THIS STOPS IT RUNNING
     //
-    if ( params.config_profile_name ) {
-        config_profile_name = params.config_profile_name
-    } else {
-        config_profile_name = 'Local'
-    }
 
-    if ( !config_profile_name.contains('GitHub') ) {
+    if ( params.config_profile_name != 'GitHub' ) {
         //
         // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
         //
@@ -147,7 +138,7 @@ workflow GENERATE_MAPS {
     SNAPSHOT_SRES (
         PRETEXTMAP_STANDRD.out.pretext
     )
-    ch_versions         = ch_versions.mix(SNAPSHOT_SRES.out.versions)
+    ch_versions         = ch_versions.mix( SNAPSHOT_SRES.out.versions )
 
     // NOTE: SNAPSHOT HRES IS TEMPORARILY REMOVED DUE TO ISSUES WITH MEMORY
     //
@@ -157,8 +148,6 @@ workflow GENERATE_MAPS {
     //    PRETEXTMAP_HIGHRES.out.pretext
     //)
     //ch_versions         = ch_versions.mix(SNAPSHOT_HRES.out.versions)
-
-
 
     emit:
     standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext

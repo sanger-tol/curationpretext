@@ -17,20 +17,16 @@ workflow HIC_BWAMEM2 {
     reference_tuple     // Channel: tuple [ val(meta), path( file )      ]
     csv_ch
     reference_index
+    bwa_index
 
     main:
     ch_versions             = Channel.empty()
     mappedbam_ch            = Channel.empty()
 
-    BWAMEM2_INDEX (
-        reference_tuple
-        )
-    ch_versions             = ch_versions.mix( BWAMEM2_INDEX.out.versions )
-
     csv_ch
         .splitCsv()
         .combine ( reference_tuple )
-        .combine ( BWAMEM2_INDEX.out.index )
+        .combine ( bwa_index )
         .map{ cram_id, cram_info, ref_id, ref_dir, bwa_id, bwa_path ->
             tuple([
                     id: cram_id.id
@@ -42,7 +38,8 @@ workflow HIC_BWAMEM2 {
                 cram_info[4],
                 cram_info[5],
                 cram_info[6],
-                bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1]
+                bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1],
+                ref_dir
             )
     }
     .set { ch_filtering_input }

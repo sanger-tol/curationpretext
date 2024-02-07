@@ -8,12 +8,12 @@ process PRETEXT_GRAPH {
         'biocontainers/mulled-v2-077b852b8b5440d395ad23f9f24f50c943390a84:da499c75fec554e81f4847c4fa8b6b167afbe3bf-0' }"
 
     input:
-    tuple val(meta),    path(pretext_file)
-    tuple val(gap),     path(gap_file)
-    tuple val(cov),     path(coverage)
-    tuple val(log),     path(log_coverage)
-    tuple val(telo),    path(telomere_file)
-    tuple val(rep),     path(repeat_density)
+    tuple val(meta),    path(pretext_file,      stageAs: 'pretext.pretext')
+    tuple val(gap),     path(gap_file,          stageAs: 'gap.bed')
+    tuple val(cov),     path(coverage,          stageAs: 'coverage.bigWig')
+    tuple val(log),     path(log_coverage,      stageAs: 'log_cov.bigWig')
+    tuple val(telo),    path(telomere_file,     stageAs: 'telo.bedgraph')
+    tuple val(rep),     path(repeat_density,    stageAs: 'repeats.bigWig')
 
     output:
     tuple val(meta), path("*.pretext")  , emit: pretext

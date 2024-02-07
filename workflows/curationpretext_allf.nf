@@ -19,9 +19,9 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GENERATE_MAPS                 } from '../subworkflows/local/generate_maps'
-include { ACCESSORY_FILES               } from '../subworkflows/local/accessory_files'
-
+include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
+include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
+include { PRETEXT_INGESTION as PRETEXT_INGEST_SNDRD } from '../subworkflows/local/pretext_ingestion'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,8 +48,8 @@ workflow CURATIONPRETEXT_ALLF {
 
     Channel.of(
         [
-            [   id: params.sample,
-                aligner: params.aligner
+            [   id:         params.sample,
+                aligner:    params.aligner
             ],
             params.input
         ]
@@ -77,12 +77,20 @@ workflow CURATIONPRETEXT_ALLF {
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
-    ACCESSORY_FILES ( reference_tuple, pacbio_reads )
+    ACCESSORY_FILES (
+        reference_tuple,
+        pacbio_reads
+    )
+    ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //
-    GENERATE_MAPS ( reference_tuple, params.cram )
+    GENERATE_MAPS (
+        reference_tuple,
+        cram_reads
+    )
+    ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
 
     //
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
@@ -92,6 +100,7 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.standrd_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
     )
