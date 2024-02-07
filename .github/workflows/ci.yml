@@ -35,6 +35,14 @@ jobs:
         with:
           version: "${{ matrix.NXF_VER }}"
 
+      - name: Setup apptainer
+        uses: eWaterCycle/setup-apptainer@main
+
+      - name: Set up Singularity
+        run: |
+          mkdir -p $NXF_SINGULARITY_CACHEDIR
+          mkdir -p $NXF_SINGULARITY_LIBRARYDIR
+
       - name: Download test data
         # Download A fungal test data set that is full enough to show some real output.
         run: |
