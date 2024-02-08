@@ -57,7 +57,7 @@ workflow LONGREAD_COVERAGE {
                     readtype    : read_meta.read_type.toString()
                 ],
                 reads_path,
-                ref_meta,
+                meta,
                 ref,
                 true,
                 false,
