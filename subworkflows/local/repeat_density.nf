@@ -6,9 +6,9 @@
 include { WINDOWMASKER_USTAT                } from '../../modules/nf-core/windowmasker/ustat/main'
 include { WINDOWMASKER_MKCOUNTS             } from '../../modules/nf-core/windowmasker/mkcounts/main'
 include { EXTRACT_REPEAT                    } from '../../modules/local/extract_repeat'
-include { BEDTOOLS_INTERSECT                } from '../../modules/nf-core/bedtools/intersect/main' 
-include { BEDTOOLS_MAKEWINDOWS              } from '../../modules/nf-core/bedtools/makewindows/main' 
-include { BEDTOOLS_MAP                      } from '../../modules/nf-core/bedtools/map/main' 
+include { BEDTOOLS_INTERSECT                } from '../../modules/nf-core/bedtools/intersect/main'
+include { BEDTOOLS_MAKEWINDOWS              } from '../../modules/nf-core/bedtools/makewindows/main'
+include { BEDTOOLS_MAP                      } from '../../modules/nf-core/bedtools/map/main'
 include { RENAME_IDS                        } from '../../modules/local/rename_ids'
 include { UCSC_BEDGRAPHTOBIGWIG             } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
 include { GNU_SORT as GNU_SORT_A            } from '../../modules/nf-core/gnu/sort/main'
@@ -54,7 +54,7 @@ workflow REPEAT_DENSITY {
     //
     BEDTOOLS_MAKEWINDOWS.out.bed
         .combine( EXTRACT_REPEAT.out.bed )
-        .map{ data -> 
+        .map{ data ->
                     tuple ( data[0],
                             data[1],
                             data[3]
@@ -65,7 +65,7 @@ workflow REPEAT_DENSITY {
     //
     // MODULE: GENERATES THE REPEAT FILE FROM THE WINDOW FILE AND GENOME FILE
     //
-    BEDTOOLS_INTERSECT( 
+    BEDTOOLS_INTERSECT(
         intervals,
         dot_genome
     )
@@ -93,15 +93,15 @@ workflow REPEAT_DENSITY {
     // MODULE: ADDS 4TH COLUMN TO BED FILE USED IN THE REPEAT DENSITY GRAPH
     //
     REFORMAT_INTERSECT ( GNU_SORT_A.out.sorted )
-    ch_versions         = ch_versions.mix( GNU_SORT_C.out.versions )   
+    ch_versions         = ch_versions.mix( GNU_SORT_C.out.versions )
 
     //
-    // LOGIC: COMBINES THE REFORMATTED INTERSECT FILE AND WINDOWS FILE CHANNELS AND SORTS INTO 
+    // LOGIC: COMBINES THE REFORMATTED INTERSECT FILE AND WINDOWS FILE CHANNELS AND SORTS INTO
     //        tuple(intersect_meta, windows file, intersect file)
     //
     REFORMAT_INTERSECT.out.bed
         .combine( GNU_SORT_C.out.sorted )
-        .map{ data -> 
+        .map{ data ->
                     tuple ( data[0],
                             data[3],
                             data[1]
@@ -112,7 +112,7 @@ workflow REPEAT_DENSITY {
     //
     // MODULE: MAPS THE REPEATS AGAINST THE REFERENCE GENOME
     //
-    BEDTOOLS_MAP( 
+    BEDTOOLS_MAP(
         for_mapping,
         GNU_SORT_B.out.sorted
     )
@@ -122,7 +122,7 @@ workflow REPEAT_DENSITY {
     // MODULE: REPLACES . WITH 0 IN MAPPED FILE
     //
     REPLACE_DOTS (
-        BEDTOOLS_MAP.out.map
+        BEDTOOLS_MAP.out.mapped
     )
     ch_versions         = ch_versions.mix( REPLACE_DOTS.out.versions )
 

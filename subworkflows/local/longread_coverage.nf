@@ -57,6 +57,7 @@ workflow LONGREAD_COVERAGE {
                     readtype    : read_meta.read_type.toString()
                 ],
                 reads_path,
+                meta,
                 ref,
                 true,
                 false,
@@ -67,9 +68,9 @@ workflow LONGREAD_COVERAGE {
         .set { pre_minimap_input }
 
     pre_minimap_input
-        .multiMap { meta, reads_path, ref, bam_output, cigar_paf, cigar_bam, reads_type ->
-            read_tuple          : tuple( meta, reads_path)
-            ref                 : ref
+        .multiMap { meta, reads_path, ref_meta, ref, bam_output, cigar_paf, cigar_bam, reads_type ->
+            read_tuple          : tuple( meta, reads_path   )
+            ref                 : tuple( ref_meta, ref      )
             bool_bam_ouput      : bam_output
             bool_cigar_paf      : cigar_paf
             bool_cigar_bam      : cigar_bam
