@@ -6,17 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[0.1.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.0)] - UNSC Cradle - [2024-02-08]
 
 ### Added
+
 - Subworkflows for both minimap2 and bwamem2 mapping.
 - Subworkflow for Pretext accessory file ingestion.
 - Considerations for other longread datatypes
 
 ### Paramters
 
-| Old Version   | New Versions  |
-| ------------- | ------------- |
-|               | --aligner     |
-|               | --pacbio_type |
-| --pacbio      | --longread    |
+| Old Version | New Versions  |
+| ----------- | ------------- |
+|             | --aligner     |
+|             | --pacbio_type |
+| --pacbio    | --longread    |
 
 ### Software Dependencies
 
@@ -43,11 +44,9 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | ucsc                                   | -           | 377            |
 | windowmasker (blast)                   | -           | 2.14.0         |
 
-
 ### Dependencies
 
 ### Deprecated
-
 
 ## [[0.1.0](https://github.com/sanger-tol/curationpretext/releases/tag/0.1.0)] - UNSC Infinity - [2023-10-02]
 
