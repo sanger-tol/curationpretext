@@ -13,44 +13,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Paramters
 
-| Old Version | New Versions  |
-| ----------- | ------------- |
-|             | --aligner     |
+| Old Version | New Versions    |
+| ----------- | --------------- |
+|             | --aligner       |
 |             | --longread_type |
-| --pacbio    | --longread    |
+| --pacbio    | --longread      |
 
 ### Software Dependencies
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                                 | Old Version | New Versions   |
-| -------------------------------------- | ----------- | -------------- |
-| bamtobed_sort ( bedtools + samtools )  | -           | 2.31.0 + 1.17  |
-| bedtools ( genomecov, bamtobed, intersect, map, merge, makewindows)                              | 2.31.0      | 2.31.1         |
-| bwamem2 index                          | -           | 2.2.1          |
-| cram_filter_align_bwamem2_fixmate_sort | -           |                |
-| ^ ( samtools + bwamem2 ) ^             | 1.16.1 + 2.2.1 | 1.17 + 2.2.1 |
-| cram_filter_minimap2_filter5end_fixmate_sort | - | |
-| ^ ( samtools + minimap2 ) ^ | - | 1.17 + 2.24 |
-| extract_cov_id ( coreutils )           | -           | 9.1            |
-| extract_repeat ( perl )                | -           | 5.26.2         |
-| extract_telo ( coreutils )             | -           | 9.1            |
-| find_telomere_regions ( gcc )          | -           | 7.1.0          |
-| find_telomere_windows ( java-jdk )     | -           | 8.0.112        |
-| gap_length ( coreutils )               | -           | 9.1            |
-| generate_cram_csv ( samtools )         | -           | 1.17           |
-| get_largest_scaff ( coreutils )        | -           | 9.1            |
-| gnu-sort                               | -           | 8.25           |
-| pretextmap + samtools                  | 0.1.9 + 1.17| 0.1.9* + 1.18  |
-| pretextgraph                           |             | 0.0.4          |
-| pretextsnapshot + UCSC                 | 0.0.6 + 447 | 0.0.6b + 447   |
-| seqtk                                  | -           | 1.4            |
-| samtools (faidx,merge,sort,view)       | 1.17        | 1.18           |
-| tabix                                  | -           | 1.11           |
-| ucsc                                   | 377         | 445            |
-| windowmasker (blast)                   | -           | 2.14.0         |
+| Module                                                              | Old Version    | New Versions   |
+| ------------------------------------------------------------------- | -------------- | -------------- |
+| bamtobed_sort ( bedtools + samtools )                               | -              | 2.31.0 + 1.17  |
+| bedtools ( genomecov, bamtobed, intersect, map, merge, makewindows) | 2.31.0         | 2.31.1         |
+| bwamem2 index                                                       | -              | 2.2.1          |
+| cram_filter_align_bwamem2_fixmate_sort                              | -              |                |
+| ^ ( samtools + bwamem2 ) ^                                          | 1.16.1 + 2.2.1 | 1.17 + 2.2.1   |
+| cram_filter_minimap2_filter5end_fixmate_sort                        | -              |                |
+| ^ ( samtools + minimap2 ) ^                                         | -              | 1.17 + 2.24    |
+| extract_cov_id ( coreutils )                                        | -              | 9.1            |
+| extract_repeat ( perl )                                             | -              | 5.26.2         |
+| extract_telo ( coreutils )                                          | -              | 9.1            |
+| find_telomere_regions ( gcc )                                       | -              | 7.1.0          |
+| find_telomere_windows ( java-jdk )                                  | -              | 8.0.112        |
+| gap_length ( coreutils )                                            | -              | 9.1            |
+| generate_cram_csv ( samtools )                                      | -              | 1.17           |
+| get_largest_scaff ( coreutils )                                     | -              | 9.1            |
+| gnu-sort                                                            | -              | 8.25           |
+| pretextmap + samtools                                               | 0.1.9 + 1.17   | 0.1.9\* + 1.18 |
+| pretextgraph                                                        |                | 0.0.4          |
+| pretextsnapshot + UCSC                                              | 0.0.6 + 447    | 0.0.6b + 447   |
+| seqtk                                                               | -              | 1.4            |
+| samtools (faidx,merge,sort,view)                                    | 1.17           | 1.18           |
+| tabix                                                               | -              | 1.11           |
+| ucsc                                                                | 377            | 445            |
+| windowmasker (blast)                                                | -              | 2.14.0         |
 
-* This version has been modified by @yumisims inorder to expose the texture buffer variable
+- This version has been modified by @yumisims inorder to expose the texture buffer variable
 
 ### Dependencies
 

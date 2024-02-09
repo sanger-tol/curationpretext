@@ -64,7 +64,7 @@ Now, you can run the pipeline using:
 
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
-```bash
+````bash
 // For ALL_FILES run
 ```bash
 nextflow run sanger-tol/curationpretext \
@@ -88,7 +88,8 @@ nextflow run sanger-tol/curationpretext \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
   -entry MAPS_ONLY \
-```
+````
+
 ```
 
 > **Warning:**
@@ -135,3 +136,4 @@ You can cite the `nf-core` publication as follows:
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
 > _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+```
