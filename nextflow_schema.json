@@ -20,16 +20,16 @@
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-file-fasta"
                 },
-                "pacbio": {
+                "longread": {
                     "type": "string",
                     "format": "directory-path",
-                    "description": "Input pacbio fasta directory",
+                    "description": "Input longread fasta directory",
                     "help_text": "You need the input fasta file directory",
                     "fa_icon": "fas fa-folder-open"
                 },
-                "pacbio_type": {
+                "longread_type": {
                     "type": "string",
-                    "description": "Type of PacBio data",
+                    "description": "Type of longread data",
                     "help_text": "Choose between {'hifi', 'illumina', 'ont'}",
                     "fa_icon": "fas fa-folder-open"
                 },

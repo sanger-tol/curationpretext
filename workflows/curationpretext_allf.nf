@@ -60,11 +60,11 @@ workflow CURATIONPRETEXT_ALLF {
         [
             [   id:         params.sample,
                 single_end: true,
-                read_type:  params.pacbio_type],
-            params.pacbio
+                read_type:  params.longread_type],
+            params.longread
         ]
     )
-    .set { pacbio_reads }
+    .set { longread_reads }
 
     Channel.of(
         [
@@ -79,7 +79,7 @@ workflow CURATIONPRETEXT_ALLF {
     //
     ACCESSORY_FILES (
         reference_tuple,
-        pacbio_reads
+        longread_reads
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
