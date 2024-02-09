@@ -10,7 +10,7 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.pacbio, params.cram, params.input ]
+def checkPathParamList = [ params.longread, params.cram, params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*

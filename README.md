@@ -38,7 +38,7 @@ Currently, the pipeline uses the following flags:
 
 - `--longread`
 
-  - The directory of the fasta files generated from pacbio reads, e.g., `/path/to/fasta/`
+  - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
 
 - `--longread_type`
 
@@ -70,7 +70,7 @@ Now, you can run the pipeline using:
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/pacbio/fasta/ } \
+  --longread { path/to/longread/fasta/ } \
   --longread_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { deafault is "TTAGGG" } \
@@ -81,7 +81,7 @@ nextflow run sanger-tol/curationpretext \
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/pacbio/fasta/ } \
+  --longread { path/to/longread/fasta/ } \
   --longread_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { deafault is "TTAGGG" } \

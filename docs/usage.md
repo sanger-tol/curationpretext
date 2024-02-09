@@ -72,7 +72,7 @@ samtools index {prefix}.cram
 
 </details>
 
-### PacBio Data Preparation
+### Longread Data Preparation
 
 <details markdown="1">
   <summary>Details</summary>
