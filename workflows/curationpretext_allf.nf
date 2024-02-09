@@ -107,6 +107,20 @@ workflow CURATIONPRETEXT_ALLF {
     ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
     //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_HIRES (
+        GENERATE_MAPS.out.highres_pretext,
+        ACCESSORY_FILES.out.gap_file,
+        ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_log_bw,
+        ACCESSORY_FILES.out.telo_file,
+        ACCESSORY_FILES.out.repeat_file
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+
+    //
     // SUBWORKFLOW: Collates version data from prior subworflows
     //
     CUSTOM_DUMPSOFTWAREVERSIONS (
