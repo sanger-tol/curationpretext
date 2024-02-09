@@ -22,6 +22,8 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
 include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
 include { PRETEXT_INGESTION as PRETEXT_INGEST_SNDRD } from '../subworkflows/local/pretext_ingestion'
+include { PRETEXT_INGESTION as PRETEXT_INGEST_HIRES } from '../subworkflows/local/pretext_ingestion'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
