@@ -99,7 +99,7 @@ workflow GENERATE_MAPS {
         .combine( reference_tuple )
         .multiMap { bam_meta, bam, ref_meta, ref_fa ->
             input_bam:  tuple(
-                            [   id: bam_meta.id,
+                            [   id: ref_meta.id,
                                 sz: file( bam ).size()
                             ],
                             bam
@@ -117,20 +117,11 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
-    //
-    // LOGIC: HIRES IS TOO INTENSIVE FOR RUNNING IN GITHUB CI SO THIS STOPS IT RUNNING
-    //
-
-    if ( params.config_profile_name != 'GitHub' ) {
-        //
-        // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR HIGH RES
-        //
-        PRETEXTMAP_HIGHRES (
-            pretext_input.input_bam,
-            pretext_input.reference
-        )
-        ch_versions         = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
-    }
+    PRETEXTMAP_HIGHRES (
+        pretext_input.input_bam,
+        pretext_input.reference
+    )
+    ch_versions         = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT
@@ -140,20 +131,10 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix( SNAPSHOT_SRES.out.versions )
 
-    // NOTE: SNAPSHOT HRES IS TEMPORARILY REMOVED DUE TO ISSUES WITH MEMORY
-    //
-    // MODULE: GENERATE PNG FROM HIRES PRETEXT
-    //
-    //SNAPSHOT_HRES (
-    //    PRETEXTMAP_HIGHRES.out.pretext
-    //)
-    //ch_versions         = ch_versions.mix(SNAPSHOT_HRES.out.versions)
-
     emit:
     standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext
     standrd_snpshot     = SNAPSHOT_SRES.out.image
-    //highres_pretext     = PRETEXTMAP_HIGHRES.out.pretext
-    //highres_snpshot     = SNAPSHOT_HRES.out.image
+    highres_pretext     = PRETEXTMAP_HIGHRES.out.pretext
     versions            = ch_versions.ifEmpty(null)
 
 }

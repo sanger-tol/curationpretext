@@ -16,7 +16,7 @@ include { SAMTOOLS_FAIDX        } from '../../modules/nf-core/samtools/faidx/mai
 workflow ACCESSORY_FILES {
     take:
     reference_tuple
-    pacbio_reads
+    longread_reads
 
     main:
     ch_versions         = Channel.empty()
@@ -51,7 +51,7 @@ workflow ACCESSORY_FILES {
     ch_versions = ch_versions.mix(GAP_FINDER.out.versions)
 
     //
-    // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH PACBIO READS AND REFERENCE
+    // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH LONGREAD READS AND REFERENCE
     //
     TELO_FINDER (
         GET_LARGEST_SCAFF.out.scaff_size,
@@ -70,13 +70,13 @@ workflow ACCESSORY_FILES {
     ch_versions = ch_versions.mix(REPEAT_DENSITY.out.versions)
 
     //
-    // SUBWORKFLOW: Takes reference, pacbio reads
+    // SUBWORKFLOW: Takes reference, longread reads
     //
     LONGREAD_COVERAGE (
         reference_tuple,
         SAMTOOLS_FAIDX.out.fai,
         GENERATE_GENOME_FILE.out.dotgenome,
-        pacbio_reads
+        longread_reads
     )
     ch_versions = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
 

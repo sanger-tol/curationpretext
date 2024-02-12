@@ -63,12 +63,14 @@
                     "pretextmap": {
                         "branch": "master",
                         "git_sha": "6f4299292ef2c5b66e6829527b2647c301b77cc9",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/pretextmap/pretextmap.diff"
                     },
                     "pretextsnapshot": {
                         "branch": "master",
                         "git_sha": "b119603b5ebefa3075cfa513d1d91b1dc875a679",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/pretextsnapshot/pretextsnapshot.diff"
                     },
                     "samtools/faidx": {
                         "branch": "master",

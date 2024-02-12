@@ -10,7 +10,7 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.pacbio, params.cram, params.input ]
+def checkPathParamList = [ params.longread, params.cram, params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
@@ -22,6 +22,8 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
 include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
 include { PRETEXT_INGESTION as PRETEXT_INGEST_SNDRD } from '../subworkflows/local/pretext_ingestion'
+include { PRETEXT_INGESTION as PRETEXT_INGEST_HIRES } from '../subworkflows/local/pretext_ingestion'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,11 +62,11 @@ workflow CURATIONPRETEXT_ALLF {
         [
             [   id:         params.sample,
                 single_end: true,
-                read_type:  params.pacbio_type],
-            params.pacbio
+                read_type:  params.longread_type],
+            params.longread
         ]
     )
-    .set { pacbio_reads }
+    .set { longread_reads }
 
     Channel.of(
         [
@@ -79,7 +81,7 @@ workflow CURATIONPRETEXT_ALLF {
     //
     ACCESSORY_FILES (
         reference_tuple,
-        pacbio_reads
+        longread_reads
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
@@ -98,6 +100,20 @@ workflow CURATIONPRETEXT_ALLF {
     //
     PRETEXT_INGEST_SNDRD (
         GENERATE_MAPS.out.standrd_pretext,
+        ACCESSORY_FILES.out.gap_file,
+        ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_log_bw,
+        ACCESSORY_FILES.out.telo_file,
+        ACCESSORY_FILES.out.repeat_file
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_HIRES (
+        GENERATE_MAPS.out.highres_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
         ACCESSORY_FILES.out.coverage_log_bw,
