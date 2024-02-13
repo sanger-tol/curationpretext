@@ -35,7 +35,6 @@ Download the pipeline!
 Or use:
 `git clone https://github.com/sanger-tol/curationpretext.git --branch v1.0.0 --single-branch`
 
-
 This will pull the released version and not an in development version.
 
 Now move into the folder with `cd curationpretext`
@@ -52,6 +51,7 @@ curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.
 ```
 
 Then replace some of the variables in the config file:
+
 ```
 sed -i'' -e "s|/home/runner/work/curationpretext/curationpretext|${PRETEXT_TEST_DATA}|" conf/test.config
 ```
