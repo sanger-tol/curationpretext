@@ -57,7 +57,7 @@ Currently, the pipeline uses the following flags:
   - A telomeric sequence, e.g., `TTAGGG`
 
 - `-entry`
-  - ALL_FILES generates all accessory files as well as pretext maps
+  - ALL_FILES is the default and generates all accessory files as well as pretext maps
   - MAPS_ONLY generates only the pretext maps and static images
 
 Now, you can run the pipeline using:
@@ -110,9 +110,11 @@ sanger-tol/curationpretext was originally written by Damon-Lee B Pointon (@DLBPo
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- @yumisims
+- @yumisims - TreeVal and Software.
 
-- @weaglesBio
+- @weaglesBio - TreeVal and Software.
+
+- @josieparis - Help with better docs and testing.
 
 ## Contributions and Support
 
