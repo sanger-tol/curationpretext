@@ -30,6 +30,15 @@ If there is a popular public preference for a particular format, we can modify t
 <details markdown="1">
   <summary>Details</summary>
 
+Download the pipeline!
+`git clone https://github.com/sanger-tol/curationpretext.git`
+Or use:
+`git clone https://github.com/sanger-tol/curationpretext.git --branch v1.0.0 --single-branch`
+
+This will pull the released version and not an in development version.
+
+Now move into the folder with `cd curationpretext`
+
 We provide a complete set of data that can be used to test the pipeline locally.
 
 By default the test.config file is set up to run on GitHub, however, should you want to test this locally you can follow the below instructions.
@@ -39,11 +48,19 @@ First, choose a download location `${PRETEXT_TEST_DATA}` and run this command (t
 ```
 PRETEXT_TEST_DATA=$(pwd)
 curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
+```
 
+Then replace some of the variables in the config file:
+
+```
 sed -i'' -e "s|/home/runner/work/curationpretext/curationpretext|${PRETEXT_TEST_DATA}|" conf/test.config
 ```
 
-Then, you should be able to run the pipeline with:
+You should then check this with `cat conf/test.config` you should now see paths that make sense rather than what would have been `/home/runner` paths.
+
+If using singularity like we do you should also set your `$NXF_SINGULARITY_CACHEDIR={PATH OF YOUR CHOOSING}`. This will be where nextflow stores your singularity containers, for this and any subsequent runs. So clean it out when you update the pipeline otherwise it will fill with oldd containers.
+
+Then, you should be able to run the pipeline (taking into account changes needed to run jobs on your local compute environment) with the test profile as follows:
 
 ```
 nextflow run . -profile test,singularity
@@ -170,7 +187,7 @@ nextflow run sanger-tol/curationpretext \
   --teloseq { deafault is "TTAGGG" } \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
-  -entry <ALL_FILES/MAPS_ONLY> \
+  -entry MAPS_ONLY # This line is opnly needed for the truncated pipeline, FULL runs do not need this line at all.
 ```
 
 Above arguments surrounded with `{}` are user-defined values, those in `<>` are choices made between the shown values.
