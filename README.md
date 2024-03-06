@@ -32,49 +32,64 @@ This is intended as a supplementary pipeline for the [treeval](https://github.co
 
 Currently, the pipeline uses the following flags:
 
-- --input
+- `--input`
 
   - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
-- --pacbio
+- `--longread`
 
-  - The directory of the fasta files generated from pacbio reads, e.g., `/path/to/fasta/`
+  - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
 
-- --cram
+- `--longread_type`
+
+  - The type of longread data you are utilising, e.g., ont, illumina, hifi.
+
+- `--aligner`
+
+  - The aligner yopu wish to use for the coverage generation, defaults to bwamem2 but minimap2 is also supported.
+
+- `--cram`
 
   - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
 
-- --teloseq
+- `--teloseq`
 
   - A telomeric sequence, e.g., `TTAGGG`
 
-- -entry
-  - ALL_FILES generates all accessory files as well as pretext maps
+- `-entry`
+  - ALL_FILES is the default and generates all accessory files as well as pretext maps
   - MAPS_ONLY generates only the pretext maps and static images
 
 Now, you can run the pipeline using:
 
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
-```bash
+````bash
 // For ALL_FILES run
+```bash
 nextflow run sanger-tol/curationpretext \
-   -profile <docker/singularity/.../institute> \
-   --input path/to/assembly.fa \
-   --cram path/to/cram/ \
-   --pacbio path/to/pacbio/fasta/ \
-   --teloseq TTAGGG \
-   --sample { default is "pretext_rerun" }
-   --outdir path/to/outdir/
+  --input { input.fasta } \
+  --cram { path/to/cram/ } \
+  --longread { path/to/longread/fasta/ } \
+  --longread_type { default is "hifi" }
+  --sample { default is "pretext_rerun" } \
+  --teloseq { deafault is "TTAGGG" } \
+  --outdir { OUTDIR } \
+  -profile <docker/singularity/{institute}> \
 
 // For MAPS_ONLY run
 nextflow run sanger-tol/curationpretext \
-   -profile <docker/singularity/.../institute> \
-   --input path/to/assembly.fa \
-   --cram path/to/cram/ \
-   --sample { default is "pretext_rerun" }
-   -entry MAPS_ONLY \
-   --outdir path/to/outdir/
+  --input { input.fasta } \
+  --cram { path/to/cram/ } \
+  --longread { path/to/longread/fasta/ } \
+  --longread_type { default is "hifi" }
+  --sample { default is "pretext_rerun" } \
+  --teloseq { deafault is "TTAGGG" } \
+  --outdir { OUTDIR } \
+  -profile <docker/singularity/{institute}> \
+  -entry MAPS_ONLY \
+````
+
 ```
 
 > **Warning:**
@@ -95,9 +110,11 @@ sanger-tol/curationpretext was originally written by Damon-Lee B Pointon (@DLBPo
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- @yumisims
+- @yumisims - TreeVal and Software.
 
-- @weaglesBio
+- @weaglesBio - TreeVal and Software.
+
+- @josieparis - Help with better docs and testing.
 
 ## Contributions and Support
 
@@ -121,3 +138,4 @@ You can cite the `nf-core` publication as follows:
 > Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
 >
 > _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+```

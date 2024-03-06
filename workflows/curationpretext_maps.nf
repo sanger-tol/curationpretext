@@ -53,11 +53,23 @@ workflow CURATIONPRETEXT_MAPS {
     main:
     ch_versions = Channel.empty()
 
-    Channel.of( [[id: params.sample], params.input] )
-        .set { reference_tuple }
+    Channel.of(
+        [
+            [   id: params.sample,
+                aligner: params.aligner
+            ],
+            params.input
+        ]
+    )
+    .set { reference_tuple }
 
-    Channel.of( [[id: params.sample], params.cram] )
-        .set { cram_reads }
+    Channel.of(
+        [
+            [   id: params.sample   ],
+            params.cram
+        ]
+    )
+    .set { cram_reads }
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES

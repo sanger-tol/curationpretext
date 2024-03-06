@@ -10,6 +10,8 @@ on:
 
 env:
   NXF_ANSI_LOG: false
+  NXF_SINGULARITY_CACHEDIR: ${{ github.workspace }}/.singularity
+  NXF_SINGULARITY_LIBRARYDIR: ${{ github.workspace }}/.singularity
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
@@ -19,7 +21,7 @@ jobs:
   test:
     name: Run pipeline with test data
     # Only run on push if this is the nf-core dev branch (merged PRs)
-    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'sanger-tol/curationpretextt') }}"
+    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'sanger-tol/curationpretext') }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -35,17 +37,25 @@ jobs:
         with:
           version: "${{ matrix.NXF_VER }}"
 
+      - name: Setup apptainer
+        uses: eWaterCycle/setup-apptainer@main
+
+      - name: Set up Singularity
+        run: |
+          mkdir -p $NXF_SINGULARITY_CACHEDIR
+          mkdir -p $NXF_SINGULARITY_LIBRARYDIR
+
       - name: Download test data
         # Download A fungal test data set that is full enough to show some real output.
         run: |
           curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
 
-      - name: Run MAPS_ONLY pipeline with test data
+      - name: Docker - Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results -entry MAPS_ONLY
+          nextflow run ${GITHUB_WORKSPACE} -profile test_full,docker --outdir ./Dock-res
 
-      - name: Run ALL_FILES pipeline with test data
+      - name: Singularity - Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
+          nextflow run ${GITHUB_WORKSPACE} -profile test_full,singularity --outdir ./Sing-res
