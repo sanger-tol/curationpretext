@@ -6,6 +6,7 @@ workflow PRETEXT_INGESTION {
     gap_file            // Channel: tuple([sample_id], file)
     coverage_file       // Channel: tuple([sample_id], file)
     cov_log_file        // Channel: tuple([sample_id], file)
+    cov_avg_file        // Channel: tuple([sample_id], file)
     telomere_file       // Channel: tuple([sample_id], file)
     repeat_cov_file     // Channel: tuple([sample_id], file)
 
@@ -48,6 +49,7 @@ workflow PRETEXT_INGESTION {
         ch_gap,
         coverage_file,
         cov_log_file,
+        cov_avg_file,
         ch_telomere,
         repeat_cov_file
     )

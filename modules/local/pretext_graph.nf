@@ -2,16 +2,14 @@ process PRETEXT_GRAPH {
     tag "$meta.id"
     label 'process_single'
 
-    conda "bioconda::pretextgraph=0.0.6 bioconda::ucsc-bigwigtobedgraph=448"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mulled-v2-077b852b8b5440d395ad23f9f24f50c943390a84:da499c75fec554e81f4847c4fa8b6b167afbe3bf-0':
-        'biocontainers/mulled-v2-077b852b8b5440d395ad23f9f24f50c943390a84:da499c75fec554e81f4847c4fa8b6b167afbe3bf-0' }"
+    container "quay.io/sanger-tol/pretext:0.0.2-yy5-c3"
 
     input:
     tuple val(meta),    path(pretext_file,      stageAs: 'pretext.pretext')
     tuple val(gap),     path(gap_file,          stageAs: 'gap.bed')
     tuple val(cov),     path(coverage,          stageAs: 'coverage.bigWig')
     tuple val(log),     path(log_coverage,      stageAs: 'log_cov.bigWig')
+    tuple val(avg),     path(avg_coverage)
     tuple val(telo),    path(telomere_file,     stageAs: 'telo.bedgraph')
     tuple val(rep),     path(repeat_density,    stageAs: 'repeats.bigWig')
 
@@ -34,6 +32,8 @@ process PRETEXT_GRAPH {
     bigWigToBedGraph  ${repeat_density} /dev/stdout | ${pretext_path} ${args} -i coverage.pretext.part -n "repeat_density" -o repeat.pretext.part
 
     bigWigToBedGraph  ${log_coverage} /dev/stdout | awk -v OFS="\t" '{ if (\$4 < 4) {\$4 *= 1000} else {\$4 *= 100} ; print}' | PretextGraph ${args} -i repeat.pretext.part -n "log_coverage" -o log.pretext.part
+
+    bigWigToBedGraph  ${avg_coverage} /dev/stdout | PretextGraph ${args} -i repeat.pretext.part -n "avg_coverage" -o avg.pretext.part
 
     if [[ ${gap.sz} -ge 1 && ${telo.sz} -ge 1 ]]
     then
