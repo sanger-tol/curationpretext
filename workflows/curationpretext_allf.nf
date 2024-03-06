@@ -102,6 +102,7 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.standrd_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_avg_bw,
         ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
@@ -116,6 +117,7 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.highres_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_avg_bw,
         ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
