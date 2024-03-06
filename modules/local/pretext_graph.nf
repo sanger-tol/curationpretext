@@ -25,40 +25,38 @@ process PRETEXT_GRAPH {
     def prefix       = task.ext.prefix ?: "${meta.id}"
     def PRXT_VERSION = '0.0.6'
     def UCSC_VERSION = '447' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    def pretext_path = "${projectDir}/bin/PretextGraph/bin/PretextGraph"
+
     """
-    bigWigToBedGraph ${coverage} /dev/stdout | ${pretext_path} ${args} -i ${pretext_file} -n "coverage" -o coverage.pretext.part
+    bigWigToBedGraph ${coverage} /dev/stdout | PretextGraph ${args} -i ${pretext_file} -n "coverage" -o coverage.pretext.part
 
-    bigWigToBedGraph  ${repeat_density} /dev/stdout | ${pretext_path} ${args} -i coverage.pretext.part -n "repeat_density" -o repeat.pretext.part
-
-    bigWigToBedGraph  ${log_coverage} /dev/stdout | awk -v OFS="\t" '{ if (\$4 < 4) {\$4 *= 1000} else {\$4 *= 100} ; print}' | PretextGraph ${args} -i repeat.pretext.part -n "log_coverage" -o log.pretext.part
+    bigWigToBedGraph  ${repeat_density} /dev/stdout | PretextGraph ${args} -i coverage.pretext.part -n "repeat_density" -o repeat.pretext.part
 
     bigWigToBedGraph  ${avg_coverage} /dev/stdout | PretextGraph ${args} -i repeat.pretext.part -n "avg_coverage" -o avg.pretext.part
 
     if [[ ${gap.sz} -ge 1 && ${telo.sz} -ge 1 ]]
     then
         echo "GAP AND TELO have contents!"
-        cat ${gap_file} | ${pretext_path} ${args} -i log.pretext.part -n "${gap.ft}" -o gap.pretext.part
-        cat ${telomere_file} | awk -v OFS='\t' '{\$4 *= 1000; print}' | ${pretext_path} -i gap.pretext.part -n "${telo.ft}" -o ${prefix}.pretext
+        cat ${gap_file} | PretextGraph ${args} -i avg.pretext.part -n "${gap.ft}" -o gap.pretext.part
+        cat ${telomere_file} | awk -v OFS='\t' '{\$4 *= 1000; print}' | PretextGraph -i gap.pretext.part -n "${telo.ft}" -o ${prefix}.pretext
 
     elif [[ ${gap.sz} -ge 1 && ${telo.sz} -eq 0 ]]
     then
         echo "GAP file has contents!"
-        cat ${gap_file} | ${pretext_path} ${args} -i log.pretext.part -n "${gap.ft}" -o ${prefix}.pretext
+        cat ${gap_file} | PretextGraph ${args} -i avg.pretext.part -n "${gap.ft}" -o ${prefix}.pretext
 
     elif [[ ${gap.sz} -eq 0 && ${telo.sz} -ge 1 ]]
     then
         echo "TELO file has contents!"
-        cat ${telomere_file} | awk -v OFS='\t' '{\$4 *= 1000; print}' | ${pretext_path} ${args} -i log.pretext.part -n "${telo.ft}" -o ${prefix}.pretext
+        cat ${telomere_file} | awk -v OFS='\t' '{\$4 *= 1000; print}' | PretextGraph ${args} -i avg.pretext.part -n "${telo.ft}" -o ${prefix}.pretext
 
     else
         echo "NO GAP OR TELO FILE WITH CONTENTS - renaming part file"
-        mv log.pretext.part ${prefix}.pretext
+        mv avg.pretext.part ${prefix}.pretext
     fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        pretextgraph: ${PRXT_VERSION}
+        PretextGraph: ${PRXT_VERSION}
         bigWigToBedGraph: ${UCSC_VERSION}
     END_VERSIONS
     """
@@ -67,13 +65,12 @@ process PRETEXT_GRAPH {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def PRXT_VERSION = '0.0.6'
     def UCSC_VERSION = '448' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    def pretext_path = "${projecDir}/bin/PretextGraph/bin/PretextGraph"
     """
     touch ${prefix}.pretext
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        pretextgraph: ${PRXT_VERSION}
+        PretextGraph: ${PRXT_VERSION}
         bigWigToBedGraph: ${UCSC_VERSION}
     END_VERSIONS
     """
