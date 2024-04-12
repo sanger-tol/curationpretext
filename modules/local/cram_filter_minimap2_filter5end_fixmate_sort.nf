@@ -36,10 +36,10 @@ process CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//' )
-        minimap2: \$(minimap2 --version | sed 's/minimap2 //g')
+        minimap2: \$(minimap2 --version)
+        staden_io_lib: \$(ls /usr/local/conda-meta/staden_io_lib-* | cut -d- -f3)
     END_VERSIONS
     """
-    // temp removal staden_io_lib: \$(echo \$(staden_io_lib --version 2>&1) | sed 's/^.*staden_io_lib //; s/Using.*\$//') CAUSES ERROR
 
     stub:
     def prefix  = task.ext.prefix ?: "${meta.id}"
@@ -51,7 +51,8 @@ process CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//' )
-        minimap2: \$(echo \$(minimap2 version 2>&1) | sed 's/.* //')
+        minimap2: \$(minimap2 --version)
+        staden_io_lib: \$(ls /usr/local/conda-meta/staden_io_lib-* | cut -d- -f3)
     END_VERSIONS
     """
 }
