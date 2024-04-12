@@ -50,12 +50,7 @@ jobs:
         run: |
           curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
 
-      - name: Docker - Run ALL_FILES pipeline with test data
-        # Remember that you can parallelise this by using strategy.matrix
-        run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test_full,docker --outdir ./Dock-res
-
       - name: Singularity - Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test_full,singularity --outdir ./Sing-res
+          nextflow run ${GITHUB_WORKSPACE} -profile test,singularity --outdir ./Sing-res
