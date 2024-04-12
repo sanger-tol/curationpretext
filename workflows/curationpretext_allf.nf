@@ -48,33 +48,42 @@ workflow CURATIONPRETEXT_ALLF {
     main:
     ch_versions = Channel.empty()
 
-    Channel.of(
-        [
-            [   id:         params.sample,
-                aligner:    params.aligner
-            ],
-            params.input
-        ]
-    )
-    .set { reference_tuple }
+    sample_name     = Channel.of(params.sample)
+    input_fasta     = Channel.of(params.input)
+    aligner_name    = Channel.of(params.aligner)
+    cram_dir        = Channel.of(params.cram)
+    longread        = Channel.of(params.longread)
+    longread_type   = Channel.of(params.longread_type)
 
-    Channel.of(
-        [
-            [   id:         params.sample,
-                single_end: true,
-                read_type:  params.longread_type],
-            params.longread
-        ]
-    )
-    .set { longread_reads }
+    sample_name
+        .combine(input_fasta)
+        .combine(aligner_name)
+        .map { sample, file, align ->
+            tuple ( [   id:         sample,
+                        aligner:    align   ],
+                    file)
+        }
+        .set { reference_tuple }
 
-    Channel.of(
-        [
-            [   id: params.sample   ],
-            params.cram
-        ]
-    )
-    .set { cram_reads }
+    sample_name
+        .combine(cram_dir)
+        .map { sample, cram ->
+            tuple ( [   id:         sample  ],
+                    cram)
+        }
+        .set { cram_reads }
+
+    sample_name
+        .combine( longread )
+        .combine( longread_type )
+        .map{ name, reads, type ->
+            tuple ( [   id:         sample,
+                        single_end: true,
+                        read_type:  type  ],
+                    longread
+            )
+        }
+        .set{ longread_reads }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION

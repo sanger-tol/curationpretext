@@ -51,30 +51,35 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS   } from '../modules/nf-core/custom/dumpso
 workflow CURATIONPRETEXT_MAPS {
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions     = Channel.empty()
 
-    Channel.of(
-        [
-            [   id: params.sample,
-                aligner: params.aligner
-            ],
-            params.input
-        ]
-    )
-    .set { reference_tuple }
+    sample_name     = Channel.of(params.sample)
+    input_fasta     = Channel.of(params.input)
+    aligner_name    = Channel.of(params.aligner)
+    cram_dir        = Channel.of(params.cram)
 
-    Channel.of(
-        [
-            [   id: params.sample   ],
-            params.cram
-        ]
-    )
-    .set { cram_reads }
+    sample_name
+        .combine(input_fasta)
+        .combine(aligner_name)
+        .map { sample, file, align ->
+            tuple ( [   id:         sample,
+                        aligner:    align   ],
+                    file)
+        }
+        .set { reference_tuple }
+
+    sample_name
+        .combine(cram_dir)
+        .map { sample, cram ->
+            tuple ( [   id:         sample  ],
+                    cram)
+        }
+        .set { cram_reads }
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //
-    GENERATE_MAPS ( reference_tuple, params.cram )
+    GENERATE_MAPS ( reference_tuple, cram_reads )
 
     //
     // SUBWORKFLOW: Collates version data from prior subworflows
