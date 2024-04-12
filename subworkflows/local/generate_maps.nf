@@ -17,8 +17,8 @@ include { HIC_BWAMEM2                               } from '../../subworkflows/l
 
 workflow GENERATE_MAPS {
     take:
-    reference_tuple     // Channel [ val(meta), path(file) ]
-    hic_reads_path      // Channel [    path(directory)    ]
+    reference_tuple     // Channel [ val(meta), path(file)      ]
+    hic_reads_path      // Channel [ val(meta), path(directory) ]
 
     main:
     ch_versions         = Channel.empty()
@@ -67,8 +67,6 @@ workflow GENERATE_MAPS {
         }
         .set{ ch_aligner }
 
-    ch_aligner.minimap2.view()
-
     //
     // SUBWORKFLOW: mapping hic reads using minimap2
     //
@@ -115,13 +113,13 @@ workflow GENERATE_MAPS {
         pretext_input.input_bam,
         pretext_input.reference
     )
-    ch_versions         = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
+    ch_versions             = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
     PRETEXTMAP_HIGHRES (
         pretext_input.input_bam,
         pretext_input.reference
     )
-    ch_versions         = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
+    ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT
@@ -129,12 +127,12 @@ workflow GENERATE_MAPS {
     SNAPSHOT_SRES (
         PRETEXTMAP_STANDRD.out.pretext
     )
-    ch_versions         = ch_versions.mix( SNAPSHOT_SRES.out.versions )
+    ch_versions             = ch_versions.mix( SNAPSHOT_SRES.out.versions )
 
     emit:
-    standrd_pretext     = PRETEXTMAP_STANDRD.out.pretext
-    standrd_snpshot     = SNAPSHOT_SRES.out.image
-    highres_pretext     = PRETEXTMAP_HIGHRES.out.pretext
-    versions            = ch_versions.ifEmpty(null)
+    standrd_pretext         = PRETEXTMAP_STANDRD.out.pretext
+    standrd_snpshot         = SNAPSHOT_SRES.out.image
+    highres_pretext         = PRETEXTMAP_HIGHRES.out.pretext
+    versions                = ch_versions.ifEmpty(null)
 
 }
