@@ -62,10 +62,23 @@ Currently, the pipeline uses the following flags:
 
 Now, you can run the pipeline using:
 
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
+#### For ALL_FILES run
 
-````bash
-// For ALL_FILES run
+```bash
+nextflow run sanger-tol/curationpretext \
+  --input { input.fasta } \
+  --cram { path/to/cram/ } \
+  --longread { path/to/longread/fasta/ } \
+  --longread_type { default is "hifi" }
+  --sample { default is "pretext_rerun" } \
+  --teloseq { deafault is "TTAGGG" } \
+  --outdir { OUTDIR } \
+  -profile <docker/singularity/{institute}>
+
+```
+
+#### For MAPS_ONLY run
+
 ```bash
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
@@ -76,20 +89,7 @@ nextflow run sanger-tol/curationpretext \
   --teloseq { deafault is "TTAGGG" } \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
-
-// For MAPS_ONLY run
-nextflow run sanger-tol/curationpretext \
-  --input { input.fasta } \
-  --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
-  --longread_type { default is "hifi" }
-  --sample { default is "pretext_rerun" } \
-  --teloseq { deafault is "TTAGGG" } \
-  --outdir { OUTDIR } \
-  -profile <docker/singularity/{institute}> \
   -entry MAPS_ONLY \
-````
-
 ```
 
 > **Warning:**
