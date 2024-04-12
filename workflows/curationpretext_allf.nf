@@ -77,7 +77,7 @@ workflow CURATIONPRETEXT_ALLF {
         .combine( longread )
         .combine( longread_type )
         .map{ name, reads, type ->
-            tuple ( [   id:         sample,
+            tuple ( [   id:         name,
                         single_end: true,
                         read_type:  type  ],
                     longread
