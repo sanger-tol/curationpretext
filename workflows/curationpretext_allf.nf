@@ -7,11 +7,11 @@
 def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 
 // Validate input parameters
-//WorkflowCurationpretext.initialise(params, log)
+WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
-//def checkPathParamList = [ params.longread, params.cram, params.input ]
-//for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
+def checkPathParamList = [ params.longread, params.cram, params.input ]
+for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,7 +53,7 @@ workflow CURATIONPRETEXT_ALLF {
     aligner_name    = Channel.of(params.aligner)
     cram_dir        = Channel.of(params.cram)
     longread_type   = Channel.of(params.longread_type)
-    longread        = Channel.of(params.longread)
+    longread        = Channel.fromPath(params.longread)
 
 
     sample_name
