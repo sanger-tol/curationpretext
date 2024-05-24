@@ -53,7 +53,7 @@ workflow CURATIONPRETEXT_ALLF {
     aligner_name    = Channel.of(params.aligner)
     cram_dir        = Channel.of(params.cram)
     longread_type   = Channel.of(params.longread_type)
-    longread        = Channel.fromPath(params.longread)
+    longread        = Channel.of(params.longread)
 
 
     sample_name
