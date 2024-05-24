@@ -52,8 +52,9 @@ workflow CURATIONPRETEXT_ALLF {
     input_fasta     = Channel.of(params.input)
     aligner_name    = Channel.of(params.aligner)
     cram_dir        = Channel.of(params.cram)
-    longread        = Channel.of(params.longread)
     longread_type   = Channel.of(params.longread_type)
+    longread        = Channel.fromPath(params.longread)
+
 
     sample_name
         .combine(input_fasta)
@@ -80,7 +81,7 @@ workflow CURATIONPRETEXT_ALLF {
             tuple ( [   id:         name,
                         single_end: true,
                         read_type:  type  ],
-                    longread
+                    reads
             )
         }
         .set{ longread_reads }
