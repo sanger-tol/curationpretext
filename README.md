@@ -100,7 +100,7 @@ For more details, please refer to the [usage documentation](https://pipelines.to
 
 ## Pipeline output
 
-To see the the results of a test run with a full size dataset refer to the [results](https://pipelines.tol.sanger.ac.uk/curationpretext/results) tab on the nf-core website pipeline page.
+To see the the results of a test run with a full size dataset refer to the [results](https://pipelines.tol.sanger.ac.uk/curationpretext/results) tab on the sanger-tol/curationpretext website pipeline page.
 For more details about the output files and reports, please refer to the
 [output documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/output).
 
