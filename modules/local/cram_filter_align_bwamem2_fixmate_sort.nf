@@ -34,7 +34,7 @@ process CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//' )
-        bwa-mem2: \$(bwa-mem2 version | tail -n 1')
+        bwa-mem2: \$(bwa-mem2 version | tail -n 1)
         staden_io_lib: \$(ls /usr/local/conda-meta/staden_io_lib-* | cut -d- -f3)
     END_VERSIONS
     """
