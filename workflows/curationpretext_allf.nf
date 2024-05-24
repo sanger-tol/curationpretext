@@ -7,7 +7,7 @@
 def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 
 // Validate input parameters
-WorkflowCurationpretext.initialise(params, log)
+//WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
 //def checkPathParamList = [ params.longread, params.cram, params.input ]
