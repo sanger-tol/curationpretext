@@ -2,6 +2,9 @@ repository_type: pipeline
 lint:
   files_exist:
     - assets/multiqc_config.yml
+    - assets/nf-core-curationpretext_logo_light.png
+    - docs/images/nf-core-curationpretext_logo_light.png
+    - docs/images/nf-core-curationpretext_logo_dark.png
   files_unchanged:
     - .github/workflows/linting.yml
     - LICENSE
