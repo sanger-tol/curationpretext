@@ -48,6 +48,8 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix( GENERATE_CRAM_CSV.out.versions )
 
+    GENERATE_CRAM_CSV.out.csv.view()
+
     //
     // LOGIC: make branches for different hic aligner.
     //
