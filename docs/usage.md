@@ -33,7 +33,7 @@ If there is a popular public preference for a particular format, we can modify t
 Download the pipeline!
 `git clone https://github.com/sanger-tol/curationpretext.git`
 Or use:
-`git clone https://github.com/sanger-tol/curationpretext.git --branch v1.0.0 --single-branch`
+`git clone https://github.com/sanger-tol/curationpretext.git --branch 1.0.0 --single-branch`
 
 This will pull the released version and not an in development version.
 
