@@ -29,6 +29,12 @@ jobs:
           - "22.10.1"
           - "latest-everything"
     steps:
+      - name: Get branch names
+        # Pulls the names of current branches in repo
+        # steps.branch-names.outputs.current_branch is used later and returns the name of the branch the PR is made FROM not to
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+
       - name: Check out pipeline code
         uses: actions/checkout@v3
 
@@ -45,6 +51,22 @@ jobs:
           mkdir -p $NXF_SINGULARITY_CACHEDIR
           mkdir -p $NXF_SINGULARITY_LIBRARYDIR
 
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install nf-core
+        run: |
+          pip install nf-core
+
+      - name: NF-Core Download - download singularity containers
+        # Forcibly download repo on active branch and download SINGULARITY containers into the CACHE dir if not found
+        # Must occur after singularity install or will crash trying to dl containers
+        # Zip up this fresh download and run the checked out version
+        run: |
+          nf-core download sanger-tol/treeval --revision ${{ steps.branch-names.outputs.current_branch }} --compress none -d --force --outdir sanger-curationpretext --container-cache-utilisation amend --container-system singularity
+
       - name: Download test data
         # Download A fungal test data set that is full enough to show some real output.
         run: |
@@ -53,4 +75,4 @@ jobs:
       - name: Singularity - Run ALL_FILES pipeline with test data
         # Remember that you can parallelise this by using strategy.matrix
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test,singularity --outdir ./Sing-res
+          nextflow run ./sanger-curationpretext/${{ steps.branch-names.outputs.current_branch }}/main.nf -profile test,singularity --outdir ./Sing-res
