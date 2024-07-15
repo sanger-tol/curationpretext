@@ -1,6 +1,6 @@
 process GENERATE_CRAM_CSV {
     tag "${meta.id}"
-    label 'process_tiny'
+    label 'process_single'
 
     container 'quay.io/sanger-tol/cramfilter_bwamem2_minimap2_samtools_perl:0.001-c1'
 
