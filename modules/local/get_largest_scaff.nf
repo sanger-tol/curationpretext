@@ -15,6 +15,9 @@ process GET_LARGEST_SCAFF {
     env largest_scaff   , emit: scaff_size
     path "versions.yml" , emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     shell:
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     $/

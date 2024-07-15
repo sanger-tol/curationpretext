@@ -15,6 +15,9 @@ process FIND_TELOMERE_WINDOWS {
     tuple val( meta ), file( "*.windows" ) , emit: windows
     path "versions.yml"                    , emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     def VERSION = "1.0" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
