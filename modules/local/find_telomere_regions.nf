@@ -10,7 +10,7 @@ process FIND_TELOMERE_REGIONS {
     }
 
     input:
-    tuple val( meta ), path( file )
+    tuple val(meta), path(file)
     val (telomereseq)
 
     output:

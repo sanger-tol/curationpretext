@@ -8,7 +8,7 @@ process GENERATE_GENOME_FILE {
     'docker.io/ubuntu:20.04' }"
 
     input:
-    tuple val( meta ), path( fai )
+    tuple val(meta), path(fai)
 
     output:
     tuple val( meta ), file( "my.genome" )      , emit: dotgenome

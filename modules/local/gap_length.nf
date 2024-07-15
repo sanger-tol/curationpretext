@@ -8,7 +8,7 @@ process GAP_LENGTH {
     'docker.io/ubuntu:20.04' }"
 
     input:
-    tuple val( meta ), path( file )
+    tuple val(meta), path(file)
 
     output:
     tuple val( meta ), file( "*bedgraph" )  , emit: bed
