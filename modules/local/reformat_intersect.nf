@@ -12,6 +12,7 @@ process REFORMAT_INTERSECT {
 
     output:
     tuple val( meta ), file( "*.bed" ), emit: bed
+    path "versions.yml"                 , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
