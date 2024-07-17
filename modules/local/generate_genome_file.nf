@@ -8,11 +8,14 @@ process GENERATE_GENOME_FILE {
     'docker.io/ubuntu:20.04' }"
 
     input:
-    tuple val( meta ), path( fai )
+    tuple val(meta), path(fai)
 
     output:
     tuple val( meta ), file( "my.genome" )      , emit: dotgenome
     path "versions.yml"                         , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.

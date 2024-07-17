@@ -46,7 +46,7 @@ workflow ACCESSORY_FILES {
     //
     GAP_FINDER (
         reference_tuple,
-        GET_LARGEST_SCAFF.out.scaff_size.toInteger()
+        GET_LARGEST_SCAFF.out.scaff_size.map{it -> it[1].toInteger()}
     )
     ch_versions = ch_versions.mix(GAP_FINDER.out.versions)
 
@@ -54,7 +54,7 @@ workflow ACCESSORY_FILES {
     // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH LONGREAD READS AND REFERENCE
     //
     TELO_FINDER (
-        GET_LARGEST_SCAFF.out.scaff_size,
+        GET_LARGEST_SCAFF.out.scaff_size.map{it -> it[1].toInteger()},
         reference_tuple,
         params.teloseq
     )

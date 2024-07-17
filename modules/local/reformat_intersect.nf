@@ -8,10 +8,14 @@ process REFORMAT_INTERSECT {
     'docker.io/ubuntu:20.04' }"
 
     input:
-    tuple val( meta ), path( file )
+    tuple val(meta), path(file)
 
     output:
     tuple val( meta ), file( "*.bed" ), emit: bed
+    path "versions.yml"                 , emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     shell:
     def prefix = task.ext.prefix ?: "${meta.id}"
