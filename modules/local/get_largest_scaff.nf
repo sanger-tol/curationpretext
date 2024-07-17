@@ -12,8 +12,8 @@ process GET_LARGEST_SCAFF {
     tuple val(meta), path(file)
 
     output:
-    env largest_scaff   , emit: scaff_size
-    path "versions.yml" , emit: versions
+    tuple val(meta), env(largest_scaff),    emit: scaff_size
+    path "versions.yml",                    emit: versions
 
     when:
     task.ext.when == null || task.ext.when
