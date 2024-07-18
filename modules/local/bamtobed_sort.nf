@@ -13,6 +13,9 @@ process BAMTOBED_SORT {
     tuple val(meta), path("*.bed"), emit: sorted_bed
     path "versions.yml"           , emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     def prefix = args.ext.prefix ?: "${meta.id}"
     def st_cores = task.cpus > 4 ? 4 : "${task.cpus}"

@@ -15,29 +15,41 @@
                 "input": {
                     "type": "string",
                     "format": "file-path",
-                    "pattern": "^\\S+\\.fn?a(sta)?$",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "description": "Input fasta file",
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-file-fasta"
                 },
-                "pacbio": {
+                "longread": {
                     "type": "string",
                     "format": "directory-path",
-                    "description": "Input pacbio fasta directory",
-                    "help_text": "You need the input fasta file",
+                    "description": "Input longread fasta directory",
+                    "help_text": "You need the input fasta file directory",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "longread_type": {
+                    "type": "string",
+                    "description": "Type of longread data",
+                    "help_text": "Choose between {'hifi', 'illumina', 'ont'}",
                     "fa_icon": "fas fa-folder-open"
                 },
                 "cram": {
                     "type": "string",
                     "format": "directory-path",
                     "description": "Input cram directory",
-                    "help_text": "You need the input fasta file",
+                    "help_text": "You need the input fasta file directory",
                     "fa_icon": "fas fa-folder-open"
                 },
                 "teloseq": {
                     "type": "string",
-                    "description": "Telomeric Motif for search, defaults to TTAGGG",
+                    "description": "Telomeric Motif for search. Defaults to TTAGGG",
                     "help_text": "Give me a telomeric motif",
+                    "fa_icon": "fas fa-file-signature"
+                },
+                "aligner": {
+                    "type": "string",
+                    "description": "Aligner for use {minimap2, bwamem2} in generating map",
+                    "help_text": "Pick between {minimap2, bwamem2}. Defaults to 'minimap2'",
                     "fa_icon": "fas fa-file-signature"
                 },
                 "outdir": {

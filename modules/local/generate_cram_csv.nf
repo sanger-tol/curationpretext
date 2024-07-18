@@ -1,11 +1,13 @@
 process GENERATE_CRAM_CSV {
     tag "${meta.id}"
-    label 'process_low'
+    label 'process_single'
 
-    conda "bioconda::samtools=1.17"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/samtools:1.17--h00cdaf9_0' :
-        'biocontainers/samtools:1.17--h00cdaf9_0' }"
+    container 'quay.io/sanger-tol/cramfilter_bwamem2_minimap2_samtools_perl:0.001-c1'
+
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "GENERATE_CRAM_CSV module does not support Conda. Please use Docker / Singularity instead."
+    }
 
     input:
     tuple val(meta), path(crampath)
@@ -14,15 +16,17 @@ process GENERATE_CRAM_CSV {
     tuple val(meta), path('*.csv'), emit: csv
     path "versions.yml",            emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    generate_cram_csv.sh $crampath >> ${prefix}_cram.csv
+    generate_cram_csv.sh $crampath ${prefix}_cram.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//' )
-        bwa-mem2: \$(bwa-mem2 --version | sed 's/bwa-mem2 //g')
     END_VERSIONS
     """
 
@@ -33,7 +37,6 @@ process GENERATE_CRAM_CSV {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//' )
-        bwa-mem2: \$(bwa-mem2 --version | sed 's/bwa-mem2 //g')
     END_VERSIONS
     """
 }

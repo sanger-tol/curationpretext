@@ -10,7 +10,7 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.pacbio, params.cram, params.input ]
+def checkPathParamList = [ params.longread, params.cram, params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
@@ -19,8 +19,10 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GENERATE_MAPS                 } from '../subworkflows/local/generate_maps'
-include { ACCESSORY_FILES               } from '../subworkflows/local/accessory_files'
+include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
+include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
+include { PRETEXT_INGESTION as PRETEXT_INGEST_SNDRD } from '../subworkflows/local/pretext_ingestion'
+include { PRETEXT_INGESTION as PRETEXT_INGEST_HIRES } from '../subworkflows/local/pretext_ingestion'
 
 
 /*
@@ -46,24 +48,91 @@ workflow CURATIONPRETEXT_ALLF {
     main:
     ch_versions = Channel.empty()
 
-    Channel.of( [[id: params.sample], params.input] )
+    sample_name     = Channel.of(params.sample)
+    input_fasta     = Channel.of(params.input)
+    aligner_name    = Channel.of(params.aligner)
+    cram_dir        = Channel.of(params.cram)
+    longread_type   = Channel.of(params.longread_type)
+    longread        = Channel.fromPath(params.longread)
+
+
+    sample_name
+        .combine(input_fasta)
+        .combine(aligner_name)
+        .map { sample, file, align ->
+            tuple ( [   id:         sample,
+                        aligner:    align   ],
+                    file)
+        }
         .set { reference_tuple }
 
-    Channel.of( [[id: params.sample], params.pacbio] )
-        .set { pacbio_reads }
-
-    Channel.of( [[id: params.sample], params.cram] )
+    sample_name
+        .combine(cram_dir)
+        .map { sample, cram ->
+            tuple ( [   id:         sample  ],
+                    cram)
+        }
         .set { cram_reads }
+
+    sample_name
+        .combine( longread )
+        .combine( longread_type )
+        .map{ name, reads, type ->
+            tuple ( [   id:         name,
+                        single_end: true,
+                        read_type:  type  ],
+                    reads
+            )
+        }
+        .set{ longread_reads }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
-    ACCESSORY_FILES ( reference_tuple, pacbio_reads )
+    ACCESSORY_FILES (
+        reference_tuple,
+        longread_reads
+    )
+    ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //
-    GENERATE_MAPS ( reference_tuple, params.cram )
+    GENERATE_MAPS (
+        reference_tuple,
+        cram_reads
+    )
+    ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_SNDRD (
+        GENERATE_MAPS.out.standrd_pretext,
+        ACCESSORY_FILES.out.gap_file,
+        ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_avg_bw,
+        ACCESSORY_FILES.out.coverage_log_bw,
+        ACCESSORY_FILES.out.telo_file,
+        ACCESSORY_FILES.out.repeat_file
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_HIRES (
+        GENERATE_MAPS.out.highres_pretext,
+        ACCESSORY_FILES.out.gap_file,
+        ACCESSORY_FILES.out.coverage_bw,
+        ACCESSORY_FILES.out.coverage_avg_bw,
+        ACCESSORY_FILES.out.coverage_log_bw,
+        ACCESSORY_FILES.out.telo_file,
+        ACCESSORY_FILES.out.repeat_file
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
     //
     // SUBWORKFLOW: Collates version data from prior subworflows
