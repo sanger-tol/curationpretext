@@ -47,6 +47,10 @@ Currently, the pipeline uses the following flags:
 
   - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
 
+- `--map_order`
+
+  - hic map scaffold order, e.g., `length`
+
 - `--teloseq`
 
   - A telomeric sequence, e.g., `TTAGGG`
@@ -67,6 +71,7 @@ nextflow run sanger-tol/curationpretext \
   --longread_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { deafault is "TTAGGG" } \
+  --map_order { deafault is "unsorted" } \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>
 
@@ -82,6 +87,7 @@ nextflow run sanger-tol/curationpretext \
   --longread_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { deafault is "TTAGGG" } \
+  --map_order { deafault is "unsorted" } \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
   -entry MAPS_ONLY \
