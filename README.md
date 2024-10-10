@@ -49,7 +49,7 @@ Currently, the pipeline uses the following flags:
 
 - `--map_order`
 
-  - hic map scaffold order, e.g., `length`
+  - hic map scaffold order, e.g., `length` or `unsorted`
 
 - `--teloseq`
 
@@ -70,8 +70,8 @@ nextflow run sanger-tol/curationpretext \
   --longread { path/to/longread/fasta/ } \
   --longread_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
-  --teloseq { deafault is "TTAGGG" } \
-  --map_order { deafault is "unsorted" } \
+  --teloseq { default is "TTAGGG" } \
+  --map_order { default is "unsorted" } \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>
 
@@ -86,8 +86,8 @@ nextflow run sanger-tol/curationpretext \
   --longread { path/to/longread/fasta/ } \
   --longread_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
-  --teloseq { deafault is "TTAGGG" } \
-  --map_order { deafault is "unsorted" } \
+  --teloseq { default is "TTAGGG" } \
+  --map_order { default is "unsorted" } \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
   -entry MAPS_ONLY \
