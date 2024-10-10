@@ -49,7 +49,7 @@ Currently, the pipeline uses the following flags:
 
 - `--map_order`
 
-  - hic map scaffold order, e.g., `length` or `unsorted`
+  - hic map scaffold order, input either `length` or `unsorted`
 
 - `--teloseq`
 
