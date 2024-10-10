@@ -20,6 +20,7 @@ workflow GENERATE_MAPS {
     reference_tuple     // Channel [ val(meta), path(file)      ]
     hic_reads_path      // Channel [ val(meta), path(directory) ]
 
+
     main:
     ch_versions         = Channel.empty()
 
