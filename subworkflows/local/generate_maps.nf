@@ -98,15 +98,15 @@ workflow GENERATE_MAPS {
     //
     mergedbam
         .combine( reference_tuple )
-        .combine( SAMTOOLS_FAIDX.out.fai ) <--
-        .multiMap { bam_meta, bam, ref_meta, ref_fa ->
+        .combine( SAMTOOLS_FAIDX.out.fai )
+        .multiMap { bam_meta, bam, ref_meta, ref_fa, fai_meta, fai ->
             input_bam:  tuple(
                             [   id: ref_meta.id,
                                 sz: file( bam ).size()
                             ],
                             bam
                         )
-            reference:  ref_meta, ref_fa
+            reference:  ref_meta, ref_fa, fai
         }
         .set { pretext_input }
 
