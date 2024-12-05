@@ -106,7 +106,7 @@ workflow GENERATE_MAPS {
                             ],
                             bam
                         )
-            reference:  ref_meta, ref_fa, fai
+            reference:  tuple( ref_meta, ref_fa, fai )
         }
         .set { pretext_input }
 
