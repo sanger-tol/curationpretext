@@ -3,7 +3,6 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
 ## [[1.1.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.0)] - UNSC Delphi - [2024-12-09]
 
 ### Added
@@ -15,55 +14,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to LISCENSES and CITATIONS files.
 - Update algorithms at play for memory allocation, particulary minimap2.
 - Parity update to TreeVal as the mapping subworkflow is based on the treeval implementation.
+- Fixed some version output being generated incorrectly.
 
 ### Paramters
 
-| Old Version | New Versions    |
-| -           | --map_order     |
+| Old Version | New Versions |
+| - | --map_order |
 
 ### Software Dependencies
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                                                              | Old Version    | New Versions   |
-| ------------------------------------------------------------------- | -------------- | -------------- |
-| get_avcov | - | 1.0.0 |
-| bamtobed_sort ( bedtools + samtools )                               | 2.31.0 + 1.17              | 2.31.1 + 1.17  |
-| bedtools ( all modules) | 2.31.1         | -         |
-| bwamem2 index                                                       | -              | 2.2.1          |
-| cram_filter_align_bwamem2_fixmate_sort                              | -              |                |
-| ^ ( samtools + bwamem2 ) ^                                          | 1.17 + 2.2.1 | -   |
-| cram_filter_minimap2_filter5end_fixmate_sort                        | -              |                |
-| custom_dumpsoftwareversions | - | Python 3.11.7 + yaml 5.4.1 |
-| ^ ( samtools + minimap2 ) ^                                         | 1.17 + 2.24              |  -   |
-| extract_cov_id ( coreutils )                                        | 9.1              | 9.3            |
-| extract_repeat ( perl )                                             | 5.26.2              | -         |
-| extract_telo ( coreutils )                                          | -              | 9.1            |
-| find_telomere_regions ( gcc )                                       | 7.1.0         | 7.1.0 + 1.0         |
-| find_telomere_windows ( java-jdk )                                  | 8.0.112              | 8.0.112 + 1.0       |
-| findhalfcoverage ( python )                                  | -              | 3.9.1 + 1.0       |
-| gap_length ( coreutils )                                            | 9.1              | 9.3            |
-| generate_cram_csv ( samtools )                                      | 1.17              | -           |
-| get_largest_scaff ( coreutils )                                     | 9.1              | -            |
-| getminmaxpunches ( coreutils )                                     | 9.1              | -            |
-| graphoverallcoverage ( perl )                                     | -              | 5.26.2 + 1.0            |
-| gnu-sort                                                            | 8.25              | 9.3           |
-| longreadcoveragescalelog | - | Python 3.9.1 + 1.0 |
-| minimap2 + samtools (align, map) | | 2.28-r1209 + 1.20
-| pretextmap + samtools                                               | 0.1.9 + 1.18   | 0.1.9\* + 1.20 |
-| pretextgraph                                                        |0.0.4                | 0.0.6          |
-| pretextsnapshot + UCSC                                              | 0.0.6b + 447    | 0.0.4 (official version)   |
-| rename_ids ( coreutils ) | - | 9.1 |
-| replace_dots ( coreutils ) | - | 9.1 |
-| seqtk                                                               | 1.4              | 1.4-r122            |
-| samtools (faidx,merge,sort,view)                                    | 1.18           | 1.21           |
-| ucsc                                                                | 445            | 469            |
-| windowmasker (blast)                                                | 2.14.0 + 1.0.0              | -       |
+| Module                                       | Old Version   | New Versions               |
+| -------------------------------------------- | ------------- | -------------------------- |
+| get_avcov                                    | -             | 1.0.0                      |
+| bamtobed_sort ( bedtools + samtools )        | 2.31.0 + 1.17 | 2.31.1 + 1.17              |
+| bedtools ( all modules)                      | 2.31.1        | -                          |
+| bwamem2 index                                | -             | 2.2.1                      |
+| cram_filter_align_bwamem2_fixmate_sort       | -             |                            |
+| ^ ( samtools + bwamem2 ) ^                   | 1.17 + 2.2.1  | -                          |
+| cram_filter_minimap2_filter5end_fixmate_sort | -             |                            |
+| custom_dumpsoftwareversions                  | -             | Python 3.11.7 + yaml 5.4.1 |
+| ^ ( samtools + minimap2 ) ^                  | 1.17 + 2.24   | -                          |
+| extract_cov_id ( coreutils )                 | 9.1           | 9.3                        |
+| extract_repeat ( perl )                      | 5.26.2        | -                          |
+| extract_telo ( coreutils )                   | -             | 9.1                        |
+| find_telomere_regions ( gcc )                | 7.1.0         | 7.1.0 + 1.0                |
+| find_telomere_windows ( java-jdk )           | 8.0.112       | 8.0.112 + 1.0              |
+| findhalfcoverage ( python )                  | -             | Python 3.9.1 + 1.0         |
+| gap_length ( coreutils )                     | 9.1           | -                          |
+| generate_cram_csv ( samtools )               | 1.17          | -                          |
+| get_largest_scaff ( coreutils )              | 9.1           | -                          |
+| getminmaxpunches ( coreutils )               | 9.1           | -                          |
+| graphoverallcoverage ( perl )                | -             | 5.26.2 + 1.0               |
+| gnu-sort                                     | 8.25          | 9.3                        |
+| longreadcoveragescalelog                     | -             | Python 3.9.1 + 1.0         |
+| minimap2 + samtools (align, map)             |               | 2.28-r1209 + 1.20          |
+| pretextmap + samtools                        | 0.1.9 + 1.18  | 0.1.9\* + 1.20             |
+| pretextgraph                                 | 0.0.4         | 0.0.6                      |
+| pretextsnapshot + UCSC                       | 0.0.6b + 447  | 0.0.4 (official version)   |
+| rename_ids ( coreutils )                     | -             | 9.1                        |
+| replace_dots ( coreutils )                   | -             | 9.1                        |
+| seqtk                                        | 1.4           | 1.4-r122                   |
+| samtools (faidx,merge,sort,view)             | 1.18          | 1.21                       |
+| ucsc                                         | 445           | 469                        |
+| windowmasker (blast)                         | -             | 2.14.0 + 1.0.0             |
 
 Even modules which have not had a version bump have indeed been updated through NF-core to remove defaults.
 
 Some modules now have two verions, the new addition is the script version rather than just the dependency version.
-
 
 ## [[1.0.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.0)] - UNSC Cradle - [2024-02-22]
 
