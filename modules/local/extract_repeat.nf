@@ -25,7 +25,7 @@ process EXTRACT_REPEAT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        perl: \$(echo \$(perl --version 2>&1 | grep -oP '\(\K[^\)]+')
+        perl: \$(echo \$(perl --version 2>&1) | awk '/This/ {print \$9}') | tr -d ())
         extract_repeat.pl: $VERSION
     END_VERSIONS
     """
@@ -38,7 +38,7 @@ process EXTRACT_REPEAT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        perl: \$(echo \$(perl --version 2>&1 | grep -oP '\(\K[^\)]+')
+        perl: \$(echo \$(perl --version 2>&1) | awk '/This/ {print \$9}') | tr -d ())
         extract_repeat.pl: $VERSION
     END_VERSIONS
     """
