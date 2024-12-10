@@ -49,8 +49,6 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix( GENERATE_CRAM_CSV.out.versions )
 
-    GENERATE_CRAM_CSV.out.csv.view()
-
     //
     // LOGIC: make branches for different hic aligner.
     //
@@ -98,14 +96,15 @@ workflow GENERATE_MAPS {
     //
     mergedbam
         .combine( reference_tuple )
-        .multiMap { bam_meta, bam, ref_meta, ref_fa ->
+        .combine( SAMTOOLS_FAIDX.out.fai )
+        .multiMap { bam_meta, bam, ref_meta, ref_fa, fai_meta, fai ->
             input_bam:  tuple(
                             [   id: ref_meta.id,
                                 sz: file( bam ).size()
                             ],
                             bam
                         )
-            reference:  ref_fa
+            reference:  tuple( ref_meta, ref_fa, fai )
         }
         .set { pretext_input }
 
