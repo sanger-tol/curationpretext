@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updating all modules.
 - Removing Anaconda 'defaults' channel.
 - Updating local module containers.
-- Update to LISCENSES and CITATIONS files.
+- Update to LICENSE and CITATIONS files.
 - Update algorithms at play for memory allocation, particulary minimap2.
 - Parity update to TreeVal as the mapping subworkflow is based on the treeval implementation.
 - Fixed some version output being generated incorrectly.
@@ -62,7 +62,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 
 Even modules which have not had a version bump have indeed been updated through NF-core to remove defaults.
 
-Some modules now have two verions, the new addition is the script version rather than just the dependency version.
+Some modules now have two versions, the new addition is the script version rather than just the dependency version.
 
 ## [[1.0.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.0)] - UNSC Cradle - [2024-02-22]
 
