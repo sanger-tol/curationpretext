@@ -1,5 +1,8 @@
 # ![sanger-tol/curationpretext](docs/images/curationpretext-light.png#gh-light-mode-only) ![sanger-tol/curationpretext](docs/images/curationpretext-dark.png#gh-dark-mode-only)
 
+[![GitHub Actions CI Status](https://github.com/sanger-tol/curationpretext/workflows/nf-core%20CI/badge.svg)](https://github.com/sanger-tol/curationpretext/actions?query=workflow%3A%22nf-core+CI%22)
+[![GitHub Actions Linting Status](https://github.com/sanger-tol/curationpretext/workflows/nf-core%20linting/badge.svg)](https://github.com/sanger-tol/curationpretext/actions?query=workflow%3A%22nf-core+linting%22)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.12773958-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.12773958)
+
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A522.10.1-23aa62.svg)](https://www.nextflow.io/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -111,6 +114,8 @@ sanger-tol/curationpretext was originally written by Damon-Lee B Pointon (@DLBPo
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
+- @muffato - For reviews.
+
 - @yumisims - TreeVal and Software.
 
 - @weaglesBio - TreeVal and Software.
@@ -125,8 +130,7 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  sanger-tol/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
+If you use  sanger-tol/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.12773958](https://doi.org/10.5281/zenodo.12773958)
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
