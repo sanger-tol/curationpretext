@@ -34,8 +34,8 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | cram_filter_align_bwamem2_fixmate_sort       | -             |                            |
 | ^ ( samtools + bwamem2 ) ^                   | 1.17 + 2.2.1  | -                          |
 | cram_filter_minimap2_filter5end_fixmate_sort | -             |                            |
-| custom_dumpsoftwareversions                  | -             | Python 3.11.7 + yaml 5.4.1 |
 | ^ ( samtools + minimap2 ) ^                  | 1.17 + 2.24   | -                          |
+| custom_dumpsoftwareversions                  | -             | Python 3.11.7 + yaml 5.4.1 |
 | extract_cov_id ( coreutils )                 | 9.1           | 9.3                        |
 | extract_repeat ( perl )                      | 5.26.2        | -                          |
 | extract_telo ( coreutils )                   | -             | 9.1                        |
@@ -63,6 +63,27 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 Even modules which have not had a version bump have indeed been updated through NF-core to remove defaults.
 
 Some modules now have two versions, the new addition is the script version rather than just the dependency version.
+
+## [[1.0.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.1)] - UNSC Cradle H1 - [2024-10-24]
+
+## Added
+
+- Ability for end users to select "sorted" or "unsorted" (default) for the pretext maps.
+- Adds a container for find_telomere.
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+|             | --map_order  |
+
+### Software Dependencies
+
+No updates to dependency versions
+
+### Dependencies
+
+### Deprecated
 
 ## [[1.0.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.0)] - UNSC Cradle - [2024-02-22]
 
