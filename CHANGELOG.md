@@ -73,9 +73,9 @@ Some modules now have two versions, the new addition is the script version rathe
 
 ### Paramters
 
-| Old Version | New Versions    |
-| ----------- | --------------- |
-|             | --map_order     |
+| Old Version | New Versions |
+| ----------- | ------------ |
+|             | --map_order  |
 
 ### Software Dependencies
 
@@ -84,7 +84,6 @@ No updates to dependency versions
 ### Dependencies
 
 ### Deprecated
-
 
 ## [[1.0.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.0)] - UNSC Cradle - [2024-02-22]
 
