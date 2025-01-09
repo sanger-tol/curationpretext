@@ -6,9 +6,10 @@
 # into bed format for use
 # -------------------
 # Author = yy5
+# Modified = dp24
 # -------------------
 version='1.0.0'
-if [ $1 == '-v'];
+if [ $1 == '-v' ];
 then
     echo "$version"
 else

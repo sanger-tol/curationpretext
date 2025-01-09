@@ -74,6 +74,7 @@ workflow LONGREAD_COVERAGE {
             read_tuple          : tuple( meta, reads_path   )
             ref                 : tuple( ref_meta, ref      )
             bool_bam_ouput      : bam_output
+            val_bam_index       : "bai"
             bool_cigar_paf      : cigar_paf
             bool_cigar_bam      : cigar_bam
         }
@@ -86,6 +87,7 @@ workflow LONGREAD_COVERAGE {
             minimap_input.read_tuple,
             minimap_input.ref,
             minimap_input.bool_bam_ouput,
+            minimap_input.val_bam_index,
             minimap_input.bool_cigar_paf,
             minimap_input.bool_cigar_bam
     )
@@ -118,7 +120,8 @@ workflow LONGREAD_COVERAGE {
     // MODULE: SORT MAPPED BAM
     //
     SAMTOOLS_SORT (
-        SAMTOOLS_MERGE.out.bam
+        SAMTOOLS_MERGE.out.bam,
+        [[],[]]
     )
     ch_versions         = ch_versions.mix( SAMTOOLS_SORT.out.versions )
 
@@ -181,7 +184,8 @@ workflow LONGREAD_COVERAGE {
     BEDTOOLS_GENOMECOV(
         genomecov_input.input_tuple,
         genomecov_input.dot_genome,
-        genomecov_input.file_suffix
+        genomecov_input.file_suffix,
+        false
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_GENOMECOV.out.versions )
     ch_coverage_unsorted_bed = BEDTOOLS_GENOMECOV.out.genomecov
