@@ -54,9 +54,9 @@ workflow CURATIONPRETEXT_MAPS {
     ch_versions     = Channel.empty()
 
     // sample_name     = Channel.of(params.sample)
-    input_fasta     = Channel.fromPath(params.input, checkIfExists: true)
+    input_fasta     = Channel.fromPath(params.input, checkIfExists: true, type: 'file')
     // aligner_name    = Channel.of(params.aligner)
-    cram_dir        = Channel.fromPath(params.cram, checkIfExists: true)
+    cram_dir        = Channel.fromPath(params.cram, checkIfExists: true, type: 'dir')
 
     ch_reference = input_fasta.map { fasta ->
         tuple(
