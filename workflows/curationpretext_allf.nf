@@ -56,7 +56,13 @@ workflow CURATIONPRETEXT_ALLF {
     longread        = Channel.fromPath(params.longread, checkIfExists: true)
 
     ch_reference = input_fasta.map { fasta ->
-        tuple( [ id: params.sample, aligner: params.aligner ], fasta )
+        tuple(
+            [
+                id: params.sample,
+                aligner: params.aligner,
+            ],
+            fasta
+        )
     }
     // sample_name
     //     .combine(input_fasta)
@@ -68,7 +74,12 @@ workflow CURATIONPRETEXT_ALLF {
     //     }
     //     .set { reference_tuple }
     ch_cram_reads = cram_dir.map { dir ->
-        tuple( [ id: params.sample ], dir )
+        tuple(
+            [
+                id: params.sample,
+            ],
+            dir
+        )
     }
     // sample_name
     //     .combine(cram_dir)
@@ -79,7 +90,14 @@ workflow CURATIONPRETEXT_ALLF {
     //     .set { cram_reads }
 
     ch_longread_reads = longread.map { dir ->
-        tuple( [ id: params.sample, single_end: true, read_type: params.longread_type ], dir )
+        tuple(
+            [
+                id: params.sample,
+                single_end: true,
+                read_type: params.longread_type,
+            ],
+            dir
+        )
     }
     // sample_name
     //     .combine( longread )
@@ -116,7 +134,7 @@ workflow CURATIONPRETEXT_ALLF {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_SNDRD (
-        GENERATE_MAPS.out.standrd_pretext,
+        GENERATE_MAPS.out.stand rd_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
         ACCESSORY_FILES.out.coverage_avg_bw,
