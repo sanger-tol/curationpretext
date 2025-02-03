@@ -29,7 +29,7 @@ workflow LONGREAD_COVERAGE {
     reference_tuple     // Channel: [ val(meta), path( reference_file ) ]
     reference_index     // Channel: [ val(meta), path( reference_indx ) ]
     dot_genome          // Channel: [ val(meta), [  path( datafile )  ] ]
-    reads_path          // Channel: [ val(meta),        val( str )      ]
+    reads_path          // Channel: [ val(meta),       path( str )      ]
 
     main:
     ch_versions             = Channel.empty()
@@ -37,59 +37,64 @@ workflow LONGREAD_COVERAGE {
     //
     // LOGIC: TAKE THE READ FOLDER AS INPUT AND GENERATE THE CHANNEL OF READ FILES
     //
-    ch_grabbed_reads_path   = GrabFiles( reads_path )
+    // ch_grabbed_reads_path   = GrabFiles( reads_path )
+    ch_reads_path = reads_path.flatMap { meta, dir ->
+        files(dir.resolve('*.fasta.gz'), checkIfExists: true, type: 'file' )
+            .collect{ fasta -> tuple( meta, fasta ) }
+    }
 
-    ch_grabbed_reads_path
-        .map { meta, files ->
-            tuple( files )
-        }
-        .flatten()
-        .set { ch_reads_path }
+    // ch_grabbed_reads_path
+    //     .map { meta, files ->
+    //         tuple( files )
+    //     }
+    //     .flatten()
+    //     .set { ch_reads_path }
 
     //
     // LOGIC: PREPARE FOR MINIMAP2, USING READ_TYPE AS FILTER TO DEFINE THE MAPPING METHOD, CHECK YAML_INPUT.NF
     //
-    reference_tuple
-        .combine( ch_reads_path )
-        .combine( reads_path )
-        .map { meta, ref, reads_path, read_meta, readfolder ->
-            tuple(
-                [   id          : meta.id,
-                    single_end  : read_meta.single_end,
-                    readtype    : read_meta.read_type.toString()
-                ],
-                reads_path,
-                meta,
-                ref,
-                true,
-                false,
-                false,
-                read_meta.read_type.toString()
-            )
-        }
-        .set { pre_minimap_input }
+    // reference_tuple
+    //     .combine( ch_reads_path )
+    //     // .combine( reads_path )
+    //     // .map { meta, ref, reads_path, read_meta, readfolder ->
+    //     .map { meta, ref, reads_path, read_meta ->
+    //         tuple(
+    //             [   id          : meta.id,
+    //                 single_end  : read_meta.single_end,
+    //                 readtype    : read_meta.read_type.toString()
+    //             ],
+    //             reads_path,
+    //             meta,
+    //             ref,
+    //             true,
+    //             false,
+    //             false,
+    //             read_meta.read_type.toString()
+    //         )
+    //     }
+    //     .set { pre_minimap_input }
 
-    pre_minimap_input
-        .multiMap { meta, reads_path, ref_meta, ref, bam_output, cigar_paf, cigar_bam, reads_type ->
-            read_tuple          : tuple( meta, reads_path   )
-            ref                 : tuple( ref_meta, ref      )
-            bool_bam_ouput      : bam_output
-            val_bam_index       : "bai"
-            bool_cigar_paf      : cigar_paf
-            bool_cigar_bam      : cigar_bam
-        }
-        .set { minimap_input }
+    // pre_minimap_input
+    //     .multiMap { meta, reads_path, ref_meta, ref, bam_output, cigar_paf, cigar_bam, reads_type ->
+    //         read_tuple          : tuple( meta, reads_path   )
+    //         ref                 : tuple( ref_meta, ref      )
+    //         bool_bam_ouput      : bam_output
+    //         val_bam_index       : "bai"
+    //         bool_cigar_paf      : cigar_paf
+    //         bool_cigar_bam      : cigar_bam
+    //     }
+    //     .set { minimap_input }
 
     //
     // PROCESS: MINIMAP ALIGNMENT
     //
     MINIMAP2_ALIGN (
-            minimap_input.read_tuple,
-            minimap_input.ref,
-            minimap_input.bool_bam_ouput,
-            minimap_input.val_bam_index,
-            minimap_input.bool_cigar_paf,
-            minimap_input.bool_cigar_bam
+            ch_reads_path, // minimap_input.read_tuple,
+            reference_tuple.collect(), // minimap_input.ref,
+            true,  // minimap_input.bool_bam_ouput,
+            "bai", // minimap_input.val_bam_index,
+            false, // minimap_input.bool_cigar_paf,
+            false, // minimap_input.bool_cigar_bam
     )
     ch_versions         = ch_versions.mix(MINIMAP2_ALIGN.out.versions)
     ch_bams             = MINIMAP2_ALIGN.out.bam
@@ -343,15 +348,15 @@ workflow LONGREAD_COVERAGE {
     versions            = ch_versions
 }
 
-process GrabFiles {
-    tag "${meta.id}"
-    executor 'local'
+// process GrabFiles {
+//     tag "${meta.id}"
+//     executor 'local'
 
-    input:
-    tuple val(meta), path("in")
+//     input:
+//     tuple val(meta), path("in")
 
-    output:
-    tuple val(meta), path("in/*.fasta.gz")
+//     output:
+//     tuple val(meta), path("in/*.fasta.gz")
 
-    "true"
-}
+//     "true"
+// }
