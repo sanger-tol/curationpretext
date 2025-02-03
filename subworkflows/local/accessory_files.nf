@@ -92,5 +92,5 @@ workflow ACCESSORY_FILES {
     mins_bed            = LONGREAD_COVERAGE.out.ch_minbed
     half_bed            = LONGREAD_COVERAGE.out.ch_halfbed
     maxs_bed            = LONGREAD_COVERAGE.out.ch_maxbed
-    versions            = ch_versions.ifEmpty(null)
+    versions            = ch_versions
 }
