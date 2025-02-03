@@ -97,17 +97,14 @@ workflow LONGREAD_COVERAGE {
             false, // minimap_input.bool_cigar_bam
     )
     ch_versions         = ch_versions.mix(MINIMAP2_ALIGN.out.versions)
-    ch_bams             = MINIMAP2_ALIGN.out.bam
+    // ch_bams             = MINIMAP2_ALIGN.out.bam
 
-    ch_bams
-        .map { meta, file ->
-            tuple( file )
-        }
-        .collect()
-        .map { file ->
+    MINIMAP2_ALIGN.out.bam
+        .collect{ _meta, bam -> bam }
+        .map { bams ->
             tuple (
-                [ id    : file[0].toString().split('/')[-1].split('_')[0] ], // Change sample ID
-                file
+                [ id    : bams.first().name.split('_').first() ], // Change sample ID
+                bams
             )
         }
         .set { collected_files_for_merge }
