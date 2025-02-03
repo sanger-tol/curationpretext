@@ -134,7 +134,7 @@ workflow CURATIONPRETEXT_ALLF {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_SNDRD (
-        GENERATE_MAPS.out.stand rd_pretext,
+        GENERATE_MAPS.out.standrd_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
         ACCESSORY_FILES.out.coverage_avg_bw,
