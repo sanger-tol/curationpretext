@@ -91,36 +91,42 @@ workflow GENERATE_MAPS {
     ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
     // mergedbam               = HIC_BWAMEM2.out.mergedbam
     ch_aligned_bams         = HIC_MINIMAP2.out.mergedbam.mix( HIC_BWAMEM2.out.mergedbam )
+        .map{ meta, bam ->
+            tuple(
+                meta + [ sz: bam.size() ],
+                bam
+            )
+        }
     //
     // LOGIC: PREPARING PRETEXT MAP INPUT
     //
-    ch_aligned_bams
-        .combine( reference_tuple.join( SAMTOOLS_FAIDX.out.fai ) )
-        // .combine( SAMTOOLS_FAIDX.out.fai )
-        .multiMap { bam_meta, bam, ref_meta, ref_fa, fai ->
-            input_bam:  tuple(
-                            [
-                                id: ref_meta.id,
-                                sz: file( bam ).size()
-                            ],
-                            bam
-                        )
-            reference:  tuple( ref_meta, ref_fa, fai )
-        }
-        .set { pretext_input }
+    // ch_aligned_bams
+    //     .combine( reference_tuple.join( SAMTOOLS_FAIDX.out.fai ) )
+    //     // .combine( SAMTOOLS_FAIDX.out.fai )
+    //     .multiMap { bam_meta, bam, ref_meta, ref_fa, fai ->
+    //         input_bam:  tuple(
+    //                         [
+    //                             id: ref_meta.id,
+    //                             sz: file( bam ).size()
+    //                         ],
+    //                         bam
+    //                     )
+    //         reference:  tuple( ref_meta, ref_fa, fai )
+    //     }
+    //     .set { pretext_input }
 
     //
     // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR LOW RES
     //
     PRETEXTMAP_STANDRD (
-        pretext_input.input_bam,
-        pretext_input.reference
+        ch_aligned_bams, // pretext_input.input_bam,
+        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect() // pretext_input.reference
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
     PRETEXTMAP_HIGHRES (
-        pretext_input.input_bam,
-        pretext_input.reference
+        ch_aligned_bams, // pretext_input.input_bam,
+        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect() // pretext_input.reference
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
 
