@@ -48,50 +48,57 @@ workflow CURATIONPRETEXT_ALLF {
     main:
     ch_versions = Channel.empty()
 
-    sample_name     = Channel.of(params.sample)
-    input_fasta     = Channel.of(params.input)
-    aligner_name    = Channel.of(params.aligner)
-    cram_dir        = Channel.of(params.cram)
-    longread_type   = Channel.of(params.longread_type)
-    longread        = Channel.fromPath(params.longread)
+    // sample_name     = Channel.value(params.sample)
+    input_fasta     = Channel.fromPath(params.input, checkIfExists: true)
+    // aligner_name    = Channel.value(params.aligner)
+    cram_dir        = Channel.fromPath(params.cram, checkIfExists: true)
+    // longread_type   = Channel.value(params.longread_type)
+    longread        = Channel.fromPath(params.longread, checkIfExists: true)
 
+    ch_reference = input_fasta.map { fasta ->
+        tuple( [ id: params.sample, aligner: params.aligner ], fasta )
+    }
+    // sample_name
+    //     .combine(input_fasta)
+    //     .combine(aligner_name)
+    //     .map { sample, file, align ->
+    //         tuple ( [   id:         sample,
+    //                     aligner:    align   ],
+    //                 file)
+    //     }
+    //     .set { reference_tuple }
+    ch_cram_reads = cram_dir.map { dir ->
+        tuple( [ id: params.sample ], dir )
+    }
+    // sample_name
+    //     .combine(cram_dir)
+    //     .map { sample, cram ->
+    //         tuple ( [   id:         sample  ],
+    //                 cram)
+    //     }
+    //     .set { cram_reads }
 
-    sample_name
-        .combine(input_fasta)
-        .combine(aligner_name)
-        .map { sample, file, align ->
-            tuple ( [   id:         sample,
-                        aligner:    align   ],
-                    file)
-        }
-        .set { reference_tuple }
-
-    sample_name
-        .combine(cram_dir)
-        .map { sample, cram ->
-            tuple ( [   id:         sample  ],
-                    cram)
-        }
-        .set { cram_reads }
-
-    sample_name
-        .combine( longread )
-        .combine( longread_type )
-        .map{ name, reads, type ->
-            tuple ( [   id:         name,
-                        single_end: true,
-                        read_type:  type  ],
-                    reads
-            )
-        }
-        .set{ longread_reads }
+    ch_longread_reads = longread.map { dir ->
+        tuple( [ id: params.sample, single_end: true, read_type: params.longread_type ], dir )
+    }
+    // sample_name
+    //     .combine( longread )
+    //     .combine( longread_type )
+    //     .map{ name, reads, type ->
+    //         tuple ( [   id:         name,
+    //                     single_end: true,
+    //                     read_type:  type  ],
+    //                 reads
+    //         )
+    //     }
+    //     .set{ longread_reads }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
     ACCESSORY_FILES (
-        reference_tuple,
-        longread_reads
+        ch_reference,
+        ch_longread_reads
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
@@ -99,8 +106,8 @@ workflow CURATIONPRETEXT_ALLF {
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //
     GENERATE_MAPS (
-        reference_tuple,
-        cram_reads
+        ch_reference,
+        ch_cram_reads
     )
     ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
 
