@@ -85,5 +85,5 @@ workflow HIC_BWAMEM2 {
 
     emit:
     mergedbam               = SAMTOOLS_MERGE.out.bam
-    versions                = ch_versions.ifEmpty(null)
+    versions                = ch_versions
 }

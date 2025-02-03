@@ -135,6 +135,6 @@ workflow GENERATE_MAPS {
     standrd_pretext         = PRETEXTMAP_STANDRD.out.pretext
     standrd_snpshot         = SNAPSHOT_SRES.out.image
     highres_pretext         = PRETEXTMAP_HIGHRES.out.pretext
-    versions                = ch_versions.ifEmpty(null)
+    versions                = ch_versions
 
 }
