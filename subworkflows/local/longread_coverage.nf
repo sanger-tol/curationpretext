@@ -130,29 +130,29 @@ workflow LONGREAD_COVERAGE {
     //
     // LOGIC: PREPARING MERGE INPUT WITH REFERENCE GENOME AND REFERENCE INDEX
     //
-    SAMTOOLS_SORT.out.bam
-        .combine( reference_tuple )
-        .multiMap { meta, bam, ref_meta, ref ->
-                bam_input       :   tuple(
-                                        [   id          : meta.id,
-                                            sz          : bam.size(),
-                                            single_end  : true  ],
-                                        bam,
-                                        []   // As we aren't using an index file here
-                                    )
-                ref_input       :   tuple(
-                                        ref_meta,
-                                        ref
-                                    )
-        }
-        .set { view_input }
+    // SAMTOOLS_SORT.out.bam
+    //     .combine( reference_tuple )
+    //     .multiMap { meta, bam, ref_meta, ref ->
+    //             bam_input       :   tuple(
+    //                                     [   id          : meta.id,
+    //                                         sz          : bam.size(),
+    //                                         single_end  : true  ],
+    //                                     bam,
+    //                                     []   // As we aren't using an index file here
+    //                                 )
+    //             ref_input       :   tuple(
+    //                                     ref_meta,
+    //                                     ref
+    //                                 )
+    //     }
+    //     .set { view_input }
 
     //
     // MODULE: EXTRACT READS FOR PRIMARY ASSEMBLY
     //
     SAMTOOLS_VIEW_FILTER_PRIMARY(
-        view_input.bam_input,
-        view_input.ref_input,
+        SAMTOOLS_SORT.out.bam.map { meta, bam -> tuple( meta + [sz: bam.size(), single_end: true], bam, [] ) }, // view_input.bam_input,
+        reference_tuple.collect(), // view_input.ref_input,
         []
     )
     ch_versions         = ch_versions.mix(SAMTOOLS_VIEW_FILTER_PRIMARY.out.versions)
@@ -215,7 +215,7 @@ workflow LONGREAD_COVERAGE {
         GETMINMAXPUNCHES.out.max
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_MERGE_MAX.out.versions )
-    ch_maxbed           = BEDTOOLS_MERGE_MAX.out.bed
+    // ch_maxbed           = BEDTOOLS_MERGE_MAX.out.bed
 
     //
     // MODULE: MERGE MIN DEPTH FILES
@@ -232,7 +232,7 @@ workflow LONGREAD_COVERAGE {
         GNU_SORT.out.sorted
     )
     ch_versions         = ch_versions.mix( GRAPHOVERALLCOVERAGE.out.versions )
-    ch_depthgraph       = GRAPHOVERALLCOVERAGE.out.part
+    // ch_depthgraph       = GRAPHOVERALLCOVERAGE.out.part
 
     //
     // LOGIC: PREPARING FINDHALFCOVERAGE INPUT
