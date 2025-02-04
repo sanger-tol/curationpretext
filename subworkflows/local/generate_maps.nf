@@ -72,7 +72,7 @@ workflow GENERATE_MAPS {
     // SUBWORKFLOW: mapping hic reads using minimap2
     //
     HIC_MINIMAP2 (
-        reference_tuple.filter{ meta, _fasta -> meta.aligner == 'minimap2' }.collect(),
+        reference_tuple.filter{ meta, _fasta -> meta.aligner == 'minimap2' },
         GENERATE_CRAM_CSV.out.csv,
         SAMTOOLS_FAIDX.out.fai
     )
@@ -83,7 +83,7 @@ workflow GENERATE_MAPS {
     // SUBWORKFLOW: mapping hic reads using bwamem2
     //
     HIC_BWAMEM2 (
-        reference_tuple.filter{ meta, _fasta -> meta.aligner == 'bwamem2' }.collect(),
+        reference_tuple.filter{ meta, _fasta -> meta.aligner == 'bwamem2' },
         GENERATE_CRAM_CSV.out.csv,
         SAMTOOLS_FAIDX.out.fai,
         BWAMEM2_INDEX.out.index

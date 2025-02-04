@@ -7,7 +7,9 @@ process CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT {
         'biocontainers/mulled-v2-1a6fe65bd6674daba65066aa796ed8f5e8b4687b:688e175eb0db54de17822ba7810cc9e20fa06dd5-0' }"
 
     input:
-    tuple val(meta), path(cramfile), path(cramindex), val(from), val(to), val(base), val(chunkid), val(rglines), val(bwaprefix), path(reference)
+    tuple val(meta), path(cramfile), path(cramindex), val(from), val(to), val(base), val(chunkid), val(rglines)
+    tuple val(meta2), path(bwa_index_dir)
+    // path(reference)
 
     output:
     tuple val(meta), path("*.bam"), emit: mappedbam
@@ -23,6 +25,7 @@ process CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT {
     def args3 = task.ext.args3 ?: ''
     def args4 = task.ext.args4 ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def bwaprefix = bwa_index_dir.listFiles().head().baseName
     // Please be aware one of the tools here required mem = 28 * reference size!!!
     """
     cram_filter -n ${from}-${to} ${cramfile} - | \\
