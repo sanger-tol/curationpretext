@@ -178,18 +178,15 @@
                 "pretext_CurationPretextTest_gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "zerodepth.bed:md5,eb0d0b05b3961a93e67d03df14d4d751"
             ],
-            [
-                "CurationPretextTest_hr.pretext:md5,fd73478f220ad7d3df69bfebcfc4a8a1",
-                "CurationPretextTest_normal.pretext:md5,c1d73bbb64f348ed78f76c0f6d367125"
-            ],
-            [
-                "CurationPretextTest_normalFullMap.png:md5,29344b2a124500039eea7088fd1c9e1a"
-            ]
+            2,
+            true,
+            true,
+            true
         ],
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "24.04.2"
         },
-        "timestamp": "2025-02-05T12:07:35.720616"
+        "timestamp": "2025-02-05T17:19:22.820717"
     }
 }

@@ -10,14 +10,6 @@ nextflow_pipeline {
 
         when {
             params {
-                input = "/home/runner/work/curationpretext/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa"
-                cram = "/home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/hic-arima/"
-                longread = "/home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/pacbio/"
-                longread_type = "hifi"
-                sample = "CurationPretextTest"
-                teloseq = "TTAGGG"
-                aligner = "bwamem2"
-                map_order = "unsorted"
                 outdir = "${outputDir}"
             }
         }
@@ -30,6 +22,7 @@ nextflow_pipeline {
             def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.png'])
 
             def accessories = getAllFilesFromDir(params.outdir, include: ['accessory_files/*'])
+
             assertAll(
                 {assert workflow.success},
                 {assert snapshot(
@@ -41,19 +34,24 @@ nextflow_pipeline {
                     // Stable name with relative path
                     stable_name,
 
-                    // Comented out as it would include the pipeline_info files
-                    //stable_path
-
-                    // All files with stable contents
+                    // Accessory files
                     accessories,
 
                     // The two pretext files
                     // Presence of files indicated presence of the raw_pretexts
-                    pretext_files,
+                    // we expect this to be a list of two files
+                    // we can't use their md5sum as they will be different everytime
+                    // Then double check that there are two
+                    // one is a hr and the other a normal variant
 
-                    // The one png file
-                    pretext_png
-                ).match()}
+                    pretext_files.size(),
+                    pretext_files.any{it.toString().contains("_hr.pretext".toString())},
+                    pretext_files.any{it.toString().contains("_normal.pretext".toString())},
+
+                    // The one png file - like the maps, it will be slightly different
+                    pretext_png.any{it.toString().contains("CurationPretextTest_normalFullMap.png".toString())}
+
+                ).match()},
             )
         }
     }
