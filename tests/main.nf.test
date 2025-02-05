@@ -2,14 +2,17 @@ nextflow_pipeline {
 
     name "Test Workflow main.nf"
     script "main.nf"
+    tag "pipeline"
+    tag "pipeline_sanger_tol"
+    tag "full"
 
     test("Full run") {
 
         when {
             params {
-                input = "/nfs/treeoflife-01/teams/tola/users/dp24/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa"
-                cram = "/nfs/treeoflife-01/teams/tola/users/dp24/curationpretext/TreeValTinyData/genomic_data/hic-arima/"
-                longread = "/nfs/treeoflife-01/teams/tola/users/dp24/curationpretext/TreeValTinyData/genomic_data/pacbio/"
+                input = "./TreeValTinyData/assembly/draft/grTriPseu1.fa"
+                cram = "./TreeValTinyData/genomic_data/hic-arima/"
+                longread = "./TreeValTinyData/genomic_data/pacbio/"
                 longread_type = "hifi"
                 sample = "CurationPretextTest"
                 teloseq = "TTAGGG"
