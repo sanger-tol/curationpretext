@@ -10,9 +10,9 @@ nextflow_pipeline {
 
         when {
             params {
-                input = "./TreeValTinyData/assembly/draft/grTriPseu1.fa"
-                cram = "./TreeValTinyData/genomic_data/hic-arima/"
-                longread = "./TreeValTinyData/genomic_data/pacbio/"
+                input = "/home/runner/work/curationpretext/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa"
+                cram = "/home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/hic-arima/"
+                longread = "/home/runner/work/curationpretext/curationpretext/TreeValTinyData/genomic_data/pacbio/"
                 longread_type = "hifi"
                 sample = "CurationPretextTest"
                 teloseq = "TTAGGG"
