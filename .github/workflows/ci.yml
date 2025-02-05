@@ -28,7 +28,7 @@ jobs:
         NXF_VER:
           - "22.10.1"
           - "latest-everything"
-        PROFILE: ["docker"]
+        profile: ["docker"]
 
     steps:
       - name: Check out pipeline code
