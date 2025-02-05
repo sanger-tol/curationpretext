@@ -24,11 +24,11 @@ jobs:
     if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'sanger-tol/curationpretext') }}"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         NXF_VER:
           - "22.10.1"
           - "latest-everything"
-        profile: ["docker"]
 
     steps:
       - name: Check out pipeline code
@@ -51,7 +51,7 @@ jobs:
       - name: Run nf-test
         run: |
           nf-test test \
-            --profile="+${{ matrix.profile }}" \
+            --profile="docker" \
             --debug \
             --verbose
 
