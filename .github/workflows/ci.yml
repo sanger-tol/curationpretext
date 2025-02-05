@@ -44,7 +44,6 @@ jobs:
         run: |
           curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
 
-
       - name: Install nf-test
         uses: nf-core/setup-nf-test@v1
 
