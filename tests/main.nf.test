@@ -1,0 +1,57 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+
+    test("Full run") {
+
+        when {
+            params {
+                input = "/nfs/treeoflife-01/teams/tola/users/dp24/curationpretext/TreeValTinyData/assembly/draft/grTriPseu1.fa"
+                cram = "/nfs/treeoflife-01/teams/tola/users/dp24/curationpretext/TreeValTinyData/genomic_data/hic-arima/"
+                longread = "/nfs/treeoflife-01/teams/tola/users/dp24/curationpretext/TreeValTinyData/genomic_data/pacbio/"
+                longread_type = "hifi"
+                sample = "CurationPretextTest"
+                teloseq = "TTAGGG"
+                aligner = "bwamem2"
+                map_order = "unsorted"
+                outdir = "${outputDir}"
+            }
+        }
+
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ["pipeline_info/*.{html,json,txt}"])
+
+            def pretext_files = getAllFilesFromDir(params.outdir, include: ['pretext_maps_processed/*.pretext'])
+
+            def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.png'])
+
+            def accessories = getAllFilesFromDir(params.outdir, include: ['accessory_files/*'])
+            assertAll(
+                {assert workflow.success},
+                {assert snapshot(
+                    // Test for number of successful processes - should be 29 for a full run
+                    workflow.trace.succeeded().size(),
+
+                    removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+
+                    // Stable name with relative path
+                    stable_name,
+
+                    // Comented out as it would include the pipeline_info files
+                    //stable_path
+
+                    // All files with stable contents
+                    accessories,
+
+                    // The two pretext files
+                    // Presence of files indicated presence of the raw_pretexts
+                    pretext_files,
+
+                    // The one png file
+                    pretext_png
+                ).match()}
+            )
+        }
+    }
+}

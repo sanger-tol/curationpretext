@@ -31,10 +31,11 @@ process GETMINMAXPUNCHES{
     /$
 
     stub:
+
     def VERSION = "9.1"  // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch max.bed
-    touch min.bed
+    touch zero.bed
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
