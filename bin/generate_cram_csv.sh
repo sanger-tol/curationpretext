@@ -80,7 +80,7 @@ cram_path=$1
 chunkn=0
 outcsv=$2
 
-# Loop through each CRAM file in the specified directory. cram cannot be the synlinked cram
+# Loop through each CRAM file in the specified directory. cram cannot be the symlinked cram
 for cram in ${cram_path}/*.cram; do
     realcram=$(readlink -f $cram)
     chunkn=$(process_cram_file $realcram $chunkn $outcsv)
