@@ -48,7 +48,7 @@ workflow HIC_BWAMEM2 {
     // MODULE: map hic reads by 10,000 container per time using bwamem2
     //
     CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT (
-        csv_ch.splitCsv().flatten(), // ch_filtering_input
+        csv_ch.splitCsv().map{ tuple -> tuple.flatten() }, // ch_filtering_input
         bwa_index.collect()
     )
     ch_versions             = ch_versions.mix( CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.versions )
