@@ -25,12 +25,12 @@ process CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT {
     def args3 = task.ext.args3 ?: ''
     def args4 = task.ext.args4 ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def bwaprefix = bwa_index_dir.listFiles().head().baseName
     // Please be aware one of the tools here required mem = 28 * reference size!!!
     """
+    BWAPREFIX=( $bwa_index_dir/*.ann )
     cram_filter -n ${from}-${to} ${cramfile} - | \\
         samtools fastq ${args1} | \\
-        bwa-mem2 mem -p ${bwaprefix} -t${task.cpus} -5SPCp -H'${rglines}' - | \\
+        bwa-mem2 mem -p \${BWAPREFIX/%.ann/} -t${task.cpus} -5SPCp -H'${rglines}' - | \\
         samtools fixmate ${args3} - - | \\
         samtools sort ${args4} -@${task.cpus} -T ${base}_${chunkid}_sort_tmp -o ${prefix}_${base}_${chunkid}_mem.bam -
 
