@@ -14,7 +14,7 @@ chunk_cram() {
     local outcsv=$3
     realcram=$(readlink -f ${cram})
     realcrai=$(readlink -f ${cram}.crai)
-    local rgline=$(samtools view -H "${realcram}" | grep "@RG" | sed 's/\t/\\t/g' | sed "s/'//g")
+    local rgline=$(samtools view -H "${realcram}" | grep "@RG" | sed 's/\t/\\t/g' |  tr -d "',")
     local ncontainers=$(zcat "${realcrai}" | wc -l)
     local base=$(basename "${realcram}" .cram)
     local from=0
