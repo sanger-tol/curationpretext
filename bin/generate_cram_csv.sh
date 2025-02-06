@@ -14,16 +14,17 @@ chunk_cram() {
     local outcsv=$3
     realcram=$(readlink -f ${cram})
     realcrai=$(readlink -f ${cram}.crai)
-    local rgline=$(samtools view -H "${realcram}" | grep "@RG" | sed 's/\t/\\t/g' |  tr -d "',")
-    local ncontainers=$(zcat "${realcrai}" | wc -l)
-    local base=$(basename "${realcram}" .cram)
-    local from=0
-    local to=10000
 
     if [ ! -f "$realcrai" ]; then
         echo "Error: $readcrai does not exist" >&2
         exit 1
     fi
+
+    local rgline=$(samtools view -H "${realcram}" | grep "@RG" | sed 's/\t/\\t/g' |  tr -d "',")
+    local ncontainers=$(zcat "${realcrai}" | wc -l)
+    local base=$(basename "${realcram}" .cram)
+    local from=0
+    local to=10000
 
     while [ $to -lt $ncontainers ]; do
         echo "${realcram},${realcrai},${from},${to},${base},${chunkn},${rgline}" >> $outcsv
