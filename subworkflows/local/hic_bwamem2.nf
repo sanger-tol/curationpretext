@@ -58,18 +58,27 @@ workflow HIC_BWAMEM2 {
     // LOGIC: PREPARING BAMS FOR MERGE
     //
     mappedbam_ch
-        .map{ meta, file ->
-            tuple( file )
-        }
-        .collect()
-        .map { file ->
+        .collect { _meta, file -> file }
+        .map { files ->
             tuple (
                 [
-                id: file[0].toString().split('/')[-1].split('_')[0] + '_' + file[0].toString().split('/')[-1].split('_')[1]
+                    id: files.head().name.split('_')[0,1].join('_')
                 ],
-                file
+                files
             )
         }
+        // .map{ meta, file ->
+        //     tuple( file )
+        // }
+        // .collect()
+        // .map { file ->
+        //     tuple (
+        //         [
+        //         id: file[0].toString().split('/')[-1].split('_')[0] + '_' + file[0].toString().split('/')[-1].split('_')[1]
+        //         ],
+        //         file
+        //     )
+        // }
         .set { collected_files_for_merge }
 
     //
