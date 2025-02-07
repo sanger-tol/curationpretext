@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         NXF_VER:
-          - "23.10.0"
+          - "24.04.0"
           - "latest-everything"
 
     steps:
