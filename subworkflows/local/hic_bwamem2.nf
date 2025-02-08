@@ -58,15 +58,8 @@ workflow HIC_BWAMEM2 {
     // LOGIC: PREPARING BAMS FOR MERGE
     //
     mappedbam_ch
-        .collect { _meta, file -> file }
-        .map { files ->
-            tuple (
-                [
-                    id: files.head().name.split('_')[0,1].join('_')
-                ],
-                files
-            )
-        }
+        .map { meta, mbam -> tuple( meta.subMap('id'), mbam ) } // Is this necessary?
+        .groupTuple()
         // .map{ meta, file ->
         //     tuple( file )
         // }
