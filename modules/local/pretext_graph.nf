@@ -10,7 +10,7 @@ process PRETEXT_GRAPH {
     }
 
     input:
-    tuple val(meta),    path(pretext_file,      stageAs: 'pretext.pretext')
+    tuple val(meta),    path(pretext_file,      stageAs: 'pretext.pretext.input')
     tuple val(gap),     path(gap_file,          stageAs: 'gap.bed')
     tuple val(cov),     path(coverage,          stageAs: 'coverage.bigWig')
     tuple val(log),     path(log_coverage,      stageAs: 'log_cov.bigWig')

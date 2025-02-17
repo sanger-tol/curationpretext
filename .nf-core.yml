@@ -7,6 +7,7 @@ lint:
     - docs/images/nf-core-curationpretext_logo_dark.png
   files_unchanged:
     - .github/workflows/linting.yml
+    - .github/workflows/linting_comment.yml
     - LICENSE
     - .github/CONTRIBUTING.md
     - docs/README.md
