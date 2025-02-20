@@ -2,7 +2,7 @@ process PRETEXT_GRAPH {
     tag "$meta.id"
     label 'process_single'
 
-    container "quay.io/sanger-tol/pretext:0.0.3-yy5-c1"
+    container "quay.io/sanger-tol/pretext:0.0.2-yy5-c4"
 
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
@@ -10,7 +10,7 @@ process PRETEXT_GRAPH {
     }
 
     input:
-    tuple val(meta),    path(pretext_file,      stageAs: 'pretext.pretext')
+    tuple val(meta),    path(pretext_file,      stageAs: 'pretext.pretext.input')
     tuple val(gap),     path(gap_file,          stageAs: 'gap.bed')
     tuple val(cov),     path(coverage,          stageAs: 'coverage.bigWig')
     tuple val(log),     path(log_coverage,      stageAs: 'log_cov.bigWig')

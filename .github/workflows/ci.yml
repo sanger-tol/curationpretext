@@ -24,10 +24,12 @@ jobs:
     if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'sanger-tol/curationpretext') }}"
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         NXF_VER:
-          - "22.10.1"
+          - "24.04.0"
           - "latest-everything"
+
     steps:
       - name: Check out pipeline code
         uses: actions/checkout@v4
@@ -42,7 +44,18 @@ jobs:
         run: |
           curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
 
-      - name: Run ALL_FILES pipeline with test data
-        # Remember that you can parallelise this by using strategy.matrix
+      - name: Install nf-test
+        uses: nf-core/setup-nf-test@v1
+
+      # Test the component
+      - name: Run nf-test
         run: |
-          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
+          nf-test test \
+            --profile="docker" \
+            --debug \
+            --verbose
+
+      # - name: Run ALL_FILES pipeline with test data
+      #   # Remember that you can parallelise this by using strategy.matrix
+      #   run: |
+      #     nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
