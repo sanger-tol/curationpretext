@@ -46,5 +46,5 @@ workflow TELO_FINDER {
     emit:
     bedgraph_file   = EXTRACT_TELO.out.bed
     bedgraph_file   = EXTRACT_TELO.out.bedgraph
-    versions        = ch_versions.ifEmpty(null)
+    versions        = ch_versions
 }

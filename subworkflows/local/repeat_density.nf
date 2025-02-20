@@ -137,5 +137,5 @@ workflow REPEAT_DENSITY {
 
     emit:
     repeat_density      = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
-    versions            = ch_versions.ifEmpty(null)
+    versions            = ch_versions
 }
