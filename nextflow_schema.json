@@ -59,7 +59,7 @@
                     "description": "Aligner for use {minimap2, bwamem2} in generating map",
                     "help_text": "Pick between {minimap2, bwamem2}. Defaults to 'minimap2'",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["bwamem2","minimap2"]
+                    "enum": ["bwamem2", "minimap2"]
                 },
                 "outdir": {
                     "type": "string",
