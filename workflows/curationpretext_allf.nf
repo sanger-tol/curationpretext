@@ -60,6 +60,7 @@ workflow CURATIONPRETEXT_ALLF {
             [
                 id: params.sample,
                 aligner: params.aligner,
+                ref_size: fasta.size(),
             ],
             fasta
         )

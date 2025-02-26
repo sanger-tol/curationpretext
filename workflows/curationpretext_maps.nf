@@ -63,6 +63,7 @@ workflow CURATIONPRETEXT_MAPS {
             [
                 id: params.sample,
                 aligner: params.aligner,
+                ref_size: fasta.size(),
             ],
             fasta
         )
