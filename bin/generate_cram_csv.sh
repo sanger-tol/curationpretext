@@ -16,7 +16,7 @@ chunk_cram() {
     realcrai=$(readlink -f ${cram}.crai)
 
     if [ ! -f "$realcrai" ]; then
-        echo "Error: $readcrai does not exist" >&2
+        echo "Error: $realcrai does not exist" >&2
         exit 1
     fi
 
