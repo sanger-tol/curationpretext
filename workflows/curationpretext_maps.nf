@@ -53,9 +53,7 @@ workflow CURATIONPRETEXT_MAPS {
     main:
     ch_versions     = Channel.empty()
 
-    // sample_name     = Channel.of(params.sample)
     input_fasta     = Channel.fromPath(params.input, checkIfExists: true, type: 'file')
-    // aligner_name    = Channel.of(params.aligner)
     cram_dir        = Channel.fromPath(params.cram, checkIfExists: true, type: 'dir')
 
     ch_reference = input_fasta.map { fasta ->
@@ -68,16 +66,6 @@ workflow CURATIONPRETEXT_MAPS {
             fasta
         )
     }
-    // sample_name
-    //     .combine(input_fasta)
-    //     .combine(aligner_name)
-    //     .map { sample, file, align ->
-    //         tuple ( [   id:         sample,
-    //                     aligner:    align   ],
-    //                 file)
-    //     }
-    //     .set { reference_tuple }
-
     ch_cram_reads = cram_dir.map { dir ->
         tuple(
             [
@@ -86,13 +74,6 @@ workflow CURATIONPRETEXT_MAPS {
             dir
         )
     }
-    // sample_name
-    //     .combine(cram_dir)
-    //     .map { sample, cram ->
-    //         tuple ( [   id:         sample  ],
-    //                 cram)
-    //     }
-    //     .set { cram_reads }
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES

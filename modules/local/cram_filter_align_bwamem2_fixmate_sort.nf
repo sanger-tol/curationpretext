@@ -9,7 +9,6 @@ process CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT {
     input:
     tuple val(meta), path(cramfile), path(cramindex), val(from), val(to), val(base), val(chunkid), val(rglines)
     tuple val(meta2), path(bwa_index_dir)
-    // path(reference)
 
     output:
     tuple val(meta), path("*.bam"), emit: mappedbam

@@ -23,32 +23,11 @@ workflow HIC_BWAMEM2 {
     ch_versions             = Channel.empty()
     mappedbam_ch            = Channel.empty()
 
-    // csv_ch
-    //     .splitCsv() // tuple ( [meta], [cram, crai, from, to, basename, chunkid, rglines ])
-    //     .combine ( reference_tuple )
-    //     .combine ( bwa_index )
-    //     .map{ cram_id, cram_info, ref_id, ref_dir, bwa_id, bwa_path ->
-    //         tuple([
-    //                 id: cram_id.id
-    //                 ],
-    //             file(cram_info[0]),
-    //             cram_info[1],
-    //             cram_info[2],
-    //             cram_info[3],
-    //             cram_info[4],
-    //             cram_info[5],
-    //             cram_info[6],
-    //             bwa_path.toString() + '/' + ref_dir.toString().split('/')[-1],
-    //             ref_dir
-    //         )
-    // }
-    // .set { ch_filtering_input }
-
     //
     // MODULE: map hic reads by 10,000 container per time using bwamem2
     //
     CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT (
-        csv_ch.splitCsv().map{ tuple -> tuple.flatten() }, // ch_filtering_input
+        csv_ch.splitCsv().map{ tuple -> tuple.flatten() },
         bwa_index.collect()
     )
     ch_versions             = ch_versions.mix( CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT.out.versions )
@@ -58,20 +37,8 @@ workflow HIC_BWAMEM2 {
     // LOGIC: PREPARING BAMS FOR MERGE
     //
     mappedbam_ch
-        .map { meta, mbam -> tuple( meta.subMap('id'), mbam ) } // Is this necessary?
+        .map { meta, mbam -> tuple( meta.subMap('id'), mbam ) } // Is the submap necessary?
         .groupTuple()
-        // .map{ meta, file ->
-        //     tuple( file )
-        // }
-        // .collect()
-        // .map { file ->
-        //     tuple (
-        //         [
-        //         id: file[0].toString().split('/')[-1].split('_')[0] + '_' + file[0].toString().split('/')[-1].split('_')[1]
-        //         ],
-        //         file
-        //     )
-        // }
         .set { collected_files_for_merge }
 
     //

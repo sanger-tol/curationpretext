@@ -37,67 +37,23 @@ workflow LONGREAD_COVERAGE {
     //
     // LOGIC: TAKE THE READ FOLDER AS INPUT AND GENERATE THE CHANNEL OF READ FILES
     //
-    // ch_grabbed_reads_path   = GrabFiles( reads_path )
     ch_reads_path = reads_path.flatMap { meta, dir ->
         files(dir.resolve('*.fasta.gz'), checkIfExists: true, type: 'file' )
             .collect{ fasta -> tuple( meta, fasta ) }
     }
 
-    // ch_grabbed_reads_path
-    //     .map { meta, files ->
-    //         tuple( files )
-    //     }
-    //     .flatten()
-    //     .set { ch_reads_path }
-
-    //
-    // LOGIC: PREPARE FOR MINIMAP2, USING READ_TYPE AS FILTER TO DEFINE THE MAPPING METHOD, CHECK YAML_INPUT.NF
-    //
-    // reference_tuple
-    //     .combine( ch_reads_path )
-    //     // .combine( reads_path )
-    //     // .map { meta, ref, reads_path, read_meta, readfolder ->
-    //     .map { meta, ref, reads_path, read_meta ->
-    //         tuple(
-    //             [   id          : meta.id,
-    //                 single_end  : read_meta.single_end,
-    //                 readtype    : read_meta.read_type.toString()
-    //             ],
-    //             reads_path,
-    //             meta,
-    //             ref,
-    //             true,
-    //             false,
-    //             false,
-    //             read_meta.read_type.toString()
-    //         )
-    //     }
-    //     .set { pre_minimap_input }
-
-    // pre_minimap_input
-    //     .multiMap { meta, reads_path, ref_meta, ref, bam_output, cigar_paf, cigar_bam, reads_type ->
-    //         read_tuple          : tuple( meta, reads_path   )
-    //         ref                 : tuple( ref_meta, ref      )
-    //         bool_bam_ouput      : bam_output
-    //         val_bam_index       : "bai"
-    //         bool_cigar_paf      : cigar_paf
-    //         bool_cigar_bam      : cigar_bam
-    //     }
-    //     .set { minimap_input }
-
     //
     // PROCESS: MINIMAP ALIGNMENT
     //
     MINIMAP2_ALIGN (
-            ch_reads_path, // minimap_input.read_tuple,
-            reference_tuple.collect(), // minimap_input.ref,
-            true,  // minimap_input.bool_bam_ouput,
-            "bai", // minimap_input.val_bam_index,
-            false, // minimap_input.bool_cigar_paf,
-            false, // minimap_input.bool_cigar_bam
+            ch_reads_path,
+            reference_tuple.collect(),
+            true,
+            "bai",
+            false,
+            false,
     )
     ch_versions         = ch_versions.mix(MINIMAP2_ALIGN.out.versions)
-    // ch_bams             = MINIMAP2_ALIGN.out.bam
 
     MINIMAP2_ALIGN.out.bam
         .collect{ _meta, bam -> bam }
@@ -128,31 +84,11 @@ workflow LONGREAD_COVERAGE {
     ch_versions         = ch_versions.mix( SAMTOOLS_SORT.out.versions )
 
     //
-    // LOGIC: PREPARING MERGE INPUT WITH REFERENCE GENOME AND REFERENCE INDEX
-    //
-    // SAMTOOLS_SORT.out.bam
-    //     .combine( reference_tuple )
-    //     .multiMap { meta, bam, ref_meta, ref ->
-    //             bam_input       :   tuple(
-    //                                     [   id          : meta.id,
-    //                                         sz          : bam.size(),
-    //                                         single_end  : true  ],
-    //                                     bam,
-    //                                     []   // As we aren't using an index file here
-    //                                 )
-    //             ref_input       :   tuple(
-    //                                     ref_meta,
-    //                                     ref
-    //                                 )
-    //     }
-    //     .set { view_input }
-
-    //
     // MODULE: EXTRACT READS FOR PRIMARY ASSEMBLY
     //
     SAMTOOLS_VIEW_FILTER_PRIMARY(
-        SAMTOOLS_SORT.out.bam.map { meta, bam -> tuple( meta + [sz: bam.size(), single_end: true], bam, [] ) }, // view_input.bam_input,
-        reference_tuple.collect(), // view_input.ref_input,
+        SAMTOOLS_SORT.out.bam.map { meta, bam -> tuple( meta + [sz: bam.size(), single_end: true], bam, [] ) },
+        reference_tuple.collect(),
         []
     )
     ch_versions         = ch_versions.mix(SAMTOOLS_VIEW_FILTER_PRIMARY.out.versions)
@@ -215,7 +151,6 @@ workflow LONGREAD_COVERAGE {
         GETMINMAXPUNCHES.out.max
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_MERGE_MAX.out.versions )
-    // ch_maxbed           = BEDTOOLS_MERGE_MAX.out.bed
 
     //
     // MODULE: MERGE MIN DEPTH FILES
@@ -232,7 +167,6 @@ workflow LONGREAD_COVERAGE {
         GNU_SORT.out.sorted
     )
     ch_versions         = ch_versions.mix( GRAPHOVERALLCOVERAGE.out.versions )
-    // ch_depthgraph       = GRAPHOVERALLCOVERAGE.out.part
 
     //
     // LOGIC: PREPARING FINDHALFCOVERAGE INPUT
@@ -344,16 +278,3 @@ workflow LONGREAD_COVERAGE {
     ch_bigwig_avg       = BED2BW_AVGCOV.out.bigwig
     versions            = ch_versions
 }
-
-// process GrabFiles {
-//     tag "${meta.id}"
-//     executor 'local'
-
-//     input:
-//     tuple val(meta), path("in")
-
-//     output:
-//     tuple val(meta), path("in/*.fasta.gz")
-
-//     "true"
-// }

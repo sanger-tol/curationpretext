@@ -50,25 +50,6 @@ workflow GENERATE_MAPS {
     ch_versions         = ch_versions.mix( GENERATE_CRAM_CSV.out.versions )
 
     //
-    // LOGIC: make branches for different hic aligner.
-    //
-    // hic_reads_path
-    //     .combine( reference_tuple )
-    //     .map{ meta, hic_read_path, ref_meta, ref ->
-    //         tuple( // This is just the ref tuple
-    //             [   id:         ref_meta.id,
-    //                 aligner:    ref_meta.aligner
-    //             ],
-    //             ref
-    //         )
-    //     }
-    //     .branch {
-    //         minimap2:           it[0].aligner == "minimap2"
-    //         bwamem2:            it[0].aligner == "bwamem2"
-    //     }
-    //     .set{ ch_aligner }
-
-    //
     // SUBWORKFLOW: mapping hic reads using minimap2
     //
     HIC_MINIMAP2 (
@@ -77,7 +58,6 @@ workflow GENERATE_MAPS {
         SAMTOOLS_FAIDX.out.fai
     )
     ch_versions             = ch_versions.mix( HIC_MINIMAP2.out.versions )
-    // mergedbam               = HIC_MINIMAP2.out.mergedbam
 
     //
     // SUBWORKFLOW: mapping hic reads using bwamem2
@@ -89,7 +69,6 @@ workflow GENERATE_MAPS {
         BWAMEM2_INDEX.out.index
     )
     ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
-    // mergedbam               = HIC_BWAMEM2.out.mergedbam
     ch_aligned_bams         = HIC_MINIMAP2.out.mergedbam.mix( HIC_BWAMEM2.out.mergedbam )
         .map{ meta, bam ->
             tuple(
@@ -97,36 +76,19 @@ workflow GENERATE_MAPS {
                 bam
             )
         }
-    //
-    // LOGIC: PREPARING PRETEXT MAP INPUT
-    //
-    // ch_aligned_bams
-    //     .combine( reference_tuple.join( SAMTOOLS_FAIDX.out.fai ) )
-    //     // .combine( SAMTOOLS_FAIDX.out.fai )
-    //     .multiMap { bam_meta, bam, ref_meta, ref_fa, fai ->
-    //         input_bam:  tuple(
-    //                         [
-    //                             id: ref_meta.id,
-    //                             sz: file( bam ).size()
-    //                         ],
-    //                         bam
-    //                     )
-    //         reference:  tuple( ref_meta, ref_fa, fai )
-    //     }
-    //     .set { pretext_input }
 
     //
     // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR LOW RES
     //
     PRETEXTMAP_STANDRD (
-        ch_aligned_bams, // pretext_input.input_bam,
-        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect() // pretext_input.reference
+        ch_aligned_bams,
+        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect()
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
     PRETEXTMAP_HIGHRES (
-        ch_aligned_bams, // pretext_input.input_bam,
-        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect() // pretext_input.reference
+        ch_aligned_bams,
+        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect()
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
 

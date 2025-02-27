@@ -48,11 +48,8 @@ workflow CURATIONPRETEXT_ALLF {
     main:
     ch_versions = Channel.empty()
 
-    // sample_name     = Channel.value(params.sample)
     input_fasta     = Channel.fromPath(params.input, checkIfExists: true, type: 'file')
-    // aligner_name    = Channel.value(params.aligner)
     cram_dir        = Channel.fromPath(params.cram, checkIfExists: true, type: 'dir')
-    // longread_type   = Channel.value(params.longread_type)
     longread        = Channel.fromPath(params.longread, checkIfExists: true, type: 'dir')
 
     ch_reference = input_fasta.map { fasta ->
@@ -65,15 +62,6 @@ workflow CURATIONPRETEXT_ALLF {
             fasta
         )
     }
-    // sample_name
-    //     .combine(input_fasta)
-    //     .combine(aligner_name)
-    //     .map { sample, file, align ->
-    //         tuple ( [   id:         sample,
-    //                     aligner:    align   ],
-    //                 file)
-    //     }
-    //     .set { reference_tuple }
     ch_cram_reads = cram_dir.map { dir ->
         tuple(
             [
@@ -82,14 +70,6 @@ workflow CURATIONPRETEXT_ALLF {
             dir
         )
     }
-    // sample_name
-    //     .combine(cram_dir)
-    //     .map { sample, cram ->
-    //         tuple ( [   id:         sample  ],
-    //                 cram)
-    //     }
-    //     .set { cram_reads }
-
     ch_longread_reads = longread.map { dir ->
         tuple(
             [
@@ -100,17 +80,6 @@ workflow CURATIONPRETEXT_ALLF {
             dir
         )
     }
-    // sample_name
-    //     .combine( longread )
-    //     .combine( longread_type )
-    //     .map{ name, reads, type ->
-    //         tuple ( [   id:         name,
-    //                     single_end: true,
-    //                     read_type:  type  ],
-    //                 reads
-    //         )
-    //     }
-    //     .set{ longread_reads }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
