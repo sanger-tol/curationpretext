@@ -22,7 +22,6 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | ------------ | ----------- | ------------ |
 | pretextgraph | 0.0.6       | 0.0.8-c1     |
 
-
 ## [[1.1.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.1)] - UNSC Delphi (H1) - [2025-02-18]
 
 ### Added
