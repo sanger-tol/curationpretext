@@ -57,7 +57,7 @@ process_cram_file() {
         for rg in $read_groups; do
             echo "SPLITTING OUT READ GROUP $rg" | tee -a '.command.log'
             local output_cram="$(basename "${cram%.cram}")_output_${rg}.cram"
-            samtools view -@2 -h -r "$rg" -o "$output_cram" "$cram"
+            samtools view -h -r "$rg" -o "$output_cram" "$cram"
             samtools index "$output_cram"
             chunkn=$(chunk_cram "$output_cram" "$chunkn" "$outcsv")
         done
