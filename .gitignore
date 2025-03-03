@@ -1,8 +1,20 @@
+# Nextflow files
 .nextflow*
 work/
+
+# Pipeline files
 data/
 results/
+
+# nf-test files
+.nf-test.log
+.nf-test/
+
+# misc
 .DS_Store
+
+# Testing
 testing/
 testing*
 *.pyc
+TreeValTinyData/

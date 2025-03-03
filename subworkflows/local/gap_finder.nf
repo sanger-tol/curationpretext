@@ -33,5 +33,5 @@ workflow GAP_FINDER {
 
     emit:
     gap_file        = GAP_LENGTH.out.bed
-    versions        = ch_versions.ifEmpty(null)
+    versions        = ch_versions
 }

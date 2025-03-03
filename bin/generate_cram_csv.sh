@@ -14,12 +14,17 @@ chunk_cram() {
     local outcsv=$3
     realcram=$(readlink -f ${cram})
     realcrai=$(readlink -f ${cram}.crai)
-    local rgline=$(samtools view -H "${realcram}" | grep "@RG" | sed 's/\t/\\t/g' | sed "s/'//g")
+
+    if [ ! -f "$realcrai" ]; then
+        echo "Error: $realcrai does not exist" >&2
+        exit 1
+    fi
+
+    local rgline=$(samtools view -H "${realcram}" | grep "@RG" | sed 's/\t/\\t/g' |  tr -d "',")
     local ncontainers=$(zcat "${realcrai}" | wc -l)
     local base=$(basename "${realcram}" .cram)
     local from=0
     local to=10000
-
 
     while [ $to -lt $ncontainers ]; do
         echo "${realcram},${realcrai},${from},${to},${base},${chunkn},${rgline}" >> $outcsv
@@ -42,7 +47,7 @@ process_cram_file() {
     local chunkn=$2
     local outcsv=$3
 
-    local read_groups=$(samtools view -H "$cram" | grep '@RG' | awk '{for(i=1;i<=NF;i++){if($i ~ /^ID:/){print substr($i,4)}}}')
+    local read_groups=$(samtools samples -T ID "$cram" | cut -f1)
     local num_read_groups=$(echo "$read_groups" | wc -w)
 
     if [ "$num_read_groups" -gt 1 ]; then
@@ -75,7 +80,7 @@ cram_path=$1
 chunkn=0
 outcsv=$2
 
-# Loop through each CRAM file in the specified directory. cram cannot be the synlinked cram
+# Loop through each CRAM file in the specified directory. cram cannot be the symlinked cram
 for cram in ${cram_path}/*.cram; do
     realcram=$(readlink -f $cram)
     chunkn=$(process_cram_file $realcram $chunkn $outcsv)

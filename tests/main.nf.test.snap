@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            50,
+            49,
             {
                 "AVGCOV": {
                     "get_avgcov": "1.0.0"
