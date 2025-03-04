@@ -30,7 +30,7 @@
                 "longread_type": {
                     "type": "string",
                     "description": "Type of longread data",
-                    "help_text": "Choose between {'hifi', 'illumina', 'ont'}",
+                    "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
                     "fa_icon": "fas fa-folder-open",
                     "enum": ["hifi", "clr", "ont", "illumina"]
                 },
