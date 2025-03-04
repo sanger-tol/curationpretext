@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            49,
+            48,
             {
                 "AVGCOV": {
                     "get_avgcov": "1.0.0"
@@ -110,7 +110,8 @@
                     "samtools": "1.21"
                 },
                 "PRETEXT_GRAPH": {
-                    "PretextGraph": "0.0.6",
+                    "PretextGraph": "0.0.8",
+                    "PretextMap": "0.1.9",
                     "bigWigToBedGraph": "447"
                 },
                 "RENAME_IDS": {
@@ -147,7 +148,7 @@
                     "windowmasker": "1.0.0"
                 },
                 "Workflow": {
-                    "sanger-tol/curationpretext": "1.1.1"
+                    "sanger-tol/curationpretext": "1.2.0"
                 }
             },
             [
@@ -187,6 +188,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2025-02-19T12:55:20.99246"
+        "timestamp": "2025-03-03T14:43:12.498323"
     }
 }

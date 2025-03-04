@@ -30,8 +30,9 @@
                 "longread_type": {
                     "type": "string",
                     "description": "Type of longread data",
-                    "help_text": "Choose between {'hifi', 'illumina', 'ont'}",
-                    "fa_icon": "fas fa-folder-open"
+                    "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
+                    "fa_icon": "fas fa-folder-open",
+                    "enum": ["hifi", "clr", "ont", "illumina"]
                 },
                 "cram": {
                     "type": "string",
@@ -50,13 +51,15 @@
                     "type": "string",
                     "description": "HiC map scaffold order. Default to unsorted",
                     "help_text": "How you want to display your hic map, sorted by length?",
-                    "fa_icon": "fas fa-file-signature"
+                    "fa_icon": "fas fa-file-signature",
+                    "enum": ["length", "unsorted"]
                 },
                 "aligner": {
                     "type": "string",
                     "description": "Aligner for use {minimap2, bwamem2} in generating map",
                     "help_text": "Pick between {minimap2, bwamem2}. Defaults to 'minimap2'",
-                    "fa_icon": "fas fa-file-signature"
+                    "fa_icon": "fas fa-file-signature",
+                    "enum": ["bwamem2", "minimap2"]
                 },
                 "outdir": {
                     "type": "string",

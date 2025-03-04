@@ -3,7 +3,26 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [[1.1.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.1)] - UNSC Delphi (H1)- [2025-02-18]
+## [[1.2.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.2.0)] - UNSC Spirit-of-Fire - [2025-02-28]
+
+### Added
+
+- Updated pretext graph (bug fix version).
+- Updated pretext module as the tool now offers version output.
+- Enums have been added to the schema to protect against invalid values for some fields.
+- Docker run options have been updated to run as User - @mahesh-panchal
+- Pipeline code has been trimmed and made more concise - @mahesh-panchal
+- Pipeline file and folder searching has been made more robust - @mahesh-panchal
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module       | Old Version | New Versions |
+| ------------ | ----------- | ------------ |
+| pretextgraph | 0.0.6       | 0.0.8-c1     |
+
+## [[1.1.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.1)] - UNSC Delphi (H1) - [2025-02-18]
 
 ### Added
 

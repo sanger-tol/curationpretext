@@ -33,6 +33,7 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
 
+
     //
     // MODULE: Indexing on reference output the folder of indexing files
     //
@@ -41,6 +42,7 @@ workflow GENERATE_MAPS {
     )
     ch_versions         = ch_versions.mix( BWAMEM2_INDEX.out.versions )
 
+
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
     //
@@ -48,6 +50,7 @@ workflow GENERATE_MAPS {
         hic_reads_path
     )
     ch_versions         = ch_versions.mix( GENERATE_CRAM_CSV.out.versions )
+
 
     //
     // SUBWORKFLOW: mapping hic reads using minimap2
@@ -59,6 +62,7 @@ workflow GENERATE_MAPS {
     )
     ch_versions             = ch_versions.mix( HIC_MINIMAP2.out.versions )
 
+
     //
     // SUBWORKFLOW: mapping hic reads using bwamem2
     //
@@ -69,6 +73,8 @@ workflow GENERATE_MAPS {
         BWAMEM2_INDEX.out.index
     )
     ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
+
+
     ch_aligned_bams         = HIC_MINIMAP2.out.mergedbam.mix( HIC_BWAMEM2.out.mergedbam )
         .map{ meta, bam ->
             tuple(
@@ -76,6 +82,7 @@ workflow GENERATE_MAPS {
                 bam
             )
         }
+
 
     //
     // MODULE: GENERATE PRETEXT MAP FROM MAPPED BAM FOR LOW RES
@@ -91,6 +98,7 @@ workflow GENERATE_MAPS {
         reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect()
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
+
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT

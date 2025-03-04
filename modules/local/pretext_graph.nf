@@ -2,7 +2,7 @@ process PRETEXT_GRAPH {
     tag "$meta.id"
     label 'process_single'
 
-    container "quay.io/sanger-tol/pretext:0.0.2-yy5-c4"
+    container "quay.io/sanger-tol/pretext:0.0.8-yy5-c1"
 
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
@@ -28,7 +28,6 @@ process PRETEXT_GRAPH {
     script:
     def args         = task.ext.args ?: ''
     def prefix       = task.ext.prefix ?: "${meta.id}"
-    def PRXT_VERSION = '0.0.6'
     def UCSC_VERSION = '447' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
 
     """
@@ -61,21 +60,22 @@ process PRETEXT_GRAPH {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        PretextGraph: ${PRXT_VERSION}
+        PretextGraph: \$(PretextGraph | grep "Version" | sed 's/Pretext.* Version //;')
+        PretextMap: \$(PretextMap | grep "Version" | sed 's/Pretext.* Version//;')
         bigWigToBedGraph: ${UCSC_VERSION}
     END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def PRXT_VERSION = '0.0.6'
     def UCSC_VERSION = '448' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch ${prefix}.pretext
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        PretextGraph: ${PRXT_VERSION}
+        PretextGraph: \$(PretextGraph | grep "Version" | sed 's/Pretext.* Version //;')
+        PretextMap: \$(PretextMap | grep "Version" | sed 's/Pretext.* Version//;')
         bigWigToBedGraph: ${UCSC_VERSION}
     END_VERSIONS
     """

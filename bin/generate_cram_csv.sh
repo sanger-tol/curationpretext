@@ -37,8 +37,6 @@ chunk_cram() {
         echo "${realcram},${realcrai},${from},${ncontainers},${base},${chunkn},${rgline}" >> $outcsv
         ((chunkn++))
     fi
-
-    echo $chunkn
 }
 
 # Function to process a CRAM file
@@ -50,9 +48,14 @@ process_cram_file() {
     local read_groups=$(samtools samples -T ID "$cram" | cut -f1)
     local num_read_groups=$(echo "$read_groups" | wc -w)
 
+    echo "READ GROUPS FOUND IN $cram :$: $num_read_groups" | tee -a '.command.log'
+    echo "READ GROUPS FOUND :$: $read_groups" | tee -a '.command.log'
+
+
     if [ "$num_read_groups" -gt 1 ]; then
         # Multiple read groups: process each separately
         for rg in $read_groups; do
+            echo "SPLITTING OUT READ GROUP $rg" | tee -a '.command.log'
             local output_cram="$(basename "${cram%.cram}")_output_${rg}.cram"
             samtools view -h -r "$rg" -o "$output_cram" "$cram"
             samtools index "$output_cram"
@@ -63,7 +66,7 @@ process_cram_file() {
         chunkn=$(chunk_cram "$cram" "$chunkn" "$outcsv")
     fi
 
-    echo $chunkn
+    echo "DATA :$: $chunkn"
 }
 
 #  /\_/\        /\_/\
