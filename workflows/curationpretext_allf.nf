@@ -50,7 +50,7 @@ workflow CURATIONPRETEXT_ALLF {
 
     input_fasta     = Channel.fromPath(params.input, checkIfExists: true, type: 'file')
     cram_dir        = Channel.fromPath(params.cram, checkIfExists: true, type: 'dir')
-    longread        = Channel.fromPath(params.longread, checkIfExists: true, type: 'dir')
+    longread        = Channel.fromPath(params.reads, checkIfExists: true, type: 'dir')
 
     ch_reference = input_fasta.map { fasta ->
         tuple(
@@ -75,7 +75,7 @@ workflow CURATIONPRETEXT_ALLF {
             [
                 id: params.sample,
                 single_end: true,
-                read_type: params.longread_type,
+                read_type: params.read_type,
             ],
             dir
         )
