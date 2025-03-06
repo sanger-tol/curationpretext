@@ -14,8 +14,7 @@
 
 This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. This pipeline can be simply used to generate pretext maps, information on how to run this pipeline can be found in the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage).
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
+![Workflow Diagram](./assets/CurationPretext.png)
 
 1. Generate Maps - Generates pretext maps as well as a static image.
 
@@ -34,11 +33,11 @@ Currently, the pipeline uses the following flags:
 
   - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
-- `--longread`
+- `--reads`
 
   - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
 
-- `--longread_type`
+- `--read_type`
 
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
 
@@ -70,8 +69,8 @@ Now, you can run the pipeline using:
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
-  --longread_type { default is "hifi" }
+  --reads { path/to/longread/fasta/ } \
+  --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
@@ -86,8 +85,8 @@ nextflow run sanger-tol/curationpretext \
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
-  --longread_type { default is "hifi" }
+  --reads { path/to/longread/fasta/ } \
+  --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
@@ -121,6 +120,8 @@ We thank the following people for their extensive assistance in the development 
 - @weaglesBio - TreeVal and Software.
 
 - @josieparis - Help with better docs and testing.
+
+- @mahesh-panchal - Large support with 1.2.0 in making the pipeline more robust with other HPC environments.
 
 ## Contributions and Support
 
