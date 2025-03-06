@@ -27,7 +27,6 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 ### Paramters
 
 | Old Version | New Versions |
-| - | --map_order |
 | --longread_type | --read_type |
 | --longread | --reads |
 
