@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docker run options have been updated to run as User - @mahesh-panchal
 - Pipeline code has been trimmed and made more concise - @mahesh-panchal
 - Pipeline file and folder searching has been made more robust - @mahesh-panchal
+- Renamed the longread parameters to read parameters.
+- By request, cleanup is enabled by default.
 
 ### Software Dependencies
 
@@ -21,6 +23,12 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | Module       | Old Version | New Versions |
 | ------------ | ----------- | ------------ |
 | pretextgraph | 0.0.6       | 0.0.8-c1     |
+
+### Paramters
+
+| Old Version | New Versions |
+| --longread_type | --read_type |
+| --longread | --reads |
 
 ## [[1.1.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.1)] - UNSC Delphi (H1) - [2025-02-18]
 

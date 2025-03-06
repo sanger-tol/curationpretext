@@ -10,7 +10,7 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 WorkflowCurationpretext.initialise(params, log)
 
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.longread, params.cram, params.input ]
+def checkPathParamList = [ params.reads, params.cram, params.input ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
@@ -50,7 +50,6 @@ workflow CURATIONPRETEXT_ALLF {
 
     input_fasta     = Channel.fromPath(params.input, checkIfExists: true, type: 'file')
     cram_dir        = Channel.fromPath(params.cram, checkIfExists: true, type: 'dir')
-    longread        = Channel.fromPath(params.longread, checkIfExists: true, type: 'dir')
 
     ch_reference = input_fasta.map { fasta ->
         tuple(
@@ -70,23 +69,27 @@ workflow CURATIONPRETEXT_ALLF {
             dir
         )
     }
-    ch_longread_reads = longread.map { dir ->
-        tuple(
-            [
-                id: params.sample,
-                single_end: true,
-                read_type: params.longread_type,
-            ],
-            dir
-        )
-    }
+    ch_reads = Channel
+                            .fromPath(
+                                params.reads, checkIfExists: true, type: 'dir'
+                            )
+                            .map { dir ->
+                                tuple(
+                                    [
+                                        id: params.sample,
+                                        single_end: true,
+                                        read_type: params.read_type,
+                                    ],
+                                    dir
+                                )
+                            }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
     ACCESSORY_FILES (
         ch_reference,
-        ch_longread_reads
+        ch_reads
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 

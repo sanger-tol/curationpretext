@@ -33,11 +33,11 @@ Currently, the pipeline uses the following flags:
 
   - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
-- `--longread`
+- `--reads`
 
   - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
 
-- `--longread_type`
+- `--read_type`
 
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
 
@@ -69,8 +69,8 @@ Now, you can run the pipeline using:
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
-  --longread_type { default is "hifi" }
+  --reads { path/to/longread/fasta/ } \
+  --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
@@ -85,8 +85,8 @@ nextflow run sanger-tol/curationpretext \
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
-  --longread_type { default is "hifi" }
+  --reads { path/to/longread/fasta/ } \
+  --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \

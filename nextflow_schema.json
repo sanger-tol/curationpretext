@@ -20,14 +20,14 @@
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-file-fasta"
                 },
-                "longread": {
+                "reads": {
                     "type": "string",
                     "format": "directory-path",
                     "description": "Input longread fasta directory",
                     "help_text": "You need the input fasta file directory",
                     "fa_icon": "fas fa-folder-open"
                 },
-                "longread_type": {
+                "read_type": {
                     "type": "string",
                     "description": "Type of longread data",
                     "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
