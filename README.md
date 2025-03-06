@@ -69,7 +69,7 @@ Now, you can run the pipeline using:
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
+  --reads { path/to/longread/fasta/ } \
   --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
@@ -85,7 +85,7 @@ nextflow run sanger-tol/curationpretext \
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/longread/fasta/ } \
+  --reads { path/to/longread/fasta/ } \
   --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
