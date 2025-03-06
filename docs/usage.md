@@ -14,9 +14,9 @@ The `--input` should be `.fasta` or `.fa` (the same format but differing suffix)
 
 The `--cram` should point to the folder containing `.cram` files along with a `.crai` per `.cram`.
 
-The `--longread` should point to the folder containing `.fasta.gz` files.
+The `--reads` should point to the folder containing `.fasta.gz` files.
 
-The `--longread_type` should be the data type of your data, e.g, ont, illumina, hifi.
+The `--read_type` should be the data type of your data, e.g, ont, illumina, hifi.
 
 The `--aligner` should be the prefered aligner for analysis, e.g, bwamem2 or minimap2.
 
@@ -158,8 +158,8 @@ The typical command for running the pipeline is as follows:
 nextflow run sanger-tol/curationpretext \
   --input { input.fasta } \
   --cram { path/to/cram/ } \
-  --longread { path/to/pacbio/fasta/ } \
-  --longread_type { default is "hifi" }
+  --reads { path/to/pacbio/fasta/ } \
+  --read_type { default is "hifi" }
   --sample { default is "pretext_rerun" } \
   --teloseq { deafault is "TTAGGG" } \
   --outdir { OUTDIR } \
@@ -197,7 +197,7 @@ input: "./samplesheet.csv"
 outdir: "./results/"
 teloseq: "GRCh37"
 sample: "data"
-longread: "longread_path"
+reads: "longread_path"
 cram: "cram_path"
 ```
 
