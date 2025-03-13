@@ -1,6 +1,6 @@
 process GETMINMAXPUNCHES{
     tag "${meta.id}"
-    label 'process_single'
+    label "process_single"
 
     conda "conda-forge::coreutils=9.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -15,30 +15,30 @@ process GETMINMAXPUNCHES{
     tuple val(meta), path ( '*max.bed' )    , optional: true    , emit: max
     path "versions.yml"                     , emit: versions
 
-    when:
-    task.ext.when == null || task.ext.when
-
-    shell:
+    script:
+    def MINXMAX_VERSION = "2.0"
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    $/
-    cat "${bedfile}" \
-    | awk '{ if ($4 == 0) {print $0 >> "zero.bed" } else if ($4 > 1000) {print $0 >> "max.bed"}}'
+    """
+    cat "${bedfile}" \\
+    | awk '{ if (\$4 == 0) {print \$0 >> "zero.bed" } else if (\$4 > 1000) {print \$0 >> "max.bed"}}'
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
+        getminmaxpunches: $MINXMAX_VERSION
         coreutils: $VERSION
     END_VERSIONS
-    /$
+    """
 
     stub:
-
+    def MINXMAX_VERSION = "2.0"
     def VERSION = "9.1"  // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch max.bed
-    touch zero.bed
+    touch min.bed
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
+        getminmaxpunches: $MINXMAX_VERSION
         coreutils: $VERSION
     END_VERSIONS
     """
