@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[1.2.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.2.0)] - UNSC Spirit-of-Fire (H1) - [2025-02-28]
 
 ### Added
+
 - `all_output` flag which, by default, will only output the post-processed pretext files
 
 ### Paramters
