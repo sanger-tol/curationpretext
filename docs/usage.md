@@ -170,7 +170,7 @@ nextflow run sanger-tol/curationpretext \
 
 Above arguments surrounded with `{}` are user-defined values, those in `<>` are choices made between the shown values.
 
-By default the `all_output` flag is set to false, this means that *ONLY* post-ingestion pretext maps are output from the pipeline. Removing the output files which may not be used by the end user. Changing this to `--all_output true` will once again output all files.
+By default the `all_output` flag is set to false, this means that _ONLY_ post-ingestion pretext maps are output from the pipeline. Removing the output files which may not be used by the end user. Changing this to `--all_output true` will once again output all files.
 
 Note that the pipeline will create the following files in your working directory:
 
