@@ -11,6 +11,7 @@ nextflow_pipeline {
         when {
             params {
                 outdir = "${outputDir}"
+                all_files = true
             }
         }
 
