@@ -20,7 +20,7 @@ The `--read_type` should be the data type of your data, e.g, ont, illumina, hifi
 
 The `--aligner` should be the prefered aligner for analysis, e.g, bwamem2 or minimap2.
 
-The `--teloseq` should be the expected telomeric sequence in your sample
+The `--teloseq` should be the expected telomeric sequence in your sample.
 
 If you do not have these file formats we have also included instructions on converting from common formats to our preferred format.
 If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
@@ -163,11 +163,14 @@ nextflow run sanger-tol/curationpretext \
   --sample { default is "pretext_rerun" } \
   --teloseq { deafault is "TTAGGG" } \
   --outdir { OUTDIR } \
+  --all_output <true/false> \
   -profile <docker/singularity/{institute}> \
   -entry MAPS_ONLY # This line is opnly needed for the truncated pipeline, FULL runs do not need this line at all.
 ```
 
 Above arguments surrounded with `{}` are user-defined values, those in `<>` are choices made between the shown values.
+
+By default the `all_output` flag is set to false, this means that *ONLY* post-ingestion pretext maps are output from the pipeline. Removing the output files which may not be used by the end user. Changing this to `--all_output true` will once again output all files.
 
 Note that the pipeline will create the following files in your working directory:
 
@@ -199,6 +202,7 @@ teloseq: "GRCh37"
 sample: "data"
 reads: "longread_path"
 cram: "cram_path"
+all_output: boolean
 ```
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
