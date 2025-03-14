@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated modules.config to reflect all the above changes.
 - Updated nextflow.config to cleanup by default -- previously this was added as a profile.
 - We no longer use the avg or log coverage tracks, processes related to these have been removed.
+- Shell blocks have been replaced with script blocks.
 
 ### Paramters
 
