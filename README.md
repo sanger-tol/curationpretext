@@ -74,6 +74,7 @@ nextflow run sanger-tol/curationpretext \
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
+  --all_output <true/false> \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>
 
@@ -90,6 +91,7 @@ nextflow run sanger-tol/curationpretext \
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
+  --all_output <true/false> \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}> \
   -entry MAPS_ONLY \
@@ -122,6 +124,8 @@ We thank the following people for their extensive assistance in the development 
 - @josieparis - Help with better docs and testing.
 
 - @mahesh-panchal - Large support with 1.2.0 in making the pipeline more robust with other HPC environments.
+
+- @GRIT - For feedback and feature requests.
 
 ## Contributions and Support
 

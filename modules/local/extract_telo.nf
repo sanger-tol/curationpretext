@@ -8,31 +8,31 @@ process EXTRACT_TELO {
     'docker.io/ubuntu:20.04' }"
 
     input:
-    tuple val(meta), path(file)
+    tuple val( meta ), path( file )
 
     output:
     tuple val( meta ), file( "*bed" )   , emit: bed
-    path("*bedgraph")                   , emit: bedgraph
+    tuple val( meta ), file("*bedgraph"), emit: bedgraph
     path "versions.yml"                 , emit: versions
 
-    when:
-    task.ext.when == null || task.ext.when
-
-    shell:
+    script:
     def prefix  = task.ext.prefix ?: "${meta.id}"
+    def ETELO_VERSION = "2.0"
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    $/
-    cat "${file}" |awk '{print $2"\t"$4"\t"$5}'|sed 's/>//g' > ${prefix}_telomere.bed
-    cat "${file}" |awk '{print $2"\t"$4"\t"$5"\t"$6}'|sed 's/>//g' > ${prefix}_telomere.bedgraph
+    """
+    cat "${file}" | awk '{print \$2"\\t"\$4"\\t"\$5}' | sed 's/>//g' > ${prefix}_telomere.bed
+    cat "${file}" | awk '{print \$2"\\t"\$4"\\t"\$5"\\t"(((\$5-\$4)<0)?-(\$5-\$4):(\$5-\$4))}' | sed 's/>//g' > ${prefix}_telomere.bedgraph
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
+        extract_telomere: $ETELO_VERSION
         coreutils: $VERSION
     END_VERSIONS
-    /$
+    """
 
     stub:
     def prefix  = task.ext.prefix ?: "${meta.id}"
+    def ETELO_VERSION = "2.0"
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch ${prefix}_telomere.bed
@@ -40,6 +40,7 @@ process EXTRACT_TELO {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
+        extract_telomere: $ETELO_VERSION
         coreutils: $VERSION
     END_VERSIONS
     """

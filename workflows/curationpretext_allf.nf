@@ -21,9 +21,8 @@ for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true
 
 include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
 include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
-include { PRETEXT_INGESTION as PRETEXT_INGEST_SNDRD } from '../subworkflows/local/pretext_ingestion'
-include { PRETEXT_INGESTION as PRETEXT_INGEST_HIRES } from '../subworkflows/local/pretext_ingestion'
-
+include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext_graph'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext_graph'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,6 +83,7 @@ workflow CURATIONPRETEXT_ALLF {
                                 )
                             }
 
+
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
@@ -92,6 +92,7 @@ workflow CURATIONPRETEXT_ALLF {
         ch_reads
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
+
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
@@ -102,6 +103,7 @@ workflow CURATIONPRETEXT_ALLF {
     )
     ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
 
+
     //
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
     //          - ADAPTED FROM TREEVAL
@@ -110,12 +112,11 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.standrd_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
-        ACCESSORY_FILES.out.coverage_avg_bw,
-        ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
     )
     ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+
 
     //
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
@@ -125,12 +126,11 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.highres_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
-        ACCESSORY_FILES.out.coverage_avg_bw,
-        ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
     )
     ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+
 
     //
     // SUBWORKFLOW: Collates version data from prior subworflows
