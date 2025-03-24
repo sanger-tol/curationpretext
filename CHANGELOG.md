@@ -8,8 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `all_output` flag which, by default, will only output the post-processed pretext files.
-- Deleted the PRETEXT*INGESTION*\* subworkflow, replaced with a direct call to the PRETEXT_GRAPH module.
+- Deleted the PRETEXT\*INGESTION\* subworkflow, replaced with a direct call to the PRETEXT_GRAPH module.
 - Updated PRETEXT_GRAPH for better logic and to match the same update to TreeVal.
+  - Inputs to pretext graph are now optional/conditional depedning on runs from previous steps.
 - Updated NF_TEST config to ignore modules and subworkflows.
 - Updated modules.config to reflect all the above changes.
 - Updated nextflow.config to cleanup by default -- previously this was added as a profile.
