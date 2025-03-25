@@ -56,13 +56,7 @@ Currently, the pipeline uses the following flags:
 
   - A telomeric sequence, e.g., `TTAGGG`
 
-- `-entry`
-  - ALL_FILES is the default and generates all accessory files as well as pretext maps
-  - MAPS_ONLY generates only the pretext maps and static images
-
 Now, you can run the pipeline using:
-
-#### For ALL_FILES run
 
 ```bash
 nextflow run sanger-tol/curationpretext \
@@ -77,23 +71,6 @@ nextflow run sanger-tol/curationpretext \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>
 
-```
-
-#### For MAPS_ONLY run
-
-```bash
-nextflow run sanger-tol/curationpretext \
-  --input { input.fasta } \
-  --cram { path/to/cram/ } \
-  --reads { path/to/longread/fasta/ } \
-  --read_type { default is "hifi" }
-  --sample { default is "pretext_rerun" } \
-  --teloseq { default is "TTAGGG" } \
-  --map_order { default is "unsorted" } \
-  --all_output <true/false> \
-  --outdir { OUTDIR } \
-  -profile <docker/singularity/{institute}> \
-  -entry MAPS_ONLY \
 ```
 
 > **Warning:**
