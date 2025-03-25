@@ -125,7 +125,7 @@ workflow CURATIONPRETEXT_ALLF {
     softwareVersionsToYAML(ch_versions)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",
-            name: 'nf_core_'  +  'curationpretext_software_'  + 'mqc_'  + 'versions.yml',
+            name: 'sanger-tol_'  +  'curationpretext_software_' + 'versions.yml',
             sort: true,
             newLine: true
         ).set { ch_collated_versions }
