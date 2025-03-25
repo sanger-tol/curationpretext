@@ -1,4 +1,3 @@
-repository_type: pipeline
 lint:
   files_exist:
     - assets/multiqc_config.yml
@@ -16,8 +15,18 @@ lint:
     - .github/workflows/branch.yml
     - assets/email_template.txt
     - assets/sendmail_template.txt
-    - lib/NfcoreTemplate.groovy
     - .prettierignore
   nextflow_config:
     - manifest.name
     - manifest.homePage
+nf_core_version: 3.2.0
+repository_type: pipeline
+template:
+  author: Damon-Lee B Pointon (@DLBPointon)
+  description: A simple pipeline to generate pretext files for genomic curation.
+  force: false
+  is_nfcore: true
+  name: curationpretext
+  org: nf-core
+  outdir: .
+  version: 1.2.0

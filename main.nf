@@ -9,7 +9,17 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+include { CURATIONPRETEXT_ALLF } from './workflows/curationpretext_allf'
+//include { CURATIONPRETEXT_MAPS } from './workflows/curationpretext_maps'
+include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
+include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
+include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,52 +27,94 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-params.input = WorkflowMain.getGenomeAttribute(params, 'input')
+// TODO nf-core: Remove this line if you don't need a FASTA file
+//   This is an example of how to use getGenomeAttribute() to fetch parameters
+//   from igenomes.config using `--genome`
+params.input = getGenomeAttribute('input')
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    VALIDATE & PRINT PARAMETER SUMMARY
+    NAMED WORKFLOWS FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-WorkflowMain.initialise(workflow, params, log)
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOW FOR PIPELINE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-include { CURATIONPRETEXT_ALLF } from './workflows/curationpretext_allf'
-include { CURATIONPRETEXT_MAPS } from './workflows/curationpretext_maps'
 
 //
 // WORKFLOW: Run main sanger-tol/curationpretext analysis pipeline
 //
-workflow SANGERTOL_CURATIONPRETEXT_ALL_FILES {
-    CURATIONPRETEXT_ALLF ()
-}
+workflow SANGER_TOL_CURATIONPRETEXT {
+    take:
+    input_fasta
+    reads
+    cram
+    sample
+    teloseq
+    aligner
+    read_type
+    map_order
 
-workflow SANGERTOL_CURATIONPRETEXT_MAPS {
-    CURATIONPRETEXT_MAPS ()
+    main:
+    CURATIONPRETEXT_ALLF (
+        input_fasta,
+        reads,
+        cram,
+        sample,
+        teloseq,
+        aligner,
+        read_type,
+        map_order
+    )
+    // CURATIONPRETEXT_MAPS
 }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RUN ALL WORKFLOWS
+    RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// WORKFLOW: Execute a single named workflow for the pipeline
-// See: https://github.com/nf-core/rnaseq/issues/619
-//
 workflow {
-    SANGERTOL_CURATIONPRETEXT_ALL_FILES ()
-}
 
-workflow MAPS_ONLY {
-    SANGERTOL_CURATIONPRETEXT_MAPS ()
+    //
+    // SUBWORKFLOW: Run initialisation tasks
+    //
+    PIPELINE_INITIALISATION (
+        params.version,
+        params.validate_params,
+        params.monochrome_logs,
+        args,
+        params.outdir,
+        []                      // We are not using the samplesheet for this pipeline
+    )
+
+    // Should channel formation go here instead of in the workflow?
+
+    //
+    // WORFKLOW: Run main sanger-tol/curationpretext analysis pipeline
+    //
+    SANGER_TOL_CURATIONPRETEXT (
+        params.input,
+        params.reads,
+        params.cram,
+        params.sample,
+        params.teloseq,
+        params.aligner,
+        params.read_type,
+        params.map_order
+    )
+
+    //
+    // SUBWORKFLOW: Run completion tasks
+    //
+    PIPELINE_COMPLETION (
+        params.email,
+        params.email_on_fail,
+        params.plaintext_email,
+        params.outdir,
+        params.monochrome_logs,
+        params.hook_url,
+        []                      // We are not using MultiQC for this pipeline
+    )
 }
 
 /*
