@@ -4,7 +4,11 @@ lint:
     - assets/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_dark.png
+  multiqc_config:
+    - assets/multiqc_config.yml
   files_unchanged:
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
     - .github/workflows/linting.yml
     - .github/workflows/linting_comment.yml
     - LICENSE
@@ -16,6 +20,7 @@ lint:
     - assets/email_template.txt
     - assets/sendmail_template.txt
     - .prettierignore
+    - assets/email_template.txt
   nextflow_config:
     - manifest.name
     - manifest.homePage
