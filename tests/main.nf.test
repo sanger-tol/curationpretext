@@ -1,0 +1,58 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+    tag "pipeline"
+    tag "pipeline_sanger_tol"
+    tag "full"
+
+    test("Full run") {
+
+        when {
+            params {
+                outdir = "${outputDir}"
+            }
+        }
+
+        then {
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ["pipeline_info/*.{html,json,txt}"])
+
+            def pretext_files = getAllFilesFromDir(params.outdir, include: ['pretext_maps_processed/*.pretext'])
+
+            def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.png'])
+
+            def accessories = getAllFilesFromDir(params.outdir, include: ['accessory_files/*'])
+
+            assertAll(
+                {assert workflow.success},
+                {assert snapshot(
+                    // Test for number of successful processes - should be 29 for a full run
+                    workflow.trace.succeeded().size(),
+
+                    removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+
+                    // Stable name with relative path
+                    stable_name,
+
+                    // Accessory files
+                    accessories,
+
+                    // The two pretext files
+                    // Presence of files indicated presence of the raw_pretexts
+                    // we expect this to be a list of two files
+                    // we can't use their md5sum as they will be different everytime
+                    // Then double check that there are two
+                    // one is a hr and the other a normal variant
+
+                    pretext_files.size(),
+                    pretext_files.any{it.toString().contains("_hr.pretext".toString())},
+                    pretext_files.any{it.toString().contains("_normal.pretext".toString())},
+
+                    // The one png file - like the maps, it will be slightly different
+                    pretext_png.any{it.toString().contains("CurationPretextTest_normalFullMap.png".toString())}
+
+                ).match()},
+            )
+        }
+    }
+}
