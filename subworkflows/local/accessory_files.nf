@@ -87,8 +87,6 @@ workflow ACCESSORY_FILES {
     telo_file           = TELO_FINDER.out.bedgraph_file
     repeat_file         = REPEAT_DENSITY.out.repeat_density
     coverage_bw         = LONGREAD_COVERAGE.out.ch_bigwig
-    coverage_avg_bw     = LONGREAD_COVERAGE.out.ch_bigwig_avg
-    coverage_log_bw     = LONGREAD_COVERAGE.out.ch_bigwig_log
     mins_bed            = LONGREAD_COVERAGE.out.ch_minbed
     half_bed            = LONGREAD_COVERAGE.out.ch_halfbed
     maxs_bed            = LONGREAD_COVERAGE.out.ch_maxbed
