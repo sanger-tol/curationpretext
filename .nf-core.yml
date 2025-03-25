@@ -4,9 +4,7 @@ lint:
     - assets/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_dark.png
-  multiqc_config:
-    - report_comment
-    - report_section_order
+  multiqc_config: false
   files_unchanged:
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/ISSUE_TEMPLATE/feature_request.yml
