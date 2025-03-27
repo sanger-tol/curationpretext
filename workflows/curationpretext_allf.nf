@@ -21,62 +21,21 @@ include { methodsDescriptionText                    } from '../subworkflows/loca
 
 workflow CURATIONPRETEXT_ALLF {
     take:
-    input_fasta
-    reads
-    cram
-    sample
-    teloseq
-    aligner
-    read_type
-    map_order
-
+    ch_reference
+    ch_reads
+    ch_cram_reads
+    val_teloseq
 
     main:
     ch_versions = Channel.empty()
-
-    input_fasta     = Channel.fromPath(input_fasta, checkIfExists: true, type: 'file')
-    cram_dir        = Channel.fromPath(cram, checkIfExists: true, type: 'dir')
-
-    ch_reference = input_fasta.map { fasta ->
-        tuple(
-            [
-                id: sample,
-                aligner: aligner,
-                ref_size: fasta.size(),
-            ],
-            fasta
-        )
-    }
-    ch_cram_reads = cram_dir.map { dir ->
-        tuple(
-            [
-                id: sample,
-            ],
-            dir
-        )
-    }
-    ch_reads = Channel
-                            .fromPath(
-                                reads, checkIfExists: true, type: 'dir'
-                            )
-                            .map { dir ->
-                                tuple(
-                                    [
-                                        id: sample,
-                                        single_end: true,
-                                        read_type: read_type,
-                                    ],
-                                    dir
-                                )
-                            }
-
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
     ACCESSORY_FILES (
         ch_reference,
-        ch_reads
+        ch_reads,
+        val_teloseq
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
