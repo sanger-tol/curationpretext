@@ -2,7 +2,141 @@
     "Full run": {
         "content": [
             43,
-            null,
+            {
+                "BEDTOOLS_BAMTOBED": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_GENOMECOV": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_INTERSECT": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MAKEWINDOWS": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MAP": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MERGE_MIN": {
+                    "bedtools": "2.31.1"
+                },
+                "BWAMEM2_INDEX": {
+                    "bwamem2": "2.2.1"
+                },
+                "CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT": {
+                    "samtools": 1.17,
+                    "bwa-mem2": "2.2.1",
+                    "staden_io_lib": "1.14.14"
+                },
+                "EXTRACT_REPEAT": {
+                    "perl": "(v5.26.2))",
+                    "extract_repeat.pl": 1.0
+                },
+                "EXTRACT_TELO": {
+                    "extract_telomere": 2.0,
+                    "coreutils": 9.1
+                },
+                "FINDHALFCOVERAGE": {
+                    "python": "Python 3.9.1",
+                    "findHalfcoverage.py": 1.0
+                },
+                "FIND_TELOMERE_REGIONS": {
+                    "find_telomere": null
+                },
+                "FIND_TELOMERE_WINDOWS": {
+                    "telomere": 1.0
+                },
+                "GAWK_GAP_LENGTH": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_GENERATE_GENOME_FILE": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_REFORMAT_INTERSECT": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_RENAME_IDS": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_REPLACE_DOTS": {
+                    "gawk": "5.3.0"
+                },
+                "GENERATE_CRAM_CSV": {
+                    "samtools": 1.17
+                },
+                "GETMINMAXPUNCHES": {
+                    "getminmaxpunches": 2.0,
+                    "coreutils": 9.1
+                },
+                "GET_LARGEST_SCAFF": {
+                    "get_largest_scaff": 2.0,
+                    "coreutils": 9.1
+                },
+                "GNU_SORT": {
+                    "coreutils": 9.3
+                },
+                "GNU_SORT_A": {
+                    "coreutils": 9.3
+                },
+                "GNU_SORT_B": {
+                    "coreutils": 9.3
+                },
+                "GNU_SORT_C": {
+                    "coreutils": 9.3
+                },
+                "GRAPHOVERALLCOVERAGE": {
+                    "perl": "(v5.26.2))",
+                    "graph_overall_coverage.pl": 1.0
+                },
+                "MINIMAP2_ALIGN": {
+                    "minimap2": "2.28-r1209",
+                    "samtools": 1.2
+                },
+                "PRETEXTMAP_HIGHRES": {
+                    "pretextmap": "0.1.9",
+                    "samtools": 1.21
+                },
+                "PRETEXTMAP_STANDRD": {
+                    "pretextmap": "0.1.9",
+                    "samtools": 1.21
+                },
+                "PRETEXT_INGEST_SNDRD": {
+                    "PretextGraph": "0.0.8",
+                    "PretextMap": "0.1.9",
+                    "bigWigToBedGraph": 447
+                },
+                "SAMTOOLS_FAIDX": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_MERGE": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_SORT": {
+                    "samtools": 1.21
+                },
+                "SAMTOOLS_VIEW_FILTER_PRIMARY": {
+                    "samtools": 1.21
+                },
+                "SEQTK_CUTN": {
+                    "seqtk": "1.4-r122"
+                },
+                "SNAPSHOT_SRES": {
+                    "pretextsnapshot": "0.0.4"
+                },
+                "UCSC_BEDGRAPHTOBIGWIG": {
+                    "ucsc": 469
+                },
+                "WINDOWMASKER_MKCOUNTS": {
+                    "windowmasker": "1.0.0"
+                },
+                "WINDOWMASKER_USTAT": {
+                    "windowmasker": "1.0.0"
+                },
+                "Workflow": {
+                    "nf-core/curationpretext": "v1.2.0"
+                }
+            },
             [
                 "pipeline_info",
                 "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
@@ -10,18 +144,20 @@
                 "pretext_maps_processed/CurationPretextTest_hr.pretext",
                 "pretext_maps_processed/CurationPretextTest_normal.pretext"
             ],
+            5,
             [
                 
             ],
+            0,
             2,
             true,
             true,
             false
         ],
         "meta": {
-            "nf-test": "0.9.2",
+            "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2025-03-25T14:14:48.204717"
+        "timestamp": "2025-03-27T15:09:51.371631753"
     }
 }
