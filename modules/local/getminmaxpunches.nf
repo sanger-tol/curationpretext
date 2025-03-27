@@ -16,6 +16,9 @@ process GETMINMAXPUNCHES{
     path "versions.yml"                     , emit: versions
 
     script:
+    // Module is being kept in current state rather than moved into a GAWK module
+    // due to multiple outputs
+
     def MINXMAX_VERSION = "2.0"
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """

@@ -34,6 +34,11 @@ process FIND_TELOMERE_REGIONS {
     """
 
     stub:
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error "FIND_TELOMERE_REGIONS module does not support Conda. Please use Docker / Singularity instead."
+    }
+
     def prefix = task.ext.prefix ?: "${meta.id}"
     def VERSION = "1.0" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     def find_telomere = task.ext.find_telomere ?: ''
