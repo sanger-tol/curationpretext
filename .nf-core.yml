@@ -30,8 +30,16 @@ template:
   author: Damon-Lee B Pointon (@DLBPointon)
   description: A simple pipeline to generate pretext files for genomic curation.
   force: false
-  is_nfcore: true
+  is_nfcore: false
   name: curationpretext
-  org: nf-core
+  org: sanger-tol
   outdir: .
+  skip_features:
+    - igenomes
+    - codespaces
+    - fastqc
+    - adaptivecard
+    - seqera_platform
+    - multiqc
+    - rocrate
   version: 1.2.0

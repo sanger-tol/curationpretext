@@ -15,22 +15,11 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CURATIONPRETEXT_ALLF } from './workflows/curationpretext_allf'
-//include { CURATIONPRETEXT_MAPS } from './workflows/curationpretext_maps'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
-include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    GENOME PARAMETER VALUES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-// TODO nf-core: Remove this line if you don't need a FASTA file
-//   This is an example of how to use getGenomeAttribute() to fetch parameters
-//   from igenomes.config using `--genome`
-params.input = getGenomeAttribute('input')
+include { CURATIONPRETEXT_ALLF      } from './workflows/curationpretext_allf'
+//include { CURATIONPRETEXT_MAPS      } from './workflows/curationpretext_maps'
+include { PIPELINE_INITIALISATION   } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
+include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
+include { getGenomeAttribute        } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,6 +43,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     map_order
 
     main:
+
     CURATIONPRETEXT_ALLF (
         input_fasta,
         reads,
@@ -87,7 +77,7 @@ workflow {
         []                      // We are not using the samplesheet for this pipeline
     )
 
-    // Should channel formation go here instead of in the workflow?
+    // MOVE THE CHANNEL CREATION INTO THE PIPELINE INITIALISATION
 
     //
     // WORFKLOW: Run main sanger-tol/curationpretext analysis pipeline

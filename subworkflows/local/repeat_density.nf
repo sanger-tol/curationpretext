@@ -16,6 +16,7 @@ include { GNU_SORT as GNU_SORT_B            } from '../../modules/nf-core/gnu/so
 include { GNU_SORT as GNU_SORT_C            } from '../../modules/nf-core/gnu/sort/main'
 include { REFORMAT_INTERSECT                } from '../../modules/local/reformat_intersect'
 include { REPLACE_DOTS                      } from '../../modules/local/replace_dots'
+include { GAWK as REPLACE_DOTS              } from '../modules/nf-core/gawk/main'
 
 workflow REPEAT_DENSITY {
     take:
