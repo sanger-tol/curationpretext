@@ -19,7 +19,6 @@ include { CURATIONPRETEXT_ALLF      } from './workflows/curationpretext_allf'
 //include { CURATIONPRETEXT_MAPS      } from './workflows/curationpretext_maps'
 include { PIPELINE_INITIALISATION   } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
-include { getGenomeAttribute        } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,11 +35,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     input_fasta
     reads
     cram
-    sample
     teloseq
-    aligner
-    read_type
-    map_order
 
     main:
 
@@ -48,11 +43,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         input_fasta,
         reads,
         cram,
-        sample,
-        teloseq,
-        aligner,
-        read_type,
-        map_order
+        teloseq
     )
     // CURATIONPRETEXT_MAPS
 }
@@ -83,14 +74,10 @@ workflow {
     // WORFKLOW: Run main sanger-tol/curationpretext analysis pipeline
     //
     SANGER_TOL_CURATIONPRETEXT (
-        params.input,
-        params.reads,
-        params.cram,
-        params.sample,
-        params.teloseq,
-        params.aligner,
-        params.read_type,
-        params.map_order
+        PIPELINE_INITIALISATION.out.ch_reference,
+        PIPELINE_INITIALISATION.out.ch_reads,
+        PIPELINE_INITIALISATION.out.ch_cram_reads,
+        PIPELINE_INITIALISATION.out.teloseq
     )
 
     //
