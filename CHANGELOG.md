@@ -31,16 +31,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                             | Old Version | New Versions |
-| ---------------------------------- | ----------- | ------------ |
-| `gawk`                             | -           | 5.3.0        |
-| `rename_ids` ( coreutils )         | 9.1         | REMOVED      |
-| `replace_dots` ( coreutils )       | 9.1         | REMOVED      |
-| `gap_length` ( coreutils )         | 9.1         | REMOVED      |
-| `reformat_intersect` ( coreutils ) | 9.1         | REMOVED      |
-| `generate_genome_file` (coreutils) | 9.1 | REMOVED |
+| Module                             | Old Version | New Versions               |
+| ---------------------------------- | ----------- | -------------------------- |
+| `gawk`                             | -           | 5.3.0                      |
+| `rename_ids` ( coreutils )         | 9.1         | REMOVED                    |
+| `replace_dots` ( coreutils )       | 9.1         | REMOVED                    |
+| `gap_length` ( coreutils )         | 9.1         | REMOVED                    |
+| `reformat_intersect` ( coreutils ) | 9.1         | REMOVED                    |
+| `generate_genome_file` (coreutils) | 9.1         | REMOVED                    |
 | `custom_dumpsoftwareversions`      | -           | Python 3.11.7 + yaml 5.4.1 |
-
 
 ## [[1.2.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.2.0)] - UNSC Spirit-of-Fire - [2025-02-28]
 
@@ -59,8 +58,8 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module       | Old Version | New Versions |
-| ------------ | ----------- | ------------ |
+| Module         | Old Version | New Versions |
+| -------------- | ----------- | ------------ |
 | `pretextgraph` | 0.0.6       | 0.0.8-c1     |
 
 ### Paramters
@@ -81,8 +80,8 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module       | Old Version | New Versions |
-| ------------ | ----------- | ------------ |
+| Module         | Old Version | New Versions |
+| -------------- | ----------- | ------------ |
 | `pretextgraph` | 0.0.6       | 0.0.6        |
 
 ## [[1.1.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.0)] - UNSC Delphi - [2024-12-09]
@@ -108,16 +107,16 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                                       | Old Version   | New Versions               |
-| -------------------------------------------- | ------------- | -------------------------- |
+| Module                                         | Old Version   | New Versions               |
+| ---------------------------------------------- | ------------- | -------------------------- |
 | `get_avcov`                                    | -             | 1.0.0                      |
 | `bamtobed_sort` ( bedtools + samtools )        | 2.31.0 + 1.17 | 2.31.1 + 1.17              |
 | `bedtools` ( all modules)                      | 2.31.1        | -                          |
 | `bwamem2_index`                                | -             | 2.2.1                      |
 | `cram_filter_align_bwamem2_fixmate_sort`       | -             |                            |
-| ^ ( samtools + bwamem2 ) ^                   | 1.17 + 2.2.1  | -                          |
+| ^ ( samtools + bwamem2 ) ^                     | 1.17 + 2.2.1  | -                          |
 | `cram_filter_minimap2_filter5end_fixmate_sort` | -             |                            |
-| ^ ( samtools + minimap2 ) ^                  | 1.17 + 2.24   | -                          |
+| ^ ( samtools + minimap2 ) ^                    | 1.17 + 2.24   | -                          |
 | `custom_dumpsoftwareversions`                  | -             | Python 3.11.7 + yaml 5.4.1 |
 | `extract_cov_id` ( coreutils )                 | 9.1           | 9.3                        |
 | `extract_repeat` ( perl )                      | 5.26.2        | -                          |
@@ -127,16 +126,16 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `findhalfcoverage` ( python )                  | -             | Python 3.9.1 + 1.0         |
 | `gap_length` ( coreutils )                     | 9.1           | -                          |
 | `generate_cram_csv` ( samtools )               | 1.17          | -                          |
-| `generate_genome_file` (coreutils) | 9.1 | - |
+| `generate_genome_file` (coreutils)             | 9.1           | -                          |
 | `get_largest_scaff` ( coreutils )              | 9.1           | -                          |
 | `getminmaxpunches` ( coreutils )               | 9.1           | -                          |
 | `graphoverallcoverage` ( perl )                | -             | 5.26.2 + 1.0               |
 | `gnu-sort`                                     | 8.25          | 9.3                        |
 | `longreadcoveragescalelog`                     | -             | Python 3.9.1 + 1.0         |
-| `minimap2` + `samtools` (align, map)             |               | 2.28-r1209 + 1.20          |
-| `pretextmap` + `samtools`                        | 0.1.9 + 1.18  | 0.1.9\* + 1.20             |
+| `minimap2` + `samtools` (align, map)           |               | 2.28-r1209 + 1.20          |
+| `pretextmap` + `samtools`                      | 0.1.9 + 1.18  | 0.1.9\* + 1.20             |
 | `pretextgraph`                                 | 0.0.4         | 0.0.6                      |
-| `pretextsnapshot` + `UCSC`                       | 0.0.6b + 447  | 0.0.4 (official version)   |
+| `pretextsnapshot` + `UCSC`                     | 0.0.6b + 447  | 0.0.4 (official version)   |
 | `rename_ids` ( coreutils )                     | -             | 9.1                        |
 | `reformat_intersect` ( coreutils )             | -             | 9.1                        |
 | `replace_dots` ( coreutils )                   | -             | 9.1                        |
