@@ -60,7 +60,7 @@ These tests are run both with the latest available version of `Nextflow` and als
 
 ## Getting help
 
-For further information/help, please consult the [sanger-tol/curationpretext documentation](https://nf-co.re/curationpretext/usage) and don't hesitate to get in touch on the nf-core Slack [#curationpretext](https://nfcore.slack.com/channels/curationpretext) channel ([join our Slack here](https://nf-co.re/join/slack)).
+For further information/help, please consult the [sanger-tol/curationpretext documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage) and don't hesitate to get in touch on the nf-core Slack [#curationpretext](https://nfcore.slack.com/channels/curationpretext) channel ([join our Slack here](https://nf-co.re/join/slack)).
 
 ## Pipeline contribution conventions
 

@@ -1,6 +1,6 @@
 # sanger-tol/curationpretext: Usage
 
-## :warning: Please read this documentation on the nf-core website: [https://nf-co.re/curationpretext/usage](https://nf-co.re/curationpretext/usage)
+## :warning: Please read this documentation on the nf-core website: [https://pipelines.tol.sanger.ac.uk/curationpretext/usage](https://pipelines.tol.sanger.ac.uk/curationpretext/usage)
 
 > _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
 
