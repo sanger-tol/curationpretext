@@ -107,6 +107,8 @@ We thank the following people for their extensive assistance in the development 
 
 - @GRIT - For feedback and feature requests.
 
+- @prototaxites - Support with 1.3.0 and showing me the power of GAWK.
+
 ## Contributions and Support
 
 If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
