@@ -13,14 +13,10 @@ include { MINIMAP2_ALIGN                                } from '../../modules/nf
 include { SAMTOOLS_MERGE                                } from '../../modules/nf-core/samtools/merge/main'
 include { SAMTOOLS_SORT                                 } from '../../modules/nf-core/samtools/sort/main'
 include { SAMTOOLS_VIEW as SAMTOOLS_VIEW_FILTER_PRIMARY } from '../../modules/nf-core/samtools/view/main'
-include { UCSC_BEDGRAPHTOBIGWIG as BED2BW_NORMAL        } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
-include { UCSC_BEDGRAPHTOBIGWIG as BED2BW_LOG           } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
-include { UCSC_BEDGRAPHTOBIGWIG as BED2BW_AVGCOV        } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
+include { UCSC_BEDGRAPHTOBIGWIG                         } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
 include { GRAPHOVERALLCOVERAGE                          } from '../../modules/local/graphoverallcoverage'
 include { GETMINMAXPUNCHES                              } from '../../modules/local/getminmaxpunches'
 include { FINDHALFCOVERAGE                              } from '../../modules/local/findhalfcoverage'
-include { LONGREADCOVERAGESCALELOG                      } from '../../modules/local/longreadcoveragescalelog'
-include { AVGCOV                                        } from '../../modules/local/avgcov'
 
 
 workflow LONGREAD_COVERAGE {
@@ -64,6 +60,8 @@ workflow LONGREAD_COVERAGE {
             )
         }
         .set { collected_files_for_merge }
+
+
     //
     // MODULE: MERGES THE BAM FILES IN REGARDS TO THE REFERENCE
     //         EMITS A MERGED BAM
@@ -74,6 +72,7 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix(SAMTOOLS_MERGE.out.versions)
 
+
     //
     // MODULE: SORT MAPPED BAM
     //
@@ -82,6 +81,7 @@ workflow LONGREAD_COVERAGE {
         [[],[]]
     )
     ch_versions         = ch_versions.mix( SAMTOOLS_SORT.out.versions )
+
 
     //
     // MODULE: EXTRACT READS FOR PRIMARY ASSEMBLY
@@ -93,11 +93,13 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix(SAMTOOLS_VIEW_FILTER_PRIMARY.out.versions)
 
+
     //
     // MODULE: BAM TO PRIMARY BED
     //
     BEDTOOLS_BAMTOBED(SAMTOOLS_VIEW_FILTER_PRIMARY.out.bam)
     ch_versions         = ch_versions.mix(BEDTOOLS_BAMTOBED.out.versions)
+
 
     //
     // LOGIC: PREPARING Genome2Cov INPUT
@@ -116,6 +118,7 @@ workflow LONGREAD_COVERAGE {
         }
         .set { genomecov_input }
 
+
     //
     // MODULE: GENOME TO COVERAGE BED
     //
@@ -128,6 +131,7 @@ workflow LONGREAD_COVERAGE {
     ch_versions         = ch_versions.mix( BEDTOOLS_GENOMECOV.out.versions )
     ch_coverage_unsorted_bed = BEDTOOLS_GENOMECOV.out.genomecov
 
+
     //
     // MODULE: SORT THE PRIMARY BED FILE
     //
@@ -135,6 +139,7 @@ workflow LONGREAD_COVERAGE {
         ch_coverage_unsorted_bed
     )
     ch_versions         = ch_versions.mix( GNU_SORT.out.versions )
+
 
     //
     // MODULE: GENERATE MIN AND MAX PUNCHFILES
@@ -144,6 +149,7 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix( GETMINMAXPUNCHES.out.versions )
 
+
     //
     // MODULE: MERGE MAX DEPTH FILES
     //
@@ -151,6 +157,7 @@ workflow LONGREAD_COVERAGE {
         GETMINMAXPUNCHES.out.max
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_MERGE_MAX.out.versions )
+
 
     //
     // MODULE: MERGE MIN DEPTH FILES
@@ -160,6 +167,7 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_MERGE_MIN.out.versions )
 
+
     //
     // MODULE: GENERATE DEPTHGRAPH
     //
@@ -167,6 +175,7 @@ workflow LONGREAD_COVERAGE {
         GNU_SORT.out.sorted
     )
     ch_versions         = ch_versions.mix( GRAPHOVERALLCOVERAGE.out.versions )
+
 
     //
     // LOGIC: PREPARING FINDHALFCOVERAGE INPUT
@@ -196,6 +205,7 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix( FINDHALFCOVERAGE.out.versions )
 
+
     //
     // LOGIC: PREPARING NORMAL COVERAGE INPUT
     //
@@ -213,68 +223,21 @@ workflow LONGREAD_COVERAGE {
         }
         .set { bed2bw_normal_input }
 
+
     //
     // MODULE: CONVERT BEDGRAPH TO BIGWIG
     //
-    BED2BW_NORMAL(
+    UCSC_BEDGRAPHTOBIGWIG(
         bed2bw_normal_input.ch_coverage_bed,
         bed2bw_normal_input.genome_file
     )
-    ch_versions         = ch_versions.mix( BED2BW_NORMAL.out.versions )
+    ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
-    //
-    // MODULE: CONVERT COVERAGE TO LOG
-    //
-    LONGREADCOVERAGESCALELOG(
-        GNU_SORT.out.sorted
-    )
-    ch_versions         = ch_versions.mix(LONGREADCOVERAGESCALELOG.out.versions)
-
-    //
-    // LOGIC: PREPARING LOG COVERAGE INPUT
-    //
-    LONGREADCOVERAGESCALELOG.out.bed
-        .combine( dot_genome )
-        .combine(reference_tuple)
-        .multiMap { meta, file, meta_my_genome, my_genome, ref_meta, ref ->
-            ch_coverage_bed :   tuple ([ id: ref_meta.id, single_end: true], file)
-            genome_file     :   my_genome
-        }
-        .set { bed2bw_log_input }
-
-    //
-    // MODULE: CALCULATE AVERAGE COVERAGE BASED ON SCAFFOLD
-    //
-    AVGCOV(
-        GNU_SORT.out.sorted,
-        bed2bw_log_input.genome_file
-    )
-    ch_versions             = ch_versions.mix(AVGCOV.out.versions)
-
-    //
-    // MODULE: CONVERT BEDGRAPH TO BIGWIG FOR AVERAGE COVERAGE
-    //
-    BED2BW_AVGCOV(
-        AVGCOV.out.avgbed,
-        bed2bw_log_input.genome_file
-    )
-    ch_versions             = ch_versions.mix(BED2BW_AVGCOV.out.versions)
-
-    //
-    // MODULE: CONVERT BEDGRAPH TO BIGWIG FOR LOG COVERAGE
-    //
-    BED2BW_LOG(
-        bed2bw_log_input.ch_coverage_bed,
-        bed2bw_log_input.genome_file
-    )
-    ch_versions         = ch_versions.mix(BED2BW_LOG.out.versions)
 
     emit:
     ch_minbed           = BEDTOOLS_MERGE_MIN.out.bed
     ch_halfbed          = FINDHALFCOVERAGE.out.bed
     ch_maxbed           = BEDTOOLS_MERGE_MAX.out.bed
-    ch_bigwig           = BED2BW_NORMAL.out.bigwig
-    ch_bigwig_log       = BED2BW_LOG.out.bigwig
-    ch_bigwig_avg       = BED2BW_AVGCOV.out.bigwig
+    ch_bigwig           = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
     versions            = ch_versions
 }

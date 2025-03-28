@@ -1,11 +1,13 @@
-repository_type: pipeline
 lint:
   files_exist:
     - assets/multiqc_config.yml
     - assets/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_dark.png
+  multiqc_config: false
   files_unchanged:
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/ISSUE_TEMPLATE/feature_request.yml
     - .github/workflows/linting.yml
     - .github/workflows/linting_comment.yml
     - LICENSE
@@ -15,9 +17,29 @@ lint:
     - .github/PULL_REQUEST_TEMPLATE.md
     - .github/workflows/branch.yml
     - assets/email_template.txt
+    - assets/email_template.html
     - assets/sendmail_template.txt
-    - lib/NfcoreTemplate.groovy
     - .prettierignore
+    - assets/email_template.txt
   nextflow_config:
     - manifest.name
     - manifest.homePage
+nf_core_version: 3.2.0
+repository_type: pipeline
+template:
+  author: Damon-Lee B Pointon (@DLBPointon)
+  description: A simple pipeline to generate pretext files for genomic curation.
+  force: false
+  is_nfcore: false
+  name: curationpretext
+  org: sanger-tol
+  outdir: .
+  skip_features:
+    - igenomes
+    - codespaces
+    - fastqc
+    - adaptivecard
+    - seqera_platform
+    - multiqc
+    - rocrate
+  version: 1.2.0

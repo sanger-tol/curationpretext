@@ -3,20 +3,20 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { GAP_FINDER            } from './gap_finder'
-include { TELO_FINDER           } from './telo_finder'
-include { REPEAT_DENSITY        } from './repeat_density'
-include { LONGREAD_COVERAGE     } from './longread_coverage'
+include { GAP_FINDER                        } from './gap_finder'
+include { TELO_FINDER                       } from './telo_finder'
+include { REPEAT_DENSITY                    } from './repeat_density'
+include { LONGREAD_COVERAGE                 } from './longread_coverage'
 
-include { GENERATE_GENOME_FILE  } from '../../modules/local/generate_genome_file'
-include { GET_LARGEST_SCAFF     } from '../../modules/local/get_largest_scaff'
-
-include { SAMTOOLS_FAIDX        } from '../../modules/nf-core/samtools/faidx/main'
+include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../modules/nf-core/gawk/main'
+include { GET_LARGEST_SCAFF                 } from '../../modules/local/get_largest_scaff'
+include { SAMTOOLS_FAIDX                    } from '../../modules/nf-core/samtools/faidx/main'
 
 workflow ACCESSORY_FILES {
     take:
     reference_tuple
     longread_reads
+    val_teloseq
 
     main:
     ch_versions         = Channel.empty()
@@ -31,14 +31,18 @@ workflow ACCESSORY_FILES {
     //
     // MODULE: TRIMS INDEX INTO A GENOME DESCRIPTION FILE
     //         EMITS REFERENCE GEOME FILE AND REFERENCE INDEX FILE
-    GENERATE_GENOME_FILE ( SAMTOOLS_FAIDX.out.fai )
-    ch_versions     = ch_versions.mix( GENERATE_GENOME_FILE.out.versions )
+    GAWK_GENERATE_GENOME_FILE (
+        SAMTOOLS_FAIDX.out.fai,
+        [],
+        false
+    )
+    ch_versions     = ch_versions.mix( GAWK_GENERATE_GENOME_FILE.out.versions )
 
     //
     // MODULE: Cut out the largest scaffold size and use as comparator against 512MB
     //          This is the cut off for TABIX using tbi indexes
     //
-    GET_LARGEST_SCAFF ( GENERATE_GENOME_FILE.out.dotgenome )
+    GET_LARGEST_SCAFF ( GAWK_GENERATE_GENOME_FILE.out.output ) // Could replace with a native function
     ch_versions     = ch_versions.mix( GET_LARGEST_SCAFF.out.versions )
 
     //
@@ -56,7 +60,7 @@ workflow ACCESSORY_FILES {
     TELO_FINDER (
         GET_LARGEST_SCAFF.out.scaff_size.map{it -> it[1].toInteger()},
         reference_tuple,
-        params.teloseq
+        val_teloseq
     )
     ch_versions = ch_versions.mix(TELO_FINDER.out.versions)
 
@@ -65,7 +69,7 @@ workflow ACCESSORY_FILES {
     //
     REPEAT_DENSITY (
         reference_tuple,
-        GENERATE_GENOME_FILE.out.dotgenome
+        GAWK_GENERATE_GENOME_FILE.out.output
     )
     ch_versions = ch_versions.mix(REPEAT_DENSITY.out.versions)
 
@@ -75,7 +79,7 @@ workflow ACCESSORY_FILES {
     LONGREAD_COVERAGE (
         reference_tuple,
         SAMTOOLS_FAIDX.out.fai,
-        GENERATE_GENOME_FILE.out.dotgenome,
+        GAWK_GENERATE_GENOME_FILE.out.output,
         longread_reads
     )
     ch_versions = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
@@ -87,8 +91,6 @@ workflow ACCESSORY_FILES {
     telo_file           = TELO_FINDER.out.bedgraph_file
     repeat_file         = REPEAT_DENSITY.out.repeat_density
     coverage_bw         = LONGREAD_COVERAGE.out.ch_bigwig
-    coverage_avg_bw     = LONGREAD_COVERAGE.out.ch_bigwig_avg
-    coverage_log_bw     = LONGREAD_COVERAGE.out.ch_bigwig_log
     mins_bed            = LONGREAD_COVERAGE.out.ch_minbed
     half_bed            = LONGREAD_COVERAGE.out.ch_halfbed
     maxs_bed            = LONGREAD_COVERAGE.out.ch_maxbed
