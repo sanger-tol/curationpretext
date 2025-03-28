@@ -22,8 +22,7 @@ process GETMINMAXPUNCHES{
     def MINXMAX_VERSION = "2.0"
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
-    cat "${bedfile}" \\
-    | awk '{ if (\$4 == 0) {print \$0 >> "zero.bed" } else if (\$4 > 1000) {print \$0 >> "max.bed"}}'
+    awk '{ if (\$4 == 0) {print \$0 >> "zero.bed" } else if (\$4 > 1000) {print \$0 >> "max.bed"}}' ${file}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
