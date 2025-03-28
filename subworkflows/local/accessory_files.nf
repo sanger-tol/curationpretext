@@ -36,14 +36,13 @@ workflow ACCESSORY_FILES {
         [],
         false
     )
-    //GENERATE_GENOME_FILE ( SAMTOOLS_FAIDX.out.fai )
     ch_versions     = ch_versions.mix( GAWK_GENERATE_GENOME_FILE.out.versions )
 
     //
     // MODULE: Cut out the largest scaffold size and use as comparator against 512MB
     //          This is the cut off for TABIX using tbi indexes
     //
-    GET_LARGEST_SCAFF ( GAWK_GENERATE_GENOME_FILE.out.output )
+    GET_LARGEST_SCAFF ( GAWK_GENERATE_GENOME_FILE.out.output ) // Could replace with a native function
     ch_versions     = ch_versions.mix( GET_LARGEST_SCAFF.out.versions )
 
     //

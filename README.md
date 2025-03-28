@@ -15,7 +15,7 @@
 
 This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. This pipeline can be simply used to generate pretext maps, information on how to run this pipeline can be found in the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage).
 
-![Workflow Diagram](./assets/CurationPretext.png)
+![Workflow Diagram](./docs/images/CurationPretext_1_3_0.png)
 
 1. Generate Maps - Generates pretext maps as well as a static image.
 
@@ -55,6 +55,10 @@ Currently, the pipeline uses the following flags:
 - `--teloseq`
 
   - A telomeric sequence, e.g., `TTAGGG`
+
+- `--all_output`
+
+  - An option to output all maps + accessory files, the default will only output the pretextmaps where ingestion has occured.
 
 Now, you can run the pipeline using:
 
