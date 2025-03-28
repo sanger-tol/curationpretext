@@ -134,7 +134,7 @@
                     "windowmasker": "1.0.0"
                 },
                 "Workflow": {
-                    "nf-core/curationpretext": "v1.2.0"
+                    "sanger-tol/curationpretext": "v1.2.0"
                 }
             },
             [
