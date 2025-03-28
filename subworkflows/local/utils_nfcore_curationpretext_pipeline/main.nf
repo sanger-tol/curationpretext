@@ -1,5 +1,5 @@
 //
-// Subworkflow with functionality specific to the nf-core/curationpretext pipeline
+// Subworkflow with functionality specific to the sanger-tol/curationpretext pipeline
 //
 
 /*
