@@ -20,8 +20,8 @@ process EXTRACT_TELO {
     def ETELO_VERSION = "2.0"
     def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
-    cat "${file}" | awk '{print \$2"\\t"\$4"\\t"\$5}' | sed 's/>//g' > ${prefix}_telomere.bed
-    cat "${file}" | awk 'BEGIN {OFS = "\\t"} {print \$2,\$4,\$5,(((\$5-\$4)<0)?-(\$5-\$4):(\$5-\$4))}' | sed 's/>//g' > ${prefix}_telomere.bedgraph
+    awk 'BEGIN {OFS = "\\t"} {print \$2, \$4, \$5}' ${file} | sed 's/>//g' > ${prefix}_telomere.bed
+    awk 'BEGIN {OFS = "\\t"} {print \$2,\$4,\$5,(((\$5-\$4)<0)?-(\$5-\$4):(\$5-\$4))}' ${file} | sed 's/>//g' > ${prefix}_telomere.bedgraph
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
