@@ -88,8 +88,7 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        params.hook_url,
-        []                      // We are not using MultiQC for this pipeline
+        params.hook_url
     )
 }
 
