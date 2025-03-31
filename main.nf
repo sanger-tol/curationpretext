@@ -5,7 +5,6 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Github : https://github.com/sanger-tol/curationpretext
     Website: https://pipelines.tol.sanger.ac.uk/curationpretext
-    Slack  : https://nfcore.slack.com/channels/curationpretext
 ----------------------------------------------------------------------------------------
 */
 
@@ -89,8 +88,7 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        params.hook_url,
-        []                      // We are not using MultiQC for this pipeline
+        params.hook_url
     )
 }
 

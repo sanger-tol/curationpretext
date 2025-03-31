@@ -1,7 +1,5 @@
 # sanger-tol/curationpretext: Usage
 
-## :warning: Please read this documentation on the nf-core website: [https://pipelines.tol.sanger.ac.uk/curationpretext/usage](https://pipelines.tol.sanger.ac.uk/curationpretext/usage)
-
 > _Documentation of pipeline parameters is generated automatically from the pipeline schema and can no longer be found in markdown files._
 
 ## Introduction
@@ -192,7 +190,7 @@ Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run sanger-tol/curationpretext -profile docker -params-file params.yaml -entry <ALL_FILES/MAPS_ONLY>
+nextflow run sanger-tol/curationpretext -profile docker -params-file params.yaml
 ```
 
 with:
@@ -223,7 +221,7 @@ It is a good idea to specify the pipeline version when running the pipeline on y
 
 First, go to the [sanger-tol/curationpretext releases page](https://github.com/sanger-tol/curationpretext/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
+This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
 To further assist in reproducibility, you can use share and reuse [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 

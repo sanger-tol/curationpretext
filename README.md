@@ -113,15 +113,13 @@ We thank the following people for their extensive assistance in the development 
 
 If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
 
-For further information or help, don't hesitate to get in touch on the [Slack `#curationpretext` channel](https://nfcore.slack.com/channels/curationpretext) (you can join with [this invite](https://nf-co.re/join/slack)).
-
 ## Citations
 
 If you use sanger-tol/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.12773958](https://doi.org/10.5281/zenodo.12773958)
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-You can cite the `nf-core` publication as follows:
+This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/main/LICENSE).
 
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >

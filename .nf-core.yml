@@ -2,13 +2,14 @@ lint:
   files_exist:
     - .github/workflows/awstest.yml
     - .github/workflows/awstestfull.yml
+    - .github/ISSUE_TEMPLATE/config.yml
     - assets/multiqc_config.yml
     - assets/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_dark.png
     - conf/igenomes.config
     - conf/igenomes_ignored.config
-  multiqc_config: false
+    - CODE_OF_CONDUCT.md
   files_unchanged:
     - .github/ISSUE_TEMPLATE/config.yml
     - .github/ISSUE_TEMPLATE/feature_request.yml
@@ -25,6 +26,7 @@ lint:
     - assets/sendmail_template.txt
     - .prettierignore
     - assets/email_template.txt
+  multiqc_config: false
   nextflow_config:
     - manifest.name
     - manifest.homePage
