@@ -4,10 +4,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
-include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
-include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext_graph'
-include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext_graph'
+include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
+include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
 
 include { paramsSummaryMap                          } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
