@@ -3,9 +3,9 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { FIND_TELOMERE_REGIONS     } from '../../modules/local/find_telomere_regions'
-include { FIND_TELOMERE_WINDOWS     } from '../../modules/local/find_telomere_windows'
-include { EXTRACT_TELO              } from '../../modules/local/extract_telo'
+include { FIND_TELOMERE_REGIONS     } from '../../../modules/local/find/telomere_regions/main'
+include { FIND_TELOMERE_WINDOWS     } from '../../../modules/local/find/telomere_windows/main'
+include { EXTRACT_TELOMERE              } from '../../../modules/local/extract/telomere/main'
 
 workflow TELO_FINDER {
 
@@ -37,13 +37,13 @@ workflow TELO_FINDER {
     //
     // MODULE: EXTRACTS THE LOCATION OF TELOMERIC SEQUENCE BASED ON THE WINDOWS
     //
-    EXTRACT_TELO (
+    EXTRACT_TELOMERE (
         FIND_TELOMERE_WINDOWS.out.windows
     )
-    ch_versions     = ch_versions.mix( EXTRACT_TELO.out.versions )
+    ch_versions     = ch_versions.mix( EXTRACT_TELOMERE.out.versions )
 
     emit:
-    bedgraph_file   = EXTRACT_TELO.out.bed
-    bedgraph_file   = EXTRACT_TELO.out.bedgraph
+    bedgraph_file   = EXTRACT_TELOMERE.out.bed
+    bedgraph_file   = EXTRACT_TELOMERE.out.bedgraph
     versions        = ch_versions
 }

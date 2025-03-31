@@ -4,16 +4,17 @@
 // MODULE IMPORT BLOCK
 //
 
-include { BAMTOBED_SORT                             } from '../../modules/local/bamtobed_sort.nf'
-include { GENERATE_CRAM_CSV                         } from '../../modules/local/generate_cram_csv'
-include { BWAMEM2_INDEX                             } from '../../modules/nf-core/bwamem2/index/main'
-include { SAMTOOLS_FAIDX                            } from '../../modules/nf-core/samtools/faidx/main'
-include { PRETEXTMAP as PRETEXTMAP_STANDRD          } from '../../modules/nf-core/pretextmap/main'
-include { PRETEXTMAP as PRETEXTMAP_HIGHRES          } from '../../modules/nf-core/pretextmap/main'
-include { PRETEXTSNAPSHOT as SNAPSHOT_SRES          } from '../../modules/nf-core/pretextsnapshot/main'
-include { PRETEXTSNAPSHOT as SNAPSHOT_HRES          } from '../../modules/nf-core/pretextsnapshot/main'
-include { HIC_MINIMAP2                              } from '../../subworkflows/local/hic_minimap2'
-include { HIC_BWAMEM2                               } from '../../subworkflows/local/hic_bwamem2'
+include { BWAMEM2_INDEX                             } from '../../../modules/nf-core/bwamem2/index/main.nf'
+include { SAMTOOLS_FAIDX                            } from '../../../modules/nf-core/samtools/faidx/main'
+include { PRETEXTMAP as PRETEXTMAP_STANDRD          } from '../../../modules/nf-core/pretextmap/main'
+include { PRETEXTMAP as PRETEXTMAP_HIGHRES          } from '../../../modules/nf-core/pretextmap/main'
+include { PRETEXTSNAPSHOT as SNAPSHOT_SRES          } from '../../../modules/nf-core/pretextsnapshot/main'
+include { PRETEXTSNAPSHOT as SNAPSHOT_HRES          } from '../../../modules/nf-core/pretextsnapshot/main'
+include { BAMTOBED_SORT                             } from '../../../modules/local/bamtobed/sort/main.nf'
+include { CRAM_GENERATE_CSV                         } from '../../../modules/local/cram/generate_csv/main'
+
+include { HIC_MINIMAP2                              } from '../../../subworkflows/local/hic_minimap2/main'
+include { HIC_BWAMEM2                               } from '../../../subworkflows/local/hic_bwamem2/main'
 
 workflow GENERATE_MAPS {
     take:
@@ -46,10 +47,10 @@ workflow GENERATE_MAPS {
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
     //
-    GENERATE_CRAM_CSV (
+    CRAM_GENERATE_CSV (
         hic_reads_path
     )
-    ch_versions         = ch_versions.mix( GENERATE_CRAM_CSV.out.versions )
+    ch_versions         = ch_versions.mix( CRAM_GENERATE_CSV.out.versions )
 
 
     //
@@ -57,7 +58,7 @@ workflow GENERATE_MAPS {
     //
     HIC_MINIMAP2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'minimap2' },
-        GENERATE_CRAM_CSV.out.csv,
+        CRAM_GENERATE_CSV.out.csv,
         SAMTOOLS_FAIDX.out.fai
     )
     ch_versions             = ch_versions.mix( HIC_MINIMAP2.out.versions )
@@ -68,7 +69,7 @@ workflow GENERATE_MAPS {
     //
     HIC_BWAMEM2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'bwamem2' },
-        GENERATE_CRAM_CSV.out.csv,
+        CRAM_GENERATE_CSV.out.csv,
         SAMTOOLS_FAIDX.out.fai,
         BWAMEM2_INDEX.out.index
     )

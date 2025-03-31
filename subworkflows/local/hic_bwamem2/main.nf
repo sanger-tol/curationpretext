@@ -8,8 +8,8 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT          } from '../../modules/local/cram_filter_align_bwamem2_fixmate_sort'
-include { SAMTOOLS_MERGE                                  } from '../../modules/nf-core/samtools/merge/main'
+include { CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT          } from '../../../modules/local/cram/filter_align_bwamem2_fixmate_sort/main'
+include { SAMTOOLS_MERGE                                  } from '../../../modules/nf-core/samtools/merge/main'
 
 workflow HIC_BWAMEM2 {
     take:

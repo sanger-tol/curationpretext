@@ -1,4 +1,4 @@
-process GRAPHOVERALLCOVERAGE {
+process GRAPH_OVERALL_COVERAGE {
     tag "$meta.id"
     label 'process_single'
 

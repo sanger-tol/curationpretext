@@ -1,4 +1,4 @@
-process GENERATE_CRAM_CSV {
+process CRAM_GENERATE_CSV {
     tag "${meta.id}"
     label 'process_single'
 
@@ -19,7 +19,7 @@ process GENERATE_CRAM_CSV {
     script:
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "GENERATE_CRAM_CSV module does not support Conda. Please use Docker / Singularity instead."
+        error "CRAM_GENERATE_CSV module does not support Conda. Please use Docker / Singularity instead."
     }
 
     def prefix = task.ext.prefix ?: "${meta.id}"
@@ -35,7 +35,7 @@ process GENERATE_CRAM_CSV {
     stub:
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "GENERATE_CRAM_CSV module does not support Conda. Please use Docker / Singularity instead."
+        error "CRAM_GENERATE_CSV module does not support Conda. Please use Docker / Singularity instead."
     }
 
     """

@@ -3,19 +3,19 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { WINDOWMASKER_USTAT                } from '../../modules/nf-core/windowmasker/ustat/main'
-include { WINDOWMASKER_MKCOUNTS             } from '../../modules/nf-core/windowmasker/mkcounts/main'
-include { EXTRACT_REPEAT                    } from '../../modules/local/extract_repeat'
-include { BEDTOOLS_INTERSECT                } from '../../modules/nf-core/bedtools/intersect/main'
-include { BEDTOOLS_MAKEWINDOWS              } from '../../modules/nf-core/bedtools/makewindows/main'
-include { BEDTOOLS_MAP                      } from '../../modules/nf-core/bedtools/map/main'
-include { UCSC_BEDGRAPHTOBIGWIG             } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
-include { GNU_SORT as GNU_SORT_A            } from '../../modules/nf-core/gnu/sort/main'
-include { GNU_SORT as GNU_SORT_B            } from '../../modules/nf-core/gnu/sort/main'
-include { GNU_SORT as GNU_SORT_C            } from '../../modules/nf-core/gnu/sort/main'
-include { GAWK as GAWK_RENAME_IDS           } from '../../modules/nf-core/gawk/main'
-include { GAWK as GAWK_REPLACE_DOTS         } from '../../modules/nf-core/gawk/main'
-include { GAWK as GAWK_REFORMAT_INTERSECT   } from '../../modules/nf-core/gawk/main'
+include { WINDOWMASKER_USTAT                } from '../../../modules/nf-core/windowmasker/ustat/main'
+include { WINDOWMASKER_MKCOUNTS             } from '../../../modules/nf-core/windowmasker/mkcounts/main'
+include { EXTRACT_REPEAT                    } from '../../../modules/local/extract/repeat/main'
+include { BEDTOOLS_INTERSECT                } from '../../../modules/nf-core/bedtools/intersect/main'
+include { BEDTOOLS_MAKEWINDOWS              } from '../../../modules/nf-core/bedtools/makewindows/main'
+include { BEDTOOLS_MAP                      } from '../../../modules/nf-core/bedtools/map/main'
+include { UCSC_BEDGRAPHTOBIGWIG             } from '../../../modules/nf-core/ucsc/bedgraphtobigwig/main'
+include { GNU_SORT as GNU_SORT_A            } from '../../../modules/nf-core/gnu/sort/main'
+include { GNU_SORT as GNU_SORT_B            } from '../../../modules/nf-core/gnu/sort/main'
+include { GNU_SORT as GNU_SORT_C            } from '../../../modules/nf-core/gnu/sort/main'
+include { GAWK as GAWK_RENAME_IDS           } from '../../../modules/nf-core/gawk/main'
+include { GAWK as GAWK_REPLACE_DOTS         } from '../../../modules/nf-core/gawk/main'
+include { GAWK as GAWK_REFORMAT_INTERSECT   } from '../../../modules/nf-core/gawk/main'
 
 
 workflow REPEAT_DENSITY {

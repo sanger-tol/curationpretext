@@ -1,4 +1,4 @@
-process GETMINMAXPUNCHES{
+process GET_MIN_MAX_PUNCHES{
     tag "${meta.id}"
     label "process_single"
 
@@ -26,7 +26,7 @@ process GETMINMAXPUNCHES{
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        getminmaxpunches: $MINXMAX_VERSION
+        GET_MIN_MAX_PUNCHES: $MINXMAX_VERSION
         coreutils: $VERSION
     END_VERSIONS
     """

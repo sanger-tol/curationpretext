@@ -1,9 +1,13 @@
 lint:
   files_exist:
+    - .github/workflows/awstest.yml
+    - .github/workflows/awstestfull.yml
     - assets/multiqc_config.yml
     - assets/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_light.png
     - docs/images/nf-core-curationpretext_logo_dark.png
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
   multiqc_config: false
   files_unchanged:
     - .github/ISSUE_TEMPLATE/config.yml

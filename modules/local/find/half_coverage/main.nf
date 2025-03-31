@@ -1,4 +1,4 @@
-process FINDHALFCOVERAGE {
+process FIND_HALF_COVERAGE {
     tag "${meta.id}"
     label 'process_single'
 

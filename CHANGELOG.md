@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the MAPS_ONLY entry point, entry points are being depreciated and the subworkflow not used. This can be re-added on request.
 - Replaced 5 modules with GAWK to remove bad practise (`cat > sed` commands).
 - Update to remaining AWK modules.
+- local_component_structure refactoring - changing structure of local module/subworkflow files to match standards.
 
 ### Paramters
 
