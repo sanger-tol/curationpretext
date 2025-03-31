@@ -5,7 +5,6 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Github : https://github.com/sanger-tol/curationpretext
     Website: https://pipelines.tol.sanger.ac.uk/curationpretext
-    Slack  : https://nfcore.slack.com/channels/curationpretext
 ----------------------------------------------------------------------------------------
 */
 
