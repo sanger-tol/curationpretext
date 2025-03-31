@@ -1,4 +1,4 @@
-process GET_LARGEST_SCAFF {
+process GET_LARGEST_SCAFFOLD {
 
     tag "$meta.id"
     label 'process_low'
@@ -23,7 +23,7 @@ process GET_LARGEST_SCAFF {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        get_largest_scaff: $LARGEST_SCAFF_VERSION
+        get_largest_scaffold: $LARGEST_SCAFF_VERSION
         coreutils: $VERSION
     END_VERSIONS
     """

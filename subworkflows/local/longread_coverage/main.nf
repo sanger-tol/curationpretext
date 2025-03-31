@@ -3,20 +3,20 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { BEDTOOLS_BAMTOBED                             } from '../../modules/nf-core/bedtools/bamtobed/main'
-include { BEDTOOLS_GENOMECOV                            } from '../../modules/nf-core/bedtools/genomecov/main'
-include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MAX          } from '../../modules/nf-core/bedtools/merge/main'
-include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MIN          } from '../../modules/nf-core/bedtools/merge/main'
-include { GNU_SORT                                      } from '../../modules/nf-core/gnu/sort/main'
-include { MINIMAP2_INDEX                                } from '../../modules/nf-core/minimap2/index/main'
-include { MINIMAP2_ALIGN                                } from '../../modules/nf-core/minimap2/align/main'
-include { SAMTOOLS_MERGE                                } from '../../modules/nf-core/samtools/merge/main'
-include { SAMTOOLS_SORT                                 } from '../../modules/nf-core/samtools/sort/main'
-include { SAMTOOLS_VIEW as SAMTOOLS_VIEW_FILTER_PRIMARY } from '../../modules/nf-core/samtools/view/main'
-include { UCSC_BEDGRAPHTOBIGWIG                         } from '../../modules/nf-core/ucsc/bedgraphtobigwig/main'
-include { GRAPH_OVERALL_COVERAGE                        } from '../../modules/local/graph/overall_coverage/main'
-include { GET_MIN_MAX_PUNCHES                           } from '../../modules/local/get/min_max_punches/main'
-include { FIND_HALF_COVERAGE                            } from '../../modules/local/find/half_coverage/main'
+include { BEDTOOLS_BAMTOBED                             } from '../../../modules/nf-core/bedtools/bamtobed/main'
+include { BEDTOOLS_GENOMECOV                            } from '../../../modules/nf-core/bedtools/genomecov/main'
+include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MAX          } from '../../../modules/nf-core/bedtools/merge/main'
+include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MIN          } from '../../../modules/nf-core/bedtools/merge/main'
+include { GNU_SORT                                      } from '../../../modules/nf-core/gnu/sort/main'
+include { MINIMAP2_INDEX                                } from '../../../modules/nf-core/minimap2/index/main'
+include { MINIMAP2_ALIGN                                } from '../../../modules/nf-core/minimap2/align/main'
+include { SAMTOOLS_MERGE                                } from '../../../modules/nf-core/samtools/merge/main'
+include { SAMTOOLS_SORT                                 } from '../../../modules/nf-core/samtools/sort/main'
+include { SAMTOOLS_VIEW as SAMTOOLS_VIEW_FILTER_PRIMARY } from '../../../modules/nf-core/samtools/view/main'
+include { UCSC_BEDGRAPHTOBIGWIG                         } from '../../../modules/nf-core/ucsc/bedgraphtobigwig/main'
+include { GRAPH_OVERALL_COVERAGE                        } from '../../../modules/local/graph/overall_coverage/main'
+include { GET_MIN_MAX_PUNCHES                           } from '../../../modules/local/get/min_max_punches/main'
+include { FIND_HALF_COVERAGE                            } from '../../../modules/local/find/half_coverage/main'
 
 
 workflow LONGREAD_COVERAGE {

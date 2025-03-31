@@ -29,15 +29,18 @@
                     "bwa-mem2": "2.2.1",
                     "staden_io_lib": "1.14.14"
                 },
+                "CRAM_GENERATE_CSV": {
+                    "samtools": 1.17
+                },
                 "EXTRACT_REPEAT": {
                     "perl": "(v5.26.2))",
                     "extract_repeat.pl": 1.0
                 },
-                "EXTRACT_TELO": {
+                "EXTRACT_TELOMERE": {
                     "extract_telomere": 2.0,
                     "coreutils": 9.1
                 },
-                "FINDHALFCOVERAGE": {
+                "FIND_HALF_COVERAGE": {
                     "python": "Python 3.9.1",
                     "findHalfcoverage.py": 1.0
                 },
@@ -62,15 +65,12 @@
                 "GAWK_REPLACE_DOTS": {
                     "gawk": "5.3.0"
                 },
-                "GENERATE_CRAM_CSV": {
-                    "samtools": 1.17
-                },
-                "GETMINMAXPUNCHES": {
-                    "getminmaxpunches": 2.0,
+                "GET_LARGEST_SCAFFOLD": {
+                    "get_largest_scaffold": 2.0,
                     "coreutils": 9.1
                 },
-                "GET_LARGEST_SCAFF": {
-                    "get_largest_scaff": 2.0,
+                "GET_MIN_MAX_PUNCHES": {
+                    "GET_MIN_MAX_PUNCHES": 2.0,
                     "coreutils": 9.1
                 },
                 "GNU_SORT": {
@@ -85,7 +85,7 @@
                 "GNU_SORT_C": {
                     "coreutils": 9.3
                 },
-                "GRAPHOVERALLCOVERAGE": {
+                "GRAPH_OVERALL_COVERAGE": {
                     "perl": "(v5.26.2))",
                     "graph_overall_coverage.pl": 1.0
                 },
@@ -155,9 +155,9 @@
             false
         ],
         "meta": {
-            "nf-test": "0.9.0",
+            "nf-test": "0.9.2",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2025-03-27T15:09:51.371631753"
+        "timestamp": "2025-03-31T14:22:54.921071"
     }
 }
