@@ -1,18 +1,10 @@
-----------------------------------------------------
-                                        ,--./,-.
-        ___     __   __   __   ___     /,-._.--~\\
-  |\\ | |__  __ /  ` /  \\ |__) |__         }  {
-  | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
-                                        `._,._,'
-  nf-core/curationpretext ${version}
-----------------------------------------------------
 Run Name: $runName
 
 <% if (success){
-    out << "## nf-core/curationpretext execution completed successfully! ##"
+    out << "## sanger-tol/curationpretext execution completed successfully! ##"
 } else {
     out << """####################################################
-## nf-core/curationpretext execution completed unsuccessfully! ##
+## sanger-tol/curationpretext execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -35,5 +27,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-nf-core/curationpretext
-https://github.com/nf-core/curationpretext
+sanger-tol/curationpretext
+https://github.com/sanger-tol/curationpretext
