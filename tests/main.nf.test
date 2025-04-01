@@ -29,13 +29,15 @@ nextflow_pipeline {
                     // Test for number of successful processes - should be 29 for a full run
                     workflow.trace.succeeded().size(),
 
-                    removeNextflowVersion("$outputDir/pipeline_info/software_versions.yml"),
+                    removeNextflowVersion("$outputDir/pipeline_info/sanger-tol_curationpretext_software_versions.yml"),
 
                     // Stable name with relative path
                     stable_name,
+                    stable_name.size(),
 
                     // Accessory files
                     accessories,
+                    accessories.size(),
 
                     // The two pretext files
                     // Presence of files indicated presence of the raw_pretexts
@@ -43,7 +45,6 @@ nextflow_pipeline {
                     // we can't use their md5sum as they will be different everytime
                     // Then double check that there are two
                     // one is a hr and the other a normal variant
-
                     pretext_files.size(),
                     pretext_files.any{it.toString().contains("_hr.pretext".toString())},
                     pretext_files.any{it.toString().contains("_normal.pretext".toString())},

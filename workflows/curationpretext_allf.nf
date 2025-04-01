@@ -1,42 +1,18 @@
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    VALIDATE INPUTS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
-
-// Validate input parameters
-WorkflowCurationpretext.initialise(params, log)
-
-// Check input path parameters to see if they exist
-def checkPathParamList = [ params.reads, params.cram, params.input ]
-for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT LOCAL MODULES/SUBWORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps'
-include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files'
-include { PRETEXT_INGESTION as PRETEXT_INGEST_SNDRD } from '../subworkflows/local/pretext_ingestion'
-include { PRETEXT_INGESTION as PRETEXT_INGEST_HIRES } from '../subworkflows/local/pretext_ingestion'
+include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
+include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
 
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// MODULE: Installed directly from nf-core/modules
-//
-
-include { CUSTOM_DUMPSOFTWAREVERSIONS   } from '../modules/nf-core/custom/dumpsoftwareversions/main'
-
+include { paramsSummaryMap                          } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML                    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText                    } from '../subworkflows/local/utils_nfcore_curationpretext_pipeline'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -44,54 +20,25 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS   } from '../modules/nf-core/custom/dumpso
 */
 
 workflow CURATIONPRETEXT_ALLF {
+    take:
+    ch_reference
+    ch_reads
+    ch_cram_reads
+    val_teloseq
 
     main:
     ch_versions = Channel.empty()
-
-    input_fasta     = Channel.fromPath(params.input, checkIfExists: true, type: 'file')
-    cram_dir        = Channel.fromPath(params.cram, checkIfExists: true, type: 'dir')
-
-    ch_reference = input_fasta.map { fasta ->
-        tuple(
-            [
-                id: params.sample,
-                aligner: params.aligner,
-                ref_size: fasta.size(),
-            ],
-            fasta
-        )
-    }
-    ch_cram_reads = cram_dir.map { dir ->
-        tuple(
-            [
-                id: params.sample,
-            ],
-            dir
-        )
-    }
-    ch_reads = Channel
-                            .fromPath(
-                                params.reads, checkIfExists: true, type: 'dir'
-                            )
-                            .map { dir ->
-                                tuple(
-                                    [
-                                        id: params.sample,
-                                        single_end: true,
-                                        read_type: params.read_type,
-                                    ],
-                                    dir
-                                )
-                            }
 
     //
     // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
     //
     ACCESSORY_FILES (
         ch_reference,
-        ch_reads
+        ch_reads,
+        val_teloseq
     )
     ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
+
 
     //
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
@@ -102,6 +49,7 @@ workflow CURATIONPRETEXT_ALLF {
     )
     ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
 
+
     //
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
     //          - ADAPTED FROM TREEVAL
@@ -110,12 +58,11 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.standrd_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
-        ACCESSORY_FILES.out.coverage_avg_bw,
-        ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
     )
     ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+
 
     //
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
@@ -125,41 +72,27 @@ workflow CURATIONPRETEXT_ALLF {
         GENERATE_MAPS.out.highres_pretext,
         ACCESSORY_FILES.out.gap_file,
         ACCESSORY_FILES.out.coverage_bw,
-        ACCESSORY_FILES.out.coverage_avg_bw,
-        ACCESSORY_FILES.out.coverage_log_bw,
         ACCESSORY_FILES.out.telo_file,
         ACCESSORY_FILES.out.repeat_file
     )
     ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
+
     //
-    // SUBWORKFLOW: Collates version data from prior subworflows
+    // Collate and save software versions
     //
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
+    softwareVersionsToYAML(ch_versions)
+        .collectFile(
+            storeDir: "${params.outdir}/pipeline_info",
+            name: 'sanger-tol_'  +  'curationpretext_software_' + 'versions.yml',
+            sort: true,
+            newLine: true
+        ).set { ch_collated_versions }
 
-    emit:
-    software_ch = CUSTOM_DUMPSOFTWAREVERSIONS.out.yml
-    versions_ch = CUSTOM_DUMPSOFTWAREVERSIONS.out.versions
+    summary_params      = paramsSummaryMap(
+        workflow, parameters_schema: "nextflow_schema.json")
 
-}
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    COMPLETION EMAIL AND SUMMARY
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
-    }
-    NfcoreTemplate.summary(workflow, params, log)
-    if (params.hook_url) {
-        NfcoreTemplate.IM_notification(workflow, params, summary_params, projectDir, log)
-    }
-    // TreeValProject.summary(workflow, reference_tuple, summary_params, projectDir)
 }
 
 /*

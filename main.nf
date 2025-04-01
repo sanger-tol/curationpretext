@@ -4,65 +4,92 @@
     sanger-tol/curationpretext
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Github : https://github.com/sanger-tol/curationpretext
-    Website: https://nf-co.re/curationpretext
-    Slack  : https://nfcore.slack.com/channels/curationpretext
+    Website: https://pipelines.tol.sanger.ac.uk/curationpretext
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    GENOME PARAMETER VALUES
+    IMPORT FUNCTIONS / MODULES / SUBWORKFLOWS / WORKFLOWS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-params.input = WorkflowMain.getGenomeAttribute(params, 'input')
+include { CURATIONPRETEXT_ALLF      } from './workflows/curationpretext_allf'
+//include { CURATIONPRETEXT_MAPS      } from './workflows/curationpretext_maps'
+include { PIPELINE_INITIALISATION   } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
+include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    VALIDATE & PRINT PARAMETER SUMMARY
+    NAMED WORKFLOWS FOR PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-WorkflowMain.initialise(workflow, params, log)
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    NAMED WORKFLOW FOR PIPELINE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-include { CURATIONPRETEXT_ALLF } from './workflows/curationpretext_allf'
-include { CURATIONPRETEXT_MAPS } from './workflows/curationpretext_maps'
 
 //
 // WORKFLOW: Run main sanger-tol/curationpretext analysis pipeline
 //
-workflow SANGERTOL_CURATIONPRETEXT_ALL_FILES {
-    CURATIONPRETEXT_ALLF ()
-}
+workflow SANGER_TOL_CURATIONPRETEXT {
+    take:
+    input_fasta
+    reads
+    cram
+    teloseq
 
-workflow SANGERTOL_CURATIONPRETEXT_MAPS {
-    CURATIONPRETEXT_MAPS ()
+    main:
+
+    CURATIONPRETEXT_ALLF (
+        input_fasta,
+        reads,
+        cram,
+        teloseq
+    )
+    // CURATIONPRETEXT_MAPS
 }
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RUN ALL WORKFLOWS
+    RUN MAIN WORKFLOW
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// WORKFLOW: Execute a single named workflow for the pipeline
-// See: https://github.com/nf-core/rnaseq/issues/619
-//
 workflow {
-    SANGERTOL_CURATIONPRETEXT_ALL_FILES ()
-}
 
-workflow MAPS_ONLY {
-    SANGERTOL_CURATIONPRETEXT_MAPS ()
+    //
+    // SUBWORKFLOW: Run initialisation tasks
+    //
+    PIPELINE_INITIALISATION (
+        params.version,
+        params.validate_params,
+        params.monochrome_logs,
+        args,
+        params.outdir,
+        []                      // We are not using the samplesheet for this pipeline
+    )
+
+    // MOVE THE CHANNEL CREATION INTO THE PIPELINE INITIALISATION
+
+    //
+    // WORFKLOW: Run main sanger-tol/curationpretext analysis pipeline
+    //
+    SANGER_TOL_CURATIONPRETEXT (
+        PIPELINE_INITIALISATION.out.ch_reference,
+        PIPELINE_INITIALISATION.out.ch_reads,
+        PIPELINE_INITIALISATION.out.ch_cram_reads,
+        PIPELINE_INITIALISATION.out.teloseq
+    )
+
+    //
+    // SUBWORKFLOW: Run completion tasks
+    //
+    PIPELINE_COMPLETION (
+        params.email,
+        params.email_on_fail,
+        params.plaintext_email,
+        params.outdir,
+        params.monochrome_logs,
+        params.hook_url
+    )
 }
 
 /*
