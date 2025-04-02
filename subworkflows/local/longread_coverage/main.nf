@@ -45,7 +45,7 @@ workflow LONGREAD_COVERAGE {
             ch_reads_path,
             reference_tuple.collect(),
             true,
-            "bai",
+            "csi",
             false,
             false,
     )
