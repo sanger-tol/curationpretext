@@ -40,15 +40,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                             | Old Version | New Versions               |
-| ---------------------------------- | ----------- | -------------------------- |
-| `gawk`                             | -           | 5.3.0                      |
-| `rename_ids` ( coreutils )         | 9.1         | REMOVED                    |
-| `replace_dots` ( coreutils )       | 9.1         | REMOVED                    |
-| `gap_length` ( coreutils )         | 9.1         | REMOVED                    |
-| `reformat_intersect` ( coreutils ) | 9.1         | REMOVED                    |
-| `generate_genome_file` (coreutils) | 9.1         | REMOVED                    |
-| `custom_dumpsoftwareversions`      | Python 3.11.7 + yaml 5.4.1           | REMOVED |
+| Module                             | Old Version                | New Versions |
+| ---------------------------------- | -------------------------- | ------------ |
+| `gawk`                             | -                          | 5.3.0        |
+| `rename_ids` ( coreutils )         | 9.1                        | REMOVED      |
+| `replace_dots` ( coreutils )       | 9.1                        | REMOVED      |
+| `gap_length` ( coreutils )         | 9.1                        | REMOVED      |
+| `reformat_intersect` ( coreutils ) | 9.1                        | REMOVED      |
+| `generate_genome_file` (coreutils) | 9.1                        | REMOVED      |
+| `custom_dumpsoftwareversions`      | Python 3.11.7 + yaml 5.4.1 | REMOVED      |
 
 ## [[1.2.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.2.0)] - UNSC Spirit-of-Fire - [2025-02-28]
 
