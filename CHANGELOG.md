@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added GAWK module (as GAWK_CLEAN_TELOMERE) to remove "you screwed up" error lines which can appear with some telo motifs or lower case motifs. These will otherwise cause the FIND_TELOMERE_WINDOWS process to crash.
 
+- Removed the `check_max` function as no longer needed
+
 ## [[1.3.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.1)] - UNSC Pillar-of-Autumn (H1) - [2025-04-02]
 
 ### Added and Fixed
