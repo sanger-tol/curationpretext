@@ -34,7 +34,9 @@ workflow TELO_FINDER {
     //          WORKS BE RETURNING LINES THAT START WITH '>'
     //
     GAWK_CLEAN_TELOMERE (
-        FIND_TELOMERE_REGIONS.out.telomere
+        FIND_TELOMERE_REGIONS.out.telomere,
+        [],
+        false
     )
     ch_versions     = ch_versions.mix( GAWK_CLEAN_TELOMERE.out.versions )
 
