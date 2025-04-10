@@ -18,11 +18,22 @@ workflow TELO_FINDER {
     main:
     ch_versions     = Channel.empty()
 
+
+    //
+    // MODULE: UPPERCASE THE REFERENCE SEQUENCE
+    //
+    GAWK_UPPER_SEQUENCE(
+        reference_tuple,
+        [],
+        false,
+    )
+    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
+
     //
     // MODULE: FINDS THE TELOMERIC SEQEUNCE IN REFERENCE
     //
     FIND_TELOMERE_REGIONS (
-        reference_tuple,
+        GAWK_UPPER_SEQUENCE.out.output,
         teloseq
     )
     ch_versions     = ch_versions.mix( FIND_TELOMERE_REGIONS.out.versions )
