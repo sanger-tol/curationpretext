@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            44,
+            45,
             {
                 "BEDTOOLS_BAMTOBED": {
                     "bedtools": "2.31.1"
@@ -66,6 +66,9 @@
                     "gawk": "5.3.0"
                 },
                 "GAWK_REPLACE_DOTS": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_UPPER_SEQUENCE": {
                     "gawk": "5.3.0"
                 },
                 "GET_LARGEST_SCAFFOLD": {
@@ -177,6 +180,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2025-04-10T11:46:19.789904"
+        "timestamp": "2025-04-10T12:37:21.073846"
     }
 }
