@@ -3,6 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.3.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.2)] - UNSC Pillar-of-Autumn (H2) - [2025-04-05]
+
+### Added and Fixed
+
+- GRIT found a bug in `pretext_graph` ingestion code where null values were being introduced as the track name
+
+  - This has now need hardcoded, there was no need for dynamic naming anyway
+
+- GRIT found a bug in `pretext_graph` ingestion where gap and telomere tracks stopped being ingested correctly and would no longer display or be zeroed out.
+
+  - I'm not entirely sure of the cause of this but i think it is a mix of how pretext handles unnamed tracks, assuming their datatype so a null named gap track would be treated as a repeat track, and incorrect logic in the pretext_graph module.
+
+- Added GAWK module (as GAWK_CLEAN_TELOMERE) to remove "you screwed up" (this is a legacy error message which will be changed to something more informative and professional) error lines which can appear with some telo motifs or lower case motifs. These will otherwise cause the FIND_TELOMERE_WINDOWS process to crash.
+
+- Removed the `check_max` function as no longer needed
+
 ## [[1.3.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.1)] - UNSC Pillar-of-Autumn (H1) - [2025-04-02]
 
 ### Added and Fixed

@@ -28,9 +28,12 @@ process PRETEXT_GRAPH {
     def prefix       = task.ext.prefix ?: "${meta.id}"
     def UCSC_VERSION = '447' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
 
+    // Using single [ ] as nextflow will use sh where possible not bash
     """
-    if [[ -s "${coverage}" ]];
-    then
+
+    echo "PROCESSING ESSENTIAL FILES"
+
+    if [ -s "${coverage}" ]; then
         echo "PROCESSING COVERAGE..."
         bigWigToBedGraph ${coverage} /dev/stdout | PretextGraph ${args} -i ${pretext_file} -n "coverage" -o coverage.pretext.part
     else
@@ -38,8 +41,7 @@ process PRETEXT_GRAPH {
         mv ${pretext_file} coverage.pretext.part
     fi
 
-    if [[ -s "${repeat_density}" ]];
-    then
+    if [ -s "${repeat_density}" ]; then
         echo "PROCESSING REPEAT_DENSITY..."
         bigWigToBedGraph  ${repeat_density} /dev/stdout | PretextGraph ${args} -i coverage.pretext.part -n "repeat_density" -o repeat.pretext.part
     else
@@ -47,18 +49,19 @@ process PRETEXT_GRAPH {
         mv coverage.pretext.part repeat.pretext.part
     fi
 
-    if [[ -s "${gap_file}" ]];
-    then
+    echo "NOW PROCESSING NON-ESSENTIAL files"
+
+    input_file="repeat.pretext.part"
+
+    if [ -s "${gap_file}" ]; then
         echo "Processing GAP file..."
-        cat "${gap_file}" | PretextGraph ${args} -i repeat.pretext.part -n "${gap.ft}" -o gap.pretext.part
+        cat "${gap_file}" | PretextGraph ${args} -i repeat.pretext.part -n "gap" -o gap.pretext.part
         input_file="gap.pretext.part"
-    else
-        input_file="repeat.pretext.part"
     fi
 
-    if [[ -s "${telomere_file}" ]]; then
+    if [ -s "${telomere_file}" ]; then
         echo "Processing TELO file..."
-        cat "${telomere_file}" | PretextGraph ${args} -i "\$input_file" -n "${telo.ft}" -o "${prefix}.pretext"
+        cat "${telomere_file}" | PretextGraph ${args} -i "\$input_file" -n "telomere" -o "${prefix}.pretext"
     else
         mv "\$input_file" "${prefix}.pretext"
     fi

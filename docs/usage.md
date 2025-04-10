@@ -219,7 +219,7 @@ nextflow pull sanger-tol/curationpretext
 
 It is a good idea to specify the pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [sanger-tol/curationpretext releases page](https://github.com/sanger-tol/curationpretext/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [sanger-tol/curationpretext releases page](https://github.com/sanger-tol/curationpretext/releases) and find the latest pipeline version - numeric only (eg. `1.3.2`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.2`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
