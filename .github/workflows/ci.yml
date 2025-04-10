@@ -51,9 +51,11 @@ jobs:
         uses: nf-core/setup-nf-test@v1
 
       # Test the component
+      #
       - name: Run nf-test
         run: |
           nf-test test \
-            --profile="docker" \
+            tests/main.nf.test \
+            --profile="docker,test" \
             --debug \
             --verbose
