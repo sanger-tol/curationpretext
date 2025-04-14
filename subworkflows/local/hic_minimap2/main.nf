@@ -24,7 +24,6 @@ workflow HIC_MINIMAP2 {
     ch_versions         = Channel.empty()
     mappedbam_ch        = Channel.empty()
 
-    reference_tuple.view{"MINIMAP2 CALLED WITH: $it"}
 
     //
     // MODULE:  generate minimap2 mmi file
