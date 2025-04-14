@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[1.3.3](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.3)] - UNSC Pillar-of-Autumn (H3) - [2025-04-14]
 
 ### Added and Fixed
+
 - Fixed bug where occasionally and when using `minimap2` as the aligner, the pipeline would run both bwamem2 and minimap2 mapping subworkflow (fixes issue [#93](https://github.com/sanger-tol/curationpretext/issues/93))
   - Fixed by moving the BWAMEM2 INDEX process into the subworkflow, this was a planned change anyway. Not sure why this fixed it as the subworkflow only accepts tuples with the aligner value of `bwamem2` or `minimap2` so selecting `minimap2` shouldn't have still run the BWAMAPPING subworkfow. The BWAMEM INDEX process seems to have pushed it through though.
 - Updated contributors list to include their OrcId
