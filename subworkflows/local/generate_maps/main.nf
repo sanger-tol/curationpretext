@@ -4,7 +4,6 @@
 // MODULE IMPORT BLOCK
 //
 
-include { BWAMEM2_INDEX                             } from '../../../modules/nf-core/bwamem2/index/main.nf'
 include { SAMTOOLS_FAIDX                            } from '../../../modules/nf-core/samtools/faidx/main'
 include { PRETEXTMAP as PRETEXTMAP_STANDRD          } from '../../../modules/nf-core/pretextmap/main'
 include { PRETEXTMAP as PRETEXTMAP_HIGHRES          } from '../../../modules/nf-core/pretextmap/main'
@@ -36,15 +35,6 @@ workflow GENERATE_MAPS {
 
 
     //
-    // MODULE: Indexing on reference output the folder of indexing files
-    //
-    BWAMEM2_INDEX (
-        reference_tuple
-    )
-    ch_versions         = ch_versions.mix( BWAMEM2_INDEX.out.versions )
-
-
-    //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
     //
     CRAM_GENERATE_CSV (
@@ -56,6 +46,7 @@ workflow GENERATE_MAPS {
     //
     // SUBWORKFLOW: mapping hic reads using minimap2
     //
+    reference_tuple.view{"MAPPING!: $it"}
     HIC_MINIMAP2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'minimap2' },
         CRAM_GENERATE_CSV.out.csv,
@@ -70,8 +61,7 @@ workflow GENERATE_MAPS {
     HIC_BWAMEM2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'bwamem2' },
         CRAM_GENERATE_CSV.out.csv,
-        SAMTOOLS_FAIDX.out.fai,
-        BWAMEM2_INDEX.out.index
+        SAMTOOLS_FAIDX.out.fai
     )
     ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
 
