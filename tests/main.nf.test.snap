@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            42,
+            41,
             {
                 "BEDTOOLS_BAMTOBED": {
                     "bedtools": "2.31.1"
