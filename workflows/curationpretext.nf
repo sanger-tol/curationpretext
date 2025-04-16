@@ -4,6 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
 include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
 include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
@@ -30,10 +31,23 @@ workflow CURATIONPRETEXT {
     ch_versions         = Channel.empty()
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
+
+    //
+    // MODULE: GENERATE INDEX OF REFERENCE FASTA
+    //
+    SAMTOOLS_FAIDX (
+        ch_reference,
+        [[],[]],
+        false
+    )
+    ch_versions             = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
+
+
     //
     // LOGIC: IN SOME CASES THE USER MAY NOT NEED ALL OR A SELECT GROUP OF
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
+
     dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
 
     full_list = [
@@ -64,7 +78,8 @@ workflow CURATIONPRETEXT {
         ACCESSORY_FILES (
             ch_reference,
             ch_reads,
-            val_teloseq
+            val_teloseq,
+            SAMTOOLS_FAIDX.out.fai
         )
         ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
@@ -82,7 +97,8 @@ workflow CURATIONPRETEXT {
     //
     GENERATE_MAPS (
         ch_reference,
-        ch_cram_reads
+        ch_cram_reads,
+        SAMTOOLS_FAIDX.out.fai
     )
     ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
 

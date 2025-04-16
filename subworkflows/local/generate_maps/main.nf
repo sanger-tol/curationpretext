@@ -4,7 +4,6 @@
 // MODULE IMPORT BLOCK
 //
 
-include { SAMTOOLS_FAIDX                            } from '../../../modules/nf-core/samtools/faidx/main'
 include { PRETEXTMAP as PRETEXTMAP_STANDRD          } from '../../../modules/nf-core/pretextmap/main'
 include { PRETEXTMAP as PRETEXTMAP_HIGHRES          } from '../../../modules/nf-core/pretextmap/main'
 include { PRETEXTSNAPSHOT as SNAPSHOT_SRES          } from '../../../modules/nf-core/pretextsnapshot/main'
@@ -17,21 +16,11 @@ workflow GENERATE_MAPS {
     take:
     reference_tuple     // Channel [ val(meta), path(file)      ]
     hic_reads_path      // Channel [ val(meta), path(directory) ]
+    ch_reference_fai   // Channel [ val(meta), path(file)      ]
 
 
     main:
     ch_versions             = Channel.empty()
-
-    //
-    // MODULE: GENERATE INDEX OF REFERENCE FASTA
-    //
-    SAMTOOLS_FAIDX (
-        reference_tuple,
-        [[],[]],
-        false
-    )
-    ch_versions             = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
-
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
@@ -48,7 +37,7 @@ workflow GENERATE_MAPS {
     HIC_MINIMAP2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'minimap2' },
         CRAM_GENERATE_CSV.out.csv,
-        SAMTOOLS_FAIDX.out.fai
+        ch_reference_fai
     )
     ch_versions             = ch_versions.mix( HIC_MINIMAP2.out.versions )
 
@@ -59,7 +48,7 @@ workflow GENERATE_MAPS {
     HIC_BWAMEM2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'bwamem2' },
         CRAM_GENERATE_CSV.out.csv,
-        SAMTOOLS_FAIDX.out.fai
+        ch_reference_fai
     )
     ch_versions             = ch_versions.mix( HIC_BWAMEM2.out.versions )
 
@@ -78,13 +67,13 @@ workflow GENERATE_MAPS {
     //
     PRETEXTMAP_STANDRD (
         ch_aligned_bams,
-        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect()
+        reference_tuple.join( ch_reference_fai ).collect()
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
     PRETEXTMAP_HIGHRES (
         ch_aligned_bams,
-        reference_tuple.join( SAMTOOLS_FAIDX.out.fai ).collect()
+        reference_tuple.join( ch_reference_fai ).collect()
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
 

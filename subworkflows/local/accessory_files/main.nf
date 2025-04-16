@@ -10,13 +10,14 @@ include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 
 include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../../modules/nf-core/gawk/main'
 include { GET_LARGEST_SCAFFOLD              } from '../../../modules/local/get/largest_scaffold/main'
-include { SAMTOOLS_FAIDX                    } from '../../../modules/nf-core/samtools/faidx/main'
 
 workflow ACCESSORY_FILES {
     take:
     reference_tuple
     longread_reads
     val_teloseq
+    ch_reference_fai   // Channel [ val(meta), path(file)      ]
+
 
     main:
     ch_versions         = Channel.empty()
@@ -29,19 +30,12 @@ workflow ACCESSORY_FILES {
     //
     dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
 
-    //
-    // MODULE: GENERATE INDEX OF REFERENCE
-    //          EMITS REFERENCE INDEX FILE
-    //
-    SAMTOOLS_FAIDX ( reference_tuple, [[],[]], false)
-    ch_versions         = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
-
 
     //
     // MODULE: TRIMS INDEX INTO A GENOME DESCRIPTION FILE
     //         EMITS REFERENCE GEOME FILE AND REFERENCE INDEX FILE
     GAWK_GENERATE_GENOME_FILE (
-        SAMTOOLS_FAIDX.out.fai,
+        ch_reference_fai,
         [],
         false
     )
@@ -113,7 +107,7 @@ workflow ACCESSORY_FILES {
     } else {
         LONGREAD_COVERAGE (
             reference_tuple,
-            SAMTOOLS_FAIDX.out.fai,
+            ch_reference_fai,
             GAWK_GENERATE_GENOME_FILE.out.output,
             longread_reads
         )
