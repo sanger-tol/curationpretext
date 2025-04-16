@@ -11,6 +11,8 @@ nextflow_pipeline {
         when {
             params {
                 outdir = "${outputDir}"
+                all_output = true
+                skip_tracks = "NONE"
             }
         }
 
@@ -19,7 +21,9 @@ nextflow_pipeline {
 
             def pretext_files = getAllFilesFromDir(params.outdir, include: ['pretext_maps_processed/*.pretext'])
 
-            def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.png'])
+            def pretext_maps_raw = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.pretext'])
+
+            def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_snapshot/*.png'])
 
             def accessories = getAllFilesFromDir(params.outdir, include: ['accessory_files/*'])
 
@@ -45,12 +49,17 @@ nextflow_pipeline {
                     // we can't use their md5sum as they will be different everytime
                     // Then double check that there are two
                     // one is a hr and the other a normal variant
+                    pretext_maps_raw.size(),
+                    pretext_maps_raw.any{it.toString().contains("_hr_pi.pretext".toString())},
+                    pretext_maps_raw.any{it.toString().contains("_normal_pi.pretext".toString())},
+
                     pretext_files.size(),
                     pretext_files.any{it.toString().contains("_hr.pretext".toString())},
                     pretext_files.any{it.toString().contains("_normal.pretext".toString())},
 
                     // The one png file - like the maps, it will be slightly different
-                    pretext_png.any{it.toString().contains("CurationPretextTest_normalFullMap.png".toString())}
+                    pretext_png.size(),
+                    pretext_png.any{it.toString().contains(".png".toString())}
 
                 ).match()},
             )

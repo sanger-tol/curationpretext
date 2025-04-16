@@ -8,8 +8,6 @@ include { SAMTOOLS_FAIDX                            } from '../../../modules/nf-
 include { PRETEXTMAP as PRETEXTMAP_STANDRD          } from '../../../modules/nf-core/pretextmap/main'
 include { PRETEXTMAP as PRETEXTMAP_HIGHRES          } from '../../../modules/nf-core/pretextmap/main'
 include { PRETEXTSNAPSHOT as SNAPSHOT_SRES          } from '../../../modules/nf-core/pretextsnapshot/main'
-include { PRETEXTSNAPSHOT as SNAPSHOT_HRES          } from '../../../modules/nf-core/pretextsnapshot/main'
-include { BAMTOBED_SORT                             } from '../../../modules/local/bamtobed/sort/main.nf'
 include { CRAM_GENERATE_CSV                         } from '../../../modules/local/cram/generate_csv/main'
 
 include { HIC_MINIMAP2                              } from '../../../subworkflows/local/hic_minimap2/main'
@@ -22,16 +20,17 @@ workflow GENERATE_MAPS {
 
 
     main:
-    ch_versions         = Channel.empty()
+    ch_versions             = Channel.empty()
 
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
     SAMTOOLS_FAIDX (
         reference_tuple,
-        [[],[]]
+        [[],[]],
+        false
     )
-    ch_versions         = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
+    ch_versions             = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
 
 
     //
@@ -40,13 +39,12 @@ workflow GENERATE_MAPS {
     CRAM_GENERATE_CSV (
         hic_reads_path
     )
-    ch_versions         = ch_versions.mix( CRAM_GENERATE_CSV.out.versions )
+    ch_versions             = ch_versions.mix( CRAM_GENERATE_CSV.out.versions )
 
 
     //
     // SUBWORKFLOW: mapping hic reads using minimap2
     //
-    reference_tuple.view{"MAPPING!: $it"}
     HIC_MINIMAP2 (
         reference_tuple.filter{ meta, _fasta -> meta.aligner == 'minimap2' },
         CRAM_GENERATE_CSV.out.csv,

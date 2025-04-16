@@ -20,6 +20,11 @@
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-file-fasta"
                 },
+                "skip_tracks": {
+                    "type": "string",
+                    "description": "Skip generation for specified tracks",
+                    "fa_icon": "fas fa-file-signature"
+                },
                 "reads": {
                     "type": "string",
                     "format": "directory-path",

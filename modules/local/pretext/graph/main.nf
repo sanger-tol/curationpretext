@@ -5,11 +5,11 @@ process PRETEXT_GRAPH {
     container "quay.io/sanger-tol/pretext:0.0.8-yy5-c1"
 
     input:
-    tuple val(meta),    path(pretext_file)
-    tuple val(gap),     path(gap_file)
-    tuple val(cov),     path(coverage)
-    tuple val(telo),    path(telomere_file)
-    tuple val(rep),     path(repeat_density)
+    tuple val(meta), path(pretext_file)
+    path(gap_file,          stageAs: 'gap_file.bed')
+    path(coverage,          stageAs: 'coverage.bw')
+    path(telomere_file,     stageAs: 'telomere.bed')
+    path(repeat_density,    stageAs: 'repeat_density.bw')
 
     output:
     tuple val(meta), path("*.pretext")  , emit: pretext

@@ -20,13 +20,22 @@ workflow ACCESSORY_FILES {
 
     main:
     ch_versions         = Channel.empty()
+    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+
+    //
+    // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW,
+    //          PASSING THE PARAM TO THE SUBWORKFLOW CAUSED SOME ISSUES IN TESTING
+    //          SO WE USE IT DIRECTLY AGAIN.
+    //
+    dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
 
     //
     // MODULE: GENERATE INDEX OF REFERENCE
     //          EMITS REFERENCE INDEX FILE
     //
-    SAMTOOLS_FAIDX ( reference_tuple, [[],[]] )
-    ch_versions     = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
+    SAMTOOLS_FAIDX ( reference_tuple, [[],[]], false)
+    ch_versions         = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
+
 
     //
     // MODULE: TRIMS INDEX INTO A GENOME DESCRIPTION FILE
@@ -36,63 +45,86 @@ workflow ACCESSORY_FILES {
         [],
         false
     )
-    ch_versions     = ch_versions.mix( GAWK_GENERATE_GENOME_FILE.out.versions )
+    ch_versions         = ch_versions.mix( GAWK_GENERATE_GENOME_FILE.out.versions )
+
 
     //
     // MODULE: Cut out the largest scaffold size and use as comparator against 512MB
     //          This is the cut off for TABIX using tbi indexes
+    //          TODO: Investigate this as a pure groovy function.
     //
-    GET_LARGEST_SCAFFOLD ( GAWK_GENERATE_GENOME_FILE.out.output ) // Could replace with a native function
-    ch_versions     = ch_versions.mix( GET_LARGEST_SCAFFOLD.out.versions )
+    GET_LARGEST_SCAFFOLD (
+        GAWK_GENERATE_GENOME_FILE.out.output
+    )
+    ch_versions         = ch_versions.mix( GET_LARGEST_SCAFFOLD.out.versions )
+
 
     //
     // SUBWORKFLOW: GENERATES A GAP.BED FILE TO ID THE LOCATIONS OF GAPS
     //
-    GAP_FINDER (
-        reference_tuple,
-        GET_LARGEST_SCAFFOLD.out.scaff_size.map{it -> it[1].toInteger()}
-    )
-    ch_versions = ch_versions.mix(GAP_FINDER.out.versions)
+    if (dont_generate_tracks.contains("gap") || dont_generate_tracks.contains("ALL")) {
+        gap_file            = ch_empty_file
+    } else {
+        GAP_FINDER (
+            reference_tuple,
+            GET_LARGEST_SCAFFOLD.out.scaff_size.map{it -> it[1].toInteger()}
+        )
+        ch_versions         = ch_versions.mix(GAP_FINDER.out.versions)
+        gap_file            = GAP_FINDER.out.gap_file.map{ it -> it[1] }
+    }
+
 
     //
     // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH LONGREAD READS AND REFERENCE
     //
-    TELO_FINDER (
-        GET_LARGEST_SCAFFOLD.out.scaff_size.map{it -> it[1].toInteger()},
-        reference_tuple,
-        val_teloseq
-    )
-    ch_versions = ch_versions.mix(TELO_FINDER.out.versions)
+    if (dont_generate_tracks.contains("telo") || dont_generate_tracks.contains("ALL")) {
+        telo_file       = ch_empty_file
+    } else {
+        TELO_FINDER (
+            GET_LARGEST_SCAFFOLD.out.scaff_size.map{it -> it[1].toInteger()},
+            reference_tuple,
+            val_teloseq
+        )
+        ch_versions     = ch_versions.mix(TELO_FINDER.out.versions)
+        telo_file       = TELO_FINDER.out.bedgraph_file.map{ it -> it[1] }
+    }
+
 
     //
     // SUBWORKFLOW: GENERATES A BIGWIG FOR A REPEAT DENSITY TRACK
     //
-    REPEAT_DENSITY (
-        reference_tuple,
-        GAWK_GENERATE_GENOME_FILE.out.output
-    )
-    ch_versions = ch_versions.mix(REPEAT_DENSITY.out.versions)
+    if (dont_generate_tracks.contains("repeats") || dont_generate_tracks.contains("ALL")) {
+        repeat_file     = ch_empty_file
+    } else {
+        REPEAT_DENSITY (
+            reference_tuple,
+            GAWK_GENERATE_GENOME_FILE.out.output
+        )
+        ch_versions     = ch_versions.mix(REPEAT_DENSITY.out.versions)
+        repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ it -> it[1] }
+    }
+
 
     //
     // SUBWORKFLOW: Takes reference, longread reads
     //
-    LONGREAD_COVERAGE (
-        reference_tuple,
-        SAMTOOLS_FAIDX.out.fai,
-        GAWK_GENERATE_GENOME_FILE.out.output,
-        longread_reads
-    )
-    ch_versions = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
-
+    if (dont_generate_tracks.contains("coverage") || dont_generate_tracks.contains("ALL"))  {
+        longread_output = ch_empty_file
+    } else {
+        LONGREAD_COVERAGE (
+            reference_tuple,
+            SAMTOOLS_FAIDX.out.fai,
+            GAWK_GENERATE_GENOME_FILE.out.output,
+            longread_reads
+        )
+        ch_versions     = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
+        longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ it -> it[1] }
+    }
 
     emit:
-    gap_file            = GAP_FINDER.out.gap_file
-    repeat_file         = REPEAT_DENSITY.out.repeat_density
-    telo_file           = TELO_FINDER.out.bedgraph_file
-    repeat_file         = REPEAT_DENSITY.out.repeat_density
-    coverage_bw         = LONGREAD_COVERAGE.out.ch_bigwig
-    mins_bed            = LONGREAD_COVERAGE.out.ch_minbed
-    half_bed            = LONGREAD_COVERAGE.out.ch_halfbed
-    maxs_bed            = LONGREAD_COVERAGE.out.ch_maxbed
+    gap_file
+    repeat_file
+    telo_file
+    longread_output
     versions            = ch_versions
 }

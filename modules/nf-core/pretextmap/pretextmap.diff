@@ -1,5 +1,4 @@
 Changes in component 'nf-core/pretextmap'
-'modules/nf-core/pretextmap/meta.yml' is unchanged
 Changes in 'pretextmap/main.nf':
 --- modules/nf-core/pretextmap/main.nf
 +++ modules/nf-core/pretextmap/main.nf
@@ -15,8 +14,8 @@ Changes in 'pretextmap/main.nf':
      input:
      tuple val(meta), path(input)
 
+'modules/nf-core/pretextmap/meta.yml' is unchanged
 'modules/nf-core/pretextmap/environment.yml' is unchanged
 'modules/nf-core/pretextmap/tests/main.nf.test' is unchanged
-'modules/nf-core/pretextmap/tests/tags.yml' is unchanged
 'modules/nf-core/pretextmap/tests/main.nf.test.snap' is unchanged
 ************************************************************
