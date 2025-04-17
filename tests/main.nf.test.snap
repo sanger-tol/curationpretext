@@ -97,7 +97,7 @@
                     "samtools": 1.21
                 },
                 "PRETEXT_INGEST_SNDRD": {
-                    "PretextGraph": "0.0.8",
+                    "PretextGraph": "0.0.9",
                     "PretextMap": "0.1.9",
                     "bigWigToBedGraph": 447
                 },

@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed a number of processes (MINMAX, HALF_DEPTH, MIN_DEPTH, MAX_DEPTH) which are no longer in use.
 - Updated tests to account for all output files.
 - Updated all modules, versions which are the same indicate that the nf-core modules `.nf` has been updated without updating the tool.
+- Update modules and base config files for parity with TreeVal (large genome optimisations).
+- Update the PretextGraph version.
 
 ### Paramters
 
@@ -37,6 +39,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | BWAMEM2_INDEX       | 2.2.1              | 2.2.1 (samtools=1.2.1, htslib=1.2.1) |
 | SAMTOOLS_FAIDX      | 1.2.1              | 1.2.1                                |
 | SAMTOOLS_VIEW       | 1.2.1              | 1.2.1                                |
+| PRETEXT_GRAPH       | 0.0.8              | 0.0.9                                |
 
 ## [[1.3.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.2)] - UNSC Pillar-of-Autumn (H2) - [2025-04-05]
 
