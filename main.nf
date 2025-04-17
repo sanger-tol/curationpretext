@@ -14,8 +14,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CURATIONPRETEXT_ALLF      } from './workflows/curationpretext_allf'
-//include { CURATIONPRETEXT_MAPS      } from './workflows/curationpretext_maps'
+include { CURATIONPRETEXT           } from './workflows/curationpretext'
 include { PIPELINE_INITIALISATION   } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_curationpretext_pipeline'
 
@@ -38,7 +37,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
 
     main:
 
-    CURATIONPRETEXT_ALLF (
+    CURATIONPRETEXT (
         input_fasta,
         reads,
         cram,

@@ -24,6 +24,7 @@ workflow HIC_MINIMAP2 {
     ch_versions         = Channel.empty()
     mappedbam_ch        = Channel.empty()
 
+
     //
     // MODULE:  generate minimap2 mmi file
     //
