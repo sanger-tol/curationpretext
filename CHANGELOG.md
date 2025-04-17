@@ -17,9 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Paramters
 
-| Old Version | New Versions |
-| ----------- | ------------ |
-| NA          | --tracks     |
+| Old Version | New Versions  |
+| ----------- | ------------- |
+| NA          | --skip_tracks |
 
 ### Software Dependencies
 
