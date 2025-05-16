@@ -39,7 +39,7 @@ jobs:
         # Exclude conda and singularity on dev
         exclude:
           - isMaster: false
-            profile: "singularity" 
+            profile: "singularity"
 
     steps:
       - name: Check out pipeline code
@@ -56,7 +56,7 @@ jobs:
         with:
           pattern: nextflow-*
           merge-multiple: true
-      
+
       - name: Set up Apptainer
         if: matrix.profile == 'singularity'
         uses: eWaterCycle/setup-apptainer@main
@@ -67,8 +67,6 @@ jobs:
           mkdir -p $NXF_SINGULARITY_CACHEDIR
           mkdir -p $NXF_SINGULARITY_LIBRARYDIR
 
-
-
       - name: Download test data
         # Download A fungal test data set that is full enough to show some real output.
         run: |
@@ -76,7 +74,7 @@ jobs:
 
       - name: Install nf-test
         uses: nf-core/setup-nf-test@v1
-          
+
       - name: Clean up Disk space
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
 
