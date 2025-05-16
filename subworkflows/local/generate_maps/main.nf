@@ -71,12 +71,17 @@ workflow GENERATE_MAPS {
     )
     ch_versions             = ch_versions.mix( PRETEXTMAP_STANDRD.out.versions )
 
-    PRETEXTMAP_HIGHRES (
-        ch_aligned_bams,
-        reference_tuple.join( ch_reference_fai ).collect()
-    )
-    ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
 
+    if (params.run_hires) {
+        PRETEXTMAP_HIGHRES (
+            ch_aligned_bams,
+            reference_tuple.join( ch_reference_fai ).collect()
+        )
+        hires_pretext           = PRETEXTMAP_HIGHRES.out.pretext
+        ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
+    } else {
+        hires_pretext           = Channel.empty()
+    }
 
     //
     // MODULE: GENERATE PNG FROM STANDARD PRETEXT
@@ -89,7 +94,7 @@ workflow GENERATE_MAPS {
     emit:
     standrd_pretext         = PRETEXTMAP_STANDRD.out.pretext
     standrd_snpshot         = SNAPSHOT_SRES.out.image
-    highres_pretext         = PRETEXTMAP_HIGHRES.out.pretext
+    hires_pretext
     versions                = ch_versions
 
 }

@@ -123,14 +123,16 @@ workflow CURATIONPRETEXT {
         // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
         //          - ADAPTED FROM TREEVAL
         //
-        PRETEXT_INGEST_HIRES (
-            GENERATE_MAPS.out.highres_pretext,
-            gaps_file,
-            cove_file,
-            telo_file,
-            rept_file,
-        )
-        ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+        if (params.run_hires) {
+            PRETEXT_INGEST_HIRES (
+                GENERATE_MAPS.out.highres_pretext,
+                gaps_file,
+                cove_file,
+                telo_file,
+                rept_file,
+            )
+            ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+        }
     }
 
 

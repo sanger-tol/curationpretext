@@ -66,6 +66,12 @@
                     "fa_icon": "fas fa-file-signature",
                     "enum": ["bwamem2", "minimap2"]
                 },
+                "run_hires": {
+                    "type": "boolean",
+                    "description": "Run HiRes pretext maps",
+                    "help_text": "Boolean to switch off HiRes pretextmap generation",
+                    "fa_icon": "fas fa-check"
+                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
