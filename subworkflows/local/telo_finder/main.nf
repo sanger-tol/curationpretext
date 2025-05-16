@@ -3,8 +3,10 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { FIND_TELOMERE_REGIONS     } from '../../../modules/local/find/telomere_regions/main'
-include { FIND_TELOMERE_WINDOWS     } from '../../../modules/local/find/telomere_windows/main'
+include { GAWK as GAWK_UPPER_SEQUENCE   } from '../../../modules/nf-core/gawk/main'
+include { FIND_TELOMERE_REGIONS         } from '../../../modules/local/find/telomere_regions/main'
+include { GAWK as GAWK_CLEAN_TELOMERE   } from '../../../modules/nf-core/gawk/main'
+include { FIND_TELOMERE_WINDOWS         } from '../../../modules/local/find/telomere_windows/main'
 include { EXTRACT_TELOMERE              } from '../../../modules/local/extract/telomere/main'
 
 workflow TELO_FINDER {
@@ -17,20 +19,45 @@ workflow TELO_FINDER {
     main:
     ch_versions     = Channel.empty()
 
+
+    //
+    // MODULE: UPPERCASE THE REFERENCE SEQUENCE
+    //
+    GAWK_UPPER_SEQUENCE(
+        reference_tuple,
+        [],
+        false,
+    )
+    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
+
     //
     // MODULE: FINDS THE TELOMERIC SEQEUNCE IN REFERENCE
     //
     FIND_TELOMERE_REGIONS (
-        reference_tuple,
+        GAWK_UPPER_SEQUENCE.out.output,
         teloseq
     )
     ch_versions     = ch_versions.mix( FIND_TELOMERE_REGIONS.out.versions )
+
+
+    //
+    // MODULE: CLEAN THE .TELOMERE FILE IF CONTAINS "you screwed up" ERROR MESSAGE
+    //          (LIKELY WHEN USING LOWERCASE LETTERS OR BAD MOTIF)
+    //          WORKS BE RETURNING LINES THAT START WITH '>'
+    //
+    GAWK_CLEAN_TELOMERE (
+        FIND_TELOMERE_REGIONS.out.telomere,
+        [],
+        false
+    )
+    ch_versions     = ch_versions.mix( GAWK_CLEAN_TELOMERE.out.versions )
+
 
     //
     // MODULE: GENERATES A WINDOWS FILE FROM THE ABOVE
     //
     FIND_TELOMERE_WINDOWS (
-        FIND_TELOMERE_REGIONS.out.telomere
+        GAWK_CLEAN_TELOMERE.out.output
     )
     ch_versions     = ch_versions.mix( FIND_TELOMERE_WINDOWS.out.versions )
 
@@ -43,7 +70,7 @@ workflow TELO_FINDER {
     ch_versions     = ch_versions.mix( EXTRACT_TELOMERE.out.versions )
 
     emit:
-    bedgraph_file   = EXTRACT_TELOMERE.out.bed
+    bed_file        = EXTRACT_TELOMERE.out.bed
     bedgraph_file   = EXTRACT_TELOMERE.out.bedgraph
     versions        = ch_versions
 }

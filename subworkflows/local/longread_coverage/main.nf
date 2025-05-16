@@ -5,18 +5,13 @@
 //
 include { BEDTOOLS_BAMTOBED                             } from '../../../modules/nf-core/bedtools/bamtobed/main'
 include { BEDTOOLS_GENOMECOV                            } from '../../../modules/nf-core/bedtools/genomecov/main'
-include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MAX          } from '../../../modules/nf-core/bedtools/merge/main'
-include { BEDTOOLS_MERGE as BEDTOOLS_MERGE_MIN          } from '../../../modules/nf-core/bedtools/merge/main'
 include { GNU_SORT                                      } from '../../../modules/nf-core/gnu/sort/main'
-include { MINIMAP2_INDEX                                } from '../../../modules/nf-core/minimap2/index/main'
 include { MINIMAP2_ALIGN                                } from '../../../modules/nf-core/minimap2/align/main'
 include { SAMTOOLS_MERGE                                } from '../../../modules/nf-core/samtools/merge/main'
 include { SAMTOOLS_SORT                                 } from '../../../modules/nf-core/samtools/sort/main'
 include { SAMTOOLS_VIEW as SAMTOOLS_VIEW_FILTER_PRIMARY } from '../../../modules/nf-core/samtools/view/main'
 include { UCSC_BEDGRAPHTOBIGWIG                         } from '../../../modules/nf-core/ucsc/bedgraphtobigwig/main'
 include { GRAPH_OVERALL_COVERAGE                        } from '../../../modules/local/graph/overall_coverage/main'
-include { GET_MIN_MAX_PUNCHES                           } from '../../../modules/local/get/min_max_punches/main'
-include { FIND_HALF_COVERAGE                            } from '../../../modules/local/find/half_coverage/main'
 
 
 workflow LONGREAD_COVERAGE {
@@ -38,6 +33,7 @@ workflow LONGREAD_COVERAGE {
             .collect{ fasta -> tuple( meta, fasta ) }
     }
 
+
     //
     // PROCESS: MINIMAP ALIGNMENT
     //
@@ -51,6 +47,9 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix(MINIMAP2_ALIGN.out.versions)
 
+    //
+    // LOGIC: COLLECT THE MAPPED BAMS AS THERE MAY BE MULTIPLE AND MERGE, CREATE SAMPLE ID BASED ON PREFIX OF FILE
+    //
     MINIMAP2_ALIGN.out.bam
         .collect{ _meta, bam -> bam }
         .map { bams ->
@@ -89,7 +88,8 @@ workflow LONGREAD_COVERAGE {
     SAMTOOLS_VIEW_FILTER_PRIMARY(
         SAMTOOLS_SORT.out.bam.map { meta, bam -> tuple( meta + [sz: bam.size(), single_end: true], bam, [] ) },
         reference_tuple.collect(),
-        []
+        [],
+        "csi"
     )
     ch_versions         = ch_versions.mix(SAMTOOLS_VIEW_FILTER_PRIMARY.out.versions)
 
@@ -129,43 +129,15 @@ workflow LONGREAD_COVERAGE {
         false
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_GENOMECOV.out.versions )
-    ch_coverage_unsorted_bed = BEDTOOLS_GENOMECOV.out.genomecov
 
 
     //
     // MODULE: SORT THE PRIMARY BED FILE
     //
     GNU_SORT(
-        ch_coverage_unsorted_bed
+        BEDTOOLS_GENOMECOV.out.genomecov
     )
     ch_versions         = ch_versions.mix( GNU_SORT.out.versions )
-
-
-    //
-    // MODULE: GENERATE MIN AND MAX PUNCHFILES
-    //
-    GET_MIN_MAX_PUNCHES(
-        GNU_SORT.out.sorted
-    )
-    ch_versions         = ch_versions.mix( GET_MIN_MAX_PUNCHES.out.versions )
-
-
-    //
-    // MODULE: MERGE MAX DEPTH FILES
-    //
-    BEDTOOLS_MERGE_MAX(
-        GET_MIN_MAX_PUNCHES.out.max
-    )
-    ch_versions         = ch_versions.mix( BEDTOOLS_MERGE_MAX.out.versions )
-
-
-    //
-    // MODULE: MERGE MIN DEPTH FILES
-    //
-    BEDTOOLS_MERGE_MIN(
-        GET_MIN_MAX_PUNCHES.out.min
-    )
-    ch_versions         = ch_versions.mix( BEDTOOLS_MERGE_MIN.out.versions )
 
 
     //
@@ -175,35 +147,6 @@ workflow LONGREAD_COVERAGE {
         GNU_SORT.out.sorted
     )
     ch_versions         = ch_versions.mix( GRAPH_OVERALL_COVERAGE.out.versions )
-
-
-    //
-    // LOGIC: PREPARING FIND_HALF_COVERAGE INPUT
-    //
-    GNU_SORT.out.sorted
-        .combine( GRAPH_OVERALL_COVERAGE.out.part )
-        .combine( dot_genome )
-        .multiMap { meta, file, meta_depthgraph, depthgraph, meta_my_genome, my_genome ->
-            halfcov_bed     :       tuple(
-                                            [   id : meta.id,
-                                                single_end : true
-                                            ],
-                                            file
-                                    )
-            genome_file     :       my_genome
-            depthgraph_file :       depthgraph
-        }
-        .set { halfcov_input }
-
-    //
-    // MODULE: FIND REGIONS OF HALF COVERAGE
-    //
-    FIND_HALF_COVERAGE(
-        halfcov_input.halfcov_bed,
-        halfcov_input.genome_file,
-        halfcov_input.depthgraph_file
-    )
-    ch_versions         = ch_versions.mix( FIND_HALF_COVERAGE.out.versions )
 
 
     //
@@ -233,11 +176,7 @@ workflow LONGREAD_COVERAGE {
     )
     ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
-
     emit:
-    ch_minbed           = BEDTOOLS_MERGE_MIN.out.bed
-    ch_halfbed          = FIND_HALF_COVERAGE.out.bed
-    ch_maxbed           = BEDTOOLS_MERGE_MAX.out.bed
     ch_bigwig           = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
     versions            = ch_versions
 }

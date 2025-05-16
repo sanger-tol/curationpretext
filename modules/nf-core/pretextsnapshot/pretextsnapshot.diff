@@ -1,4 +1,5 @@
-Changes in module 'nf-core/pretextsnapshot'
+Changes in component 'nf-core/pretextsnapshot'
+Changes in 'pretextsnapshot/main.nf':
 --- modules/nf-core/pretextsnapshot/main.nf
 +++ modules/nf-core/pretextsnapshot/main.nf
 @@ -18,11 +18,13 @@
@@ -34,4 +35,6 @@ Changes in module 'nf-core/pretextsnapshot'
 +    """
  }
 
+'modules/nf-core/pretextsnapshot/meta.yml' is unchanged
+'modules/nf-core/pretextsnapshot/environment.yml' is unchanged
 ************************************************************

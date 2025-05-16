@@ -3,6 +3,83 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.4.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.1)] - UNSC Nereid (H1) - [2025-04-14]
+
+### Added and Fixed
+
+- Template update to 3.2.1
+- Added `run_hires` to switch on/off hires pretextmap generation.
+- modules.config had an explicit `enabled = true` for pretext\_\*\_ingest steps
+  - In production it looks like this was actually stopping output from that module from being output from the
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+| NA          | --run_hires  |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module     | Old Version               | New Versions |
+| ---------- | ------------------------- | ------------ |
+| PRETEXTMAP | PM=0.1.9 PG=0.1.9 ST=1.21 | REMOVED      |
+
+## [[1.4.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.0)] - UNSC Nereid - [2025-04-14]
+
+### Added and Fixed
+
+- Fixed bug where occasionally and when using `minimap2` as the aligner, the pipeline would run both bwamem2 and minimap2 mapping subworkflow (fixes issue [#93](https://github.com/sanger-tol/curationpretext/issues/93))
+  - Fixed by moving the BWAMEM2 INDEX process into the subworkflow, this was a planned change anyway. Not sure why this fixed it as the subworkflow only accepts tuples with the aligner value of `bwamem2` or `minimap2` so selecting `minimap2` shouldn't have still run the BWAMAPPING subworkfow. The BWAMEM INDEX process seems to have pushed it through though.
+- Updated contributors list to include their OrcId.
+- Added `--skip_tracks` to control which tracks to generate, useful in cases where the end user may have no longread_data and must skip `coverage` generation. This can be be set to `"ALL"` to only generate the pretext maps.
+- Removed a number of processes (MINMAX, HALF_DEPTH, MIN_DEPTH, MAX_DEPTH) which are no longer in use.
+- Updated tests to account for all output files.
+- Updated all modules, versions which are the same indicate that the nf-core modules `.nf` has been updated without updating the tool.
+- Update modules and base config files for parity with TreeVal (large genome optimisations).
+- Update the PretextGraph version.
+
+### Paramters
+
+| Old Version | New Versions  |
+| ----------- | ------------- |
+| NA          | --skip_tracks |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module              | Old Version        | New Versions                         |
+| ------------------- | ------------------ | ------------------------------------ |
+| GET_MIN_MAX_PUNCHES | 1.0.0              | REMOVED                              |
+| FIND_HALF_COVERAGE  | 1.0.0              | REMOVED                              |
+| BEDTOOLS_MERGE_MAX  | 2.31.1--hf5e1c6e_0 | REMOVED                              |
+| BEDTOOLS_MERGE_MIN  | 2.31.1--hf5e1c6e_0 | REMOVED                              |
+| MINIMAP2_INDEX      | 2.28--he4a0461_0   | REMOVED                              |
+| BAMTOBEDSORT        | 2.31.1 + 1.17      | REMOVED                              |
+| TABIX_BGZIPTABIX    | 1.20--h5efdd21_2   | REMOVED                              |
+| BWAMEM2_INDEX       | 2.2.1              | 2.2.1 (samtools=1.2.1, htslib=1.2.1) |
+| SAMTOOLS_FAIDX      | 1.2.1              | 1.2.1                                |
+| SAMTOOLS_VIEW       | 1.2.1              | 1.2.1                                |
+| PRETEXT_GRAPH       | 0.0.8              | 0.0.9                                |
+
+## [[1.3.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.2)] - UNSC Pillar-of-Autumn (H2) - [2025-04-05]
+
+### Added and Fixed
+
+- GRIT found a bug in `pretext_graph` ingestion code where null values were being introduced as the track name
+
+  - This has now need hardcoded, there was no need for dynamic naming anyway
+
+- GRIT found a bug in `pretext_graph` ingestion where gap and telomere tracks stopped being ingested correctly and would no longer display or be zeroed out.
+
+  - I'm not entirely sure of the cause of this but i think it is a mix of how pretext handles unnamed tracks, assuming their datatype so a null named gap track would be treated as a repeat track, and incorrect logic in the pretext_graph module.
+
+- Added GAWK module (as GAWK_CLEAN_TELOMERE) to remove "you screwed up" (this is a legacy error message which will be changed to something more informative and professional) error lines which can appear with some telo motifs or lower case motifs. These will otherwise cause the FIND_TELOMERE_WINDOWS process to crash.
+
+- Removed the `check_max` function as no longer needed
+
 ## [[1.3.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.1)] - UNSC Pillar-of-Autumn (H1) - [2025-04-02]
 
 ### Added and Fixed

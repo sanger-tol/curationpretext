@@ -20,6 +20,11 @@
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-file-fasta"
                 },
+                "skip_tracks": {
+                    "type": "string",
+                    "description": "Skip generation for specified tracks",
+                    "fa_icon": "fas fa-file-signature"
+                },
                 "reads": {
                     "type": "string",
                     "format": "directory-path",
@@ -60,6 +65,12 @@
                     "help_text": "Pick between {minimap2, bwamem2}. Defaults to 'minimap2'",
                     "fa_icon": "fas fa-file-signature",
                     "enum": ["bwamem2", "minimap2"]
+                },
+                "run_hires": {
+                    "type": "boolean",
+                    "description": "Run HiRes pretext maps",
+                    "help_text": "Boolean to switch off HiRes pretextmap generation",
+                    "fa_icon": "fas fa-check"
                 },
                 "outdir": {
                     "type": "string",

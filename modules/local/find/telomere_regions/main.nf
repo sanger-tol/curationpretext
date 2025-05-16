@@ -29,7 +29,7 @@ process FIND_TELOMERE_REGIONS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        find_telomere: \$(VERSION)
+        find_telomere: ${VERSION}
     END_VERSIONS
     """
 
@@ -47,7 +47,7 @@ process FIND_TELOMERE_REGIONS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        find_telomere: \$(VERSION)
+        find_telomere: ${VERSION}
     END_VERSIONS
     """
 
