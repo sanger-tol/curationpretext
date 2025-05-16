@@ -94,7 +94,7 @@ workflow GENERATE_MAPS {
     emit:
     standrd_pretext         = PRETEXTMAP_STANDRD.out.pretext
     standrd_snpshot         = SNAPSHOT_SRES.out.image
-    hires_pretext
+    highres_pretext         = hires_pretext
     versions                = ch_versions
 
 }
