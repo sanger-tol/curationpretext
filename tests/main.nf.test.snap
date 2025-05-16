@@ -88,10 +88,6 @@
                     "minimap2": "2.28-r1209",
                     "samtools": 1.2
                 },
-                "PRETEXTMAP_HIGHRES": {
-                    "pretextmap": "0.1.9",
-                    "samtools": 1.21
-                },
                 "PRETEXTMAP_STANDRD": {
                     "pretextmap": "0.1.9",
                     "samtools": 1.21
@@ -150,7 +146,7 @@
                 "pretext_snapshot",
                 "pretext_snapshot/CurationPretextTest_normalFullMap.png"
             ],
-            16,
+            14,
             [
                 "CurationPretextTest.bigWig:md5,3f66a9152d793a62f877b733c2336dfd",
                 "CurationPretextTest.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
@@ -159,8 +155,8 @@
                 "coverage.bigWig:md5,2e474506c957152b231ac63c859f0b17"
             ],
             5,
-            2,
-            true,
+            1,
+            false,
             true,
             2,
             true,
