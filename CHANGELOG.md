@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.4.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.1)] - UNSC Nereid (H1) - [2025-04-14]
+
+### Added and Fixed
+- modules.config had an explicit `enabled = true` for pretext_*_ingest steps
+  - In production it looks like this was actually stopping output from that module from being output from the 
+
+
 ## [[1.4.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.0)] - UNSC Nereid - [2025-04-14]
 
 ### Added and Fixed

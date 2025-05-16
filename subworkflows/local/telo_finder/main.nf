@@ -70,7 +70,7 @@ workflow TELO_FINDER {
     ch_versions     = ch_versions.mix( EXTRACT_TELOMERE.out.versions )
 
     emit:
-    bedgraph_file   = EXTRACT_TELOMERE.out.bed
+    bed_file        = EXTRACT_TELOMERE.out.bed
     bedgraph_file   = EXTRACT_TELOMERE.out.bedgraph
     versions        = ch_versions
 }

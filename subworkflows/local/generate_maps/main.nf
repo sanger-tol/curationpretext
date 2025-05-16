@@ -16,7 +16,7 @@ workflow GENERATE_MAPS {
     take:
     reference_tuple     // Channel [ val(meta), path(file)      ]
     hic_reads_path      // Channel [ val(meta), path(directory) ]
-    ch_reference_fai   // Channel [ val(meta), path(file)      ]
+    ch_reference_fai    // Channel [ val(meta), path(file)      ]
 
 
     main:
