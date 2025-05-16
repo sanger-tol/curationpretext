@@ -52,6 +52,23 @@ jobs:
         with:
           version: "${{ matrix.NXF_VER }}"
 
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: nextflow-*
+          merge-multiple: true
+      
+      - name: Set up Apptainer
+        if: matrix.profile == 'singularity'
+        uses: eWaterCycle/setup-apptainer@main
+
+      - name: Set up Singularity
+        if: matrix.profile == 'singularity'
+        run: |
+          mkdir -p $NXF_SINGULARITY_CACHEDIR
+          mkdir -p $NXF_SINGULARITY_LIBRARYDIR
+
+
+
       - name: Download test data
         # Download A fungal test data set that is full enough to show some real output.
         run: |
@@ -59,9 +76,7 @@ jobs:
 
       - name: Install nf-test
         uses: nf-core/setup-nf-test@v1
-          echo $(realpath $CONDA)/condabin >> $GITHUB_PATH
-          echo $(realpath python) >> $GITHUB_PATH
-
+          
       - name: Clean up Disk space
         uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
 
