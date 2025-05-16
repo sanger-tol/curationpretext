@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added and Fixed
 
+- Template update to 3.2.1
 - modules.config had an explicit `enabled = true` for pretext\_\*\_ingest steps
   - In production it looks like this was actually stopping output from that module from being output from the
 
