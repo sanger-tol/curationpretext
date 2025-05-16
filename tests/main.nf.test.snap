@@ -138,10 +138,8 @@
                 "pipeline_info",
                 "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
                 "pretext_maps_processed",
-                "pretext_maps_processed/CurationPretextTest_hr.pretext",
                 "pretext_maps_processed/CurationPretextTest_normal.pretext",
                 "pretext_maps_raw",
-                "pretext_maps_raw/CurationPretextTest_hr_pi.pretext",
                 "pretext_maps_raw/CurationPretextTest_normal_pi.pretext",
                 "pretext_snapshot",
                 "pretext_snapshot/CurationPretextTest_normalFullMap.png"
