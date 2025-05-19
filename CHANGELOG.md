@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `run_hires` to switch on/off hires pretextmap generation.
 - modules.config had an explicit `enabled = true` for pretext\_\*\_ingest steps
   - In production it looks like this was actually stopping output from that module from being output from the module.
+- NF-Schema is now 2.3.0.
 
 ### Paramters
 
