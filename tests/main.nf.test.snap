@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            41,
+            39,
             {
                 "BEDTOOLS_BAMTOBED": {
                     "bedtools": "2.31.1"
@@ -88,10 +88,6 @@
                     "minimap2": "2.28-r1209",
                     "samtools": 1.2
                 },
-                "PRETEXTMAP_HIGHRES": {
-                    "pretextmap": "0.1.9",
-                    "samtools": 1.21
-                },
                 "PRETEXTMAP_STANDRD": {
                     "pretextmap": "0.1.9",
                     "samtools": 1.21
@@ -129,7 +125,7 @@
                     "windowmasker": "1.0.0"
                 },
                 "Workflow": {
-                    "sanger-tol/curationpretext": "v1.4.0"
+                    "sanger-tol/curationpretext": "v1.4.1"
                 }
             },
             [
@@ -142,15 +138,13 @@
                 "pipeline_info",
                 "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
                 "pretext_maps_processed",
-                "pretext_maps_processed/CurationPretextTest_hr.pretext",
                 "pretext_maps_processed/CurationPretextTest_normal.pretext",
                 "pretext_maps_raw",
-                "pretext_maps_raw/CurationPretextTest_hr_pi.pretext",
                 "pretext_maps_raw/CurationPretextTest_normal_pi.pretext",
                 "pretext_snapshot",
                 "pretext_snapshot/CurationPretextTest_normalFullMap.png"
             ],
-            16,
+            14,
             [
                 "CurationPretextTest.bigWig:md5,3f66a9152d793a62f877b733c2336dfd",
                 "CurationPretextTest.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
@@ -159,11 +153,11 @@
                 "coverage.bigWig:md5,2e474506c957152b231ac63c859f0b17"
             ],
             5,
-            2,
+            1,
+            false,
             true,
-            true,
-            2,
-            true,
+            1,
+            false,
             true,
             1,
             true

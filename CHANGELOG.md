@@ -3,6 +3,31 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.4.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.1)] - UNSC Nereid (H1) - [2025-04-14]
+
+### Added and Fixed
+
+- Template update to 3.2.1
+- Updated the CI testing to better match nf-core ci/cd.
+- Added `run_hires` to switch on/off hires pretextmap generation.
+- modules.config had an explicit `enabled = true` for pretext\_\*\_ingest steps
+  - In production it looks like this was actually stopping output from that module from being output from the module.
+- NF-Schema is now 2.3.0.
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+| NA          | --run_hires  |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module     | Old Version               | New Versions              |
+| ---------- | ------------------------- | ------------------------- |
+| PRETEXTMAP | PM=0.1.9 PG=0.0.1 ST=1.17 | PM=0.1.9 PG=0.0.2 ST=1.21 |
+
 ## [[1.4.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.0)] - UNSC Nereid - [2025-04-14]
 
 ### Added and Fixed

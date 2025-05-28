@@ -12,12 +12,12 @@ process GET_LARGEST_SCAFFOLD {
     tuple val( meta ), path( file )
 
     output:
-    env largest_scaff   , emit: scaff_size
-    path "versions.yml" , emit: versions
+    env largest_scaff,          emit: scaff_size
+    path "versions.yml",        emit: versions
 
     script:
-    def LARGEST_SCAFF_VERSION = "2.0"
-    def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    def LARGEST_SCAFF_VERSION   = "2.0"
+    def VERSION                 = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     largest_scaff=\$(head -n 1 "${file}" | cut -d\$'\t' -f2)
 
@@ -29,9 +29,8 @@ process GET_LARGEST_SCAFFOLD {
     """
 
     stub:
-    def prefix      = task.ext.prefix ?: "${meta.id}"
-    def LARGEST_SCAFF_VERSION = "2.0"
-    def VERSION     = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    def LARGEST_SCAFF_VERSION   = "2.0"
+    def VERSION                 = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     largest_scaff=1000000
 
