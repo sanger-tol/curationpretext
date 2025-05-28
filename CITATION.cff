@@ -13,11 +13,23 @@ authors:
     family-names: Pointon
     affiliation: Wellcome Sanger Institute
     orcid: "https://orcid.org/0000-0003-2949-6719"
+    - given-names: Mahesh
+    family-names: Panchal
+    affiliation: NBISweden
+    orcid: "https://orcid.org/0000-0003-1675-0677"
+    - given-names: Jim
+    family-names: Downie
+    affiliation: Wellcome Sanger Institute
+    orcid: "https://orcid.org/0000-0002-7175-0533"
+    - given-names: Josie
+    family-names: Paris
+    affiliation: "Marche Polytechnic University"
+    orcid: "https://orcid.org/0000-0001-6868-3416"
 identifiers:
     - type: doi
     value: 10.5281/zenodo.12773958
 repository-code: "https://github.com/sanger-tol/curationpretext"
 license: MIT
-version: 1.4.0
+version: 1.4.1
 date-released: "2024-12-13"
 url: "https://pipelines.tol.sanger.ac.uk/curationpretext"
