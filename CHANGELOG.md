@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix to GENERATE_CRAM_CSV (by @mahesh-panchal)
   - Missing quotations in the shell script would stop all CRAM data being taken into account.
 - Update to test data paths for Sanger local testing.
+- Corrected spelling of track value.
+- Added GNU_SORT memory allocation of 1Gb.
 
 ### Paramters
 
