@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - modules.config had an explicit `enabled = true` for pretext\_\*\_ingest steps
   - In production it looks like this was actually stopping output from that module from being output from the module.
 - NF-Schema is now 2.3.0.
+- Fix to GENERATE_CRAM_CSV (by @mahesh-panchal)
+  - Missing quotations in the shell script would stop all CRAM data being taken into account.
+- Update to test data paths for Sanger local testing.
 
 ### Paramters
 
