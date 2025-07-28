@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
 
 ### Added and Fixed
+
 - Fix to GENERATE_CRAM_CSV (by @mahesh-panchal)
   - Missing quotations in the shell script would stop all CRAM data being taken into account.
 - Update to test data paths for Sanger local testing.
