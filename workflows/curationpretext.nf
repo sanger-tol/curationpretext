@@ -53,7 +53,7 @@ workflow CURATIONPRETEXT {
     full_list = [
         "gap",
         "telo",
-        "repeat",
+        "repeats",
         "coverage",
         "NONE",
         "ALL"
