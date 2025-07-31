@@ -3,6 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
+
+### Added and Fixed
+
+- Fix to GENERATE_CRAM_CSV (by @mahesh-panchal)
+  - Missing quotations in the shell script would stop all CRAM data being taken into account.
+- Update to test data paths for Sanger local testing.
+- Corrected spelling of track value.
+- Added GNU_SORT memory allocation of 1Gb.
+
 ## [[1.4.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.1)] - UNSC Nereid (H1) - [2025-04-14]
 
 ### Added and Fixed

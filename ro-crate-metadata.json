@@ -144,9 +144,9 @@
             },
             "url": [
                 "https://github.com/sanger-tol/curationpretext",
-                "https://pipelines.tol.sanger.ac.uk/sanger-tol/curationpretext/1.4.1/"
+                "https://pipelines.tol.sanger.ac.uk/sanger-tol/curationpretext/1.4.2/"
             ],
-            "version": ["1.4.1"]
+            "version": ["1.4.2"]
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",

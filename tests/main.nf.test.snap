@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            39,
+            40,
             {
                 "BEDTOOLS_BAMTOBED": {
                     "bedtools": "2.31.1"
@@ -125,7 +125,7 @@
                     "windowmasker": "1.0.0"
                 },
                 "Workflow": {
-                    "sanger-tol/curationpretext": "v1.4.1"
+                    "sanger-tol/curationpretext": "v1.4.2"
                 }
             },
             [
