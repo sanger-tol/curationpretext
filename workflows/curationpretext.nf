@@ -5,10 +5,13 @@
 */
 
 include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
-include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
-include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
+include { GAWK as GAWK_UPPER_SEQUENCE               } from '../modules/nf-core/gawk/main'
+
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
+
+include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
+include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
 
 include { paramsSummaryMap                          } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -33,10 +36,22 @@ workflow CURATIONPRETEXT {
 
 
     //
+    // MODULE: UPPERCASE THE REFERENCE SEQUENCE
+    //
+    GAWK_UPPER_SEQUENCE(
+        ch_reference,
+        [],
+        false,
+    )
+    ch_upper_ref    = GAWK_UPPER_SEQUENCE.out.output
+    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
+
+
+    //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
     SAMTOOLS_FAIDX (
-        ch_reference,
+        ch_upper_ref,
         [[],[]],
         false
     )
@@ -76,7 +91,7 @@ workflow CURATIONPRETEXT {
         // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
         //
         ACCESSORY_FILES (
-            ch_reference,
+            ch_upper_ref,
             ch_reads,
             val_teloseq,
             SAMTOOLS_FAIDX.out.fai
@@ -96,7 +111,7 @@ workflow CURATIONPRETEXT {
     //              - GENERATE_MAPS IS THE MINIMAL OUTPUT EXPECTED FROM THIS PIPELLINE
     //
     GENERATE_MAPS (
-        ch_reference,
+        ch_upper_ref,
         ch_cram_reads,
         SAMTOOLS_FAIDX.out.fai
     )
