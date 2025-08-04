@@ -9,7 +9,6 @@ include { GAWK as GAWK_GAP_LENGTH   } from '../../../modules/nf-core/gawk/main'
 workflow GAP_FINDER {
     take:
     reference_tuple     // Channel [ val(meta), path(fasta) ]
-    max_scaff_size      // val(size of largest scaffold in bp)
 
     main:
     ch_versions     = Channel.empty()

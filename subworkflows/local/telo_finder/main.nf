@@ -3,7 +3,6 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { GAWK as GAWK_UPPER_SEQUENCE   } from '../../../modules/nf-core/gawk/main'
 include { FIND_TELOMERE_REGIONS         } from '../../../modules/local/find/telomere_regions/main'
 include { GAWK as GAWK_SPLIT_DIRECTIONS } from '../../../modules/local/gawk/main'
 
@@ -12,7 +11,6 @@ include { TELO_EXTRACTION               } from '../../../subworkflows/local/telo
 workflow TELO_FINDER {
 
     take:
-    max_scaff_size      // val(size of largest scaffold in bp)
     reference_tuple     // Channel [ val(meta), path(fasta) ]
     teloseq
 
@@ -21,20 +19,10 @@ workflow TELO_FINDER {
 
 
     //
-    // MODULE: UPPERCASE THE REFERENCE SEQUENCE
-    //
-    GAWK_UPPER_SEQUENCE(
-        reference_tuple,
-        [],
-        false,
-    )
-    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
-
-    //
     // MODULE: FINDS THE TELOMERIC SEQEUNCE IN REFERENCE
     //
     FIND_TELOMERE_REGIONS (
-        GAWK_UPPER_SEQUENCE.out.output,
+        reference_tuple,
         teloseq
     )
     ch_versions     = ch_versions.mix( FIND_TELOMERE_REGIONS.out.versions )
@@ -94,8 +82,6 @@ workflow TELO_FINDER {
 
 
     emit:
-    bed_file        = TELO_EXTRACTION.out.bed_file.collect()    // Not used anymore
-    bed_gz_tbi      = TELO_EXTRACTION.out.bed_gz_tbi.collect()  // Not used anymore
     bedgraph_file   = telo_bedgraphs                            // Used in pretext_graph
     versions        = ch_versions
 }
