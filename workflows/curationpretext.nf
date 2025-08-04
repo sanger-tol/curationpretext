@@ -115,6 +115,7 @@ workflow CURATIONPRETEXT {
             cove_file,
             telo_file,
             rept_file,
+            params.split_telomere
         )
         ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
@@ -130,6 +131,7 @@ workflow CURATIONPRETEXT {
                 cove_file,
                 telo_file,
                 rept_file,
+                params.split_telomere
             )
             ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
         }
