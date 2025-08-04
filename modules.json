@@ -35,11 +35,6 @@
                         "git_sha": "a29f18660f5e3748d44d6f716241e70c942c065d",
                         "installed_by": ["modules"]
                     },
-                    "cat/cat": {
-                        "branch": "master",
-                        "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
-                        "installed_by": ["modules"]
-                    },
                     "gawk": {
                         "branch": "master",
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
@@ -95,11 +90,6 @@
                     "seqtk/cutn": {
                         "branch": "master",
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
-                        "installed_by": ["modules"]
-                    },
-                    "tabix/bgziptabix": {
-                        "branch": "master",
-                        "git_sha": "f2cfcf9d3f6a2d123e6c44aefa788aa232204a7a",
                         "installed_by": ["modules"]
                     },
                     "ucsc/bedgraphtobigwig": {
