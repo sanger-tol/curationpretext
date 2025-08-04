@@ -80,7 +80,7 @@ workflow ACCESSORY_FILES {
             val_teloseq
         )
         ch_versions     = ch_versions.mix(TELO_FINDER.out.versions)
-        telo_file       = TELO_FINDER.out.bedgraph_file.map{ it -> it[1] }
+        telo_file       = TELO_FINDER.out.bedgraph_file
     }
 
 
@@ -118,7 +118,7 @@ workflow ACCESSORY_FILES {
     emit:
     gap_file
     repeat_file
-    telo_file
+    telo_file           // This is the possible collection of telomere files
     longread_output
     versions            = ch_versions
 }

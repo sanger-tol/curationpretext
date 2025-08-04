@@ -5,9 +5,9 @@
 //
 include { GAWK as GAWK_UPPER_SEQUENCE   } from '../../../modules/nf-core/gawk/main'
 include { FIND_TELOMERE_REGIONS         } from '../../../modules/local/find/telomere_regions/main'
-include { GAWK as GAWK_CLEAN_TELOMERE   } from '../../../modules/nf-core/gawk/main'
-include { FIND_TELOMERE_WINDOWS         } from '../../../modules/local/find/telomere_windows/main'
-include { EXTRACT_TELOMERE              } from '../../../modules/local/extract/telomere/main'
+include { GAWK as GAWK_SPLIT_DIRECTIONS } from '../../../modules/local/gawk/main'
+
+include { TELO_EXTRACTION               } from '../../../subworkflows/local/telo_extraction/main'
 
 workflow TELO_FINDER {
 
@@ -41,36 +41,61 @@ workflow TELO_FINDER {
 
 
     //
-    // MODULE: CLEAN THE .TELOMERE FILE IF CONTAINS "you screwed up" ERROR MESSAGE
-    //          (LIKELY WHEN USING LOWERCASE LETTERS OR BAD MOTIF)
-    //          WORKS BE RETURNING LINES THAT START WITH '>'
+    // MODULE: SPLIT THE TELOMERE FILE INTO 5' and 3' FILES
+    //              THIS IS RUNNING ON A LOCAL VERSION OF THE GAWK MODULE
     //
-    GAWK_CLEAN_TELOMERE (
-        FIND_TELOMERE_REGIONS.out.telomere,
-        [],
-        false
-    )
-    ch_versions     = ch_versions.mix( GAWK_CLEAN_TELOMERE.out.versions )
+    if (params.split_telomere) {
+        GAWK_SPLIT_DIRECTIONS (
+            FIND_TELOMERE_REGIONS.out.telomere,
+            file("${projectDir}/bin/gawk_split_directions.awk"),
+            false
+        )
+        ch_versions     = ch_versions.mix( GAWK_SPLIT_DIRECTIONS.out.versions )
+
+        GAWK_SPLIT_DIRECTIONS.out.prime5
+            .map { meta, file ->
+                tuple( [id: meta.id + "_5P"], file)
+            }
+            .set { prime5_telo }
+
+        GAWK_SPLIT_DIRECTIONS.out.prime3
+            .map { meta, file ->
+                tuple( [id: meta.id + "_3P"], file)
+            }
+            .set { prime3_telo }
+
+        prime5_telo
+            .mix(prime3_telo)
+            .mix(FIND_TELOMERE_REGIONS.out.telomere)
+            .set { telo_for_extraction }
+
+    } else {
+        telo_for_extraction = FIND_TELOMERE_REGIONS.out.telomere
+    }
 
 
     //
-    // MODULE: GENERATES A WINDOWS FILE FROM THE ABOVE
+    // SUBWORKFLOW: TELO_EXTRACTION
+    //              - The prime5.mix(prime3) creates a queue channel to execute
+    //                  TELO_EXTRACTION per item in channel
     //
-    FIND_TELOMERE_WINDOWS (
-        GAWK_CLEAN_TELOMERE.out.output
+    TELO_EXTRACTION (
+        telo_for_extraction
     )
-    ch_versions     = ch_versions.mix( FIND_TELOMERE_WINDOWS.out.versions )
+    ch_versions     = ch_versions.mix( TELO_EXTRACTION.out.versions )
 
-    //
-    // MODULE: EXTRACTS THE LOCATION OF TELOMERIC SEQUENCE BASED ON THE WINDOWS
-    //
-    EXTRACT_TELOMERE (
-        FIND_TELOMERE_WINDOWS.out.windows
-    )
-    ch_versions     = ch_versions.mix( EXTRACT_TELOMERE.out.versions )
+
+    TELO_EXTRACTION.out.bedgraph_file
+        .map{ _meta, bedgraph ->
+            bedgraph
+        }
+        .collect()
+        .set { telo_bedgraphs }
+
 
     emit:
-    bed_file        = EXTRACT_TELOMERE.out.bed
-    bedgraph_file   = EXTRACT_TELOMERE.out.bedgraph
+    bed_file        = TELO_EXTRACTION.out.bed_file.collect()    // Not used anymore
+    bed_gz_tbi      = TELO_EXTRACTION.out.bed_gz_tbi.collect()  // Not used anymore
+    bedgraph_file   = telo_bedgraphs                            // Used in pretext_graph
     versions        = ch_versions
 }
