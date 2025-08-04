@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Remove `GRAPH_OVERALL_COVERAGE` as it is not in use.
 - Better formatting in some files.
 - Moved `GAWK_UPPER_SEQUENCE` from the `TELO_FINDER` subworkflow to the first step of the main `curationpretext` workflow, this simply makes more sense.
+- Removed no longer needed scripts from bin.
+- Added the `gawk_split_directions.awk` script for split telomere.
 
 ### Paramters
 
