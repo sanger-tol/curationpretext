@@ -4,8 +4,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
 include { GAWK as GAWK_UPPER_SEQUENCE               } from '../modules/nf-core/gawk/main'
+include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
+include { GUNZIP                                    } from '../modules/nf-core/gunzip/main'
 
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
@@ -35,11 +36,37 @@ workflow CURATIONPRETEXT {
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
 
+    ch_reference
+        .branch { meta, file ->
+            zipped: file.name.endsWith('.gz')
+            unzipped: !file.name.endsWith('.gz')
+        }
+        .set {ch_input}
+
+    //
+    // MODULE: UNZIP INPUTS IF NEEDED
+    //
+    GUNZIP (
+        ch_input.zipped
+    )
+    ch_versions = ch_versions.mix(GUNZIP.out.versions)
+
+
+    //
+    // LOGIC: MIX CHANELS WHICH MAY OR MAY NOT BE EMPTY INTO A SINGLE QUEUE CHANNEL
+    //
+    unzipped_input = Channel.empty()
+
+    unzipped_input
+        .mix(ch_input.unzipped, GUNZIP.out.gunzip)
+        .set { unzipped_reference }
+
+
     //
     // MODULE: UPPERCASE THE REFERENCE SEQUENCE
     //
     GAWK_UPPER_SEQUENCE(
-        ch_reference,
+        unzipped_reference,
         [],
         false,
     )
