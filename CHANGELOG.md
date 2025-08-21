@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added and Fixed
 
+- Template update to 3.3.3. <TODO in next PR>.
 - Addition of the `--split_telomere` boolean flag, this is false by default.
   - When `true` the pipeline will split the telomere file into a 5 and 3 prime file.
 - Update `ACCESSORY_FILES` subworkflow:
@@ -22,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved `GAWK_UPPER_SEQUENCE` from the `TELO_FINDER` subworkflow to the first step of the main `curationpretext` workflow, this simply makes more sense.
 - Removed no longer needed scripts from bin.
 - Added the `gawk_split_directions.awk` script for split telomere.
+- Addition of GUNZIP for the input reference genome.
+- Update tests.
 
 ### Paramters
 
@@ -41,6 +44,8 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `GAWK_CLEAN_TELOMERE`    | 5.3.0         | REMOVED       |
 | `GAWK_MAP_TELO`          | 5.3.0         | REMOVED       |
 | `GET_LARGEST_SCAFF`      | coreutils=9.1 | REMOVED       |
+| `GUNZIP`                 | NA            | 1.13          |
+
 
 ## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
 
