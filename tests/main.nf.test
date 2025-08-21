@@ -8,6 +8,17 @@ nextflow_pipeline {
 
     test("Full run") {
 
+        setup {
+            println "\nDownloading the test data..."
+            def command = ['bash', '-c', "curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf - -C ${projectDir}/"]
+            def process = command.execute()
+            process.waitFor()
+
+            if (process.exitValue() != 0) {
+                throw new RuntimeException("Error - failed to download ${dbKey}: ${process.err.text}")
+            }
+        }
+
         when {
             params {
                 outdir = "${outputDir}"
