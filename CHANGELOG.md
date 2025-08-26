@@ -46,7 +46,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `GAWK_MAP_TELO`          | 5.3.0         | REMOVED       |
 | `GET_LARGEST_SCAFF`      | coreutils=9.1 | REMOVED       |
 | `GUNZIP`                 | NA            | 1.13          |
-| `GAWK_SPLIT_DIRECTIONS   | NA            | 5.3.0         |
+| `GAWK_SPLIT_DIRECTIONS`  | NA            | 5.3.0         |
 
 ## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
 
