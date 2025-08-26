@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Better formatting in some files.
 - Moved `GAWK_UPPER_SEQUENCE` from the `TELO_FINDER` subworkflow to the first step of the main `curationpretext` workflow, this simply makes more sense.
 - Removed no longer needed scripts from bin.
+- Added the module `GAWK_SPLIT_DIRECTIONS` module, a local copy of the nf-core `GAWK` module.
 - Added the `gawk_split_directions.awk` script for split telomere.
 - Addition of GUNZIP for the input reference genome.
 - Update tests.
@@ -45,6 +46,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `GAWK_MAP_TELO`          | 5.3.0         | REMOVED       |
 | `GET_LARGEST_SCAFF`      | coreutils=9.1 | REMOVED       |
 | `GUNZIP`                 | NA            | 1.13          |
+| `GAWK_SPLIT_DIRECTIONS   | NA            | 5.3.0         |
 
 ## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
 
