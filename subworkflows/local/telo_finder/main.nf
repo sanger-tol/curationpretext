@@ -4,7 +4,7 @@
 // MODULE IMPORT BLOCK
 //
 include { FIND_TELOMERE_REGIONS         } from '../../../modules/local/find/telomere_regions/main'
-include { GAWK as GAWK_SPLIT_DIRECTIONS } from '../../../modules/local/gawk/main'
+include { GAWK_SPLIT_DIRECTIONS         } from '../../../modules/local/gawk_split_directions/main'
 
 include { TELO_EXTRACTION               } from '../../../subworkflows/local/telo_extraction/main'
 
@@ -35,8 +35,7 @@ workflow TELO_FINDER {
     if (params.split_telomere) {
         GAWK_SPLIT_DIRECTIONS (
             FIND_TELOMERE_REGIONS.out.telomere,
-            file("${projectDir}/bin/gawk_split_directions.awk"),
-            false
+            file("${projectDir}/bin/gawk_split_directions.awk")
         )
         ch_versions     = ch_versions.mix( GAWK_SPLIT_DIRECTIONS.out.versions )
 
