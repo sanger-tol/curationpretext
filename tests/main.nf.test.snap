@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            40,
+            42,
             {
                 "BEDTOOLS_BAMTOBED": {
                     "bedtools": "2.31.1"
@@ -43,9 +43,6 @@
                 "FIND_TELOMERE_WINDOWS": {
                     "telomere": 1.0
                 },
-                "GAWK_CLEAN_TELOMERE": {
-                    "gawk": "5.3.0"
-                },
                 "GAWK_GAP_LENGTH": {
                     "gawk": "5.3.0"
                 },
@@ -61,12 +58,11 @@
                 "GAWK_REPLACE_DOTS": {
                     "gawk": "5.3.0"
                 },
-                "GAWK_UPPER_SEQUENCE": {
+                "GAWK_SPLIT_DIRECTIONS": {
                     "gawk": "5.3.0"
                 },
-                "GET_LARGEST_SCAFFOLD": {
-                    "get_largest_scaffold": 2.0,
-                    "coreutils": 9.1
+                "GAWK_UPPER_SEQUENCE": {
+                    "gawk": "5.3.0"
                 },
                 "GNU_SORT": {
                     "coreutils": 9.3
@@ -79,10 +75,6 @@
                 },
                 "GNU_SORT_C": {
                     "coreutils": 9.3
-                },
-                "GRAPH_OVERALL_COVERAGE": {
-                    "perl": "(v5.26.2))",
-                    "graph_overall_coverage.pl": 1.0
                 },
                 "MINIMAP2_ALIGN": {
                     "minimap2": "2.28-r1209",
@@ -125,13 +117,17 @@
                     "windowmasker": "1.0.0"
                 },
                 "Workflow": {
-                    "sanger-tol/curationpretext": "v1.4.2"
+                    "sanger-tol/curationpretext": "v1.5.0"
                 }
             },
             [
                 "accessory_files",
                 "accessory_files/CurationPretextTest.bigWig",
                 "accessory_files/CurationPretextTest.gap.bedgraph",
+                "accessory_files/CurationPretextTest_3P_telomere.bed",
+                "accessory_files/CurationPretextTest_3P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_5P_telomere.bed",
+                "accessory_files/CurationPretextTest_5P_telomere.bedgraph",
                 "accessory_files/CurationPretextTest_telomere.bed",
                 "accessory_files/CurationPretextTest_telomere.bedgraph",
                 "accessory_files/coverage.bigWig",
@@ -144,15 +140,19 @@
                 "pretext_snapshot",
                 "pretext_snapshot/CurationPretextTest_normalFullMap.png"
             ],
-            14,
+            18,
             [
                 "CurationPretextTest.bigWig:md5,3f66a9152d793a62f877b733c2336dfd",
                 "CurationPretextTest.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_3P_telomere.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_3P_telomere.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_5P_telomere.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_5P_telomere.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "CurationPretextTest_telomere.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "CurationPretextTest_telomere.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "coverage.bigWig:md5,2e474506c957152b231ac63c859f0b17"
             ],
-            5,
+            9,
             1,
             false,
             true,
@@ -164,8 +164,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.04.4"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-04-16T11:23:34.556355"
+        "timestamp": "2025-08-21T21:25:49.92252227"
     }
 }

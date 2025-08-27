@@ -8,11 +8,23 @@ nextflow_pipeline {
 
     test("Full run") {
 
+        setup {
+            println "\nDownloading the test data..."
+            def command = ['bash', '-c', "curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf - -C ${projectDir}/"]
+            def process = command.execute()
+            process.waitFor()
+
+            if (process.exitValue() != 0) {
+                throw new RuntimeException("Error - failed to download ${dbKey}: ${process.err.text}")
+            }
+        }
+
         when {
             params {
                 outdir = "${outputDir}"
                 all_output = true
                 skip_tracks = "NONE"
+                split_telomere = true
             }
         }
 
@@ -30,25 +42,23 @@ nextflow_pipeline {
             assertAll(
                 {assert workflow.success},
                 {assert snapshot(
-                    // Test for number of successful processes - should be 29 for a full run
-                    workflow.trace.succeeded().size(),
+                    // Test for number of successful processes
+                    workflow.trace.succeeded().size(), // 42 with out needing to gunzip the assembly
 
                     removeNextflowVersion("$outputDir/pipeline_info/sanger-tol_curationpretext_software_versions.yml"),
 
                     // Stable name with relative path
                     stable_name,
-                    stable_name.size(),
+                    stable_name.size(), // 18
 
                     // Accessory files
                     accessories,
-                    accessories.size(),
+                    accessories.size(), // 9
 
-                    // The two pretext files
-                    // Presence of files indicated presence of the raw_pretexts
-                    // we expect this to be a list of two files
-                    // we can't use their md5sum as they will be different everytime
-                    // Then double check that there are two
-                    // one is a hr and the other a normal variant
+                    // The pretext files
+                    // We only expect 1 pretext file as when using the `test` profile
+                    // we are skipping hr pretext file generation
+                    // so size will be 1 and presence of hr file is false
                     pretext_maps_raw.size(),
                     pretext_maps_raw.any{it.toString().contains("_hr_pi.pretext".toString())},
                     pretext_maps_raw.any{it.toString().contains("_normal_pi.pretext".toString())},

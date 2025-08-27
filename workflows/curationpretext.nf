@@ -4,11 +4,15 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { GAWK as GAWK_UPPER_SEQUENCE               } from '../modules/nf-core/gawk/main'
 include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
-include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
-include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
+include { GUNZIP                                    } from '../modules/nf-core/gunzip/main'
+
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
+
+include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
+include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
 
 include { paramsSummaryMap                          } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -32,11 +36,49 @@ workflow CURATIONPRETEXT {
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
 
+    ch_reference
+        .branch { meta, file ->
+            zipped: file.name.endsWith('.gz')
+            unzipped: !file.name.endsWith('.gz')
+        }
+        .set {ch_input}
+
+    //
+    // MODULE: UNZIP INPUTS IF NEEDED
+    //
+    GUNZIP (
+        ch_input.zipped
+    )
+    ch_versions = ch_versions.mix(GUNZIP.out.versions)
+
+
+    //
+    // LOGIC: MIX CHANELS WHICH MAY OR MAY NOT BE EMPTY INTO A SINGLE QUEUE CHANNEL
+    //
+    unzipped_input = Channel.empty()
+
+    unzipped_input
+        .mix(ch_input.unzipped, GUNZIP.out.gunzip)
+        .set { unzipped_reference }
+
+
+    //
+    // MODULE: UPPERCASE THE REFERENCE SEQUENCE
+    //
+    GAWK_UPPER_SEQUENCE(
+        unzipped_reference,
+        [],
+        false,
+    )
+    ch_upper_ref    = GAWK_UPPER_SEQUENCE.out.output
+    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
+
+
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
     SAMTOOLS_FAIDX (
-        ch_reference,
+        ch_upper_ref,
         [[],[]],
         false
     )
@@ -76,7 +118,7 @@ workflow CURATIONPRETEXT {
         // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
         //
         ACCESSORY_FILES (
-            ch_reference,
+            ch_upper_ref,
             ch_reads,
             val_teloseq,
             SAMTOOLS_FAIDX.out.fai
@@ -96,7 +138,7 @@ workflow CURATIONPRETEXT {
     //              - GENERATE_MAPS IS THE MINIMAL OUTPUT EXPECTED FROM THIS PIPELLINE
     //
     GENERATE_MAPS (
-        ch_reference,
+        ch_upper_ref,
         ch_cram_reads,
         SAMTOOLS_FAIDX.out.fai
     )
@@ -115,6 +157,7 @@ workflow CURATIONPRETEXT {
             cove_file,
             telo_file,
             rept_file,
+            params.split_telomere
         )
         ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
@@ -130,6 +173,7 @@ workflow CURATIONPRETEXT {
                 cove_file,
                 telo_file,
                 rept_file,
+                params.split_telomere
             )
             ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
         }
