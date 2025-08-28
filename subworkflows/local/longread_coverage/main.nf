@@ -11,7 +11,6 @@ include { SAMTOOLS_MERGE                                } from '../../../modules
 include { SAMTOOLS_SORT                                 } from '../../../modules/nf-core/samtools/sort/main'
 include { SAMTOOLS_VIEW as SAMTOOLS_VIEW_FILTER_PRIMARY } from '../../../modules/nf-core/samtools/view/main'
 include { UCSC_BEDGRAPHTOBIGWIG                         } from '../../../modules/nf-core/ucsc/bedgraphtobigwig/main'
-include { GRAPH_OVERALL_COVERAGE                        } from '../../../modules/local/graph/overall_coverage/main'
 
 
 workflow LONGREAD_COVERAGE {
@@ -97,7 +96,9 @@ workflow LONGREAD_COVERAGE {
     //
     // MODULE: BAM TO PRIMARY BED
     //
-    BEDTOOLS_BAMTOBED(SAMTOOLS_VIEW_FILTER_PRIMARY.out.bam)
+    BEDTOOLS_BAMTOBED(
+        SAMTOOLS_VIEW_FILTER_PRIMARY.out.bam
+    )
     ch_versions         = ch_versions.mix(BEDTOOLS_BAMTOBED.out.versions)
 
 
@@ -138,15 +139,6 @@ workflow LONGREAD_COVERAGE {
         BEDTOOLS_GENOMECOV.out.genomecov
     )
     ch_versions         = ch_versions.mix( GNU_SORT.out.versions )
-
-
-    //
-    // MODULE: GENERATE DEPTHGRAPH
-    //
-    GRAPH_OVERALL_COVERAGE(
-        GNU_SORT.out.sorted
-    )
-    ch_versions         = ch_versions.mix( GRAPH_OVERALL_COVERAGE.out.versions )
 
 
     //

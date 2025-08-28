@@ -25,11 +25,14 @@ workflow REPEAT_DENSITY {
 
     main:
     ch_versions         = Channel.empty()
+
+
     //
     // MODULE: MARK UP THE REPEAT REGIONS OF THE REFERENCE GENOME
     //
     WINDOWMASKER_MKCOUNTS ( reference_tuple )
     ch_versions         = ch_versions.mix( WINDOWMASKER_MKCOUNTS.out.versions )
+
 
     //
     // MODULE: CALCULATE THE STATISTICS OF THE MARKED UP REGIONS
@@ -38,17 +41,20 @@ workflow REPEAT_DENSITY {
                         reference_tuple )
     ch_versions         = ch_versions.mix( WINDOWMASKER_USTAT.out.versions )
 
+
     //
     // MODULE: USE USTAT OUTPUT TO EXTRACT REPEATS FROM FASTA
     //
     EXTRACT_REPEAT( WINDOWMASKER_USTAT.out.intervals )
     ch_versions         = ch_versions.mix( EXTRACT_REPEAT.out.versions )
 
+
     //
     // MODULE: CREATE WINDOWS FROM .GENOME FILE
     //
     BEDTOOLS_MAKEWINDOWS( dot_genome )
     ch_versions         = ch_versions.mix( BEDTOOLS_MAKEWINDOWS.out.versions )
+
 
     //
     // LOGIC: COMBINE TWO CHANNELS AND OUTPUT tuple(meta, windows_file, repeat_file)
@@ -63,6 +69,7 @@ workflow REPEAT_DENSITY {
         }
         .set { intervals }
 
+
     //
     // MODULE: GENERATES THE REPEAT FILE FROM THE WINDOW FILE AND GENOME FILE
     //
@@ -71,6 +78,7 @@ workflow REPEAT_DENSITY {
         dot_genome
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_INTERSECT.out.versions )
+
 
     //
     // MODULE: FIXES IDS FOR REPEATS
@@ -81,6 +89,7 @@ workflow REPEAT_DENSITY {
         false
     )
     ch_versions         = ch_versions.mix( GAWK_RENAME_IDS.out.versions )
+
 
     //
     // MODULE: SORTS THE ABOVE BED FILES
@@ -94,6 +103,7 @@ workflow REPEAT_DENSITY {
     GNU_SORT_C ( BEDTOOLS_MAKEWINDOWS.out.bed ) // windows file
     ch_versions         = ch_versions.mix( GNU_SORT_C.out.versions )
 
+
     //
     // MODULE: ADDS 4TH COLUMN TO BED FILE USED IN THE REPEAT DENSITY GRAPH
     //
@@ -103,6 +113,7 @@ workflow REPEAT_DENSITY {
         false
     )
     ch_versions         = ch_versions.mix( GAWK_REFORMAT_INTERSECT.out.versions )
+
 
     //
     // LOGIC: COMBINES THE REFORMATTED INTERSECT FILE AND WINDOWS FILE CHANNELS AND SORTS INTO
@@ -118,6 +129,7 @@ workflow REPEAT_DENSITY {
         }
         .set { for_mapping }
 
+
     //
     // MODULE: MAPS THE REPEATS AGAINST THE REFERENCE GENOME
     //
@@ -126,6 +138,7 @@ workflow REPEAT_DENSITY {
         GNU_SORT_B.out.sorted
     )
     ch_versions         = ch_versions.mix( BEDTOOLS_MAP.out.versions )
+
 
     //
     // MODULE: REPLACES . WITH 0 IN MAPPED FILE
@@ -137,6 +150,7 @@ workflow REPEAT_DENSITY {
     )
     ch_versions         = ch_versions.mix( GAWK_REPLACE_DOTS.out.versions )
 
+
     //
     // MODULE: CONVERTS GENOME FILE AND BED INTO A BIGWIG FILE
     //
@@ -145,6 +159,7 @@ workflow REPEAT_DENSITY {
         GNU_SORT_B.out.sorted.map { it[1] }
     )
     ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
+
 
     emit:
     repeat_density      = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
