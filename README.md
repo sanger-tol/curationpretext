@@ -31,35 +31,27 @@ This is intended as a supplementary pipeline for the [treeval](https://github.co
 Currently, the pipeline uses the following flags:
 
 - `--input`
-
   - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
 - `--reads`
-
   - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
 
 - `--read_type`
-
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
 
 - `--aligner`
-
   - The aligner yopu wish to use for the coverage generation, defaults to bwamem2 but minimap2 is also supported.
 
 - `--cram`
-
   - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
 
 - `--map_order`
-
   - hic map scaffold order, input either `length` or `unsorted`
 
 - `--teloseq`
-
   - A telomeric sequence, e.g., `TTAGGG`
 
 - `--all_output`
-
   - An option to output all maps + accessory files, the default will only output the pretextmaps where ingestion has occured.
 
 Now, you can run the pipeline using:
