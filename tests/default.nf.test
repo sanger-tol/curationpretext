@@ -28,6 +28,8 @@ nextflow_pipeline {
             }
         }
 
+        // SETUP FOR THE TEST_DATA
+
         then {
             def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ["pipeline_info/*.{html,json,txt}"])
 
