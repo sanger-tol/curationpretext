@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added the `gawk_split_directions.awk` script for split telomere.
 - Addition of GUNZIP for the input reference genome.
 - Update tests.
+- Added an "AUTO" value to the `--aligner` arg. If a genome is >5Gb it will use minimap2 else bwamem2.
+- Parity update for the base.config to match TreeVal.
 
 ### Paramters
 
