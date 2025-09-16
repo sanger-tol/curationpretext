@@ -81,7 +81,7 @@ workflow PIPELINE_INITIALISATION {
 
     ch_reference = input_fasta.map { fasta ->
         def fasta_size = fasta.size()
-        def selected_aligner = (params_aligner == "AUTO") ?
+        def selected_aligner = (params.aligner == "AUTO") ?
             (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
             params.aligner
 
