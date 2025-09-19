@@ -33,8 +33,12 @@ Currently, the pipeline uses the following flags:
 - `--input`
   - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
+- `--sample`
+  - Sample is the naming prefix of the output files, e.g. iyTipFemo
+
 - `--reads`
   - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
+  - This folder *must* contain files in a `.fasta.gz` format, or they will be skipped by the internal file search function.
 
 - `--read_type`
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
