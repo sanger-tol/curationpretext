@@ -38,7 +38,7 @@ Currently, the pipeline uses the following flags:
 
 - `--reads`
   - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
-  - This folder *must* contain files in a `.fasta.gz` format, or they will be skipped by the internal file search function.
+  - This folder _must_ contain files in a `.fasta.gz` format, or they will be skipped by the internal file search function.
 
 - `--read_type`
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
