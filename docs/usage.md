@@ -10,6 +10,8 @@ Currently, the pipeline expects input data to be in a specific format.
 
 The `--input` should be `.fasta` or `.fa` (the same format but differing suffix).
 
+The `--sample` is your chosen naming for the output files.
+
 The `--cram` should point to the folder containing `.cram` files along with a `.crai` per `.cram`.
 
 The `--reads` should point to the folder containing `.fasta.gz` files.

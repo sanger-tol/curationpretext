@@ -30,6 +30,6 @@ identifiers:
     value: 10.5281/zenodo.12773958
 repository-code: "https://github.com/sanger-tol/curationpretext"
 license: MIT
-version: 1.4.2
-date-released: "2025-07-28"
+version: 1.5.0
+date-released: "2025-08-04"
 url: "https://pipelines.tol.sanger.ac.uk/curationpretext"

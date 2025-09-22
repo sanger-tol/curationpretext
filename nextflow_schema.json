@@ -20,6 +20,13 @@
                     "help_text": "You need the input fasta file",
                     "fa_icon": "fas fa-file-fasta"
                 },
+                "split_telomere": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Split the telomere file into 5' and 3' files for seperate ingestion into the HiC maps",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
                 "skip_tracks": {
                     "type": "string",
                     "description": "Skip generation for specified tracks",
@@ -62,9 +69,9 @@
                 "aligner": {
                     "type": "string",
                     "description": "Aligner for use {minimap2, bwamem2} in generating map",
-                    "help_text": "Pick between {minimap2, bwamem2}. Defaults to 'minimap2'",
+                    "help_text": "Pick between {minimap2, bwamem2, AUTO}. Defaults to 'minimap2'",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["bwamem2", "minimap2"]
+                    "enum": ["bwamem2", "minimap2", "AUTO"]
                 },
                 "run_hires": {
                     "type": "boolean",

@@ -1,6 +1,6 @@
 process EXTRACT_TELOMERE {
     tag "${meta.id}"
-    label 'process_low'
+    label 'process_single'
 
     conda "conda-forge::coreutils=9.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

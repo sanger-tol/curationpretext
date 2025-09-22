@@ -79,16 +79,23 @@ workflow PIPELINE_INITIALISATION {
                         type: 'dir'
                     )
 
-    ch_reference    = input_fasta.map { fasta ->
+    ch_reference = input_fasta.map { fasta ->
+        def fasta_size = fasta.size()
+        def selected_aligner = (params.aligner == "AUTO") ?
+            (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+            params.aligner
+
         tuple(
-            [   id: params.sample,
-                aligner: params.aligner,
+            [
+                id: params.sample,
+                aligner: selected_aligner,
                 map_order: params.map_order,
-                ref_size: fasta.size(),
+                ref_size: fasta_size,
             ],
             fasta
         )
     }
+
 
     ch_cram_reads   = cram_dir.map { dir ->
         tuple(
@@ -244,4 +251,3 @@ def methodsDescriptionText(mqc_methods_yaml) {
 
     return description_html.toString()
 }
-

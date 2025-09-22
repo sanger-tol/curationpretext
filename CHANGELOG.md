@@ -3,6 +3,55 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.5.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.0)] - UNSC Punic - [2025-08-04]
+
+### Added and Fixed
+
+- Template update to 3.3.2.
+- Addition of the `--split_telomere` boolean flag, this is false by default.
+  - When `true` the pipeline will split the telomere file into a 5 and 3 prime file.
+- Update `ACCESSORY_FILES` subworkflow:
+  - Remove `GET_LARGEST_SCAFFOLD` as we no longer need it, this was needed for TABIX so that the correct index file was used. This was used by the `TELO_FINDER` and `GAP_FINDER` subworkflows.
+- Update `TELO_FINDER` subworkflow:
+  - Remove `GAWK_MAP_TELO` as it is no longer needed.
+  - Remove `GAWK_CLEAN_TELOMERE` as it is no longer needed. The reason for its inclusion has been fixed.
+  - Update `EXTRACT_TELO` to `EXTRACT_TELOMERE` which also removed the use of the `cat {file} | awk` pattern, replacing it with just `awk`. This was supposed to happen in `1.4.0`, but was forgotten with the files lying dormant in the repo.
+  - Refactor of the `TELO_FINDER` subworkflow, introducing the `TELO_EXTRACTION` subworkflow which is run per telo file. With the introduction of `split_telomere` this can be 3 files.
+- Update `LONGREAD_COVERAGE` subworkflow:
+  - Remove `GRAPH_OVERALL_COVERAGE` as it is not in use.
+- Better formatting in some files.
+- Moved `GAWK_UPPER_SEQUENCE` from the `TELO_FINDER` subworkflow to the first step of the main `curationpretext` workflow, this simply makes more sense.
+- Removed no longer needed scripts from bin.
+- Added the module `GAWK_SPLIT_DIRECTIONS` module, a local copy of the nf-core `GAWK` module.
+- Added the `gawk_split_directions.awk` script for split telomere.
+- Addition of GUNZIP for the input reference genome.
+- Update tests.
+- Added an "AUTO" value to the `--aligner` arg. If a genome is >5Gb it will use minimap2 else bwamem2.
+- Parity update for the base.config to match TreeVal.
+- Minor Doc updates.
+- Comment out the CONDA workflow requirement, pipeline does not support conda.
+
+### Paramters
+
+| Old Version | New Versions     |
+| ----------- | ---------------- |
+| NA          | --split_telomere |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                   | Old Version   | New Versions  |
+| ------------------------ | ------------- | ------------- |
+| `GRAPH_OVERALL_COVERAGE` | perl=5.26.2   | REMOVED       |
+| `EXTRACT_TELO`           | coreutils=9.1 | REMOVED       |
+| `EXTRACT_TELOMERE`       | NA            | coreutils=9.1 |
+| `GAWK_CLEAN_TELOMERE`    | 5.3.0         | REMOVED       |
+| `GAWK_MAP_TELO`          | 5.3.0         | REMOVED       |
+| `GET_LARGEST_SCAFF`      | coreutils=9.1 | REMOVED       |
+| `GUNZIP`                 | NA            | 1.13          |
+| `GAWK_SPLIT_DIRECTIONS`  | NA            | 5.3.0         |
+
 ## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
 
 ### Added and Fixed
@@ -81,11 +130,9 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 ### Added and Fixed
 
 - GRIT found a bug in `pretext_graph` ingestion code where null values were being introduced as the track name
-
   - This has now need hardcoded, there was no need for dynamic naming anyway
 
 - GRIT found a bug in `pretext_graph` ingestion where gap and telomere tracks stopped being ingested correctly and would no longer display or be zeroed out.
-
   - I'm not entirely sure of the cause of this but i think it is a mix of how pretext handles unnamed tracks, assuming their datatype so a null named gap track would be treated as a repeat track, and incorrect logic in the pretext_graph module.
 
 - Added GAWK module (as GAWK_CLEAN_TELOMERE) to remove "you screwed up" (this is a legacy error message which will be changed to something more informative and professional) error lines which can appear with some telo motifs or lower case motifs. These will otherwise cause the FIND_TELOMERE_WINDOWS process to crash.
