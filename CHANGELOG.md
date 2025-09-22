@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added and Fixed
 
-- Template update to 3.3.3. <TODO in next PR>.
+- Template update to 3.3.2.
 - Addition of the `--split_telomere` boolean flag, this is false by default.
   - When `true` the pipeline will split the telomere file into a 5 and 3 prime file.
 - Update `ACCESSORY_FILES` subworkflow:
@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added the `gawk_split_directions.awk` script for split telomere.
 - Addition of GUNZIP for the input reference genome.
 - Update tests.
+- Added an "AUTO" value to the `--aligner` arg. If a genome is >5Gb it will use minimap2 else bwamem2.
+- Parity update for the base.config to match TreeVal.
+- Minor Doc updates.
+- Comment out the CONDA workflow requirement, pipeline does not support conda.
 
 ### Paramters
 
