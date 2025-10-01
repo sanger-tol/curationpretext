@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added and Fixed
 
 - Addition of `params.multi_mapping` to change the level of multi-mapping filtering performed by PretextMap.
+  - This corresponds to the mapq (mapping quality) value.
 - Updated `trace` scope to start collecting SummaryStat data again.
 
 ### Paramters

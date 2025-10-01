@@ -108,8 +108,8 @@
                     "type": "number",
                     "default": 0,
                     "fa_icon": "fas fa-numbers",
-                    "description": "Multi-mapping level for pretext map output",
-                    "help_text": "In the range 0..10, pick your level of multi-mapping filtering. 0 = None and 10 = All",
+                    "description": "MAPQ values used to filter reads.",
+                    "help_text": "In the range 0..10, pick the level of mapping quality to be filtered. 0 = None and 10 = All",
                     "minimum": 0,
                     "maximum": 10
                 }
