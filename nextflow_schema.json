@@ -109,7 +109,7 @@
                     "default": 0,
                     "fa_icon": "fas fa-numbers",
                     "description": "MAPQ values used to filter reads.",
-                    "help_text": "In the range 0..10, pick the level of mapping quality to be filtered. 0 = None and 10 = All",
+                    "help_text": "In the range 0..10, pick the minumum map mapping quality of reads to be filtered. In a multi-mapping context, 0 would keep all reads and 10 removes all multimapping reads.",
                     "minimum": 0,
                     "maximum": 10
                 }
