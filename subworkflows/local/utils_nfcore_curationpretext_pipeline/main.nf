@@ -90,6 +90,7 @@ workflow PIPELINE_INITIALISATION {
                 id: params.sample,
                 aligner: selected_aligner,
                 map_order: params.map_order,
+                multi_mapping: params.multi_mapping,
                 ref_size: fasta_size,
             ],
             fasta
