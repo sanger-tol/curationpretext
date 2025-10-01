@@ -73,7 +73,7 @@ nextflow run sanger-tol/curationpretext \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
   --multi_mapping { default is "0" (for no mapping)} \
-  --all_output {true/false> \
+  --all_output <true/false> \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>
 
