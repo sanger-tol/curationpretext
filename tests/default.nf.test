@@ -25,6 +25,7 @@ nextflow_pipeline {
                 all_output = true
                 skip_tracks = "NONE"
                 split_telomere = true
+                multi_mapping = 0
             }
         }
 

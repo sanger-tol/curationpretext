@@ -103,6 +103,15 @@
                     "fa_icon": "fas fa-check-square",
                     "description": "Output all files",
                     "help_text": "Output the Accessory files and unproccessed pretext files which by default are not output by the pipeline. Processed pretext files with telo, gap, repeat and coverage data ingested are still output."
+                },
+                "multi_mapping": {
+                    "type": "number",
+                    "default": 0,
+                    "fa_icon": "fas fa-numbers",
+                    "description": "MAPQ values used to filter reads.",
+                    "help_text": "In the range 0..10, pick the minumum map mapping quality of reads to be filtered. In a multi-mapping context, 0 would keep all reads and 10 removes all multimapping reads.",
+                    "minimum": 0,
+                    "maximum": 10
                 }
             }
         },

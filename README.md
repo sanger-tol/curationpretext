@@ -55,6 +55,9 @@ Currently, the pipeline uses the following flags:
 - `--teloseq`
   - A telomeric sequence, e.g., `TTAGGG`
 
+- `--multi_mapping`
+  - Level of multi-mapping read filtering to perform whilst building the pretext map.
+
 - `--all_output`
   - An option to output all maps + accessory files, the default will only output the pretextmaps where ingestion has occured.
 
@@ -69,6 +72,7 @@ nextflow run sanger-tol/curationpretext \
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
+  --multi_mapping { default is "0" (for no mapping)} \
   --all_output <true/false> \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>

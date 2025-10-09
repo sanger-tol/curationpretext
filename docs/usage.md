@@ -18,7 +18,9 @@ The `--reads` should point to the folder containing `.fasta.gz` files.
 
 The `--read_type` should be the data type of your data, e.g, ont, illumina, hifi.
 
-The `--aligner` should be the prefered aligner for analysis, e.g, bwamem2 or minimap2.
+The `--aligner` should be the prefered aligner for analysis, e.g, AUTO, bwamem2 or minimap2. AUTO will default to bwamem2 for genomes < 5Gb, genomes above this threshold will default to minimap2
+
+The `--multi_mapping` flag denotes the level of multi-mapping read filtering that should be performed on the pretextmap. 0 = no filtering, whilst 10 = all filtering.
 
 The `--teloseq` should be the expected telomeric sequence in your sample.
 

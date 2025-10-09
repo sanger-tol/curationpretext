@@ -3,6 +3,20 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.5.1]](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
+
+### Added and Fixed
+
+- Addition of `params.multi_mapping` to change the level of multi-mapping filtering performed by PretextMap.
+  - This corresponds to the mapq (mapping quality) value.
+- Updated `trace` scope to start collecting SummaryStat data again.
+
+### Paramters
+
+| Old Version | New Versions    |
+| ----------- | --------------- |
+| NA          | --multi_mapping |
+
 ## [[1.5.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.0)] - UNSC Punic - [2025-08-04]
 
 ### Added and Fixed
