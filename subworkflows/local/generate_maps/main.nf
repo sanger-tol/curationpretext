@@ -14,13 +14,13 @@ include { HIC_BWAMEM2                               } from '../../../subworkflow
 
 workflow GENERATE_MAPS {
     take:
-    reference_tuple     // Channel [ val(meta), path(file)      ]
-    hic_reads_path      // Channel [ val(meta), path(directory) ]
-    ch_reference_fai    // Channel [ val(meta), path(file)      ]
+    reference_tuple     // channel [ val(meta), path(file)      ]
+    hic_reads_path      // channel [ val(meta), path(directory) ]
+    ch_reference_fai    // channel [ val(meta), path(file)      ]
 
 
     main:
-    ch_versions             = Channel.empty()
+    ch_versions             = channel.empty()
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
@@ -80,7 +80,7 @@ workflow GENERATE_MAPS {
         hires_pretext           = PRETEXTMAP_HIGHRES.out.pretext
         ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
     } else {
-        hires_pretext           = Channel.empty()
+        hires_pretext           = channel.empty()
     }
 
     //

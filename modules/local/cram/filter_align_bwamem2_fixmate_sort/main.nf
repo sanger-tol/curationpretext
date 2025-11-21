@@ -43,8 +43,6 @@ process CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT {
 
     stub:
     def prefix  = task.ext.prefix ?: "${meta.id}"
-    def base    = "45022_3#2"
-    def chunkid = "1"
     """
     touch ${prefix}_${base}_${chunkid}_mem.bam
 

@@ -14,13 +14,13 @@ include { SAMTOOLS_MERGE                                  } from '../../../modul
 
 workflow HIC_BWAMEM2 {
     take:
-    reference_tuple     // Channel: tuple [ val(meta), path( fasta ) ]
-    csv_ch              // Channel: tuple [ val(meta), path( cram_csv ) ]
-    reference_index     // Channel: tuple [ val(meta), path( fai ) ]
+    reference_tuple     // channel: tuple [ val(meta), path( fasta ) ]
+    csv_ch              // channel: tuple [ val(meta), path( cram_csv ) ]
+    reference_index     // channel: tuple [ val(meta), path( fai ) ]
 
     main:
-    ch_versions             = Channel.empty()
-    mappedbam_ch            = Channel.empty()
+    ch_versions             = channel.empty()
+    _mappedbam_ch            = channel.empty()
 
     //
     // MODULE: Indexing on reference output the folder of indexing files

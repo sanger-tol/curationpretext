@@ -11,11 +11,11 @@ include { TELO_EXTRACTION               } from '../../../subworkflows/local/telo
 workflow TELO_FINDER {
 
     take:
-    reference_tuple     // Channel [ val(meta), path(fasta) ]
+    reference_tuple     // channel [ val(meta), path(fasta) ]
     teloseq
 
     main:
-    ch_versions     = Channel.empty()
+    ch_versions     = channel.empty()
 
 
     //

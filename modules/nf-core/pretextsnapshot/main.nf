@@ -18,7 +18,6 @@ process PRETEXTSNAPSHOT {
     task.ext.when == null || task.ext.when
 
     script:
-    def VERSION = "0.0.4"
     def args    = task.ext.args ?: ''
     def prefix  = task.ext.prefix ?: "${meta.id}."
     """
@@ -42,7 +41,7 @@ process PRETEXTSNAPSHOT {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        pretextsnapshot: $VERSION
+        pretextsnapshot: \$(echo \$(PretextSnapshot --version 2>&1) | sed 's/^.*PretextSnapshot Version //' )
     END_VERSIONS
     """
 }

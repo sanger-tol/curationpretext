@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+nextflow.preview.types = true
+
 //
 // MODULE IMPORT BLOCK
 //
@@ -12,15 +14,15 @@ include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../../modules/nf-core/gaw
 
 workflow ACCESSORY_FILES {
     take:
-    reference_tuple
-    longread_reads
-    val_teloseq
-    ch_reference_fai   // Channel [ val(meta), path(file)      ]
+    reference_tuple:    Channel<Tuple<String, Path>>
+    longread_reads:     Channel<Tuple<String, Path>>
+    val_teloseq:        String
+    ch_reference_fai:   Channel<Tuple<String, Path>>
 
 
     main:
-    ch_versions         = Channel.empty()
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+    ch_versions         = channel.empty()
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
     // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW,

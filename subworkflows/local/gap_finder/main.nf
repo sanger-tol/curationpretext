@@ -8,10 +8,10 @@ include { GAWK as GAWK_GAP_LENGTH   } from '../../../modules/nf-core/gawk/main'
 
 workflow GAP_FINDER {
     take:
-    reference_tuple     // Channel [ val(meta), path(fasta) ]
+    reference_tuple     // channel [ val(meta), path(fasta) ]
 
     main:
-    ch_versions     = Channel.empty()
+    ch_versions     = channel.empty()
 
     //
     // MODULE: GENERATES A GAP SUMMARY FILE

@@ -16,13 +16,13 @@ include { MINIMAP2_INDEX                                  } from '../../../modul
 workflow HIC_MINIMAP2 {
 
     take:
-    reference_tuple     // Channel: tuple [ val(meta), path( file )      ]
+    reference_tuple     // channel: tuple [ val(meta), path( file )      ]
     csv_ch
     reference_index
 
     main:
-    ch_versions         = Channel.empty()
-    mappedbam_ch        = Channel.empty()
+    ch_versions         = channel.empty()
+    mappedbam_ch        = channel.empty()
 
 
     //

@@ -35,7 +35,7 @@ workflow PIPELINE_INITIALISATION {
 
     main:
 
-    ch_versions     = Channel.empty()
+    ch_versions     = channel.empty()
 
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
@@ -67,13 +67,13 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    input_fasta     = Channel.fromPath(
+    input_fasta     = channel.fromPath(
                         params.input,
                         checkIfExists: true,
                         type: 'file'
                     )
 
-    cram_dir        = Channel.fromPath(
+    cram_dir        = channel.fromPath(
                         params.cram,
                         checkIfExists: true,
                         type: 'dir'
@@ -105,7 +105,7 @@ workflow PIPELINE_INITIALISATION {
         )
     }
 
-    ch_reads        = Channel
+    ch_reads        = channel
                         .fromPath(
                             params.reads,
                             checkIfExists: true,

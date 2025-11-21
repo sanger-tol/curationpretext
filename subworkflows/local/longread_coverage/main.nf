@@ -16,13 +16,13 @@ include { UCSC_BEDGRAPHTOBIGWIG                         } from '../../../modules
 workflow LONGREAD_COVERAGE {
 
     take:
-    reference_tuple     // Channel: [ val(meta), path( reference_file ) ]
-    reference_index     // Channel: [ val(meta), path( reference_indx ) ]
-    dot_genome          // Channel: [ val(meta), [  path( datafile )  ] ]
-    reads_path          // Channel: [ val(meta),       path( str )      ]
+    reference_tuple     // channel: [ val(meta), path( reference_file ) ]
+    _reference_index    // channel: [ val(meta), path( reference_indx ) ]
+    dot_genome          // channel: [ val(meta), [  path( datafile )  ] ]
+    reads_path          // channel: [ val(meta),       path( str )      ]
 
     main:
-    ch_versions             = Channel.empty()
+    ch_versions             = channel.empty()
 
     //
     // LOGIC: TAKE THE READ FOLDER AS INPUT AND GENERATE THE CHANNEL OF READ FILES
@@ -107,7 +107,7 @@ workflow LONGREAD_COVERAGE {
     //
     BEDTOOLS_BAMTOBED.out.bed
         .combine( dot_genome )
-        .multiMap { meta, file, my_genome_meta, my_genome ->
+        .multiMap { meta, file, _my_genome_meta, my_genome ->
             input_tuple         :   tuple (
                                         [   id          :   meta.id,
                                             single_end  :   true    ],
@@ -147,7 +147,7 @@ workflow LONGREAD_COVERAGE {
     GNU_SORT.out.sorted
         .combine( dot_genome )
         .combine( reference_tuple )
-        .multiMap { meta, file, meta_my_genome, my_genome, ref_meta, ref ->
+        .multiMap { _meta, file, _meta_my_genome, my_genome, ref_meta, _ref ->
             ch_coverage_bed :   tuple (
                                     [   id: ref_meta.id,
                                         single_end: true

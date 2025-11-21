@@ -20,11 +20,11 @@ include { GAWK as GAWK_REFORMAT_INTERSECT   } from '../../../modules/nf-core/gaw
 
 workflow REPEAT_DENSITY {
     take:
-    reference_tuple     // Channel [ val(meta), path(file) ]
+    reference_tuple     // channel [ val(meta), path(file) ]
     dot_genome
 
     main:
-    ch_versions         = Channel.empty()
+    ch_versions         = channel.empty()
 
 
     //
@@ -156,7 +156,7 @@ workflow REPEAT_DENSITY {
     //
     UCSC_BEDGRAPHTOBIGWIG(
         GAWK_REPLACE_DOTS.out.output,
-        GNU_SORT_B.out.sorted.map { it[1] }
+        GNU_SORT_B.out.sorted.map { meta, file -> file }
     )
     ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
