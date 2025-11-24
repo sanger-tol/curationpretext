@@ -16,7 +16,7 @@ workflow ACCESSORY_FILES {
     take:
     reference_tuple:    Channel<Tuple<Map, Path>>
     longread_reads:     Channel<Path>
-    val_teloseq:        Channel<String>
+    val_teloseq:        String
     ch_reference_fai:   Channel<Tuple<Map, Path>>
 
 
@@ -53,7 +53,7 @@ workflow ACCESSORY_FILES {
             reference_tuple
         )
         ch_versions         = ch_versions.mix(GAP_FINDER.out.versions)
-        gap_file            = GAP_FINDER.out.gap_file.map{ it -> it[1] }
+        gap_file            = GAP_FINDER.out.gap_file.map{ _meta, file -> file }
     }
 
 
@@ -83,7 +83,7 @@ workflow ACCESSORY_FILES {
             GAWK_GENERATE_GENOME_FILE.out.output
         )
         ch_versions     = ch_versions.mix(REPEAT_DENSITY.out.versions)
-        repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ it -> it[1] }
+        repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ _meta, file -> file }
     }
 
 
@@ -100,7 +100,7 @@ workflow ACCESSORY_FILES {
             longread_reads
         )
         ch_versions     = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
-        longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ it -> it[1] }
+        longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ _meta, file -> file }
     }
 
     emit:
