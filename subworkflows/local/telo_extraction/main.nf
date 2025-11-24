@@ -3,7 +3,7 @@ include { EXTRACT_TELOMERE              } from '../../../modules/local/extract/t
 
 workflow TELO_EXTRACTION {
     take:
-    telomere_file //tuple(meta, file)
+    telomere_file: Channel<Tuple<Map, Path>>    // channel: tuple [ val(meta), path( telo_file ) ]
 
     main:
     ch_versions         = channel.empty()
@@ -19,6 +19,7 @@ workflow TELO_EXTRACTION {
 
     def windows_file    = FIND_TELOMERE_WINDOWS.out.windows
     def safe_windows    = windows_file.ifEmpty { channel.empty() }
+
 
     //
     // MODULE: Extract the telomere data from the FIND_TELOMERE

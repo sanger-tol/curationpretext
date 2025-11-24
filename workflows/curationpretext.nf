@@ -26,10 +26,10 @@ include { methodsDescriptionText                    } from '../subworkflows/loca
 
 workflow CURATIONPRETEXT {
     take:
-    ch_reference
-    ch_reads
-    ch_cram_reads
-    val_teloseq
+    ch_reference:   Channel<Tuple<Map, Path>>
+    ch_reads:       Channel<Path>
+    ch_cram_reads:  Channel<Path>
+    val_teloseq:    Channel<String>
 
     main:
     ch_versions         = channel.empty()
@@ -42,6 +42,7 @@ workflow CURATIONPRETEXT {
             unzipped: !file.name.endsWith('.gz')
         }
         .set {ch_input}
+
 
     //
     // MODULE: UNZIP INPUTS IF NEEDED
@@ -89,7 +90,6 @@ workflow CURATIONPRETEXT {
     // LOGIC: IN SOME CASES THE USER MAY NOT NEED ALL OR A SELECT GROUP OF
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
-
     dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
 
     full_list = [
@@ -130,7 +130,6 @@ workflow CURATIONPRETEXT {
         telo_file           = ACCESSORY_FILES.out.telo_file
         rept_file           = ACCESSORY_FILES.out.repeat_file
     }
-
 
 
     //

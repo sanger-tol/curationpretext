@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+nextflow.preview.types = true
+
 //
 // MODULE IMPORT BLOCK
 //
@@ -14,9 +16,9 @@ include { HIC_BWAMEM2                               } from '../../../subworkflow
 
 workflow GENERATE_MAPS {
     take:
-    reference_tuple     // channel [ val(meta), path(file)      ]
-    hic_reads_path      // channel [ val(meta), path(directory) ]
-    ch_reference_fai    // channel [ val(meta), path(file)      ]
+    reference_tuple:    Channel<Tuple<Map, Path>>     // channel [ val(meta), path(file)      ]
+    hic_reads_path:     Channel<Tuple<Map, Path>>     // channel [ val(meta), path(directory) ]
+    ch_reference_fai:   Channel<Tuple<Map, Path>>     // channel [ val(meta), path(file)      ]
 
 
     main:

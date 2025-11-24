@@ -16,9 +16,9 @@ include { MINIMAP2_INDEX                                  } from '../../../modul
 workflow HIC_MINIMAP2 {
 
     take:
-    reference_tuple     // channel: tuple [ val(meta), path( file )      ]
-    csv_ch
-    reference_index
+    reference_tuple:    Channel<Tuple<Map, Path>>     // channel: tuple [ val(meta), path( fasta ) ]
+    csv_ch:             Channel<Tuple<Map, Path>>     // channel: tuple [ val(meta), path( cram_csv ) ]
+    reference_index:    Channel<Tuple<Map, Path>>     // channel: tuple [ val(meta), path( fai ) ]
 
     main:
     ch_versions         = channel.empty()
@@ -41,6 +41,7 @@ workflow HIC_MINIMAP2 {
     ch_versions         = ch_versions.mix( CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT.out.versions )
     mappedbam_ch        = CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT.out.mappedbam
 
+
     //
     // LOGIC: PREPARING BAMS FOR MERGE
     //
@@ -48,6 +49,7 @@ workflow HIC_MINIMAP2 {
         .map { meta, mbam -> tuple( meta.subMap('id'), mbam ) } // Is the submap necessary?
         .groupTuple()
         .set { collected_files_for_merge }
+
 
     //
     // MODULE: MERGE POSITION SORTED BAM FILES AND MARK DUPLICATES

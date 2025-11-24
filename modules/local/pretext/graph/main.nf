@@ -1,20 +1,28 @@
+nextflow.preview.types = true
+
 process PRETEXT_GRAPH {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_single'
 
     container "quay.io/sanger-tol/pretext:0.0.9-yy5-c2"
 
     input:
-    tuple val(meta),        path(pretext_file)
-    path(gap_file,          stageAs: 'gap_file.bed')
-    path(coverage,          stageAs: 'coverage.bw')
-    path(telomere_file,     stageAs: 'telomere/*')
-    path(repeat_density,    stageAs: 'repeat_density.bw')
-    val(split_telo_bool)
+    (meta, pretext_file) : Tuple<Map, Path>
+    gap_file             : Path
+    coverage             : Path
+    telomere_file        : Set<Path>
+    repeat_density       : Path
+    _split_telo_bool     : Boolean
+
+    stage:
+    stageAs 'gap_file.bed', gap_file
+    stageAs 'coverage.bw', coverage
+    stageAs 'telomere/*', telomere_file
+    stageAs 'repeat_density.bw', repeat_density
 
     output:
-    tuple val(meta), path("*.pretext")  , emit: pretext
-    path "versions.yml"                 , emit: versions
+    pretext  = tuple(meta, file("*.pretext"))
+    versions = file("versions.yml")
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,12 +30,13 @@ process PRETEXT_GRAPH {
     script:
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "PRETEXT GRAPH module does not _currently_ support Conda. Please use Docker / Singularity instead."
+        error("PRETEXT GRAPH module does not _currently_ support Conda. Please use Docker / Singularity instead.")
     }
 
-    def args         = task.ext.args ?: ''
-    def prefix       = task.ext.prefix ?: "${meta.id}"
-    def UCSC_VERSION = '447' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def UCSC_VERSION = '447'
+    // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
 
     // Using single [ ] as nextflow will use sh where possible not bash
     //
@@ -103,7 +112,7 @@ process PRETEXT_GRAPH {
             echo "Processing OG_TELOMERE file: \$file_og"
 
             # Must be named "telomere"
-            PretextGraph $args -i "\$input_file" -n "telomere" -o telo_0.pretext < "\$file_og"
+            PretextGraph ${args} -i "\$input_file" -n "telomere" -o telo_0.pretext < "\$file_og"
         else
             echo "OG TELOMERE file - Could be empty or missing"
             cp "\$input_file" telo_0.pretext
@@ -111,7 +120,7 @@ process PRETEXT_GRAPH {
 
         if [ -s "\$file_telox" ]; then
             echo "Processing TELOX_TELOMERE file: \$file_telox"
-            PretextGraph $args -i telo_0.pretext -n "telox_telomere" -o telo_1.pretext < "\$file_telox"
+            PretextGraph ${args} -i telo_0.pretext -n "telox_telomere" -o telo_1.pretext < "\$file_telox"
         else
             echo "TELOX file - Could be empty or missing"
             cp telo_0.pretext telo_1.pretext
@@ -119,7 +128,7 @@ process PRETEXT_GRAPH {
 
         if [ -s "\$file_5p" ]; then
             echo "Processing 5-Prime TELOMERE file: \$file_5p"
-            PretextGraph $args -i telo_1.pretext -n "5p_telomere" -o telo_2.pretext < "\$file_5p"
+            PretextGraph ${args} -i telo_1.pretext -n "5p_telomere" -o telo_2.pretext < "\$file_5p"
         else
             echo "5-Prime TELOMERE file - Could be empty or missing"
             cp telo_1.pretext telo_2.pretext
@@ -127,7 +136,7 @@ process PRETEXT_GRAPH {
 
         if [ -s "\$file_3p" ]; then
             echo "Processing 3-Prime TELOMERE file: \$file_3p"
-            PretextGraph $args -i telo_2.pretext -n "3p_telomere" -o "${prefix}.pretext" < "\$file_3p"
+            PretextGraph ${args} -i telo_2.pretext -n "3p_telomere" -o "${prefix}.pretext" < "\$file_3p"
         else
             echo "3-Prime TELOMERE file - Could be empty or missing"
             cp telo_2.pretext "${prefix}.pretext"
@@ -148,11 +157,12 @@ process PRETEXT_GRAPH {
     stub:
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error "PRETEXT GRAPH module does not _currently_ support Conda. Please use Docker / Singularity instead."
+        error("PRETEXT GRAPH module does not _currently_ support Conda. Please use Docker / Singularity instead.")
     }
 
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def UCSC_VERSION = '448' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    def UCSC_VERSION = '448'
+    // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch ${prefix}.pretext
     cat <<-END_VERSIONS > versions.yml

@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+nextflow.preview.types = true
+
 //
 // MODULE IMPORT BLOCK
 //
@@ -8,7 +10,7 @@ include { GAWK as GAWK_GAP_LENGTH   } from '../../../modules/nf-core/gawk/main'
 
 workflow GAP_FINDER {
     take:
-    reference_tuple     // channel [ val(meta), path(fasta) ]
+    reference_tuple: Channel<Tuple<Map, Path>>
 
     main:
     ch_versions     = channel.empty()

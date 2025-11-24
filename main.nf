@@ -1,4 +1,6 @@
 #!/usr/bin/env nextflow
+
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     sanger-tol/curationpretext
@@ -30,10 +32,10 @@ include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_cu
 //
 workflow SANGER_TOL_CURATIONPRETEXT {
     take:
-    input_fasta
-    reads
-    cram
-    teloseq
+    input_fasta:    Channel<Tuple<Map, Path>>
+    reads:          Channel<Path>
+    cram:           Channel<Path>
+    teloseq:        Channel<String>
 
     main:
 

@@ -1,33 +1,38 @@
+nextflow.preview.types = true
+
 process GAWK_SPLIT_DIRECTIONS {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_single'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/gawk:5.3.0' :
-        'biocontainers/gawk:5.3.0' }"
+    container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
+        ? 'https://depot.galaxyproject.org/singularity/gawk:5.3.0'
+        : 'biocontainers/gawk:5.3.0'}"
 
     input:
-    tuple val(meta), path(input)
-    path(program_file)
+    (meta, input) : Tuple<Map, Path>
+    program_file  : Path
 
     output:
-    tuple val(meta), path("direction.0.${suffix}"), emit: prime5
-    tuple val(meta), path("direction.1.${suffix}"), emit: prime3
-    path "versions.yml"                           , emit: versions
+    prime5   = tuple(meta, file("direction.0.${suffix}"))
+    prime3   = tuple(meta, file("direction.1.${suffix}"))
+    versions = file("versions.yml")
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def args  = task.ext.args  ?: '' // args is used for the main arguments of the tool
-    def args2 = task.ext.args2 ?: '' // args2 is used to specify a program when no program file has been given
-    prefix    = task.ext.prefix ?: "${meta.id}"
-    suffix    = task.ext.suffix ?: "${input.collect{ file -> file.getExtension()}.get(0)}" // use the first extension of the input files
+    def args = task.ext.args ?: ''
+    // args is used for the main arguments of the tool
+    def args2 = task.ext.args2 ?: ''
+    // args2 is used to specify a program when no program file has been given
+    prefix = task.ext.prefix ?: "${meta.id}"
+    suffix = task.ext.suffix ?: "${input.collect { file -> file.getExtension() }.get(0)}"
+    // use the first extension of the input files
 
-    program    = program_file ? "-f ${program_file}" : "${args2}"
+    program = program_file ? "-f ${program_file}" : "${args2}"
 
-    input.collect{ file ->
+    input.collect { file ->
         assert file.name != "${prefix}.${suffix}" : "Input and output names are the same, set prefix in module configuration to disambiguate!"
     }
 

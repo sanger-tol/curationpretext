@@ -14,10 +14,10 @@ include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../../modules/nf-core/gaw
 
 workflow ACCESSORY_FILES {
     take:
-    reference_tuple:    Channel<Tuple<String, Path>>
-    longread_reads:     Channel<Tuple<String, Path>>
-    val_teloseq:        String
-    ch_reference_fai:   Channel<Tuple<String, Path>>
+    reference_tuple:    Channel<Tuple<Map, Path>>
+    longread_reads:     Channel<Path>
+    val_teloseq:        Channel<String>
+    ch_reference_fai:   Channel<Tuple<Map, Path>>
 
 
     main:

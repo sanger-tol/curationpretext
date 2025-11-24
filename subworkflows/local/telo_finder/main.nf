@@ -11,8 +11,8 @@ include { TELO_EXTRACTION               } from '../../../subworkflows/local/telo
 workflow TELO_FINDER {
 
     take:
-    reference_tuple     // channel [ val(meta), path(fasta) ]
-    teloseq
+    reference_tuple:    Channel<Tuple<Map, Path>>   // channel [ val(meta), path(fasta) ]
+    teloseq:            String
 
     main:
     ch_versions     = channel.empty()
@@ -81,6 +81,6 @@ workflow TELO_FINDER {
 
 
     emit:
-    bedgraph_file   = telo_bedgraphs                            // Used in pretext_graph
+    bedgraph_file   = telo_bedgraphs    // Used in pretext_graph
     versions        = ch_versions
 }

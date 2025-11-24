@@ -20,8 +20,8 @@ include { GAWK as GAWK_REFORMAT_INTERSECT   } from '../../../modules/nf-core/gaw
 
 workflow REPEAT_DENSITY {
     take:
-    reference_tuple     // channel [ val(meta), path(file) ]
-    dot_genome
+    reference_tuple:    Channel<Tuple<Map, Path>>   // channel [ val(meta), path(file) ]
+    dot_genome:         Channel<Tuple<Map, Path>>   // channel [ val(meta), path(file) ]
 
     main:
     ch_versions         = channel.empty()
@@ -61,11 +61,8 @@ workflow REPEAT_DENSITY {
     //
     BEDTOOLS_MAKEWINDOWS.out.bed
         .combine( EXTRACT_REPEAT.out.bed )
-        .map{ data ->
-                    tuple ( data[0],
-                            data[1],
-                            data[3]
-                    )
+        .map{ meta, windows, _meta2, repeat ->
+            [ meta, windows, repeat ]
         }
         .set { intervals }
 
@@ -121,11 +118,8 @@ workflow REPEAT_DENSITY {
     //
     GAWK_REFORMAT_INTERSECT.out.output
         .combine( GNU_SORT_C.out.sorted )
-        .map{ data ->
-                    tuple ( data[0],
-                            data[3],
-                            data[1]
-                    )
+        .map{ meta, intersect, _meta_2, windows ->
+            [ meta, windows, intersect ]
         }
         .set { for_mapping }
 
@@ -156,7 +150,7 @@ workflow REPEAT_DENSITY {
     //
     UCSC_BEDGRAPHTOBIGWIG(
         GAWK_REPLACE_DOTS.out.output,
-        GNU_SORT_B.out.sorted.map { meta, file -> file }
+        GNU_SORT_B.out.sorted.map { _meta, file -> file }
     )
     ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
