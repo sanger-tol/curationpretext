@@ -32,10 +32,10 @@ include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_cu
 //
 workflow SANGER_TOL_CURATIONPRETEXT {
     take:
-    input_fasta:    Channel<Tuple<Map, Path>>
-    reads:          Channel<Path>
-    cram:           Channel<Path>
-    teloseq:        Channel<String>
+    input_fasta
+    reads
+    cram
+    teloseq
 
     main:
 
@@ -45,7 +45,6 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         cram,
         teloseq
     )
-    // CURATIONPRETEXT_MAPS
 }
 
 /*
