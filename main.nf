@@ -63,7 +63,10 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        []                      // We are not using the samplesheet for this pipeline
+        [],                      // We are not using the samplesheet for this pipeline
+        params.help,
+        params.help_full,
+        params.show_hidden
     )
 
     // MOVE THE CHANNEL CREATION INTO THE PIPELINE INITIALISATION
