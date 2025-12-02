@@ -20,7 +20,6 @@ workflow HIC_BWAMEM2 {
 
     main:
     ch_versions             = channel.empty()
-    mappedbam_ch            = channel.empty()
 
     //
     // MODULE: Indexing on reference output the folder of indexing files

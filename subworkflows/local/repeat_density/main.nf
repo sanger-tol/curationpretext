@@ -156,7 +156,7 @@ workflow REPEAT_DENSITY {
     //
     UCSC_BEDGRAPHTOBIGWIG(
         GAWK_REPLACE_DOTS.out.output,
-        GNU_SORT_B.out.sorted.map { it[1] }
+        GNU_SORT_B.out.sorted.map { _meta, file -> file }
     )
     ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
