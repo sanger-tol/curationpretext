@@ -20,7 +20,7 @@ workflow GENERATE_MAPS {
 
 
     main:
-    ch_versions             = Channel.empty()
+    ch_versions             = channel.empty()
 
     //
     // MODULE: generate a cram csv file containing the required parametres for CRAM_FILTER_ALIGN_BWAMEM2_FIXMATE_SORT
@@ -80,7 +80,7 @@ workflow GENERATE_MAPS {
         hires_pretext           = PRETEXTMAP_HIGHRES.out.pretext
         ch_versions             = ch_versions.mix( PRETEXTMAP_HIGHRES.out.versions )
     } else {
-        hires_pretext           = Channel.empty()
+        hires_pretext           = channel.empty()
     }
 
     //

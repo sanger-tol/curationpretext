@@ -117,7 +117,7 @@ workflow PIPELINE_INITIALISATION {
         )
     }
 
-    ch_reads        = Channel
+    ch_reads        = channel
                         .fromPath(
                             params.reads,
                             checkIfExists: true,

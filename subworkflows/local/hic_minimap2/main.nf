@@ -21,8 +21,8 @@ workflow HIC_MINIMAP2 {
     reference_index
 
     main:
-    ch_versions         = Channel.empty()
-    mappedbam_ch        = Channel.empty()
+    ch_versions         = channel.empty()
+    mappedbam_ch        = channel.empty()
 
 
     //
