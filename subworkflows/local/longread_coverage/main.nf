@@ -17,12 +17,12 @@ workflow LONGREAD_COVERAGE {
 
     take:
     reference_tuple     // Channel: [ val(meta), path( reference_file ) ]
-    reference_index     // Channel: [ val(meta), path( reference_indx ) ]
+    _reference_index    // Channel: [ val(meta), path( reference_indx ) ]
     dot_genome          // Channel: [ val(meta), [  path( datafile )  ] ]
     reads_path          // Channel: [ val(meta),       path( str )      ]
 
     main:
-    ch_versions             = Channel.empty()
+    ch_versions             = channel.empty()
 
     //
     // LOGIC: TAKE THE READ FOLDER AS INPUT AND GENERATE THE CHANNEL OF READ FILES

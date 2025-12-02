@@ -32,12 +32,12 @@ workflow CURATIONPRETEXT {
     val_teloseq
 
     main:
-    ch_versions         = Channel.empty()
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+    ch_versions         = channel.empty()
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
 
     ch_reference
-        .branch { meta, file ->
+        .branch { _meta, file ->
             zipped: file.name.endsWith('.gz')
             unzipped: !file.name.endsWith('.gz')
         }
@@ -55,7 +55,7 @@ workflow CURATIONPRETEXT {
     //
     // LOGIC: MIX CHANELS WHICH MAY OR MAY NOT BE EMPTY INTO A SINGLE QUEUE CHANNEL
     //
-    unzipped_input = Channel.empty()
+    unzipped_input = channel.empty()
 
     unzipped_input
         .mix(ch_input.unzipped, GUNZIP.out.gunzip)
@@ -183,7 +183,7 @@ workflow CURATIONPRETEXT {
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel.topic("versions")
+    def topic_versions = channel.topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path
@@ -207,9 +207,9 @@ workflow CURATIONPRETEXT {
             name: 'sanger-tol_'  +  'curationpretext_software_' + 'versions.yml',
             sort: true,
             newLine: true
-        ).set { ch_collated_versions }
+        ).set { _ch_collated_versions }
 
-    summary_params      = paramsSummaryMap(
+    _summary_params      = paramsSummaryMap(
         workflow, parameters_schema: "nextflow_schema.json")
 
 

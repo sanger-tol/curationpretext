@@ -6,7 +6,7 @@ workflow TELO_EXTRACTION {
     telomere_file //tuple(meta, file)
 
     main:
-    ch_versions         = Channel.empty()
+    ch_versions         = channel.empty()
 
     //
     // MODULE: GENERATES A WINDOWS FILE FROM THE ABOVE
@@ -18,7 +18,7 @@ workflow TELO_EXTRACTION {
 
 
     def windows_file    = FIND_TELOMERE_WINDOWS.out.windows
-    def safe_windows    = windows_file.ifEmpty { Channel.empty() }
+    def safe_windows    = windows_file.ifEmpty { channel.empty() }
 
     //
     // MODULE: Extract the telomere data from the FIND_TELOMERE

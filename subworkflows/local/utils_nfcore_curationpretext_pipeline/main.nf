@@ -79,13 +79,13 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    input_fasta     = Channel.fromPath(
+    input_fasta     = channel.fromPath(
                         params.input,
                         checkIfExists: true,
                         type: 'file'
                     )
 
-    cram_dir        = Channel.fromPath(
+    cram_dir        = channel.fromPath(
                         params.cram,
                         checkIfExists: true,
                         type: 'dir'
