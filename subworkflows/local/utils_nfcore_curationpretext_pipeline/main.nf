@@ -117,21 +117,21 @@ workflow PIPELINE_INITIALISATION {
         )
     }
 
-    ch_reads        = channel
-                        .fromPath(
-                            params.reads,
-                            checkIfExists: true,
-                            type: 'dir'
-                        )
-                        .map { dir ->
-                            tuple(
-                                [   id: params.sample,
-                                    single_end: true,
-                                    read_type: params.read_type
-                                ],
-                                dir
-                            )
-                        }
+    channel.fromPath(
+        params.reads,
+        checkIfExists: true,
+        type: 'dir'
+    )
+    .map { dir ->
+        tuple(
+            [   id: params.sample,
+                single_end: true,
+                read_type: params.read_type
+            ],
+            dir
+        )
+    }
+    .set { ch_reads }
 
     emit:
     ch_reference
