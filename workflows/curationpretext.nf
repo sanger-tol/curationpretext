@@ -12,6 +12,7 @@ include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pre
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
 
 include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
+include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM       } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
 include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
 
 include { paramsSummaryMap                          } from 'plugin/nf-schema'
@@ -137,13 +138,26 @@ workflow CURATIONPRETEXT {
     // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
     //              - GENERATE_MAPS IS THE MINIMAL OUTPUT EXPECTED FROM THIS PIPELLINE
     //
-    GENERATE_MAPS (
-        ch_upper_ref,
-        ch_cram_reads,
-        SAMTOOLS_FAIDX.out.fai
-    )
-    ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
+    // GENERATE_MAPS (
+    //     ch_upper_ref,
+    //     ch_cram_reads,
+    //     SAMTOOLS_FAIDX.out.fai
+    // )
+    // ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
 
+    //
+    // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
+    //
+    def selected_aligner = (params.aligner == "AUTO") ?
+        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+        params.aligner
+
+    ALIGN_CRAM (
+        ch_upper_ref.filter{ _meta, _file -> !params.pre_mapped },
+        ch_cram_reads,
+        selected_aligner,
+        params.cram_chunk_size
+    )
 
     if (!dont_generate_tracks.contains("ALL")) {
 

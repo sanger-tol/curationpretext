@@ -76,7 +76,7 @@ workflow {
     //
     SANGER_TOL_CURATIONPRETEXT (
         PIPELINE_INITIALISATION.out.ch_reference,
-        PIPELINE_INITIALISATION.out.ch_reads,
+        PIPELINE_INITIALISATION.out.ch_longreads,
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.teloseq
     )

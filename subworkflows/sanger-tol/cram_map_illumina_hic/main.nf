@@ -54,7 +54,6 @@ workflow CRAM_MAP_ILLUMINA_HIC {
     // Module: Index CRAM files without indexes
     //
     SAMTOOLS_INDEX(ch_hic_cram_raw.no_index)
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 
     ch_hic_cram_indexed = ch_hic_cram_raw.have_index
         .mix(
@@ -87,7 +86,6 @@ workflow CRAM_MAP_ILLUMINA_HIC {
     // Module: Extract read groups from CRAM headers
     //
     SAMTOOLS_SPLITHEADER(ch_hic_cram_meta_mod)
-    ch_versions = ch_versions.mix(SAMTOOLS_SPLITHEADER.out.versions)
 
     ch_readgroups = SAMTOOLS_SPLITHEADER.out.readgroup
         .map { meta, rg_file ->

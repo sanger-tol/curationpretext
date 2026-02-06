@@ -18,6 +18,7 @@ include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
+include { fn_get_validated_channel  } from '../../../functions/local/utils'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUBWORKFLOW TO INITIALISE PIPELINE
@@ -85,10 +86,10 @@ workflow PIPELINE_INITIALISATION {
                         type: 'file'
                     )
 
-    cram_dir        = Channel.fromPath(
-                        params.cram,
-                        checkIfExists: true,
-                        type: 'dir'
+    ch_cram_reads   = fn_get_validated_channel(
+                        "cram",
+                        params.sample,
+                        params.cram
                     )
 
     ch_reference = input_fasta.map { fasta ->
@@ -109,34 +110,16 @@ workflow PIPELINE_INITIALISATION {
         )
     }
 
-
-    ch_cram_reads   = cram_dir.map { dir ->
-        tuple(
-            [   id: params.sample   ],
-            dir
-        )
-    }
-
-    ch_reads        = Channel
-                        .fromPath(
-                            params.reads,
-                            checkIfExists: true,
-                            type: 'dir'
-                        )
-                        .map { dir ->
-                            tuple(
-                                [   id: params.sample,
-                                    single_end: true,
-                                    read_type: params.read_type
-                                ],
-                                dir
-                            )
-                        }
+    ch_longreads    = fn_get_validated_channel(
+                        "pacbio",
+                        params.sample,
+                        params.reads
+                    )
 
     emit:
     ch_reference
     ch_cram_reads
-    ch_reads
+    ch_longreads
     teloseq         = params.teloseq
     versions        = ch_versions
 }
