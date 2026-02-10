@@ -19,6 +19,9 @@ workflow CRAM_MAP_ILLUMINA_HIC {
     main:
     ch_versions = channel.empty()
 
+    ch_assemblies.view{"ASSM: $it"}
+    ch_hic_cram.view{"CRAM: $it"}
+
     //
     // Logic: rolling check of assembly meta objects to detect duplicates
     //

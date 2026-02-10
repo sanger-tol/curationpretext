@@ -1,4 +1,4 @@
-def fn_get_validated_channel (data_type, tolid_ver, files_list) {
+def fn_get_validated_channel (data_type, tolid_meta, files_list) {
     // Based on the the functions added in TreeVal - commit: 61f4ad9
     // Edited to be a function working on the raw yaml data
     // rather than channels as it was previously
@@ -53,9 +53,7 @@ def fn_get_validated_channel (data_type, tolid_ver, files_list) {
 
     // Create the resolved channel tuple
     def resolved_channel = tuple(
-        [
-            id:         tolid_ver,
-        ],
+        tolid_meta,
         all_files.collect { file(it, checkIfExists: true) }
     )
 

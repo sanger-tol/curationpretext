@@ -79,24 +79,18 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-
     input_fasta     = Channel.fromPath(
                         params.input,
                         checkIfExists: true,
                         type: 'file'
                     )
 
-    ch_cram_reads   = fn_get_validated_channel(
-                        "cram",
-                        params.sample,
-                        params.cram
-                    )
+    def selected_aligner = (params.aligner == "AUTO") ?
+        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+        params.aligner
 
     ch_reference = input_fasta.map { fasta ->
         def fasta_size = fasta.size()
-        def selected_aligner = (params.aligner == "AUTO") ?
-            (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-            params.aligner
 
         tuple(
             [
@@ -104,15 +98,30 @@ workflow PIPELINE_INITIALISATION {
                 aligner: selected_aligner,
                 map_order: params.map_order,
                 multi_mapping: params.multi_mapping,
-                ref_size: fasta_size,
             ],
             fasta
         )
     }
 
+    ch_cram_reads   = fn_get_validated_channel(
+                        "cram",
+                        [
+                            id: params.sample,
+                            aligner: selected_aligner,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping,
+                        ],
+                        params.cram
+                    )
+
     ch_longreads    = fn_get_validated_channel(
                         "pacbio",
-                        params.sample,
+                        [
+                            id: params.sample,
+                            aligner: selected_aligner,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping,
+                        ],
                         params.reads
                     )
 
