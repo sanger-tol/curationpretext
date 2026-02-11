@@ -52,9 +52,11 @@ def fn_get_validated_channel (data_type, tolid_meta, files_list) {
     }
 
     // Create the resolved channel tuple
-    def resolved_channel = tuple(
-        tolid_meta,
-        all_files.collect { file(it, checkIfExists: true) }
+    def resolved_channel = channel.of(
+        [
+            tolid_meta,
+            all_files.collect { file(it, checkIfExists: true) }
+        ]
     )
 
     return resolved_channel
