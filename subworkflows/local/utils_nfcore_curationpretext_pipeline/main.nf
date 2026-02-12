@@ -79,13 +79,13 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    input_fasta     = Channel.fromPath(
+    input_fasta     = channel.fromPath(
                         params.input,
                         checkIfExists: true,
                         type: 'file'
                     )
 
-    cram_dir        = Channel.fromPath(
+    cram_dir        = channel.fromPath(
                         params.cram,
                         checkIfExists: true,
                         type: 'dir'
@@ -117,21 +117,21 @@ workflow PIPELINE_INITIALISATION {
         )
     }
 
-    ch_reads        = Channel
-                        .fromPath(
-                            params.reads,
-                            checkIfExists: true,
-                            type: 'dir'
-                        )
-                        .map { dir ->
-                            tuple(
-                                [   id: params.sample,
-                                    single_end: true,
-                                    read_type: params.read_type
-                                ],
-                                dir
-                            )
-                        }
+    channel.fromPath(
+        params.reads,
+        checkIfExists: true,
+        type: 'dir'
+    )
+    .map { dir ->
+        tuple(
+            [   id: params.sample,
+                single_end: true,
+                read_type: params.read_type
+            ],
+            dir
+        )
+    }
+    .set { ch_reads }
 
     emit:
     ch_reference

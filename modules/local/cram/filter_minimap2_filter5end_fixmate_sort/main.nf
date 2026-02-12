@@ -18,7 +18,7 @@ process CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
+    def _args = task.ext.args ?: ''
     def args1 = task.ext.args1 ?: ''
     def args2 = task.ext.args2 ?: ''
     def args3 = task.ext.args3 ?: ''
@@ -44,8 +44,6 @@ process CRAM_FILTER_MINIMAP2_FILTER5END_FIXMATE_SORT {
 
     stub:
     def prefix  = task.ext.prefix ?: "${meta.id}"
-    def base    = "45022_3#2"
-    def chunkid = "1"
     """
     touch ${prefix}_${base}_${chunkid}_mm.bam
 

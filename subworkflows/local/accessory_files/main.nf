@@ -19,8 +19,8 @@ workflow ACCESSORY_FILES {
 
 
     main:
-    ch_versions         = Channel.empty()
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+    ch_versions         = channel.empty()
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
     // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW,

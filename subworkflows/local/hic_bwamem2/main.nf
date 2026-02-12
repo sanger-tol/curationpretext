@@ -19,8 +19,7 @@ workflow HIC_BWAMEM2 {
     reference_index     // Channel: tuple [ val(meta), path( fai ) ]
 
     main:
-    ch_versions             = Channel.empty()
-    mappedbam_ch            = Channel.empty()
+    ch_versions             = channel.empty()
 
     //
     // MODULE: Indexing on reference output the folder of indexing files
