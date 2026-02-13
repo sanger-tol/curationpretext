@@ -4,21 +4,29 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GAWK as GAWK_UPPER_SEQUENCE               } from '../modules/nf-core/gawk/main'
-include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
-include { GUNZIP                                    } from '../modules/nf-core/gunzip/main'
+// NF-CORE MODULES
+include { GAWK as GAWK_UPPER_SEQUENCE                       } from '../modules/nf-core/gawk/main'
+include { SAMTOOLS_FAIDX                                    } from '../modules/nf-core/samtools/faidx/main'
+include { GUNZIP                                            } from '../modules/nf-core/gunzip/main'
 
-include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
-include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
+//LOCAL MODULES
+include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
 
-include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
-include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM       } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
-include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
+// LOCAL SUBWORKFLOWS
+include { GENERATE_MAPS                                     } from '../subworkflows/local/generate_maps/main'
+include { ACCESSORY_FILES                                   } from '../subworkflows/local/accessory_files/main'
 
-include { paramsSummaryMap                          } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML                    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText                    } from '../subworkflows/local/utils_nfcore_curationpretext_pipeline'
+// SANGER-TOL SUBWORKFLOWS
+include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
+include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_STDRD    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_HIRES    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+
+
+include { paramsSummaryMap                                  } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc                              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML                            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText                            } from '../subworkflows/local/utils_nfcore_curationpretext_pipeline'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -158,6 +166,35 @@ workflow CURATIONPRETEXT {
         selected_aligner,
         params.cram_chunk_size
     )
+
+
+    //
+    // SUBWORKFLOW: MAP THE PRETEXT FILE AND TAKE SNAPSHOT
+    //
+    CREATE_MAPS_STDRD (
+        ALIGN_CRAM.out.bam,
+        [[:],[]],
+        true,
+        true,
+        false,
+        false,
+        []
+    )
+
+
+    //
+    // SUBWORKFLOW: MAP THE PRETEXT FILE
+    //
+    CREATE_MAPS_HIRES (
+        ALIGN_CRAM.out.bam.filter{ _meta, _file -> params.run_hires },
+        [[:],[]],
+        true,
+        false,
+        false,
+        false,
+        []
+    )
+
 
     if (!dont_generate_tracks.contains("ALL")) {
 
