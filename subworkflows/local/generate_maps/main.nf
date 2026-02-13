@@ -18,7 +18,6 @@ workflow GENERATE_MAPS {
     hic_reads_path      // Channel [ val(meta), path(directory) ]
     ch_reference_fai    // Channel [ val(meta), path(file)      ]
 
-
     main:
     ch_versions             = Channel.empty()
 
