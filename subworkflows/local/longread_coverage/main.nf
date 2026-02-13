@@ -18,26 +18,27 @@ workflow LONGREAD_COVERAGE {
     take:
     reference_tuple     // Channel: [ val(meta), path( reference_file ) ]
     reference_index     // Channel: [ val(meta), path( reference_indx ) ]
-    dot_genome          // Channel: [ val(meta), [  path( datafile )  ] ]
-    reads_path          // Channel: [ val(meta),       path( str )      ]
+    dot_genome          // Channel: [ val(meta), [ path( datafile )  ] ]
+    reads_path          // Channel: [ val(meta), [ path( str )       ] ]
 
     main:
     ch_versions             = Channel.empty()
 
     //
-    // LOGIC: TAKE THE READ FOLDER AS INPUT AND GENERATE THE CHANNEL OF READ FILES
-    //
-    ch_reads_path = reads_path.flatMap { meta, dir ->
-        files(dir.resolve('*.fasta.gz'), checkIfExists: true, type: 'file' )
-            .collect{ fasta -> tuple( meta, fasta ) }
-    }
-
-
-    //
     // PROCESS: MINIMAP ALIGNMENT
     //
+    reads_path.view{"RAW READS CHANNEL: $it"}
+    reads_path.flatMap{ meta, files ->
+        files.collect{ file ->
+            tuple(meta, file)
+        }
+    }
+    .set { single_reads_path }
+
+    single_reads_path.view{"SINGLE READS CHANNEL: $it"}
+
     MINIMAP2_ALIGN (
-            ch_reads_path,
+            single_reads_path,
             reference_tuple.collect(),
             true,
             "csi",

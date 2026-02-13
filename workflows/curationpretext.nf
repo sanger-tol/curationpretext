@@ -141,18 +141,6 @@ workflow CURATIONPRETEXT {
     }
 
 
-
-    //
-    // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
-    //              - GENERATE_MAPS IS THE MINIMAL OUTPUT EXPECTED FROM THIS PIPELLINE
-    //
-    // GENERATE_MAPS (
-    //     ch_upper_ref,
-    //     ch_cram_reads,
-    //     SAMTOOLS_FAIDX.out.fai
-    // )
-    // ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
-
     //
     // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
     //
@@ -196,39 +184,34 @@ workflow CURATIONPRETEXT {
     )
 
 
-    if (!dont_generate_tracks.contains("ALL")) {
-
-        //
-        // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
-        //          - ADAPTED FROM TREEVAL
-        //
-        PRETEXT_INGEST_SNDRD (
-            GENERATE_MAPS.out.standrd_pretext,
-            gaps_file,
-            cove_file,
-            telo_file,
-            rept_file,
-            params.split_telomere
-        )
-        ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_SNDRD (
+        CREATE_MAPS_STDRD.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        gaps_file,
+        cove_file,
+        telo_file,
+        rept_file,
+        params.split_telomere
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
 
-        //
-        // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
-        //          - ADAPTED FROM TREEVAL
-        //
-        if (params.run_hires) {
-            PRETEXT_INGEST_HIRES (
-                GENERATE_MAPS.out.highres_pretext,
-                gaps_file,
-                cove_file,
-                telo_file,
-                rept_file,
-                params.split_telomere
-            )
-            ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
-        }
-    }
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_HIRES (
+        CREATE_MAPS_HIRES.out.pretext.filter { params.run_hires && !dont_generate_tracks.contains("ALL") },
+        gaps_file,
+        cove_file,
+        telo_file,
+        rept_file,
+        params.split_telomere
+    )
+    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
 
     //
