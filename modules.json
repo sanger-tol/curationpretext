@@ -35,10 +35,20 @@
                         "git_sha": "a29f18660f5e3748d44d6f716241e70c942c065d",
                         "installed_by": ["cram_map_illumina_hic", "modules"]
                     },
+                    "cooler/cload": {
+                        "branch": "master",
+                        "git_sha": "5d491ae33d61ab37e13850951b92ae7d6e3f4e31",
+                        "installed_by": ["pairs_create_contact_maps"]
+                    },
+                    "cooler/zoomify": {
+                        "branch": "master",
+                        "git_sha": "5d491ae33d61ab37e13850951b92ae7d6e3f4e31",
+                        "installed_by": ["pairs_create_contact_maps"]
+                    },
                     "gawk": {
                         "branch": "master",
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules", "pairs_create_contact_maps"]
                     },
                     "gnu/sort": {
                         "branch": "master",
@@ -49,6 +59,11 @@
                         "branch": "master",
                         "git_sha": "41dfa3f7c0ffabb96a6a813fe321c6d1cc5b6e46",
                         "installed_by": ["modules"]
+                    },
+                    "juicertools/pre": {
+                        "branch": "master",
+                        "git_sha": "559ca10e059b42eaf1ccf580c0193c150ed3dc94",
+                        "installed_by": ["pairs_create_contact_maps"]
                     },
                     "minimap2/align": {
                         "branch": "master",
@@ -63,13 +78,13 @@
                     "pretextmap": {
                         "branch": "master",
                         "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
-                        "installed_by": ["modules"],
+                        "installed_by": ["modules", "pairs_create_contact_maps"],
                         "patch": "modules/nf-core/pretextmap/pretextmap.diff"
                     },
                     "pretextsnapshot": {
                         "branch": "master",
                         "git_sha": "81880787133db07d9b4c1febd152c090eb8325dc",
-                        "installed_by": ["modules"],
+                        "installed_by": ["modules", "pairs_create_contact_maps"],
                         "patch": "modules/nf-core/pretextsnapshot/pretextsnapshot.diff"
                     },
                     "samtools/faidx": {
@@ -179,6 +194,11 @@
                     "cram_map_illumina_hic": {
                         "branch": "main",
                         "git_sha": "61774812e4e01b4ed1bd546481959970f7e6725a",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "pairs_create_contact_maps": {
+                        "branch": "main",
+                        "git_sha": "ea528065884af5637f77825939b45a4e0d07f61a",
                         "installed_by": ["subworkflows"]
                     }
                 }
