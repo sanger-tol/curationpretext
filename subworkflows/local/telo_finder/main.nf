@@ -31,7 +31,7 @@ workflow TELO_FINDER {
     // MODULE: SPLIT THE TELOMERE FILE INTO 5' and 3' FILES
     //              THIS IS RUNNING ON A LOCAL VERSION OF THE GAWK MODULE
     //
-    if (params.split_telomere) {
+    if (val_split_telomere) {
         GAWK_SPLIT_DIRECTIONS (
             FIND_TELOMERE_REGIONS.out.telomere,
             file("${projectDir}/bin/gawk_split_directions.awk")
