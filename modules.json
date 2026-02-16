@@ -196,7 +196,7 @@
                     },
                     "pairs_create_contact_maps": {
                         "branch": "main",
-                        "git_sha": "ea528065884af5637f77825939b45a4e0d07f61a",
+                        "git_sha": "a44722e4a55b447795ec7117a90cd2f7461da0cb",
                         "installed_by": ["subworkflows"]
                     }
                 }

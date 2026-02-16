@@ -7,13 +7,13 @@ include { PRETEXTSNAPSHOT                            } from '../../../modules/nf
 
 workflow PAIRS_CREATE_CONTACT_MAPS {
     take:
-    ch_pairs            // [meta, pairs]
-    ch_chrom_sizes      // [meta, sizes]
-    val_build_pretext   // bool: build pretext map
-    val_build_snapshot  // bool: build snapshot
-    val_build_cooler    // bool: build cooler
-    val_build_juicer    // bool: build juicer
-    val_cool_bin        // val: cooler cload parameter
+    ch_pairs                    // [meta, pairs]
+    ch_chrom_sizes              // [meta, sizes]
+    val_build_pretext           // bool: build pretext map
+    val_create_pretext_snapshot // bool: build snapshot
+    val_build_cooler            // bool: build cooler
+    val_build_juicer            // bool: build juicer
+    val_cool_bin                // val: cooler cload parameter
 
     main:
     //
@@ -28,7 +28,7 @@ workflow PAIRS_CREATE_CONTACT_MAPS {
     // Module: Make a PNG of the PretextMap for fast viz
     //
     PRETEXTSNAPSHOT(
-        PRETEXTMAP.out.pretext.filter { val_build_snapshot }
+        PRETEXTMAP.out.pretext.filter { val_create_pretext_snapshot }
     )
 
     //

@@ -36,6 +36,9 @@ input:
   - val_build_pretext:
       type: boolean
       description: Build a PretextMap contact map
+  - val_create_pretext_snapshot:
+      type: boolean
+      description: Create a snapshot of the PretextMap contact map
   - val_build_cooler:
       type: boolean
       description: Build a Cooler contact map

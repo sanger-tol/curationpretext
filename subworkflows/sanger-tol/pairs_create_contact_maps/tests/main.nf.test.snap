@@ -1,4 +1,14 @@
 {
+    "Undibacterium_unclassified - pairs - hap2 - no snapshot": {
+        "content": [
+            "test.pretext"
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2026-02-13T15:40:52.094181633"
+    },
     "Undibacterium_unclassified - pairs - hap2 - all maps": {
         "content": [
             "test.pretext",
