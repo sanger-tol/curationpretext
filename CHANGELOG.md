@@ -160,8 +160,10 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 - Updated all modules, versions which are the same indicate that the nf-core modules `.nf` has been updated without updating the tool.
 - Update modules and base config files for parity with TreeVal (large genome optimisations).
 - Update the PretextGraph version.
+- Change how params are used in the pipeline, now passed down from main workflow rather than used when ever needed.
+- Removed unnecessary schema file.
 
-### Paramters
+### Parameters
 
 | Old Version | New Versions  |
 | ----------- | ------------- |
