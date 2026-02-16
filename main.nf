@@ -34,6 +34,12 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     reads
     cram
     teloseq
+    aligner
+    skip_tracks
+    pre_mapped
+    run_hires
+    split_telomere
+    cram_chunk_size
 
     main:
 
@@ -41,7 +47,13 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         input_fasta,
         reads,
         cram,
-        teloseq
+        teloseq,
+        aligner,
+        skip_tracks,
+        pre_mapped,
+        run_hires,
+        split_telomere,
+        cram_chunk_size
     )
     // CURATIONPRETEXT_MAPS
 }
@@ -78,7 +90,13 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_reference,
         PIPELINE_INITIALISATION.out.ch_longreads,
         PIPELINE_INITIALISATION.out.ch_cram_reads,
-        PIPELINE_INITIALISATION.out.teloseq
+        PIPELINE_INITIALISATION.out.teloseq,
+        params.aligner,
+        params.skip_tracks,
+        params.pre_mapped,
+        params.run_hires,
+        params.split_telomere,
+        params.cram_chunk_size
     )
 
     //

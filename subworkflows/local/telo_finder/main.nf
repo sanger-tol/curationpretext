@@ -13,6 +13,7 @@ workflow TELO_FINDER {
     take:
     reference_tuple     // Channel [ val(meta), path(fasta) ]
     teloseq
+    val_split_telomere
 
     main:
 

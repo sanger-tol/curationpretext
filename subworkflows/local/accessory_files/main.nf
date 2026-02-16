@@ -15,6 +15,8 @@ workflow ACCESSORY_FILES {
     reference_tuple
     longread_reads
     val_teloseq
+    val_split_telomere
+    val_skip_tracks
     ch_reference_fai   // Channel [ val(meta), path(file)      ]
 
 
@@ -22,11 +24,9 @@ workflow ACCESSORY_FILES {
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
-    // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW,
-    //          PASSING THE PARAM TO THE SUBWORKFLOW CAUSED SOME ISSUES IN TESTING
-    //          SO WE USE IT DIRECTLY AGAIN.
+    // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW
     //
-    dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
+    dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
 
 
     //
@@ -60,7 +60,8 @@ workflow ACCESSORY_FILES {
     } else {
         TELO_FINDER (
             reference_tuple,
-            val_teloseq
+            val_teloseq,
+            val_split_telomere
         )
         telo_file       = TELO_FINDER.out.bedgraph_file
     }

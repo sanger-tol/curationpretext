@@ -103,13 +103,17 @@ workflow PIPELINE_INITIALISATION {
         )
     }
 
+    if ( params.pre_mapped && !(params.cram.size() == 1) ) {
+        error "Using Pre-Mapped Reads supports only 1 file"
+    }
+
     ch_cram_reads   = fn_get_validated_channel(
                         "cram",
                         [
                             id: params.sample,
                             aligner: selected_aligner,
                             map_order: params.map_order,
-                            multi_mapping: params.multi_mapping,
+                            multi_mapping: params.multi_mapping
                         ],
                         params.cram
                     )

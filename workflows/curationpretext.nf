@@ -38,10 +38,15 @@ workflow CURATIONPRETEXT {
     ch_reads
     ch_cram_reads
     val_teloseq
+    val_aligner
+    val_skip_tracks
+    val_pre_mapped
+    val_run_hires
+    val_split_telomere
+    val_cram_chunk_size
 
     main:
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
-
 
     ch_reference
         .branch { meta, file ->
@@ -93,7 +98,7 @@ workflow CURATIONPRETEXT {
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
 
-    dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
+    dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
 
     full_list = [
         "gap",
@@ -124,6 +129,8 @@ workflow CURATIONPRETEXT {
             ch_upper_ref,
             ch_reads,
             val_teloseq,
+            val_split_telomere,
+            val_skip_tracks,
             SAMTOOLS_FAIDX.out.fai
         )
 
@@ -137,23 +144,34 @@ workflow CURATIONPRETEXT {
     //
     // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
     //
-    def selected_aligner = (params.aligner == "AUTO") ?
+    def selected_aligner = (val_aligner == "AUTO") ?
         (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-        params.aligner
+        val_aligner
 
     ALIGN_CRAM (
-        ch_upper_ref.filter{ _meta, _file -> !params.pre_mapped },
+        ch_upper_ref.filter{ !val_pre_mapped },
         ch_cram_reads,
         selected_aligner,
-        params.cram_chunk_size
+        val_cram_chunk_size
     )
+
+
+    //
+    // LOGIC: IF MAPPED BAM IS PASSED INTO PIPELINE, SKIP ALIGN_CRAM
+    //        AND PASS DIRECTLY TO CREATE_MAPS
+    //
+    if (val_pre_mapped) {
+        mapped_bam = ch_upper_ref
+    } else {
+        mapped_bam = ALIGN_CRAM.out.bam
+    }
 
 
     //
     // SUBWORKFLOW: MAP THE PRETEXT FILE AND TAKE SNAPSHOT
     //
     CREATE_MAPS_STDRD (
-        ALIGN_CRAM.out.bam,
+        mapped_bam,
         [[:],[]],
         true,
         true,
@@ -167,7 +185,7 @@ workflow CURATIONPRETEXT {
     // SUBWORKFLOW: MAP THE PRETEXT FILE
     //
     CREATE_MAPS_HIRES (
-        ALIGN_CRAM.out.bam.filter{ _meta, _file -> params.run_hires },
+        mapped_bam.filter{ val_run_hires },
         [[:],[]],
         true,
         false,
@@ -187,7 +205,7 @@ workflow CURATIONPRETEXT {
         cove_file,
         telo_file,
         rept_file,
-        params.split_telomere
+        val_split_telomere
     )
 
 
@@ -196,12 +214,12 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_HIRES (
-        CREATE_MAPS_HIRES.out.pretext.filter { params.run_hires && !dont_generate_tracks.contains("ALL") },
+        CREATE_MAPS_HIRES.out.pretext.filter { val_run_hires && !dont_generate_tracks.contains("ALL") },
         gaps_file,
         cove_file,
         telo_file,
         rept_file,
-        params.split_telomere
+        val_split_telomere
     )
 
 
@@ -225,7 +243,8 @@ workflow CURATIONPRETEXT {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+    // Removed mix as there is no more ch_versions
+    softwareVersionsToYAML(topic_versions.versions_file)
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",

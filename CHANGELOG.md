@@ -8,12 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added and Fixed
 
 - Template update to 3.5.2.
+- - The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS` respectively)
 - Files can now be given explicitly in the `--reads` parameter.
 - Files can now be given explicitly in the `--cram` parameter.
-- The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS` respectively)
+- `--pre_mapped` parameter added in order to supply a pre-mapped BAM file and avoid re-mapping.
+  - Added warning message to ensure only 1 mapped read is provided if true.
+- `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable.
 - `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
 - Major Update to modules coinciding with changes to use Nextflow topics
 - Update to move wholey to version topics.
+
+### Paramters
+
+| Old Version | New Versions      |
+| ----------- | ----------------- |
+| NA          | --pre_mapped      |
+| NA          | --cram_chunk_size |
 
 ### Software Dependencies
 
