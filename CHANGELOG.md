@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-15]
 
 ## Added and Fixed
+
 - Template update to 3.5.2.
 - Files can now be given explicitly in the `--reads` parameter.
 - Files can now be given explicitly in the `--cram` parameter.
@@ -18,10 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                   | Old Version   | New Versions  |
-| ------------------------ | ------------- | ------------- |
-| `GRAPH_OVERALL_COVERAGE` | perl=5.26.2   | REMOVED       |
-| `EXTRACT_TELO`           | coreutils=9.1 | REMOVED       |
+| Module                   | Old Version   | New Versions |
+| ------------------------ | ------------- | ------------ |
+| `GRAPH_OVERALL_COVERAGE` | perl=5.26.2   | REMOVED      |
+| `EXTRACT_TELO`           | coreutils=9.1 | REMOVED      |
 
 ## [[1.5.1]](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
 
