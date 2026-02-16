@@ -55,7 +55,7 @@ def fn_get_validated_channel (data_type, tolid_meta, files_list) {
     def resolved_channel = channel.of(
         [
             tolid_meta,
-            all_files.collect { file(it, checkIfExists: true) }
+            all_files.collect { new_file -> file(new_file, checkIfExists: true) }
         ]
     )
 

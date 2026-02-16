@@ -22,7 +22,6 @@ process FIND_TELOMERE_REGIONS {
     }
 
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def find_telomere = task.ext.find_telomere ?: ''
     """
     find_telomere ${file} $telomereseq > ${prefix}.telomere
     """

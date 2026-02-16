@@ -16,7 +16,7 @@ workflow TELO_EXTRACTION {
 
 
     def windows_file    = FIND_TELOMERE_WINDOWS.out.windows
-    def safe_windows    = windows_file.ifEmpty { Channel.empty() }
+    def safe_windows    = windows_file.ifEmpty { channel.empty() }
 
 
     //

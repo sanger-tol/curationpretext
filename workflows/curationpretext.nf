@@ -38,6 +38,7 @@ workflow CURATIONPRETEXT {
     ch_reads
     ch_cram_reads
     val_teloseq
+    val_input_file_string
     val_aligner
     val_skip_tracks
     val_pre_mapped
@@ -46,10 +47,10 @@ workflow CURATIONPRETEXT {
     val_cram_chunk_size
 
     main:
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     ch_reference
-        .branch { meta, file ->
+        .branch { _meta, file ->
             zipped: file.name.endsWith('.gz')
             unzipped: !file.name.endsWith('.gz')
         }
@@ -66,7 +67,7 @@ workflow CURATIONPRETEXT {
     //
     // LOGIC: MIX CHANELS WHICH MAY OR MAY NOT BE EMPTY INTO A SINGLE QUEUE CHANNEL
     //
-    unzipped_input = Channel.empty()
+    unzipped_input = channel.empty()
 
     unzipped_input
         .mix(ch_input.unzipped, GUNZIP.out.gunzip)
@@ -144,6 +145,7 @@ workflow CURATIONPRETEXT {
     //
     // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
     //
+    def fasta_size = file(val_input_file_string).size()
     def selected_aligner = (val_aligner == "AUTO") ?
         (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
         val_aligner
@@ -226,7 +228,7 @@ workflow CURATIONPRETEXT {
     //
     // Collate and save software versions
     //
-    def topic_versions = Channel.topic("versions")
+    def topic_versions = channel.topic("versions")
         .distinct()
         .branch { entry ->
             versions_file: entry instanceof Path
@@ -253,7 +255,7 @@ workflow CURATIONPRETEXT {
             newLine: true
         ).set { ch_collated_versions }
 
-    summary_params      = paramsSummaryMap(
+    _summary_params      = paramsSummaryMap(
         workflow, parameters_schema: "nextflow_schema.json")
 
 

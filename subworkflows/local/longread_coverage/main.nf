@@ -61,9 +61,15 @@ workflow LONGREAD_COVERAGE {
     // MODULE: MERGES THE BAM FILES IN REGARDS TO THE REFERENCE
     //         EMITS A MERGED BAM
     // TODO: I AM PASSING IN AN INDEX, COMBINE AND MAP CHANNEL?
+    def ref_and_index = reference_tuple
+        .combine(reference_index)
+        .map{ meta, reference, _meta2, index ->
+            [meta, reference, index, []]
+        }
+
     SAMTOOLS_MERGE(
         collected_files_for_merge,
-        reference_tuple.map{ meta, file -> [meta, file, [], []]}
+        ref_and_index
     )
 
 
@@ -101,7 +107,7 @@ workflow LONGREAD_COVERAGE {
     //
     BEDTOOLS_BAMTOBED.out.bed
         .combine( dot_genome )
-        .multiMap { meta, file, my_genome_meta, my_genome ->
+        .multiMap { meta, file, _my_genome_meta, my_genome ->
             input_tuple     :   tuple (
                                     [   id          :   meta.id,
                                         single_end  :   true    ],
@@ -139,7 +145,7 @@ workflow LONGREAD_COVERAGE {
     GNU_SORT.out.sorted
         .combine( dot_genome )
         .combine( reference_tuple )
-        .multiMap { meta, file, meta_my_genome, my_genome, ref_meta, ref ->
+        .multiMap { _meta, file, _meta_my_genome, my_genome, ref_meta, _ref ->
             ch_coverage_bed :   tuple (
                                     [   id: ref_meta.id,
                                         single_end: true

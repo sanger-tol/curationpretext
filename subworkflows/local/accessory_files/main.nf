@@ -21,7 +21,7 @@ workflow ACCESSORY_FILES {
 
 
     main:
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
     // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW
