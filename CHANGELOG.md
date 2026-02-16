@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Template update to 3.5.2.
 - Files can now be given explicitly in the `--reads` parameter.
 - Files can now be given explicitly in the `--cram` parameter.
-- The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS` respectively)
+- The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS` respectively)
 - `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
 - Major Update to modules coinciding with changes to use Nextflow topics
 - Update to move wholey to version topics.
@@ -19,10 +19,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                   | Old Version   | New Versions |
-| ------------------------ | ------------- | ------------ |
-| `GRAPH_OVERALL_COVERAGE` | perl=5.26.2   | REMOVED      |
-| `EXTRACT_TELO`           | coreutils=9.1 | REMOVED      |
+| Module                         | Old Version      | New Versions                     |
+| ------------------------------ | ---------------- | -------------------------------- |
+| `BEDTOOLS_BAMTOBED`            | 2.30.0           | 2.31.1                           |
+| `BEDTOOLS_GENOMECOV`           | 2.30.0           | 2.31.1                           |
+| `BEDTOOLS_INTERSECT`           | 2.30.0           | 2.31.1                           |
+| `BEDTOOLS_MAKEWINDOWS`         | 2.30.0           | 2.31.1                           |
+| `BEDTOOLS_MAP`                 | 2.30.0           | 2.31.1                           |
+| `CRAMALIGN_BWAMEM2ALIGNHIC`    | NA               | bwamem2: 2.2.1, samtools: 1.22.1 |
+| `GAWK`                         | 5.2.0            | 5.3.0                            |
+| `GNU_SORT`                     | 9.1              | 9.5                              |
+| `MINIMAP2_ALIGN`               | 2.28--he4a0461_0 | 2.29-r1283                       |
+| `PRETEXTMAP`                   | 0.1.9            | 0.2.3                            |
+| `SAMTOOLS_FAIDX`               | 1.21.2           | 1.22.1                           |
+| `SAMTOOLS_MERGE`               | 1.21.2           | 1.22.1                           |
+| `SAMTOOLS_SORT`                | 1.21.2           | 1.22.1                           |
+| `SAMTOOLS_SPLITHEADER`         | 1.21.2           | 1.22.1                           |
+| `SAMTOOLS_VIEW_FILTER_PRIMARY` | 1.21.2           | 1.22.1                           |
+| `SAMTOOLS_MERGEDUP`            | NA               | 1.23.0                           |
+| `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 469                              |
 
 ## [[1.5.1]](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
 
@@ -156,8 +171,8 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | BAMTOBEDSORT        | 2.31.1 + 1.17      | REMOVED                              |
 | TABIX_BGZIPTABIX    | 1.20--h5efdd21_2   | REMOVED                              |
 | BWAMEM2_INDEX       | 2.2.1              | 2.2.1 (samtools=1.2.1, htslib=1.2.1) |
-| SAMTOOLS_FAIDX      | 1.2.1              | 1.2.1                                |
-| SAMTOOLS_VIEW       | 1.2.1              | 1.2.1                                |
+| SAMTOOLS_FAIDX      | 1.22.1             | 1.22.1                               |
+| SAMTOOLS_VIEW       | 1.22.1             | 1.22.1                               |
 | PRETEXT_GRAPH       | 0.0.8              | 0.0.9                                |
 
 ## [[1.3.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.2)] - UNSC Pillar-of-Autumn (H2) - [2025-04-05]
