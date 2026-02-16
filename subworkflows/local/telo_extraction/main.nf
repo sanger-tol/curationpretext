@@ -6,7 +6,6 @@ workflow TELO_EXTRACTION {
     telomere_file //tuple(meta, file)
 
     main:
-    ch_versions         = Channel.empty()
 
     //
     // MODULE: GENERATES A WINDOWS FILE FROM THE ABOVE
@@ -14,11 +13,11 @@ workflow TELO_EXTRACTION {
     FIND_TELOMERE_WINDOWS (
         telomere_file
     )
-    ch_versions         = ch_versions.mix( FIND_TELOMERE_WINDOWS.out.versions )
 
 
     def windows_file    = FIND_TELOMERE_WINDOWS.out.windows
     def safe_windows    = windows_file.ifEmpty { Channel.empty() }
+
 
     //
     // MODULE: Extract the telomere data from the FIND_TELOMERE
@@ -27,11 +26,8 @@ workflow TELO_EXTRACTION {
     EXTRACT_TELOMERE(
         safe_windows
     )
-    ch_versions         = ch_versions.mix( EXTRACT_TELOMERE.out.versions )
 
 
     emit:
     bedgraph_file   = EXTRACT_TELOMERE.out.bedgraph
-    versions        = ch_versions
-
 }

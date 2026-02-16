@@ -14,7 +14,8 @@ process PRETEXT_GRAPH {
 
     output:
     tuple val(meta), path("*.pretext")  , emit: pretext
-    path "versions.yml"                 , emit: versions
+    tuple val("${task.process}"), val('ucsc'), eval("echo $VERSION"), topic: versions, emit: versions_ucsc
+    tuple val("${task.process}"), val('PretextGraph'), eval('PretextGraph | sed "/Version/!d; s/.*Version //"'), emit: versions_pretextgraph, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -27,7 +28,7 @@ process PRETEXT_GRAPH {
 
     def args         = task.ext.args ?: ''
     def prefix       = task.ext.prefix ?: "${meta.id}"
-    def UCSC_VERSION = '447' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    VERSION = '447' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
 
     // Using single [ ] as nextflow will use sh where possible not bash
     //
@@ -136,13 +137,6 @@ process PRETEXT_GRAPH {
     else
         cp "\$input_file" "${prefix}.pretext"
     fi
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        PretextGraph: \$(PretextGraph | grep "Version" | sed 's/Pretext.* Version //;')
-        PretextMap: \$(PretextMap | grep "Version" | sed 's/Pretext.* Version//;')
-        bigWigToBedGraph: ${UCSC_VERSION}
-    END_VERSIONS
     """
 
     stub:
@@ -152,14 +146,7 @@ process PRETEXT_GRAPH {
     }
 
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def UCSC_VERSION = '448' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch ${prefix}.pretext
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        PretextGraph: \$(PretextGraph | grep "Version" | sed 's/Pretext* Version //;')
-        PretextMap: \$(PretextMap | grep "Version" | sed 's/PretextMap Version//;')
-        bigWigToBedGraph: ${UCSC_VERSION}
-    END_VERSIONS
     """
 }

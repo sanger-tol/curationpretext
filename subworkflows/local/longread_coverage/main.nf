@@ -18,24 +18,20 @@ workflow LONGREAD_COVERAGE {
     take:
     reference_tuple     // Channel: [ val(meta), path( reference_file ) ]
     reference_index     // Channel: [ val(meta), path( reference_indx ) ]
-    dot_genome          // Channel: [ val(meta), [ path( datafile )  ] ]
-    reads_path          // Channel: [ val(meta), [ path( str )       ] ]
+    dot_genome          // Channel: [ val(meta), [ path( datafile )   ] ]
+    reads_path          // Channel: [ val(meta), [ path( read_files ) ] ]
 
     main:
-    ch_versions             = Channel.empty()
 
     //
     // PROCESS: MINIMAP ALIGNMENT
     //
-    reads_path.view{"RAW READS CHANNEL: $it"}
     reads_path.flatMap{ meta, files ->
         files.collect{ file ->
             tuple(meta, file)
         }
     }
     .set { single_reads_path }
-
-    single_reads_path.view{"SINGLE READS CHANNEL: $it"}
 
     MINIMAP2_ALIGN (
             single_reads_path,
@@ -45,7 +41,7 @@ workflow LONGREAD_COVERAGE {
             false,
             false,
     )
-    ch_versions         = ch_versions.mix(MINIMAP2_ALIGN.out.versions)
+
 
     //
     // LOGIC: COLLECT THE MAPPED BAMS AS THERE MAY BE MULTIPLE AND MERGE, CREATE SAMPLE ID BASED ON PREFIX OF FILE
@@ -64,12 +60,11 @@ workflow LONGREAD_COVERAGE {
     //
     // MODULE: MERGES THE BAM FILES IN REGARDS TO THE REFERENCE
     //         EMITS A MERGED BAM
+    // TODO: I AM PASSING IN AN INDEX, COMBINE AND MAP CHANNEL?
     SAMTOOLS_MERGE(
         collected_files_for_merge,
-        reference_tuple,
-        [[],[]]
+        reference_tuple.map{ meta, file -> [meta, file, [], []]}
     )
-    ch_versions         = ch_versions.mix(SAMTOOLS_MERGE.out.versions)
 
 
     //
@@ -77,9 +72,9 @@ workflow LONGREAD_COVERAGE {
     //
     SAMTOOLS_SORT (
         SAMTOOLS_MERGE.out.bam,
-        [[],[]]
+        [[],[]],
+        []
     )
-    ch_versions         = ch_versions.mix( SAMTOOLS_SORT.out.versions )
 
 
     //
@@ -87,11 +82,10 @@ workflow LONGREAD_COVERAGE {
     //
     SAMTOOLS_VIEW_FILTER_PRIMARY(
         SAMTOOLS_SORT.out.bam.map { meta, bam -> tuple( meta + [sz: bam.size(), single_end: true], bam, [] ) },
-        reference_tuple.collect(),
+        reference_tuple.collect().map { meta, file -> [meta, file, []] },
         [],
         "csi"
     )
-    ch_versions         = ch_versions.mix(SAMTOOLS_VIEW_FILTER_PRIMARY.out.versions)
 
 
     //
@@ -100,7 +94,6 @@ workflow LONGREAD_COVERAGE {
     BEDTOOLS_BAMTOBED(
         SAMTOOLS_VIEW_FILTER_PRIMARY.out.bam
     )
-    ch_versions         = ch_versions.mix(BEDTOOLS_BAMTOBED.out.versions)
 
 
     //
@@ -109,14 +102,14 @@ workflow LONGREAD_COVERAGE {
     BEDTOOLS_BAMTOBED.out.bed
         .combine( dot_genome )
         .multiMap { meta, file, my_genome_meta, my_genome ->
-            input_tuple         :   tuple (
-                                        [   id          :   meta.id,
-                                            single_end  :   true    ],
-                                        file,
-                                        1
-                                    )
-            dot_genome          :   my_genome
-            file_suffix         :   'bed'
+            input_tuple     :   tuple (
+                                    [   id          :   meta.id,
+                                        single_end  :   true    ],
+                                    file,
+                                    1
+                                )
+            dot_genome      :   my_genome
+            file_suffix     :   'bed'
         }
         .set { genomecov_input }
 
@@ -130,7 +123,6 @@ workflow LONGREAD_COVERAGE {
         genomecov_input.file_suffix,
         false
     )
-    ch_versions         = ch_versions.mix( BEDTOOLS_GENOMECOV.out.versions )
 
 
     //
@@ -139,7 +131,6 @@ workflow LONGREAD_COVERAGE {
     GNU_SORT(
         BEDTOOLS_GENOMECOV.out.genomecov
     )
-    ch_versions         = ch_versions.mix( GNU_SORT.out.versions )
 
 
     //
@@ -167,9 +158,7 @@ workflow LONGREAD_COVERAGE {
         bed2bw_normal_input.ch_coverage_bed,
         bed2bw_normal_input.genome_file
     )
-    ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
     emit:
     ch_bigwig           = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
-    versions            = ch_versions
 }

@@ -17,8 +17,6 @@ workflow CRAM_MAP_ILLUMINA_HIC {
     val_cram_chunk_size  // integer: Number of CRAM slices per chunk for mapping
 
     main:
-    ch_versions = channel.empty()
-
     //
     // Logic: rolling check of assembly meta objects to detect duplicates
     //
@@ -68,7 +66,6 @@ workflow CRAM_MAP_ILLUMINA_HIC {
         ch_hic_cram_indexed,
         val_cram_chunk_size
     )
-    ch_versions = ch_versions.mix(CRAMALIGN_GENCRAMCHUNKS.out.versions)
 
     //
     // Logic: Count the total number of cram chunks for downstream grouping
@@ -110,7 +107,6 @@ workflow CRAM_MAP_ILLUMINA_HIC {
         // Module: Create bwa-mem2 index for assembly
         //
         BWAMEM2_INDEX(ch_assemblies)
-        ch_versions = ch_versions.mix(BWAMEM2_INDEX.out.versions)
 
         ch_mapping_inputs = ch_cram_rg
             .combine(ch_assemblies, by: 0)
@@ -133,7 +129,6 @@ workflow CRAM_MAP_ILLUMINA_HIC {
         // MODULE: generate minimap2 mmi file
         //
         MINIMAP2_INDEX(ch_assemblies)
-        ch_versions = ch_versions.mix(MINIMAP2_INDEX.out.versions)
 
         ch_mapping_inputs = ch_cram_rg
             .combine(ch_assemblies, by: 0)
@@ -178,11 +173,9 @@ workflow CRAM_MAP_ILLUMINA_HIC {
         ch_assemblies,
         true
     )
-    ch_versions = ch_versions.mix(BAM_SAMTOOLS_MERGE_MARKDUP.out.versions)
 
     emit:
     bam               = BAM_SAMTOOLS_MERGE_MARKDUP.out.bam
     bam_index         = BAM_SAMTOOLS_MERGE_MARKDUP.out.bam_index
     bam_markdup_stats = BAM_SAMTOOLS_MERGE_MARKDUP.out.metrics
-    versions          = ch_versions
 }

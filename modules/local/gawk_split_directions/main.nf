@@ -14,7 +14,7 @@ process GAWK_SPLIT_DIRECTIONS {
     output:
     tuple val(meta), path("direction.0.${suffix}"), emit: prime5
     tuple val(meta), path("direction.1.${suffix}"), emit: prime3
-    path "versions.yml"                           , emit: versions
+    tuple val("${task.process}"), val('gawk'), eval("awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//'"), topic: versions, emit: versions_gawk
 
     when:
     task.ext.when == null || task.ext.when
@@ -36,11 +36,6 @@ process GAWK_SPLIT_DIRECTIONS {
         ${args} \\
         ${program} \\
         ${input}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        gawk: \$(awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//')
-    END_VERSIONS
     """
 
     stub:
@@ -49,10 +44,5 @@ process GAWK_SPLIT_DIRECTIONS {
 
     """
     touch ${prefix}.${suffix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        gawk: \$(awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//')
-    END_VERSIONS
     """
 }

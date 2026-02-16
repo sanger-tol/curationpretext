@@ -24,36 +24,32 @@ workflow REPEAT_DENSITY {
     dot_genome
 
     main:
-    ch_versions         = Channel.empty()
-
 
     //
     // MODULE: MARK UP THE REPEAT REGIONS OF THE REFERENCE GENOME
     //
     WINDOWMASKER_MKCOUNTS ( reference_tuple )
-    ch_versions         = ch_versions.mix( WINDOWMASKER_MKCOUNTS.out.versions )
 
 
     //
     // MODULE: CALCULATE THE STATISTICS OF THE MARKED UP REGIONS
     //
-    WINDOWMASKER_USTAT( WINDOWMASKER_MKCOUNTS.out.counts,
-                        reference_tuple )
-    ch_versions         = ch_versions.mix( WINDOWMASKER_USTAT.out.versions )
+    WINDOWMASKER_USTAT(
+        WINDOWMASKER_MKCOUNTS.out.counts,
+        reference_tuple
+    )
 
 
     //
     // MODULE: USE USTAT OUTPUT TO EXTRACT REPEATS FROM FASTA
     //
     EXTRACT_REPEAT( WINDOWMASKER_USTAT.out.intervals )
-    ch_versions         = ch_versions.mix( EXTRACT_REPEAT.out.versions )
 
 
     //
     // MODULE: CREATE WINDOWS FROM .GENOME FILE
     //
     BEDTOOLS_MAKEWINDOWS( dot_genome )
-    ch_versions         = ch_versions.mix( BEDTOOLS_MAKEWINDOWS.out.versions )
 
 
     //
@@ -77,7 +73,6 @@ workflow REPEAT_DENSITY {
         intervals,
         dot_genome
     )
-    ch_versions         = ch_versions.mix( BEDTOOLS_INTERSECT.out.versions )
 
 
     //
@@ -88,20 +83,16 @@ workflow REPEAT_DENSITY {
         [],
         false
     )
-    ch_versions         = ch_versions.mix( GAWK_RENAME_IDS.out.versions )
 
 
     //
     // MODULE: SORTS THE ABOVE BED FILES
     //
     GNU_SORT_A ( GAWK_RENAME_IDS.out.output )  // Intersect file
-    ch_versions         = ch_versions.mix( GNU_SORT_A.out.versions )
 
     GNU_SORT_B ( dot_genome )                   // genome file
-    ch_versions         = ch_versions.mix( GNU_SORT_B.out.versions )
 
     GNU_SORT_C ( BEDTOOLS_MAKEWINDOWS.out.bed ) // windows file
-    ch_versions         = ch_versions.mix( GNU_SORT_C.out.versions )
 
 
     //
@@ -112,7 +103,6 @@ workflow REPEAT_DENSITY {
         [],
         false
     )
-    ch_versions         = ch_versions.mix( GAWK_REFORMAT_INTERSECT.out.versions )
 
 
     //
@@ -137,7 +127,6 @@ workflow REPEAT_DENSITY {
         for_mapping,
         GNU_SORT_B.out.sorted
     )
-    ch_versions         = ch_versions.mix( BEDTOOLS_MAP.out.versions )
 
 
     //
@@ -148,7 +137,6 @@ workflow REPEAT_DENSITY {
         [],
         false
     )
-    ch_versions         = ch_versions.mix( GAWK_REPLACE_DOTS.out.versions )
 
 
     //
@@ -158,10 +146,8 @@ workflow REPEAT_DENSITY {
         GAWK_REPLACE_DOTS.out.output,
         GNU_SORT_B.out.sorted.map { it[1] }
     )
-    ch_versions         = ch_versions.mix( UCSC_BEDGRAPHTOBIGWIG.out.versions )
 
 
     emit:
     repeat_density      = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
-    versions            = ch_versions
 }

@@ -13,35 +13,19 @@ process EXTRACT_TELOMERE {
     output:
     tuple val( meta ), file( "*bed" )   , emit: bed
     tuple val( meta ), file("*bedgraph"), emit: bedgraph
-    path "versions.yml"                 , emit: versions
+    tuple val("${task.process}"), val('awk'), eval("awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//'"), topic: versions, emit: versions_extracttelomere
 
     script:
     def prefix  = task.ext.prefix ?: "${meta.id}"
-    def ETELO_VERSION = "2.0"
-    def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     awk 'BEGIN {OFS = "\\t"} {print \$2, \$4, \$5}' ${file} | sed 's/>//g' > ${prefix}_telomere.bed
     awk 'BEGIN {OFS = "\\t"} {print \$2,\$4,\$5,(((\$5-\$4)<0)?-(\$5-\$4):(\$5-\$4))}' ${file} | sed 's/>//g' > ${prefix}_telomere.bedgraph
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        extract_telomere: $ETELO_VERSION
-        coreutils: $VERSION
-    END_VERSIONS
     """
 
     stub:
     def prefix  = task.ext.prefix ?: "${meta.id}"
-    def ETELO_VERSION = "2.0"
-    def VERSION = "9.1" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch ${prefix}_telomere.bed
     touch ${prefix}_telomere.bedgraph
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        extract_telomere: $ETELO_VERSION
-        coreutils: $VERSION
-    END_VERSIONS
     """
 }

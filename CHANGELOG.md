@@ -3,6 +3,26 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-15]
+
+## Added and Fixed
+- Template update to 3.5.2.
+- Files can now be given explicitly in the `--reads` parameter.
+- Files can now be given explicitly in the `--cram` parameter.
+- The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS` respectively)
+- `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
+- Major Update to modules coinciding with changes to use Nextflow topics
+- Update to move wholey to version topics.
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                   | Old Version   | New Versions  |
+| ------------------------ | ------------- | ------------- |
+| `GRAPH_OVERALL_COVERAGE` | perl=5.26.2   | REMOVED       |
+| `EXTRACT_TELO`           | coreutils=9.1 | REMOVED       |
+
 ## [[1.5.1]](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
 
 ### Added and Fixed

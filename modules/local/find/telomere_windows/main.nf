@@ -12,37 +12,24 @@ process FIND_TELOMERE_WINDOWS {
 
     output:
     tuple val( meta ), file( "*.windows" ) , emit: windows
-    path "versions.yml"                    , emit: versions
+    tuple val("${task.process}"), val('find_telomere_windows'), eval("echo '1.0.0'"), topic: versions, emit: versions_telomerewindows
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def VERSION = "1.0" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     def telomere_jar = task.ext.telomere_jar ?: ''
     def telomere_jvm_params = task.ext.telomere_jvm_params ?: ''
     def telomere_window_cut = task.ext.telomere_window_cut ?: 99.9
     """
     java ${telomere_jvm_params} -cp ${projectDir}/bin/${telomere_jar} FindTelomereWindows $file $telomere_window_cut > ${prefix}.windows
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        telomere: $VERSION
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def VERSION = "1.0" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
-    def telomere = task.ext.telomere ?: ''
     """
     touch ${prefix}.windows
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        telomere: $VERSION
-    END_VERSIONS
     """
 
 }

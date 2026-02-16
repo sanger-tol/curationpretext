@@ -11,7 +11,6 @@ workflow GAP_FINDER {
     reference_tuple     // Channel [ val(meta), path(fasta) ]
 
     main:
-    ch_versions     = Channel.empty()
 
     //
     // MODULE: GENERATES A GAP SUMMARY FILE
@@ -19,7 +18,7 @@ workflow GAP_FINDER {
     SEQTK_CUTN (
         reference_tuple
     )
-    ch_versions     = ch_versions.mix( SEQTK_CUTN.out.versions )
+
 
     //
     // MODULE: ADD THE LENGTH OF GAP TO BED FILE - INPUT FOR PRETEXT MODULE
@@ -29,9 +28,7 @@ workflow GAP_FINDER {
         [],
         false
     )
-    ch_versions     = ch_versions.mix( GAWK_GAP_LENGTH.out.versions )
 
     emit:
     gap_file        = GAWK_GAP_LENGTH.out.output
-    versions        = ch_versions
 }

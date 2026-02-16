@@ -15,7 +15,6 @@ workflow TELO_FINDER {
     teloseq
 
     main:
-    ch_versions     = Channel.empty()
 
 
     //
@@ -25,7 +24,6 @@ workflow TELO_FINDER {
         reference_tuple,
         teloseq
     )
-    ch_versions     = ch_versions.mix( FIND_TELOMERE_REGIONS.out.versions )
 
 
     //
@@ -37,7 +35,6 @@ workflow TELO_FINDER {
             FIND_TELOMERE_REGIONS.out.telomere,
             file("${projectDir}/bin/gawk_split_directions.awk")
         )
-        ch_versions     = ch_versions.mix( GAWK_SPLIT_DIRECTIONS.out.versions )
 
         GAWK_SPLIT_DIRECTIONS.out.prime5
             .map { meta, file ->
@@ -69,7 +66,6 @@ workflow TELO_FINDER {
     TELO_EXTRACTION (
         telo_for_extraction
     )
-    ch_versions     = ch_versions.mix( TELO_EXTRACTION.out.versions )
 
 
     TELO_EXTRACTION.out.bedgraph_file
@@ -82,5 +78,4 @@ workflow TELO_FINDER {
 
     emit:
     bedgraph_file   = telo_bedgraphs                            // Used in pretext_graph
-    versions        = ch_versions
 }

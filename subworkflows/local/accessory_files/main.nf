@@ -19,7 +19,6 @@ workflow ACCESSORY_FILES {
 
 
     main:
-    ch_versions         = Channel.empty()
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
@@ -38,7 +37,6 @@ workflow ACCESSORY_FILES {
         [],
         false
     )
-    ch_versions         = ch_versions.mix( GAWK_GENERATE_GENOME_FILE.out.versions )
 
 
     //
@@ -50,7 +48,6 @@ workflow ACCESSORY_FILES {
         GAP_FINDER (
             reference_tuple
         )
-        ch_versions         = ch_versions.mix(GAP_FINDER.out.versions)
         gap_file            = GAP_FINDER.out.gap_file.map{ it -> it[1] }
     }
 
@@ -65,7 +62,6 @@ workflow ACCESSORY_FILES {
             reference_tuple,
             val_teloseq
         )
-        ch_versions     = ch_versions.mix(TELO_FINDER.out.versions)
         telo_file       = TELO_FINDER.out.bedgraph_file
     }
 
@@ -80,7 +76,6 @@ workflow ACCESSORY_FILES {
             reference_tuple,
             GAWK_GENERATE_GENOME_FILE.out.output
         )
-        ch_versions     = ch_versions.mix(REPEAT_DENSITY.out.versions)
         repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ it -> it[1] }
     }
 
@@ -97,7 +92,6 @@ workflow ACCESSORY_FILES {
             GAWK_GENERATE_GENOME_FILE.out.output,
             longread_reads
         )
-        ch_versions     = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
         longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ it -> it[1] }
     }
 
@@ -106,5 +100,4 @@ workflow ACCESSORY_FILES {
     repeat_file
     telo_file           // This is the possible collection of telomere files
     longread_output
-    versions            = ch_versions
 }

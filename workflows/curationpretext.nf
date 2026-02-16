@@ -14,7 +14,6 @@ include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/l
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
 
 // LOCAL SUBWORKFLOWS
-include { GENERATE_MAPS                                     } from '../subworkflows/local/generate_maps/main'
 include { ACCESSORY_FILES                                   } from '../subworkflows/local/accessory_files/main'
 
 // SANGER-TOL SUBWORKFLOWS
@@ -41,7 +40,6 @@ workflow CURATIONPRETEXT {
     val_teloseq
 
     main:
-    ch_versions         = Channel.empty()
     ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
 
@@ -58,7 +56,6 @@ workflow CURATIONPRETEXT {
     GUNZIP (
         ch_input.zipped
     )
-    ch_versions = ch_versions.mix(GUNZIP.out.versions)
 
 
     //
@@ -80,18 +77,15 @@ workflow CURATIONPRETEXT {
         false,
     )
     ch_upper_ref    = GAWK_UPPER_SEQUENCE.out.output
-    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
 
 
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
     SAMTOOLS_FAIDX (
-        ch_upper_ref,
-        [[],[]],
+        ch_upper_ref.map { meta, file -> [meta, file, []] },
         false
     )
-    ch_versions             = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
 
 
     //
@@ -132,7 +126,6 @@ workflow CURATIONPRETEXT {
             val_teloseq,
             SAMTOOLS_FAIDX.out.fai
         )
-        ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
         gaps_file           = ACCESSORY_FILES.out.gap_file
         cove_file           = ACCESSORY_FILES.out.longread_output
@@ -196,7 +189,6 @@ workflow CURATIONPRETEXT {
         rept_file,
         params.split_telomere
     )
-    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
 
     //
@@ -211,7 +203,6 @@ workflow CURATIONPRETEXT {
         rept_file,
         params.split_telomere
     )
-    ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
 
 
     //
@@ -246,6 +237,9 @@ workflow CURATIONPRETEXT {
     summary_params      = paramsSummaryMap(
         workflow, parameters_schema: "nextflow_schema.json")
 
+
+    emit:
+    versions       = ch_collated_versions   // channel: [ path(versions.yml) ]
 
 }
 
