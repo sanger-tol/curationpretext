@@ -4,9 +4,8 @@ process PRETEXTMAP {
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/e9/e9e6a49d9810ef0101a4a003afeda9b32c1d0d06b196ec13a5c9f5919bd1869e/data':
-        'community.wave.seqera.io/library/htslib_pretextmap_samtools:6d973e19ac7b0a1f' }"
+    container "quay.io/sanger-tol/pretext:0.0.9-yy5-c2"
+
 
     input:
     tuple val(meta), path(input)
