@@ -3,20 +3,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-15]
+## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-19]
 
 ## Added and Fixed
 
 - Template update to 3.5.2.
-- - The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS` respectively)
-- Files can now be given explicitly in the `--reads` parameter.
-- Files can now be given explicitly in the `--cram` parameter.
-- `--pre_mapped` parameter added in order to supply a pre-mapped BAM file and avoid re-mapping.
+- - The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS`, from the [`sanger-tol/nf-core-modules`](https://github.com/sanger-tol/nf-core-modules) repository, respectively)
+- Files can now be given explicitly in the `--reads` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
+- Files can now be given explicitly in the `--cram` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
+- `--pre_mapped` parameter added in order to supply a pre-mapped BAM file as `--cram` and avoid re-mapping.
   - Added warning message to ensure only 1 mapped read is provided if true.
-- `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable.
+- `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable, defaulting to 10000.
 - `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
 - Major Update to modules coinciding with changes to use Nextflow topics
 - Update to move wholey to version topics.
+- Update docs to include the features from the past few releases.
 
 ### Paramters
 
@@ -36,7 +37,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `BEDTOOLS_INTERSECT`           | 2.30.0           | 2.31.1                           |
 | `BEDTOOLS_MAKEWINDOWS`         | 2.30.0           | 2.31.1                           |
 | `BEDTOOLS_MAP`                 | 2.30.0           | 2.31.1                           |
-| `CRAMALIGN_BWAMEM2ALIGNHIC`    | NA               | bwamem2: 2.2.1, samtools: 1.22.1 |
+| `CRAMALIGN_BWAMEM2ALIGNHIC`    | NEW_ADDITION     | bwamem2: 2.2.1, samtools: 1.22.1 |
 | `GAWK`                         | 5.2.0            | 5.3.0                            |
 | `GNU_SORT`                     | 9.1              | 9.5                              |
 | `MINIMAP2_ALIGN`               | 2.28--he4a0461_0 | 2.29-r1283                       |
@@ -46,10 +47,10 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `SAMTOOLS_SORT`                | 1.21.2           | 1.22.1                           |
 | `SAMTOOLS_SPLITHEADER`         | 1.21.2           | 1.22.1                           |
 | `SAMTOOLS_VIEW_FILTER_PRIMARY` | 1.21.2           | 1.22.1                           |
-| `SAMTOOLS_MERGEDUP`            | NA               | 1.23.0                           |
+| `SAMTOOLS_MERGEDUP`            | NEW_ADDITION     | 1.23.0                           |
 | `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 469                              |
 
-## [[1.5.1]](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
+## [[1.5.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
 
 ### Added and Fixed
 

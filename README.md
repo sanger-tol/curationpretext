@@ -44,7 +44,7 @@ Currently, the pipeline uses the following flags:
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
 
 - `--aligner`
-  - The aligner yopu wish to use for the coverage generation, defaults to bwamem2 but minimap2 is also supported.
+  - The aligner you wish to use for the coverage generation, defaults to `AUTO` but options include `bwamem2` and `minimap2`.
 
 - `--cram`
   - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
@@ -60,6 +60,18 @@ Currently, the pipeline uses the following flags:
 
 - `--all_output`
   - An option to output all maps + accessory files, the default will only output the pretextmaps where ingestion has occured.
+
+- `--skip_tracks`
+  - A csv list of accessory tracks to skip, options are: `ALL`, `gap`, `coverage`, `telo`, `repeats`, `NONE`. Default is `NONE`. Please note that capitalization matters.
+
+- `--split_telomere`
+  - A boolean to also generate the telomere track in 5Prime and 3Prime styles, this is also include the original telomere track.
+
+- `--pre_mapped`
+  - A boolean option to use `--cram` as input for *A* pre-mapped bam file.
+
+- `--cram_chunk_size`
+  - The number of records in a cram file should be chunked into, defaults to 10000.
 
 Now, you can run the pipeline using:
 
