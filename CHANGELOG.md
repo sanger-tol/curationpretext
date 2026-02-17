@@ -16,7 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable, defaulting to 10000.
 - `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
 - Major Update to modules coinciding with changes to use Nextflow topics
-- Update to move wholey to version topics.
+- Update to move all modules/subworkflows to version topics.
+  - Required a small change to the template topic collection otherwise it would fail as there is no ch_versions channel.
 - Update docs to include the features from the past few releases.
 
 ### Paramters
