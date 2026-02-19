@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to move all modules/subworkflows to version topics.
   - Required a small change to the template topic collection otherwise it would fail as there is no ch_versions channel.
 - Update docs to include the features from the past few releases.
+- Remove duplicated `selected_aligner` code from `PIPELINE_INITIALISATION`.
 
 ### Paramters
 

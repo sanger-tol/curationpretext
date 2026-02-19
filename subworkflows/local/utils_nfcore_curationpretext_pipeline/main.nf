@@ -106,16 +106,10 @@ workflow PIPELINE_INITIALISATION {
                         type: 'file'
                     )
 
-    def fasta_size = file(params.input).size()
-    selected_aligner = (params.aligner == "AUTO") ?
-        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-        params.aligner
-
     ch_reference = input_fasta.map { fasta ->
         [
             [
                 id: params.sample,
-                aligner: selected_aligner,
                 map_order: params.map_order,
                 multi_mapping: params.multi_mapping,
             ],
@@ -131,7 +125,6 @@ workflow PIPELINE_INITIALISATION {
                         "cram",
                         [
                             id: params.sample,
-                            aligner: selected_aligner,
                             map_order: params.map_order,
                             multi_mapping: params.multi_mapping
                         ],
@@ -142,7 +135,6 @@ workflow PIPELINE_INITIALISATION {
                         "pacbio",
                         [
                             id: params.sample,
-                            aligner: selected_aligner,
                             map_order: params.map_order,
                             multi_mapping: params.multi_mapping,
                         ],
@@ -153,7 +145,6 @@ workflow PIPELINE_INITIALISATION {
     ch_reference
     ch_cram_reads
     ch_longreads
-    selected_aligner
     teloseq             = params.teloseq
     versions            = ch_versions
 }
