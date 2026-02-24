@@ -20,8 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Required a small change to the template topic collection otherwise it would fail as there is no ch_versions channel.
 - Update docs to include the features from the past few releases.
 - Remove duplicated `selected_aligner` code from `PIPELINE_INITIALISATION`.
+- Change install for `TELOMERE` modules so that we use the `SANGER-TOL` repository rather than local.
+- Removed now unused `bin` files.
+- Removed and replaced pipeline graph with new version.
 
-### Paramters
+### Parameters
 
 | Old Version | New Versions      |
 | ----------- | ----------------- |
@@ -50,6 +53,10 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `SAMTOOLS_SPLITHEADER`         | 1.21.2           | 1.22.1                                                         |
 | `SAMTOOLS_VIEW_FILTER_PRIMARY` | 1.21.2           | 1.22.1                                                         |
 | `SAMTOOLS_MERGEDUP`            | NEW_ADDITION     | 1.23.0                                                         |
+| `FIND_TELOMERE_WINDOWS`        | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_WINDOWS`             | NEW_ADDITION     | 1.0.0                                                          |
+| `FIND_TELOMERE_REGIONS`        | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_REGIONS`             | NEW_ADDITION     | 1.0.0                                                          |
 | `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 469                                                            |
 
 ## [[1.5.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]

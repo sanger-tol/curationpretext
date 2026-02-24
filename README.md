@@ -17,11 +17,13 @@
 
 This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. This pipeline can be simply used to generate pretext maps, information on how to run this pipeline can be found in the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage).
 
-![Workflow Diagram](./docs/images/CurationPretext_1_3_0.png)
+![Workflow Diagram](./docs/images/CurationPretext-1.6.0.jpeg)
 
-1. Generate Maps - Generates pretext maps as well as a static image.
+1. CRAM_MAP_ILLUMINA_HIC (ALIGN_CRAM) + PAIRS_CREATE_CONTACT_MAPS (CREATE_MAPS) - Generates pretext maps as well as a static image.
 
-2. Accessory files - Generates the repeat density, gap, telomere, and coverage tracks.
+2. ACCESSORY_FILES - Generates the repeat density, gap, telomere, and coverage tracks.
+
+3. PRETEXT_INGEST - Imports the generated tracks into pretext for visualisation.
 
 ## Usage
 
@@ -84,7 +86,7 @@ nextflow run sanger-tol/curationpretext \
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
-  --multi_mapping { default is "0" (for no mapping)} \
+  --multi_mapping { default is "0" (for no filtering of multi-mapping reads)} \
   --all_output <true/false> \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>
