@@ -3,10 +3,10 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { FIND_TELOMERE_REGIONS         } from '../../../modules/local/find/telomere_regions/main'
-include { GAWK_SPLIT_DIRECTIONS         } from '../../../modules/local/gawk_split_directions/main'
+include { TELOMERE_REGIONS         } from '../../../modules/sanger-tol/telomere/regions/main'
+include { GAWK_SPLIT_DIRECTIONS    } from '../../../modules/local/gawk_split_directions/main'
 
-include { TELO_EXTRACTION               } from '../../../subworkflows/local/telo_extraction/main'
+include { TELO_EXTRACTION          } from '../../../subworkflows/local/telo_extraction/main'
 
 workflow TELO_FINDER {
 
@@ -21,7 +21,7 @@ workflow TELO_FINDER {
     //
     // MODULE: FINDS THE TELOMERIC SEQEUNCE IN REFERENCE
     //
-    FIND_TELOMERE_REGIONS (
+    TELOMERE_REGIONS (
         reference_tuple,
         teloseq
     )
@@ -33,7 +33,7 @@ workflow TELO_FINDER {
     //
     if (val_split_telomere) {
         GAWK_SPLIT_DIRECTIONS (
-            FIND_TELOMERE_REGIONS.out.telomere,
+            TELOMERE_REGIONS.out.telomere,
             file("${projectDir}/bin/gawk_split_directions.awk")
         )
 
@@ -51,11 +51,11 @@ workflow TELO_FINDER {
 
         prime5_telo
             .mix(prime3_telo)
-            .mix(FIND_TELOMERE_REGIONS.out.telomere)
+            .mix(TELOMERE_REGIONS.out.telomere)
             .set { telo_for_extraction }
 
     } else {
-        telo_for_extraction = FIND_TELOMERE_REGIONS.out.telomere
+        telo_for_extraction = TELOMERE_REGIONS.out.telomere
     }
 
 

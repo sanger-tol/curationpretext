@@ -1,5 +1,5 @@
-include { FIND_TELOMERE_WINDOWS         } from '../../../modules/local/find/telomere_windows/main'
-include { EXTRACT_TELOMERE              } from '../../../modules/local/extract/telomere/main'
+include { TELOMERE_WINDOWS  } from '../../../modules/sanger-tol/telomere/windows/main'
+include { EXTRACT_TELOMERE  } from '../../../modules/local/extract/telomere/main'
 
 workflow TELO_EXTRACTION {
     take:
@@ -10,12 +10,12 @@ workflow TELO_EXTRACTION {
     //
     // MODULE: GENERATES A WINDOWS FILE FROM THE ABOVE
     //
-    FIND_TELOMERE_WINDOWS (
+    TELOMERE_WINDOWS (
         telomere_file
     )
 
 
-    def windows_file    = FIND_TELOMERE_WINDOWS.out.windows
+    def windows_file    = TELOMERE_WINDOWS.out.windows
     def safe_windows    = windows_file.ifEmpty { channel.empty() }
 
 
