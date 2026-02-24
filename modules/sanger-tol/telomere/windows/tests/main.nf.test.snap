@@ -1,0 +1,68 @@
+{
+    "idFanCani4 - telomere": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.windows:md5,3b9105c87ad2c332dd28a868dff9c89e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,0677a48a0e2b2426fedfa6d32e885eb8"
+                ],
+                "versions": [
+                    "versions.yml:md5,0677a48a0e2b2426fedfa6d32e885eb8"
+                ],
+                "windows": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.windows:md5,3b9105c87ad2c332dd28a868dff9c89e"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2025-10-13T10:56:10.502346575"
+    },
+    "idFanCani4 - telomere - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.windows:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,0677a48a0e2b2426fedfa6d32e885eb8"
+                ],
+                "versions": [
+                    "versions.yml:md5,0677a48a0e2b2426fedfa6d32e885eb8"
+                ],
+                "windows": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.windows:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2025-10-13T10:48:40.477988556"
+    }
+}
