@@ -35,10 +35,10 @@
                 "EXTRACT_TELOMERE": {
                     "awk": "mawk 1.3.4 20200120"
                 },
-                "FIND_TELOMERE_REGIONS": {
+                "TELOMERE_REGIONS": {
                     "find_telomere_regions": "1.0.0"
                 },
-                "FIND_TELOMERE_WINDOWS": {
+                "TELOMERE_WINDOWS": {
                     "find_telomere_windows": "1.0.0"
                 },
                 "GAWK_GAP_LENGTH": {
