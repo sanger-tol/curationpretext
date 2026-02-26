@@ -11,8 +11,8 @@ process TELOMERE_WINDOWS {
     tuple val(meta), path(telomere)
 
     output:
-    tuple val(meta), path("*.windows")    , emit: windows
-    tuple val("${task.process}"), val('find_telomere_windows'), eval("echo '1.0.0'"), topic: versions, emit: versions_telomerewindows
+    tuple val(meta), path("*.windows") , emit: windows
+    tuple val("${task.process}"), val('find_telomere_windows'), val("1.0.0"), topic: versions, emit: versions_telomerewindows
 
     when:
     task.ext.when == null || task.ext.when
@@ -38,7 +38,7 @@ process TELOMERE_WINDOWS {
         FindTelomereWindows $telomere \\
         $args \\
         > ${prefix}.windows
-   """
+    """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"

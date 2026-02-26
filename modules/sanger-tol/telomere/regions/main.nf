@@ -10,7 +10,7 @@ process TELOMERE_REGIONS {
 
     output:
     tuple val( meta ), path( "*.telomere" ) , emit: telomere
-    tuple val("${task.process}"), val('find_telomere_regions'), eval("echo '1.0.0'"), topic: versions, emit: versions_telomerewindows
+    tuple val("${task.process}"), val('find_telomere_regions'), val("1.0.0"), topic: versions, emit: versions_telomereregions
 
     when:
     task.ext.when == null || task.ext.when

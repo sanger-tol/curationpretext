@@ -11,7 +11,11 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,bd9100c4682ffb40fd48c62a94a9776a"
+                    [
+                        "TELOMERE_REGIONS",
+                        "find_telomere_regions",
+                        "1.0.0"
+                    ]
                 ],
                 "telomere": [
                     [
@@ -21,16 +25,20 @@
                         "Cloeon_Dipeterum.telomere:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,bd9100c4682ffb40fd48c62a94a9776a"
+                "versions_telomereregions": [
+                    [
+                        "TELOMERE_REGIONS",
+                        "find_telomere_regions",
+                        "1.0.0"
+                    ]
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-09T10:42:07.245827676"
+        "timestamp": "2026-02-25T12:00:39.601105215"
     },
     "GCA_963859965.1 - fasta": {
         "content": [
@@ -44,7 +52,11 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,bd9100c4682ffb40fd48c62a94a9776a"
+                    [
+                        "TELOMERE_REGIONS",
+                        "find_telomere_regions",
+                        "1.0.0"
+                    ]
                 ],
                 "telomere": [
                     [
@@ -54,15 +66,19 @@
                         "Cloeon_Dipeterum.telomere:md5,a18511467c3a1e8ece1973e33c4fe0b6"
                     ]
                 ],
-                "versions": [
-                    "versions.yml:md5,bd9100c4682ffb40fd48c62a94a9776a"
+                "versions_telomereregions": [
+                    [
+                        "TELOMERE_REGIONS",
+                        "find_telomere_regions",
+                        "1.0.0"
+                    ]
                 ]
             }
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.04.4"
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-09T12:11:56.448372382"
+        "timestamp": "2026-02-25T11:59:43.90850903"
     }
 }

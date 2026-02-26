@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "telomere_windows"
 description: |
   Identify windows of the telomere file which maybe true telomeric sites
@@ -6,16 +5,15 @@ keywords:
   - telomere
   - windows
   - tsv
-
 tools:
   - telomere.jar:
       description: |
         Script to identify likely telomeric sites.
       homepage: https://github.com/VGP/vgp-assembly/
       documentation: https://github.com/VGP/vgp-assembly/
-      licence: ["GPL v2.0"]
+      licence:
+        - "GPL v2.0"
       identifier: ""
-
 input:
   - - meta:
         type: map
@@ -28,8 +26,7 @@ input:
           TSV of putative telomeric sites
         pattern: "*.telomere"
         ontologies:
-          - edam: "http://edamontology.org/format_3475" # TSV
-
+          - edam: "http://edamontology.org/format_3475"
 output:
   windows:
     - - meta:
@@ -42,15 +39,28 @@ output:
           description: |
             TSV of likely telomeric sites
           ontologies:
-            - edam: "http://edamontology.org/format_3475" # TSV
-
+            - edam: "http://edamontology.org/format_3475"
+  versions_telomerewindows:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - find_telomere_windows:
+          type: string
+          description: The name of the tool
+      - 1.0.0:
+          type: string
+          description: The version of the module
+topics:
   versions:
-    - versions.yml:
-        type: file
-        description: File containing software versions
-        pattern: "versions.yml"
-        ontologies:
-          - edam: http://edamontology.org/format_3750 # YAML
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - find_telomere_windows:
+          type: string
+          description: The name of the tool
+      - 1.0.0:
+          type: string
+          description: The version of the module
 authors:
   - "@DLBPointon"
 maintainers:
