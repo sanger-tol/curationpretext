@@ -25,7 +25,8 @@ def fn_get_validated_channel (data_type, tolid_meta, files_list) {
     // Validate files based on data type
     if (data_type == "cram") {
         def invalid_files = all_files.findAll { cram ->
-            !cram.toString().contains(".cram")
+            !cram.toString().contains(".cram") &&
+            !cram.toString().contains(".bam")
         }
         if (invalid_files.size() > 0) {
             error "[Error] One of the input hic files does not match cram format. Invalid files: ${invalid_files}"
