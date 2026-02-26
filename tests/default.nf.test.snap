@@ -32,8 +32,8 @@
                     "extract_repeat.pl": "1.0.0",
                     "perl": "5.26.2"
                 },
-                "EXTRACT_TELOMERE": {
-                    "awk": "mawk 1.3.4 20200120"
+                "GAWK": {
+                    "gawk": "5.3.0"
                 },
                 "GAWK_GAP_LENGTH": {
                     "gawk": "5.3.0"
@@ -48,9 +48,6 @@
                     "gawk": "5.3.0"
                 },
                 "GAWK_REPLACE_DOTS": {
-                    "gawk": "5.3.0"
-                },
-                "GAWK_SPLIT_DIRECTIONS": {
                     "gawk": "5.3.0"
                 },
                 "GAWK_UPPER_SEQUENCE": {
@@ -103,6 +100,9 @@
                 "SEQTK_CUTN": {
                     "seqtk": "1.4-r122"
                 },
+                "TELOMERE_EXTRACT": {
+                    "telomere_extract": "5.3.0"
+                },
                 "TELOMERE_REGIONS": {
                     "find_telomere_regions": "1.0.0"
                 },
@@ -125,14 +125,14 @@
             [
                 "accessory_files",
                 "accessory_files/CurationPretextTest.gap.bedgraph",
+                "accessory_files/CurationPretextTest_0P_telomere.bed",
+                "accessory_files/CurationPretextTest_0P_telomere.bedgraph",
                 "accessory_files/CurationPretextTest_3P_telomere.bed",
                 "accessory_files/CurationPretextTest_3P_telomere.bedgraph",
                 "accessory_files/CurationPretextTest_5P_telomere.bed",
                 "accessory_files/CurationPretextTest_5P_telomere.bedgraph",
                 "accessory_files/CurationPretextTest_longread_coverage.bigWig",
                 "accessory_files/CurationPretextTest_repeat_density.bigWig",
-                "accessory_files/CurationPretextTest_telomere.bed",
-                "accessory_files/CurationPretextTest_telomere.bedgraph",
                 "pipeline_info",
                 "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
                 "pretext_maps_processed",
@@ -145,14 +145,14 @@
             18,
             [
                 "CurationPretextTest.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_3P_telomere.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_3P_telomere.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_5P_telomere.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_5P_telomere.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_0P_telomere.bed:md5,61d1143a0b0e994c6cfd2a2f6093bf7d",
+                "CurationPretextTest_0P_telomere.bedgraph:md5,b6a0921c22eb24d9e371ff2a21ecaa51",
+                "CurationPretextTest_3P_telomere.bed:md5,34a1c051e3fd28ec10c35308105ec189",
+                "CurationPretextTest_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
+                "CurationPretextTest_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
+                "CurationPretextTest_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
                 "CurationPretextTest_longread_coverage.bigWig:md5,2b44579096cde838fe9d7b43a3267536",
-                "CurationPretextTest_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd",
-                "CurationPretextTest_telomere.bed:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_telomere.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e"
+                "CurationPretextTest_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
             ],
             9,
             1,
@@ -168,6 +168,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-19T15:23:25.862545451"
+        "timestamp": "2026-02-26T14:00:48.915435926"
     }
 }
