@@ -37,7 +37,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     input_file_string
     aligner
     skip_tracks
-    pre_mapped
+    pre_mapped_bam
     run_hires
     split_telomere
     cram_chunk_size
@@ -52,7 +52,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         input_file_string,
         aligner,
         skip_tracks,
-        pre_mapped,
+        pre_mapped_bam,
         run_hires,
         split_telomere,
         cram_chunk_size
@@ -96,7 +96,7 @@ workflow {
         params.input,
         params.aligner,
         params.skip_tracks,
-        params.pre_mapped,
+        params.pre_mapped_bam,
         params.run_hires,
         params.split_telomere,
         params.cram_chunk_size
