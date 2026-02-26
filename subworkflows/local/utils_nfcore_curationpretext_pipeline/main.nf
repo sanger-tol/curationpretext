@@ -117,8 +117,16 @@ workflow PIPELINE_INITIALISATION {
         ]
     }
 
-    if ( params.pre_mapped && !(params.cram.size() == 1) ) {
+    if ( (params.pre_mapped_bam?.size() ?: 0) == 0 && (params.cram?.size() ?: 0) == 0 ) {
+        error "You need to supply either a --pre_mapped_bam file of an array of --cram files!"
+    }
+
+    if ( (params.pre_mapped_bam?.size() ?: 0) > 1 ) {
         error "Using Pre-Mapped Reads supports only 1 file"
+    }
+
+    if ( (params.pre_mapped_bam?.size() ?: 0) >= 1 && (params.cram?.size() ?: 0) >= 1 ) {
+        error "Can only use Pre-Mapped Reads or CRAM files!"
     }
 
     ch_cram_reads   = fn_get_validated_channel(
@@ -126,9 +134,10 @@ workflow PIPELINE_INITIALISATION {
                         [
                             id: params.sample,
                             map_order: params.map_order,
-                            multi_mapping: params.multi_mapping
+                            multi_mapping: params.multi_mapping,
+                            mapped: (params.cram?.size() ?: 0) > 0 ? false : true
                         ],
-                        params.cram
+                        params.cram ? params.cram : params.pre_mapped_bam
                     )
 
     ch_longreads    = fn_get_validated_channel(
