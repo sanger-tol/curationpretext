@@ -41,7 +41,7 @@ workflow CURATIONPRETEXT {
     val_input_file_string
     val_aligner
     val_skip_tracks
-    val_pre_mapped
+    val_pre_mapped_bam
     val_run_hires
     val_split_telomere
     val_cram_chunk_size
@@ -143,37 +143,35 @@ workflow CURATIONPRETEXT {
 
 
     //
-    // LOGIC: IF MAPPED BAM IS PASSED INTO PIPELINE, SKIP ALIGN_CRAM
-    //        AND PASS DIRECTLY TO CREATE_MAPS
+    // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
+    //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
+    //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
     //
-    if (val_pre_mapped) {
-        mapped_bam = ch_upper_ref
-    } else {
+    def fasta_size = file(val_input_file_string).size()
+    def selected_aligner = (val_aligner == "AUTO") ?
+        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+        val_aligner
 
 
-        //
-        // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
-        //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
-        //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
-        //
-        def fasta_size = file(val_input_file_string).size()
-        def selected_aligner = (val_aligner == "AUTO") ?
-            (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-            val_aligner
+    //
+    // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
+    //
+    ALIGN_CRAM (
+        ch_upper_ref,
+        ch_cram_reads
+            .filter { meta, files ->
+                meta.mapped == false
+            }.map { meta, files ->
+                [ meta - meta.subMap("mapped"), files ]
+            },
+        selected_aligner,
+        val_cram_chunk_size
+    )
 
-
-        //
-        // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
-        //
-        ALIGN_CRAM (
-            ch_upper_ref,
-            ch_cram_reads,
-            selected_aligner,
-            val_cram_chunk_size
-        )
-
-        mapped_bam = ALIGN_CRAM.out.bam
-    }
+    mapped_bam = ch_cram_reads.filter {
+                    meta, files -> meta.mapped == true
+                }
+                .mix( ALIGN_CRAM.out.bam )
 
 
     //
