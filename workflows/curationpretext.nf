@@ -143,33 +143,35 @@ workflow CURATIONPRETEXT {
 
 
     //
-    // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
-    //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
-    //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
-    //
-    def fasta_size = file(val_input_file_string).size()
-    def selected_aligner = (val_aligner == "AUTO") ?
-        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-        val_aligner
-
-    //
-    // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
-    //
-    ALIGN_CRAM (
-        ch_upper_ref.filter{ !val_pre_mapped },
-        ch_cram_reads,
-        selected_aligner,
-        val_cram_chunk_size
-    )
-
-
-    //
     // LOGIC: IF MAPPED BAM IS PASSED INTO PIPELINE, SKIP ALIGN_CRAM
     //        AND PASS DIRECTLY TO CREATE_MAPS
     //
     if (val_pre_mapped) {
         mapped_bam = ch_upper_ref
     } else {
+
+
+        //
+        // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
+        //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
+        //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
+        //
+        def fasta_size = file(val_input_file_string).size()
+        def selected_aligner = (val_aligner == "AUTO") ?
+            (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+            val_aligner
+
+
+        //
+        // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
+        //
+        ALIGN_CRAM (
+            ch_upper_ref,
+            ch_cram_reads,
+            selected_aligner,
+            val_cram_chunk_size
+        )
+
         mapped_bam = ALIGN_CRAM.out.bam
     }
 
