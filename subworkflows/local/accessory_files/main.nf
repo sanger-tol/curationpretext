@@ -1,23 +1,30 @@
 #!/usr/bin/env nextflow
 
 //
-// MODULE IMPORT BLOCK
+// LOCAL SUBWORKFLOW IMPORT BLOCK
 //
 include { GAP_FINDER                        } from '../gap_finder/main'
-include { TELO_FINDER                       } from '../telo_finder/main'
 include { REPEAT_DENSITY                    } from '../repeat_density/main'
 include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 
+//
+// SANGER_TOL SUBWORKFLOW IMPORT BLOCK
+//
+include { TELO_FINDER                       } from '../../sanger-tol/telo_finder/main'
+
+//
+// NF_CORE MODULE IMPORT BLOCK
+//
 include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../../modules/nf-core/gawk/main'
 
 workflow ACCESSORY_FILES {
     take:
-    reference_tuple
-    longread_reads
-    val_teloseq
-    val_split_telomere
-    val_skip_tracks
-    ch_reference_fai   // Channel [ val(meta), path(file)      ]
+    reference_tuple     // Channel [ val(meta), path(file)   ]
+    longread_reads      // Channel [ val(meta), [path(file)] ]
+    val_teloseq         // val(telomere_sequence)
+    val_split_telomere  // val(bool)
+    val_skip_tracks     // val(csv_list)
+    ch_reference_fai    // Channel [ val(meta), path(file)   ]
 
 
     main:
@@ -64,6 +71,8 @@ workflow ACCESSORY_FILES {
             val_split_telomere
         )
         telo_file       = TELO_FINDER.out.bedgraph_file
+                            .map{ it -> it[1] }
+                            .ifEmpty("${baseDir}/assets/EMPTY.txt")
     }
 
 
