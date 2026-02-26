@@ -19,6 +19,8 @@ This is intended as a supplementary pipeline for the [treeval](https://github.co
 
 ![Workflow Diagram](./docs/images/CurationPretext-1.6.0.jpeg)
 
+The above image shows the use of this pipeline inside of the manual curation process and follows the below major steps.
+
 1. CRAM_MAP_ILLUMINA_HIC (ALIGN_CRAM) + PAIRS_CREATE_CONTACT_MAPS (CREATE_MAPS) - Generates pretext maps as well as a static image.
 
 2. ACCESSORY_FILES - Generates the repeat density, gap, telomere, and coverage tracks.
@@ -69,7 +71,7 @@ Currently, the pipeline uses the following flags:
 - `--split_telomere`
   - A boolean to also generate the telomere track in 5Prime and 3Prime styles, this is also include the original telomere track.
 
-- `--pre_mapped`
+- `--pre_mapped_bam`
   - A boolean option to use `--cram` as input for _A_ pre-mapped bam file.
 
 - `--cram_chunk_size`

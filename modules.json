@@ -48,7 +48,7 @@
                     "gawk": {
                         "branch": "master",
                         "git_sha": "76b1f53edcf72798d8515c82f4728ad44b3dd902",
-                        "installed_by": ["modules", "pairs_create_contact_maps"]
+                        "installed_by": ["modules", "pairs_create_contact_maps", "telo_finder"]
                     },
                     "gnu/sort": {
                         "branch": "master",
@@ -181,16 +181,20 @@
                         "git_sha": "bfafdec38274f327e61618187b9a73cb81e82147",
                         "installed_by": ["bam_samtools_merge_markdup"]
                     },
+                    "telomere/extract": {
+                        "branch": "main",
+                        "git_sha": "780f0c747b0aabfe5f827f88b5bbef16b6640e64",
+                        "installed_by": ["modules", "telo_finder"]
+                    },
                     "telomere/regions": {
                         "branch": "main",
-                        "git_sha": "39d5de22b73bad48cd5c7a1a6f53bdb4b7acf656",
-                        "installed_by": ["modules"],
-                        "patch": "modules/sanger-tol/telomere/regions/telomere-regions.diff"
+                        "git_sha": "88ba0abe3c06373b506509a5359092e22a912f1b",
+                        "installed_by": ["modules", "telo_finder"]
                     },
                     "telomere/windows": {
                         "branch": "main",
-                        "git_sha": "ebd8fd69b20f17cb574a9dfe4b6b53ae6766581e",
-                        "installed_by": ["modules"]
+                        "git_sha": "6dec7b4e1a28b484d56c79836c07eba37e596a5b",
+                        "installed_by": ["modules", "telo_finder"]
                     }
                 }
             },
@@ -209,6 +213,11 @@
                     "pairs_create_contact_maps": {
                         "branch": "main",
                         "git_sha": "a44722e4a55b447795ec7117a90cd2f7461da0cb",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "telo_finder": {
+                        "branch": "main",
+                        "git_sha": "df0ae851543b7aa0a193629eccec9140f00c5f4e",
                         "installed_by": ["subworkflows"]
                     }
                 }

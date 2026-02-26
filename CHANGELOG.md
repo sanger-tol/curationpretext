@@ -11,8 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - - The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS`, from the [`sanger-tol/nf-core-modules`](https://github.com/sanger-tol/nf-core-modules) repository, respectively)
 - Files can now be given explicitly in the `--reads` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
 - Files can now be given explicitly in the `--cram` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
-- `--pre_mapped` parameter added in order to supply a pre-mapped BAM file as `--cram` and avoid re-mapping.
-  - Added warning message to ensure only 1 mapped read is provided if true.
+- `--pre_mapped_bam` parameter added in order to supply 1 pre-mapped BAM file, in this case `--cram` would be empty.
+  - Warnings have been added to ensure:
+    - Only 1 pre-mapped BAM file is provided if `--pre_mapped_bam` is used.
+    - Only 1 of `--pre_mapped_bam` or `--cram` is used`
 - `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable, defaulting to 10000.
 - `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
 - Major Update to modules coinciding with changes to use Nextflow topics
@@ -57,6 +59,8 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `TELOMERE_WINDOWS`             | NEW_ADDITION     | 1.0.0                                                          |
 | `FIND_TELOMERE_REGIONS`        | 1.0.0            | REMOVED                                                        |
 | `TELOMERE_REGIONS`             | NEW_ADDITION     | 1.0.0                                                          |
+| `EXTRACT_TELOMERE`             | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_EXTRACT`             | NEW_ADDITION     | 1.0.0                                                          |
 | `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 469                                                            |
 
 ## [[1.5.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
