@@ -18,7 +18,8 @@
                     "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "description": "Input fasta file",
                     "help_text": "You need the input fasta file",
-                    "fa_icon": "fas fa-file-fasta"
+                    "fa_icon": "fas fa-file-fasta",
+                    "exists": true
                 },
                 "split_telomere": {
                     "type": "boolean",
@@ -37,7 +38,8 @@
                     "format": "path",
                     "description": "Input longread fasta files",
                     "help_text": "You need the input fasta file array",
-                    "fa_icon": "fas fa-folder-open"
+                    "fa_icon": "fas fa-folder-open",
+                    "exists": true
                 },
                 "read_type": {
                     "type": "string",
@@ -51,7 +53,8 @@
                     "format": "path",
                     "description": "Input cram files",
                     "help_text": "You need the input fasta file array",
-                    "fa_icon": "fas fa-file-signature"
+                    "fa_icon": "fas fa-file-signature",
+                    "exists": true
                 },
                 "teloseq": {
                     "type": "string",
@@ -87,11 +90,12 @@
                     "default": 10000
                 },
                 "pre_mapped_bam": {
-                    "type": "array",
+                    "type": "string",
                     "format": "path",
                     "description": "Pre-mapped BAM file",
                     "help_text": "Pre-mapped BAM file",
-                    "fa_icon": "fas fa-file-code"
+                    "fa_icon": "fas fa-file-code",
+                    "exists": true
                 },
                 "outdir": {
                     "type": "string",
