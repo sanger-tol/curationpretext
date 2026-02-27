@@ -72,7 +72,7 @@ Currently, the pipeline uses the following flags:
   - A boolean to also generate the telomere track in 5Prime and 3Prime styles, this is also include the original telomere track.
 
 - `--pre_mapped_bam`
-  - Path to a mapped bam, used to create a pretext map.
+  - A boolean option to use `--cram` as input for _A_ pre-mapped bam file.
 
 - `--cram_chunk_size`
   - The number of records in a cram file should be chunked into, defaults to 10000.
