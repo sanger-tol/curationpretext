@@ -10,6 +10,7 @@ include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 //
 // SANGER_TOL SUBWORKFLOW IMPORT BLOCK
 //
+include { GAP_FINDER                        } from '../../sanger-tol/gap_finder/main'
 include { TELO_FINDER                       } from '../../sanger-tol/telo_finder/main'
 
 //
@@ -53,7 +54,8 @@ workflow ACCESSORY_FILES {
         gap_file            = ch_empty_file
     } else {
         GAP_FINDER (
-            reference_tuple
+            reference_tuple,
+            false
         )
         gap_file            = GAP_FINDER.out.gap_file.map{ it -> it[1] }
     }
