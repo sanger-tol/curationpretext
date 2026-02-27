@@ -3,7 +3,6 @@
 //
 // LOCAL SUBWORKFLOW IMPORT BLOCK
 //
-include { GAP_FINDER                        } from '../gap_finder/main'
 include { REPEAT_DENSITY                    } from '../repeat_density/main'
 include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 
