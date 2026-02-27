@@ -135,9 +135,18 @@ workflow PIPELINE_INITIALISATION {
                             id: params.sample,
                             map_order: params.map_order,
                             multi_mapping: params.multi_mapping,
-                            mapped: (params.cram?.size() ?: 0) > 0 ? false : true
                         ],
-                        params.cram ? params.cram : params.pre_mapped_bam
+                        params.cram
+                    )
+
+    ch_mapped_bam   = fn_get_validated_channel(
+                        "bam",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping
+                        ],
+                        params.pre_mapped_bam
                     )
 
     ch_longreads    = fn_get_validated_channel(
@@ -153,6 +162,7 @@ workflow PIPELINE_INITIALISATION {
     emit:
     ch_reference
     ch_cram_reads
+    ch_mapped_bam
     ch_longreads
     teloseq             = params.teloseq
     versions            = ch_versions

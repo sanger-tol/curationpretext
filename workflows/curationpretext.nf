@@ -37,6 +37,7 @@ workflow CURATIONPRETEXT {
     ch_reference
     ch_reads
     ch_cram_reads
+    ch_mapped_bam
     val_teloseq
     val_input_file_string
     val_aligner
@@ -158,17 +159,12 @@ workflow CURATIONPRETEXT {
     //
     ALIGN_CRAM (
         ch_upper_ref,
-        ch_cram_reads
-            .filter { meta, files ->
-                meta.mapped == false
-            }.map { meta, files ->
-                [ meta - meta.subMap("mapped"), files ]
-            },
+        ch_cram_reads,
         selected_aligner,
         val_cram_chunk_size
     )
 
-    mapped_bam = ch_cram_reads.filter {
+    mapped_bam = ch_mapped_bam.filter {
                     meta, files -> meta.mapped == true
                 }
                 .mix( ALIGN_CRAM.out.bam )
