@@ -42,7 +42,6 @@ workflow CURATIONPRETEXT {
     val_input_file_string
     val_aligner
     val_skip_tracks
-    val_pre_mapped_bam
     val_run_hires
     val_split_telomere
     val_cram_chunk_size
