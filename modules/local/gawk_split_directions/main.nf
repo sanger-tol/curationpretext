@@ -14,7 +14,7 @@ process GAWK_SPLIT_DIRECTIONS {
     output:
     tuple val(meta), path("direction.0.${suffix}"), emit: prime5
     tuple val(meta), path("direction.1.${suffix}"), emit: prime3
-    path "versions.yml"                           , emit: versions
+    tuple val("${task.process}"), val('gawk'), eval("awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//'"), topic: versions, emit: versions_gawk
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,12 +23,12 @@ process GAWK_SPLIT_DIRECTIONS {
     def args  = task.ext.args  ?: '' // args is used for the main arguments of the tool
     def args2 = task.ext.args2 ?: '' // args2 is used to specify a program when no program file has been given
     prefix    = task.ext.prefix ?: "${meta.id}"
-    suffix    = task.ext.suffix ?: "${input.collect{ it.getExtension()}.get(0)}" // use the first extension of the input files
+    suffix    = task.ext.suffix ?: "${input.collect{ file -> file.getExtension()}.get(0)}" // use the first extension of the input files
 
     program    = program_file ? "-f ${program_file}" : "${args2}"
 
-    input.collect{
-        assert it.name != "${prefix}.${suffix}" : "Input and output names are the same, set prefix in module configuration to disambiguate!"
+    input.collect{ file ->
+        assert file.name != "${prefix}.${suffix}" : "Input and output names are the same, set prefix in module configuration to disambiguate!"
     }
 
     """
@@ -36,11 +36,6 @@ process GAWK_SPLIT_DIRECTIONS {
         ${args} \\
         ${program} \\
         ${input}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        gawk: \$(awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//')
-    END_VERSIONS
     """
 
     stub:
@@ -49,10 +44,5 @@ process GAWK_SPLIT_DIRECTIONS {
 
     """
     touch ${prefix}.${suffix}
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        gawk: \$(awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//')
-    END_VERSIONS
     """
 }
