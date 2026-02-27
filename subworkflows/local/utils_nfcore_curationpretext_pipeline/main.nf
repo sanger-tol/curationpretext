@@ -125,7 +125,7 @@ workflow PIPELINE_INITIALISATION {
         error "Using Pre-Mapped Reads supports only 1 file"
     }
 
-    if ( (params.pre_mapped_bam?.size() ?: 0) >= 1 && (params.cram?.size() ?: 0) >= 1 ) {
+    if (params.pre_mapped_bam && params.cram) {
         error "Can only use Pre-Mapped Reads or CRAM files!"
     }
 
