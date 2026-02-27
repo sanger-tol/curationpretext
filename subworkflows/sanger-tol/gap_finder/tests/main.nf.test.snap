@@ -1,0 +1,125 @@
+{
+    "Cloeon_dipterum genome - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.bed.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "Cloeon_Dipeterum.bed.gz.csi:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "gap_file": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "gap_tabix": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.bed.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                        "Cloeon_Dipeterum.bed.gz.csi:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-02-27T13:37:12.350775975"
+    },
+    "Cloeon_dipterum genome [fasta] w/o index": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.gap.bedgraph:md5,25a0c7406035024fac941b1e900a0bd4"
+                    ]
+                ],
+                "1": [
+                    
+                ],
+                "gap_file": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.gap.bedgraph:md5,25a0c7406035024fac941b1e900a0bd4"
+                    ]
+                ],
+                "gap_tabix": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-02-27T13:36:39.754958419"
+    },
+    "Cloeon_dipterum genome [fasta] w/ index": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.gap.bedgraph:md5,25a0c7406035024fac941b1e900a0bd4"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.bed.gz:md5,9539ddbcc4299acda81cceac7bb79732",
+                        "Cloeon_Dipeterum.bed.gz.csi:md5,2ae7838a0ceb1abf43db92d59caf206f"
+                    ]
+                ],
+                "gap_file": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.gap.bedgraph:md5,25a0c7406035024fac941b1e900a0bd4"
+                    ]
+                ],
+                "gap_tabix": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.bed.gz:md5,9539ddbcc4299acda81cceac7bb79732",
+                        "Cloeon_Dipeterum.bed.gz.csi:md5,2ae7838a0ceb1abf43db92d59caf206f"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.2"
+        },
+        "timestamp": "2026-02-27T13:36:06.102057386"
+    }
+}
