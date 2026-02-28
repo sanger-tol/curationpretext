@@ -163,7 +163,7 @@ workflow CURATIONPRETEXT {
         val_cram_chunk_size
     )
 
-    mapped_bam = ch_mapped_bam.filter.mix( ALIGN_CRAM.out.bam )
+    mapped_bam = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
 
 
     //
