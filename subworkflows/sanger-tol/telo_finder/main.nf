@@ -34,9 +34,18 @@ workflow TELO_FINDER {
     //
     if (val_split_telomere) {
 
+        ch_split_telomere = channel.of('''\
+            BEGIN {
+                FS="\\t"; OFS="\\t"
+            } {
+                print > "direction."$3".telomere"
+            }'''.stripIndent())
+            .collectFile(name: "split_telomere.awk", cache: true)
+            .collect()
+
         GAWK (
             ch_full_telomere,
-            [],
+            ch_split_telomere,
             true
         )
 

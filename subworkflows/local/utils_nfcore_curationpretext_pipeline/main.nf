@@ -129,7 +129,7 @@ workflow PIPELINE_INITIALISATION {
         error "Can only use Pre-Mapped Reads or CRAM files!"
     }
 
-    ch_cram_reads   = fn_get_validated_channel(
+    ch_cram_reads   = params.cram ? fn_get_validated_channel(
                         "cram",
                         [
                             id: params.sample,
@@ -137,9 +137,9 @@ workflow PIPELINE_INITIALISATION {
                             multi_mapping: params.multi_mapping,
                         ],
                         params.cram
-                    )
+                    ) : channel.empty()
 
-    ch_mapped_bam   = fn_get_validated_channel(
+    ch_mapped_bam   = params.pre_mapped_bam ? fn_get_validated_channel(
                         "bam",
                         [
                             id: params.sample,
@@ -147,7 +147,7 @@ workflow PIPELINE_INITIALISATION {
                             multi_mapping: params.multi_mapping
                         ],
                         params.pre_mapped_bam
-                    )
+                    ) : channel.empty()
 
     ch_longreads    = fn_get_validated_channel(
                         "pacbio",
