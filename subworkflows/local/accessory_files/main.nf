@@ -69,7 +69,8 @@ workflow ACCESSORY_FILES {
         TELO_FINDER (
             reference_tuple,
             val_teloseq,
-            val_split_telomere
+            val_split_telomere,
+            false
         )
         telo_file       = TELO_FINDER.out.bedgraph_file
                             .map{ it -> it[1] }

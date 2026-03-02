@@ -13,7 +13,8 @@ components:
   - telomere/extract
   - gawk:
       git_remote: https://github.com/nf-core/modules.git
-
+  - tabix/bgziptabix:
+      git_remote: https://github.com/nf-core/modules.git
 input:
   - ch_reference:
       type: file
@@ -29,13 +30,21 @@ input:
       type: boolean
       description: |
         A boolean to control use of the gawk to split the telomere.
-
+  - val_run_bgzip:
+      type: boolean
+      description: |
+        Control running of tabix with boolean
 output:
   - bed_file:
       type: file
       description: |
         Structure: [ val(meta), [path(bed)] ]
         A Queue of upto 3 bed file channels.
+  - bed_tabix:
+      type: file
+      description: |
+        Structure: [ val(meta), path(bed_tabix) ]
+        Tabix index for the bed file
   - bedgraph_file:
       type: file
       description: |
@@ -46,3 +55,4 @@ authors:
   - "@DLBPointon"
 maintainers:
   - "@DLBPointon"
+  - "@weaglesBio"

@@ -24,7 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove duplicated `selected_aligner` code from `PIPELINE_INITIALISATION`.
 - Change install for `TELOMERE` modules so that we use the `SANGER-TOL` repository rather than local.
 - Removed now unused `bin` files.
-- Removed and replaced pipeline graph with new version.
+- Migrated from `local/telo_finder` subworkflow to `sanger-tol/telo_finder`.
+- Migrated from `local/gap_finder` subworkflow to `sanger-tol/gap_finder`.
 
 ### Parameters
 

@@ -11,8 +11,10 @@ nextflow_workflow {
     tag "telomere/regions"
     tag "telomere/windows"
     tag "telomere/extract"
+    tag "tabix/bgziptabix"
     tag "subworkflows/../../modules/nf-core/gawk"
     tag "subworkflows/../../modules/nf-core/gunzip"
+    tag "subworkflows/../../modules/nf-core/tabix/bgziptabix"
     tag "modules/nf-core/gunzip"
 
     setup {
@@ -21,6 +23,7 @@ nextflow_workflow {
             "${launchDir}/library/",
             [
                 "gawk",
+                "tabix/bgziptabix",
                 "gunzip"
             ]
         )
@@ -39,11 +42,12 @@ nextflow_workflow {
         }
     }
 
-    test("idFanCani4 - no split - fasta") {
+
+    test("idFanCani4 - no split - fasta w/ index") {
         when {
             params {
-                gawk_args       = "'BEGIN { FS=\"\\t\"; OFS=\"\\t\" } {print > \"direction.\"\$3\".split.telomere\"}'"
                 windows_percent = "99.9"
+                bgzip_args       = "--csi"
             }
 
             workflow {
@@ -51,6 +55,7 @@ nextflow_workflow {
                 input[0] = GUNZIP.out.gunzip
                 input[1] = "TTAGG"
                 input[2] = false
+                input[3] = true
                 """
             }
         }
@@ -67,11 +72,11 @@ nextflow_workflow {
         }
     }
 
-    test("idFanCani4 - split - fasta") {
+    test("idFanCani4 - split - fasta w/ index") {
         when {
             params {
-                gawk_args       = "'BEGIN { FS=\"\\t\"; OFS=\"\\t\" } {print > \"direction.\"\$3\".split.telomere\"}'"
                 windows_percent = "99.9"
+                bgzip_args       = "--csi"
             }
 
             workflow {
@@ -79,6 +84,7 @@ nextflow_workflow {
                 input[0] = GUNZIP.out.gunzip
                 input[1] = "TTAGG"
                 input[2] = true
+                input[3] = true
                 """
             }
         }
@@ -95,11 +101,11 @@ nextflow_workflow {
         }
     }
 
-    test("idFanCani4 - no split - fasta - stub") {
+    test("idFanCani4 - no split - fasta w/o index") {
         when {
             params {
-                gawk_args       = "'BEGIN { FS=\"\\t\"; OFS=\"\\t\" } {print > \"direction.\"\$3\".split.telomere\"}'"
                 windows_percent = "99.9"
+                bgzip_args       = "--csi"
             }
 
             workflow {
@@ -107,6 +113,65 @@ nextflow_workflow {
                 input[0] = GUNZIP.out.gunzip
                 input[1] = "TTAGG"
                 input[2] = false
+                input[3] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+
+    test("idFanCani4 - split - fasta w/o index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = true
+                input[3] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+
+    test("idFanCani4 - no split - fasta - stub w/o index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = false
+                input[3] = false
                 """
             }
         }

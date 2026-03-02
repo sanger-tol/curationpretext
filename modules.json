@@ -125,7 +125,7 @@
                     "tabix/bgziptabix": {
                         "branch": "master",
                         "git_sha": "91a902fb32d6717da38a9694eb4ad3fade53a8db",
-                        "installed_by": ["gap_finder"]
+                        "installed_by": ["_", "d", "e", "f", "gap_finder", "i", "l", "n", "o", "r", "t"]
                     },
                     "ucsc/bedgraphtobigwig": {
                         "branch": "master",
@@ -228,7 +228,7 @@
                     },
                     "telo_finder": {
                         "branch": "main",
-                        "git_sha": "2e28234fb0e2970767dab28310c7eb553ad40081",
+                        "git_sha": "8bd9248f650ee2e2afafdeda3e528574e973de7e",
                         "installed_by": ["subworkflows"]
                     }
                 }
