@@ -47,7 +47,6 @@ nextflow_workflow {
         when {
 
             params {
-                gawk_args = "'BEGIN { OFS = \"\\t\" }{print \$0, sqrt((\$3-\$2)*(\$3-\$2))}'"
                 seqtk_args = "-n 1"
                 bgzip_args = "--csi"
             }
@@ -78,7 +77,6 @@ nextflow_workflow {
         when {
 
             params {
-                gawk_args = "'BEGIN { OFS = \"\\t\" }{print \$0, sqrt((\$3-\$2)*(\$3-\$2))}'"
                 seqtk_args = "-n 1"
             }
 
@@ -108,7 +106,6 @@ nextflow_workflow {
         when {
 
             params {
-                gawk_args = "'BEGIN { OFS = \"\\t\" }{print \$0, sqrt((\$3-\$2)*(\$3-\$2))}'"
                 seqtk_args = "-n 1"
                 bgzip_args = "--csi"
             }
