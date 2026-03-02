@@ -62,7 +62,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `TELOMERE_REGIONS`             | NEW_ADDITION     | 1.0.0                                                          |
 | `EXTRACT_TELOMERE`             | 1.0.0            | REMOVED                                                        |
 | `TELOMERE_EXTRACT`             | NEW_ADDITION     | 1.0.0                                                          |
-| `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 469                                                            |
+| `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 482                                                            |
 
 ## [[1.5.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
 

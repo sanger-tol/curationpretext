@@ -32,9 +32,6 @@
                     "extract_repeat.pl": "1.0.0",
                     "perl": "5.26.2"
                 },
-                "GAWK": {
-                    "gawk": "5.3.0"
-                },
                 "GAWK_GAP_LENGTH": {
                     "gawk": "5.3.0"
                 },
@@ -48,6 +45,9 @@
                     "gawk": "5.3.0"
                 },
                 "GAWK_REPLACE_DOTS": {
+                    "gawk": "5.3.0"
+                },
+                "GAWK_SPLIT_TELOMERE": {
                     "gawk": "5.3.0"
                 },
                 "GAWK_UPPER_SEQUENCE": {
