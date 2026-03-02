@@ -110,7 +110,7 @@
                     "find_telomere_windows": "1.0.0"
                 },
                 "UCSC_BEDGRAPHTOBIGWIG": {
-                    "ucsc": 469
+                    "ucsc": 482
                 },
                 "WINDOWMASKER_MKCOUNTS": {
                     "windowmasker": "1.0.0"
