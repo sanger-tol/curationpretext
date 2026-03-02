@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/sanger-tol/nf-core-modules/main/subworkflows/yaml-schema.json
+name: "telo_finder"
+description: Generate Telomere bedgraphs given a telomere motif
+keywords:
+  - telomere
+  - bedgraph
+  - windows
+  - regions
+  - fasta
+components:
+  - telomere/regions
+  - telomere/windows
+  - telomere/extract
+  - gawk:
+      git_remote: https://github.com/nf-core/modules.git
+  - tabix/bgziptabix:
+      git_remote: https://github.com/nf-core/modules.git
+input:
+  - ch_reference:
+      type: file
+      description: |
+        Structure [ val(meta), path(reference) ]
+        Meta is the Groovy Map containing sample information
+        Reference is the fasta for analysis
+  - ch_telomereseq:
+      type: string
+      description: |
+        A string containing the DNA sequence of a telomere motif
+  - val_split_telomere:
+      type: boolean
+      description: |
+        A boolean to control use of the gawk to split the telomere.
+  - val_run_bgzip:
+      type: boolean
+      description: |
+        Control running of tabix with boolean
+output:
+  - bed_file:
+      type: file
+      description: |
+        Structure: [ val(meta), [path(bed)] ]
+        A Queue of upto 3 bed file channels.
+  - bed_tabix:
+      type: file
+      description: |
+        Structure: [ val(meta), path(bed_tabix) ]
+        Tabix index for the bed file
+  - bedgraph_file:
+      type: file
+      description: |
+        Structure: [ val(meta), [path(bedgraph)] ]
+        Collection of 1 or 3 telomere bedgraph files.
+
+authors:
+  - "@DLBPointon"
+maintainers:
+  - "@DLBPointon"
+  - "@weaglesBio"

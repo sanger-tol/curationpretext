@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "cram", "sample", "outdir", "map_order"],
+            "required": ["input", "sample", "outdir", "map_order"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -18,7 +18,8 @@
                     "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
                     "description": "Input fasta file",
                     "help_text": "You need the input fasta file",
-                    "fa_icon": "fas fa-file-fasta"
+                    "fa_icon": "fas fa-file-fasta",
+                    "exists": true
                 },
                 "split_telomere": {
                     "type": "boolean",
@@ -33,25 +34,27 @@
                     "fa_icon": "fas fa-file-signature"
                 },
                 "reads": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "Input longread fasta directory",
-                    "help_text": "You need the input fasta file directory",
-                    "fa_icon": "fas fa-folder-open"
+                    "type": "array",
+                    "format": "path",
+                    "description": "Input longread fasta files",
+                    "help_text": "You need the input fasta file array",
+                    "fa_icon": "fas fa-folder-open",
+                    "exists": true
                 },
                 "read_type": {
                     "type": "string",
                     "description": "Type of longread data",
                     "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
-                    "fa_icon": "fas fa-folder-open",
+                    "fa_icon": "fas fa-file-signature",
                     "enum": ["hifi", "clr", "ont", "illumina"]
                 },
                 "cram": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "Input cram directory",
-                    "help_text": "You need the input fasta file directory",
-                    "fa_icon": "fas fa-folder-open"
+                    "type": "array",
+                    "format": "path",
+                    "description": "Input cram files",
+                    "help_text": "You need the input fasta file array",
+                    "fa_icon": "fas fa-file-signature",
+                    "exists": true
                 },
                 "teloseq": {
                     "type": "string",
@@ -78,6 +81,21 @@
                     "description": "Run HiRes pretext maps",
                     "help_text": "Boolean to switch off HiRes pretextmap generation",
                     "fa_icon": "fas fa-check"
+                },
+                "cram_chunk_size": {
+                    "type": "integer",
+                    "description": "Chunk size for splitting CRAM files",
+                    "help_text": "Chunk size for splitting CRAM files",
+                    "fa_icon": "fas fa-file-code",
+                    "default": 10000
+                },
+                "pre_mapped_bam": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Pre-mapped BAM file",
+                    "help_text": "Pre-mapped BAM file",
+                    "fa_icon": "fas fa-file-code",
+                    "exists": true
                 },
                 "outdir": {
                     "type": "string",
@@ -115,7 +133,6 @@
                 }
             }
         },
-
         "institutional_config_options": {
             "title": "Institutional config options",
             "type": "object",

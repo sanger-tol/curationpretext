@@ -12,34 +12,21 @@ process EXTRACT_REPEAT {
 
     output:
     tuple val( meta ), path( "*.bed" )  , emit: bed
-    path "versions.yml"                 , emit: versions
+    tuple val("${task.process}"), val('extract_repeat.pl'), eval("echo '1.0.0'"), topic: versions, emit: versions_extractrepeat
+    tuple val("${task.process}"), val('perl'), eval("perl --version | sed -n 's/.*(v\\([0-9.]\\+\\)).*/\\1/p'"), topic: versions, emit: versions_perl
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def VERSION     = "1.0" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     extract_repeat.pl $file > ${prefix}_repeats.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        perl: \$(echo \$(perl --version 2>&1) | awk '/This/ {print \$9}'))
-        extract_repeat.pl: $VERSION
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def VERSION     = "1.0" // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     """
     touch ${prefix}_repeats.bed
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        perl: \$(echo \$(perl --version 2>&1) | awk '/This/ {print \$9}'))
-        extract_repeat.pl: $VERSION
-    END_VERSIONS
     """
 }

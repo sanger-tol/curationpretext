@@ -18,6 +18,7 @@ include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
+include { fn_get_validated_channel  } from '../../../functions/local/utils'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUBWORKFLOW TO INITIALISE PIPELINE
@@ -54,6 +55,27 @@ workflow PIPELINE_INITIALISATION {
     //
     // Validate parameters and generate parameter summary to stdout
     //
+    before_text = """
+-\033[2m----------------------------------------------------\033[0m-
+\033[0;34m   _____                               \033[0;32m _______   \033[0;31m _\033[0m
+\033[0;34m  / ____|                              \033[0;32m|__   __|  \033[0;31m| |\033[0m
+\033[0;34m | (___   __ _ _ __   __ _  ___ _ __ \033[0m ___ \033[0;32m| |\033[0;33m ___ \033[0;31m| |\033[0m
+\033[0;34m  \\___ \\ / _` | '_ \\ / _` |/ _ \\ '__|\033[0m|___|\033[0;32m| |\033[0;33m/ _ \\\033[0;31m| |\033[0m
+\033[0;34m  ____) | (_| | | | | (_| |  __/ |        \033[0;32m| |\033[0;33m (_) \033[0;31m| |____\033[0m
+\033[0;34m |_____/ \\__,_|_| |_|\\__, |\\___|_|        \033[0;32m|_|\033[0;33m\\___/\033[0;31m|______|\033[0m
+\033[0;34m                      __/ |\033[0m
+\033[0;34m                     |___/\033[0m
+\033[0;35m  ${workflow.manifest.name} ${workflow.manifest.version}\033[0m
+-\033[2m----------------------------------------------------\033[0m-
+        """
+    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { doi -> "    https://doi.org/${doi.trim().replace('https://doi.org/', '')}" }.join("\n")}${workflow.manifest.doi ? "\n" : ""}
+* The nf-core framework
+    https://doi.org/10.5281/zenodo.12773958
+
+* Software dependencies
+    https://github.com/sanger-tol/curationpretext/blob/main/CITATIONS.md
+"""
+
     command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
 
     UTILS_NFSCHEMA_PLUGIN (
@@ -63,8 +85,8 @@ workflow PIPELINE_INITIALISATION {
         help,
         help_full,
         show_hidden,
-        "",
-        "",
+        before_text,
+        after_text,
         command
     )
 
@@ -78,67 +100,72 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
-
-    input_fasta     = Channel.fromPath(
+    input_fasta     = channel.fromPath(
                         params.input,
                         checkIfExists: true,
                         type: 'file'
                     )
 
-    cram_dir        = Channel.fromPath(
-                        params.cram,
-                        checkIfExists: true,
-                        type: 'dir'
-                    )
-
     ch_reference = input_fasta.map { fasta ->
-        def fasta_size = fasta.size()
-        def selected_aligner = (params.aligner == "AUTO") ?
-            (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-            params.aligner
-
-        tuple(
+        [
             [
                 id: params.sample,
-                aligner: selected_aligner,
                 map_order: params.map_order,
                 multi_mapping: params.multi_mapping,
-                ref_size: fasta_size,
             ],
             fasta
-        )
+        ]
     }
 
-
-    ch_cram_reads   = cram_dir.map { dir ->
-        tuple(
-            [   id: params.sample   ],
-            dir
-        )
+    if ( (params.pre_mapped_bam?.size() ?: 0) == 0 && (params.cram?.size() ?: 0) == 0 ) {
+        error "You need to supply either a --pre_mapped_bam file of an array of --cram files!"
     }
 
-    ch_reads        = Channel
-                        .fromPath(
-                            params.reads,
-                            checkIfExists: true,
-                            type: 'dir'
-                        )
-                        .map { dir ->
-                            tuple(
-                                [   id: params.sample,
-                                    single_end: true,
-                                    read_type: params.read_type
-                                ],
-                                dir
-                            )
-                        }
+    if ( (params.pre_mapped_bam?.size() ?: 0) > 1 ) {
+        error "Using Pre-Mapped Reads supports only 1 file"
+    }
+
+    if (params.pre_mapped_bam && params.cram) {
+        error "Can only use Pre-Mapped Reads or CRAM files!"
+    }
+
+    ch_cram_reads   = params.cram ? fn_get_validated_channel(
+                        "cram",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping,
+                        ],
+                        params.cram
+                    ) : channel.empty()
+
+    ch_mapped_bam   = params.pre_mapped_bam ? fn_get_validated_channel(
+                        "bam",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping
+                        ],
+                        params.pre_mapped_bam
+                    ) : channel.empty()
+
+    ch_longreads    = fn_get_validated_channel(
+                        "pacbio",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping,
+                        ],
+                        params.reads
+                    )
 
     emit:
     ch_reference
     ch_cram_reads
-    ch_reads
-    teloseq         = params.teloseq
-    versions        = ch_versions
+    ch_mapped_bam
+    ch_longreads
+    teloseq             = params.teloseq
+    versions            = ch_versions
 }
 
 /*
