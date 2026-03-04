@@ -33,25 +33,25 @@
                     "perl": "5.26.2"
                 },
                 "GAWK_GAP_LENGTH": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GAWK_GENERATE_GENOME_FILE": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GAWK_REFORMAT_INTERSECT": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GAWK_RENAME_IDS": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GAWK_REPLACE_DOTS": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GAWK_SPLIT_TELOMERE": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GAWK_UPPER_SEQUENCE": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "GNU_SORT": {
                     "coreutils": 9.5
