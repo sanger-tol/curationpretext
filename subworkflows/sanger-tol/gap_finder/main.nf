@@ -42,7 +42,7 @@ workflow GAP_FINDER {
     // MODULE: BGZIP AND TABIX THE GAP FILE
     //
     TABIX_BGZIPTABIX (
-        SEQTK_CUTN.out.bed.filter{ meta, file -> val_run_bgzip}
+        SEQTK_CUTN.out.bed.filter{ _meta, _file -> val_run_bgzip}
     )
 
     emit:

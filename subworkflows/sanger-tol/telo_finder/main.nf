@@ -129,7 +129,7 @@ workflow TELO_FINDER {
     // MODULE: BGZIP AND TABIX THE TELO BED FILES
     //
     TABIX_BGZIPTABIX (
-        ch_telo_bedfiles.filter{ meta, file -> val_run_bgzip}
+        ch_telo_bedfiles.filter{ _meta, _file -> val_run_bgzip}
     )
 
     emit:
