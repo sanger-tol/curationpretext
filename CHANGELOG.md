@@ -47,7 +47,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 | `BEDTOOLS_MAKEWINDOWS`         | 2.30.0           | 2.31.1                                                         |
 | `BEDTOOLS_MAP`                 | 2.30.0           | 2.31.1                                                         |
 | `CRAMALIGN_BWAMEM2ALIGNHIC`    | NEW_ADDITION     | bwamem2: 2.2.1, samtools: 1.22.1                               |
-| `GAWK`                         | 5.2.0            | 5.3.0                                                          |
+| `GAWK`                         | 5.2.0            | 5.3.1                                                          |
 | `GNU_SORT`                     | 9.1              | 9.5                                                            |
 | `MINIMAP2_ALIGN`               | 2.28--he4a0461_0 | 2.29-r1283                                                     |
 | `PRETEXTMAP`                   | 0.1.9            | 0.1.9 (Temporary Patch, to be updated to 0.2.4 once available) |
