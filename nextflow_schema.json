@@ -35,7 +35,11 @@
                 },
                 "reads": {
                     "type": "array",
-                    "format": "path",
+                    "items": {
+                        "type": "string",
+                        "format": "path",
+                        "pattern": ".*\\.(fa|fasta|fq|fastq).gz$"
+                    },
                     "description": "Input longread fasta files",
                     "help_text": "You need the input fasta file array",
                     "fa_icon": "fas fa-folder-open",
@@ -50,7 +54,11 @@
                 },
                 "cram": {
                     "type": "array",
-                    "format": "path",
+                    "items": {
+                        "type": "string",
+                        "format": "path",
+                        "pattern": ".*\\.cram$"
+                    },
                     "description": "Input cram files",
                     "help_text": "You need the input fasta file array",
                     "fa_icon": "fas fa-file-signature",
@@ -95,7 +103,8 @@
                     "description": "Pre-mapped BAM file",
                     "help_text": "Pre-mapped BAM file",
                     "fa_icon": "fas fa-file-code",
-                    "exists": true
+                    "exists": true,
+                    "pattern": ".*\\.bam$"
                 },
                 "outdir": {
                     "type": "string",
