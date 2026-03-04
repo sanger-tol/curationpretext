@@ -27,7 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrated from `local/telo_finder` subworkflow to `sanger-tol/telo_finder`.
 - Migrated from `local/gap_finder` subworkflow to `sanger-tol/gap_finder`.
 - Updated the schema to include patterns for the correct input file and to also allow fastq for reads along with fasta.
--
 
 ### Parameters
 
