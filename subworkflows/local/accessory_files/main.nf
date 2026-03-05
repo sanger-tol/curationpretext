@@ -1,33 +1,39 @@
 #!/usr/bin/env nextflow
 
 //
-// MODULE IMPORT BLOCK
+// LOCAL SUBWORKFLOW IMPORT BLOCK
 //
-include { GAP_FINDER                        } from '../gap_finder/main'
-include { TELO_FINDER                       } from '../telo_finder/main'
 include { REPEAT_DENSITY                    } from '../repeat_density/main'
 include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 
+//
+// SANGER_TOL SUBWORKFLOW IMPORT BLOCK
+//
+include { GAP_FINDER                        } from '../../sanger-tol/gap_finder/main'
+include { TELO_FINDER                       } from '../../sanger-tol/telo_finder/main'
+
+//
+// NF_CORE MODULE IMPORT BLOCK
+//
 include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../../modules/nf-core/gawk/main'
 
 workflow ACCESSORY_FILES {
     take:
-    reference_tuple
-    longread_reads
-    val_teloseq
-    ch_reference_fai   // Channel [ val(meta), path(file)      ]
+    reference_tuple     // Channel [ val(meta), path(file)   ]
+    longread_reads      // Channel [ val(meta), [path(file)] ]
+    val_teloseq         // val(telomere_sequence)
+    val_split_telomere  // val(bool)
+    val_skip_tracks     // val(csv_list)
+    ch_reference_fai    // Channel [ val(meta), path(file)   ]
 
 
     main:
-    ch_versions         = Channel.empty()
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
-    // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW,
-    //          PASSING THE PARAM TO THE SUBWORKFLOW CAUSED SOME ISSUES IN TESTING
-    //          SO WE USE IT DIRECTLY AGAIN.
+    // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW
     //
-    dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
+    dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
 
 
     //
@@ -38,7 +44,6 @@ workflow ACCESSORY_FILES {
         [],
         false
     )
-    ch_versions         = ch_versions.mix( GAWK_GENERATE_GENOME_FILE.out.versions )
 
 
     //
@@ -48,9 +53,9 @@ workflow ACCESSORY_FILES {
         gap_file            = ch_empty_file
     } else {
         GAP_FINDER (
-            reference_tuple
+            reference_tuple,
+            false
         )
-        ch_versions         = ch_versions.mix(GAP_FINDER.out.versions)
         gap_file            = GAP_FINDER.out.gap_file.map{ it -> it[1] }
     }
 
@@ -63,10 +68,13 @@ workflow ACCESSORY_FILES {
     } else {
         TELO_FINDER (
             reference_tuple,
-            val_teloseq
+            val_teloseq,
+            val_split_telomere,
+            false
         )
-        ch_versions     = ch_versions.mix(TELO_FINDER.out.versions)
         telo_file       = TELO_FINDER.out.bedgraph_file
+                            .map{ it -> it[1] }
+                            .ifEmpty("${baseDir}/assets/EMPTY.txt")
     }
 
 
@@ -80,7 +88,6 @@ workflow ACCESSORY_FILES {
             reference_tuple,
             GAWK_GENERATE_GENOME_FILE.out.output
         )
-        ch_versions     = ch_versions.mix(REPEAT_DENSITY.out.versions)
         repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ it -> it[1] }
     }
 
@@ -97,7 +104,6 @@ workflow ACCESSORY_FILES {
             GAWK_GENERATE_GENOME_FILE.out.output,
             longread_reads
         )
-        ch_versions     = ch_versions.mix(LONGREAD_COVERAGE.out.versions)
         longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ it -> it[1] }
     }
 
@@ -106,5 +112,4 @@ workflow ACCESSORY_FILES {
     repeat_file
     telo_file           // This is the possible collection of telomere files
     longread_output
-    versions            = ch_versions
 }

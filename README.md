@@ -4,8 +4,8 @@
 [![GitHub Actions Linting Status](https://github.com/sanger-tol/curationpretext/actions/workflows/linting.yml/badge.svg)](https://github.com/sanger-tol/curationpretext/actions/workflows/linting.yml)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.12773958-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.12773958)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/version-%E2%89%A524.10.5-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
-[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.3.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.3.2)
+[![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.04.0-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
+[![nf-core template version](https://img.shields.io/badge/nf--core_template-3.5.2-green?style=flat&logo=nfcore&logoColor=white&color=%2324B064&link=https%3A%2F%2Fnf-co.re)](https://github.com/nf-core/tools/releases/tag/3.5.2)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -17,11 +17,15 @@
 
 This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. This pipeline can be simply used to generate pretext maps, information on how to run this pipeline can be found in the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage).
 
-![Workflow Diagram](./docs/images/CurationPretext_1_3_0.png)
+![Workflow Diagram](./docs/images/CurationPretext-1.6.0.jpeg)
 
-1. Generate Maps - Generates pretext maps as well as a static image.
+The above image shows the use of this pipeline inside of the manual curation process and follows the below major steps.
 
-2. Accessory files - Generates the repeat density, gap, telomere, and coverage tracks.
+1. CRAM_MAP_ILLUMINA_HIC (ALIGN_CRAM) + PAIRS_CREATE_CONTACT_MAPS (CREATE_MAPS) - Generates pretext maps as well as a static image.
+
+2. ACCESSORY_FILES - Generates the repeat density, gap, telomere, and coverage tracks.
+
+3. PRETEXT_INGEST - Imports the generated tracks into pretext for visualisation.
 
 ## Usage
 
@@ -44,7 +48,7 @@ Currently, the pipeline uses the following flags:
   - The type of longread data you are utilising, e.g., ont, illumina, hifi.
 
 - `--aligner`
-  - The aligner yopu wish to use for the coverage generation, defaults to bwamem2 but minimap2 is also supported.
+  - The aligner you wish to use for the coverage generation, defaults to `AUTO` but options include `bwamem2` and `minimap2`.
 
 - `--cram`
   - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
@@ -61,6 +65,18 @@ Currently, the pipeline uses the following flags:
 - `--all_output`
   - An option to output all maps + accessory files, the default will only output the pretextmaps where ingestion has occured.
 
+- `--skip_tracks`
+  - A csv list of accessory tracks to skip, options are: `ALL`, `gap`, `coverage`, `telo`, `repeats`, `NONE`. Default is `NONE`. Please note that capitalization matters.
+
+- `--split_telomere`
+  - A boolean to also generate the telomere track in 5Prime and 3Prime styles, this is also include the original telomere track.
+
+- `--pre_mapped_bam`
+  - A boolean option to use `--cram` as input for _A_ pre-mapped bam file.
+
+- `--cram_chunk_size`
+  - The number of records in a cram file should be chunked into, defaults to 10000.
+
 Now, you can run the pipeline using:
 
 ```bash
@@ -72,7 +88,7 @@ nextflow run sanger-tol/curationpretext \
   --sample { default is "pretext_rerun" } \
   --teloseq { default is "TTAGGG" } \
   --map_order { default is "unsorted" } \
-  --multi_mapping { default is "0" (for no mapping)} \
+  --multi_mapping { default is "0" (for no filtering of multi-mapping reads)} \
   --all_output <true/false> \
   --outdir { OUTDIR } \
   -profile <docker/singularity/{institute}>

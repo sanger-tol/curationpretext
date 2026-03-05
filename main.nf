@@ -33,7 +33,14 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     input_fasta
     reads
     cram
+    mapped
     teloseq
+    input_file_string
+    aligner
+    skip_tracks
+    run_hires
+    split_telomere
+    cram_chunk_size
 
     main:
 
@@ -41,7 +48,14 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         input_fasta,
         reads,
         cram,
-        teloseq
+        mapped,
+        teloseq,
+        input_file_string,
+        aligner,
+        skip_tracks,
+        run_hires,
+        split_telomere,
+        cram_chunk_size
     )
     // CURATIONPRETEXT_MAPS
 }
@@ -63,7 +77,10 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        []                      // We are not using the samplesheet for this pipeline
+        [],                      // We are not using the samplesheet for this pipeline
+        params.help,
+        params.help_full,
+        params.show_hidden
     )
 
     // MOVE THE CHANNEL CREATION INTO THE PIPELINE INITIALISATION
@@ -73,9 +90,16 @@ workflow {
     //
     SANGER_TOL_CURATIONPRETEXT (
         PIPELINE_INITIALISATION.out.ch_reference,
-        PIPELINE_INITIALISATION.out.ch_reads,
+        PIPELINE_INITIALISATION.out.ch_longreads,
         PIPELINE_INITIALISATION.out.ch_cram_reads,
-        PIPELINE_INITIALISATION.out.teloseq
+        PIPELINE_INITIALISATION.out.ch_mapped_bam,
+        PIPELINE_INITIALISATION.out.teloseq,
+        params.input,
+        params.aligner,
+        params.skip_tracks,
+        params.run_hires,
+        params.split_telomere,
+        params.cram_chunk_size
     )
 
     //

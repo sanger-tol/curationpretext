@@ -6,18 +6,9 @@ nextflow_pipeline {
     tag "pipeline_sanger_tol"
     tag "full"
 
+    config "../conf/test.config"
+
     test("Full run") {
-
-        setup {
-            println "\nDownloading the test data..."
-            def command = ['bash', '-c', "curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf - -C ${projectDir}/"]
-            def process = command.execute()
-            process.waitFor()
-
-            if (process.exitValue() != 0) {
-                throw new RuntimeException("Error - failed to download ${dbKey}: ${process.err.text}")
-            }
-        }
 
         when {
             params {
@@ -28,8 +19,6 @@ nextflow_pipeline {
                 multi_mapping = 0
             }
         }
-
-        // SETUP FOR THE TEST_DATA
 
         then {
             def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ["pipeline_info/*.{html,json,txt}"])

@@ -4,20 +4,28 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { GAWK as GAWK_UPPER_SEQUENCE               } from '../modules/nf-core/gawk/main'
-include { SAMTOOLS_FAIDX                            } from '../modules/nf-core/samtools/faidx/main'
-include { GUNZIP                                    } from '../modules/nf-core/gunzip/main'
+// NF-CORE MODULES
+include { GAWK as GAWK_UPPER_SEQUENCE                       } from '../modules/nf-core/gawk/main'
+include { SAMTOOLS_FAIDX                                    } from '../modules/nf-core/samtools/faidx/main'
+include { GUNZIP                                            } from '../modules/nf-core/gunzip/main'
 
-include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD     } from '../modules/local/pretext/graph/main'
-include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES     } from '../modules/local/pretext/graph/main'
+//LOCAL MODULES
+include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
 
-include { GENERATE_MAPS                             } from '../subworkflows/local/generate_maps/main'
-include { ACCESSORY_FILES                           } from '../subworkflows/local/accessory_files/main'
+// LOCAL SUBWORKFLOWS
+include { ACCESSORY_FILES                                   } from '../subworkflows/local/accessory_files/main'
 
-include { paramsSummaryMap                          } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc                      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML                    } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText                    } from '../subworkflows/local/utils_nfcore_curationpretext_pipeline'
+// SANGER-TOL SUBWORKFLOWS
+include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
+include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_STDRD    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_HIRES    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+
+
+include { paramsSummaryMap                                  } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc                              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML                            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { methodsDescriptionText                            } from '../subworkflows/local/utils_nfcore_curationpretext_pipeline'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -29,15 +37,20 @@ workflow CURATIONPRETEXT {
     ch_reference
     ch_reads
     ch_cram_reads
+    ch_mapped_bam
     val_teloseq
+    val_input_file_string
+    val_aligner
+    val_skip_tracks
+    val_run_hires
+    val_split_telomere
+    val_cram_chunk_size
 
     main:
-    ch_versions         = Channel.empty()
-    ch_empty_file       = Channel.fromPath("${baseDir}/assets/EMPTY.txt")
-
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     ch_reference
-        .branch { meta, file ->
+        .branch { _meta, file ->
             zipped: file.name.endsWith('.gz')
             unzipped: !file.name.endsWith('.gz')
         }
@@ -49,13 +62,12 @@ workflow CURATIONPRETEXT {
     GUNZIP (
         ch_input.zipped
     )
-    ch_versions = ch_versions.mix(GUNZIP.out.versions)
 
 
     //
     // LOGIC: MIX CHANELS WHICH MAY OR MAY NOT BE EMPTY INTO A SINGLE QUEUE CHANNEL
     //
-    unzipped_input = Channel.empty()
+    unzipped_input = channel.empty()
 
     unzipped_input
         .mix(ch_input.unzipped, GUNZIP.out.gunzip)
@@ -71,18 +83,15 @@ workflow CURATIONPRETEXT {
         false,
     )
     ch_upper_ref    = GAWK_UPPER_SEQUENCE.out.output
-    ch_versions     = ch_versions.mix( GAWK_UPPER_SEQUENCE.out.versions )
 
 
     //
     // MODULE: GENERATE INDEX OF REFERENCE FASTA
     //
     SAMTOOLS_FAIDX (
-        ch_upper_ref,
-        [[],[]],
+        ch_upper_ref.map { meta, file -> [meta, file, []] },
         false
     )
-    ch_versions             = ch_versions.mix( SAMTOOLS_FAIDX.out.versions )
 
 
     //
@@ -90,7 +99,7 @@ workflow CURATIONPRETEXT {
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
 
-    dont_generate_tracks  = params.skip_tracks ? params.skip_tracks.split(",") : "NONE"
+    dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
 
     full_list = [
         "gap",
@@ -121,9 +130,10 @@ workflow CURATIONPRETEXT {
             ch_upper_ref,
             ch_reads,
             val_teloseq,
+            val_split_telomere,
+            val_skip_tracks,
             SAMTOOLS_FAIDX.out.fai
         )
-        ch_versions         = ch_versions.mix( ACCESSORY_FILES.out.versions )
 
         gaps_file           = ACCESSORY_FILES.out.gap_file
         cove_file           = ACCESSORY_FILES.out.longread_output
@@ -132,58 +142,109 @@ workflow CURATIONPRETEXT {
     }
 
 
+    //
+    // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
+    //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
+    //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
+    //
+    def fasta_size = file(val_input_file_string).size()
+    def selected_aligner = (val_aligner == "AUTO") ?
+        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+        val_aligner
+
 
     //
-    // SUBWORKFLOW: GENERATE ONLY PRETEXT MAPS, NO EXTRA FILES
-    //              - GENERATE_MAPS IS THE MINIMAL OUTPUT EXPECTED FROM THIS PIPELLINE
+    // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
     //
-    GENERATE_MAPS (
+    ALIGN_CRAM (
         ch_upper_ref,
         ch_cram_reads,
-        SAMTOOLS_FAIDX.out.fai
+        selected_aligner,
+        val_cram_chunk_size
     )
-    ch_versions         = ch_versions.mix( GENERATE_MAPS.out.versions )
+
+    mapped_bam = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
 
 
-    if (!dont_generate_tracks.contains("ALL")) {
-
-        //
-        // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
-        //          - ADAPTED FROM TREEVAL
-        //
-        PRETEXT_INGEST_SNDRD (
-            GENERATE_MAPS.out.standrd_pretext,
-            gaps_file,
-            cove_file,
-            telo_file,
-            rept_file,
-            params.split_telomere
-        )
-        ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
+    //
+    // SUBWORKFLOW: MAP THE PRETEXT FILE AND TAKE SNAPSHOT
+    //
+    CREATE_MAPS_STDRD (
+        mapped_bam,
+        [[:],[]],
+        true,
+        true,
+        false,
+        false,
+        []
+    )
 
 
-        //
-        // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
-        //          - ADAPTED FROM TREEVAL
-        //
-        if (params.run_hires) {
-            PRETEXT_INGEST_HIRES (
-                GENERATE_MAPS.out.highres_pretext,
-                gaps_file,
-                cove_file,
-                telo_file,
-                rept_file,
-                params.split_telomere
-            )
-            ch_versions         = ch_versions.mix( PRETEXT_INGEST_SNDRD.out.versions )
-        }
-    }
+    //
+    // SUBWORKFLOW: MAP THE PRETEXT FILE
+    //
+    CREATE_MAPS_HIRES (
+        mapped_bam.filter{ val_run_hires },
+        [[:],[]],
+        true,
+        false,
+        false,
+        false,
+        []
+    )
+
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_SNDRD (
+        CREATE_MAPS_STDRD.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        gaps_file,
+        cove_file,
+        telo_file,
+        rept_file,
+        val_split_telomere
+    )
+
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_HIRES (
+        CREATE_MAPS_HIRES.out.pretext.filter { val_run_hires && !dont_generate_tracks.contains("ALL") },
+        gaps_file,
+        cove_file,
+        telo_file,
+        rept_file,
+        val_split_telomere
+    )
 
 
     //
     // Collate and save software versions
     //
-    softwareVersionsToYAML(ch_versions)
+    def topic_versions = channel.topic("versions")
+        .distinct()
+        .branch { entry ->
+            versions_file: entry instanceof Path
+            versions_tuple: true
+        }
+
+    def topic_versions_string = topic_versions.versions_tuple
+        .map { process, tool, version ->
+            [ process[process.lastIndexOf(':')+1..-1], "  ${tool}: ${version}" ]
+        }
+        .groupTuple(by:0)
+        .map { process, tool_versions ->
+            tool_versions.unique().sort()
+            "${process}:\n${tool_versions.join('\n')}"
+        }
+
+    // Removed mix as there is no more ch_versions
+    softwareVersionsToYAML(topic_versions.versions_file)
+        .mix(topic_versions_string)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",
             name: 'sanger-tol_'  +  'curationpretext_software_' + 'versions.yml',
@@ -191,9 +252,12 @@ workflow CURATIONPRETEXT {
             newLine: true
         ).set { ch_collated_versions }
 
-    summary_params      = paramsSummaryMap(
+    _summary_params      = paramsSummaryMap(
         workflow, parameters_schema: "nextflow_schema.json")
 
+
+    emit:
+    versions       = ch_collated_versions   // channel: [ path(versions.yml) ]
 
 }
 

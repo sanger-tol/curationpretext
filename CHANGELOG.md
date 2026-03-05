@@ -3,7 +3,69 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [[1.5.1]](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
+## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-19]
+
+## Added and Fixed
+
+- Template update to 3.5.2.
+- - The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS`, from the [`sanger-tol/nf-core-modules`](https://github.com/sanger-tol/nf-core-modules) repository, respectively)
+- Files can now be given explicitly in the `--reads` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
+- Files can now be given explicitly in the `--cram` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
+- `--pre_mapped_bam` parameter added in order to supply 1 pre-mapped BAM file, in this case `--cram` would be empty.
+  - Warnings have been added to ensure:
+    - Only 1 pre-mapped BAM file is provided if `--pre_mapped_bam` is used.
+    - Only 1 of `--pre_mapped_bam` or `--cram` is used`
+- `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable, defaulting to 10000.
+- `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
+- Major Update to modules coinciding with changes to use Nextflow topics
+- Update to move all modules/subworkflows to version topics.
+  - Required a small change to the template topic collection otherwise it would fail as there is no ch_versions channel.
+- Update docs to include the features from the past few releases.
+- Remove duplicated `selected_aligner` code from `PIPELINE_INITIALISATION`.
+- Change install for `TELOMERE` modules so that we use the `SANGER-TOL` repository rather than local.
+- Removed now unused `bin` files.
+- Migrated from `local/telo_finder` subworkflow to `sanger-tol/telo_finder`.
+- Migrated from `local/gap_finder` subworkflow to `sanger-tol/gap_finder`.
+- Updated the schema to include patterns for the correct input file and to also allow fastq for reads along with fasta.
+
+### Parameters
+
+| Old Version | New Versions      |
+| ----------- | ----------------- |
+| NA          | --pre_mapped      |
+| NA          | --cram_chunk_size |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                         | Old Version      | New Versions                                                   |
+| ------------------------------ | ---------------- | -------------------------------------------------------------- |
+| `BEDTOOLS_BAMTOBED`            | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_GENOMECOV`           | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_INTERSECT`           | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_MAKEWINDOWS`         | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_MAP`                 | 2.30.0           | 2.31.1                                                         |
+| `CRAMALIGN_BWAMEM2ALIGNHIC`    | NEW_ADDITION     | bwamem2: 2.2.1, samtools: 1.22.1                               |
+| `GAWK`                         | 5.2.0            | 5.3.1                                                          |
+| `GNU_SORT`                     | 9.1              | 9.5                                                            |
+| `MINIMAP2_ALIGN`               | 2.28--he4a0461_0 | 2.29-r1283                                                     |
+| `PRETEXTMAP`                   | 0.1.9            | 0.1.9 (Temporary Patch, to be updated to 0.2.4 once available) |
+| `SAMTOOLS_FAIDX`               | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_MERGE`               | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_SORT`                | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_SPLITHEADER`         | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_VIEW_FILTER_PRIMARY` | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_MERGEDUP`            | NEW_ADDITION     | 1.23.0                                                         |
+| `FIND_TELOMERE_WINDOWS`        | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_WINDOWS`             | NEW_ADDITION     | 1.0.0                                                          |
+| `FIND_TELOMERE_REGIONS`        | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_REGIONS`             | NEW_ADDITION     | 1.0.0                                                          |
+| `EXTRACT_TELOMERE`             | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_EXTRACT`             | NEW_ADDITION     | 1.0.0                                                          |
+| `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 482                                                            |
+
+## [[1.5.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
 
 ### Added and Fixed
 
