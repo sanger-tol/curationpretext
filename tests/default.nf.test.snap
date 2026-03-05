@@ -124,35 +124,35 @@
             },
             [
                 "accessory_files",
-                "accessory_files/CurationPretextTest.gap.bedgraph",
-                "accessory_files/CurationPretextTest_0P_telomere.bed",
-                "accessory_files/CurationPretextTest_0P_telomere.bedgraph",
-                "accessory_files/CurationPretextTest_3P_telomere.bed",
-                "accessory_files/CurationPretextTest_3P_telomere.bedgraph",
-                "accessory_files/CurationPretextTest_5P_telomere.bed",
-                "accessory_files/CurationPretextTest_5P_telomere.bedgraph",
-                "accessory_files/CurationPretextTest_longread_coverage.bigWig",
-                "accessory_files/CurationPretextTest_repeat_density.bigWig",
+                "accessory_files/CurationPretextTest_MIN.gap.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_0P_telomere.bed",
+                "accessory_files/CurationPretextTest_MIN_0P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_3P_telomere.bed",
+                "accessory_files/CurationPretextTest_MIN_3P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_5P_telomere.bed",
+                "accessory_files/CurationPretextTest_MIN_5P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_longread_coverage.bigWig",
+                "accessory_files/CurationPretextTest_MIN_repeat_density.bigWig",
                 "pipeline_info",
                 "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
                 "pretext_maps_processed",
-                "pretext_maps_processed/CurationPretextTest_normal.pretext",
+                "pretext_maps_processed/CurationPretextTest_MIN_normal.pretext",
                 "pretext_maps_raw",
-                "pretext_maps_raw/CurationPretextTest_normal_pi.pretext",
+                "pretext_maps_raw/CurationPretextTest_MIN_normal_pi.pretext",
                 "pretext_snapshot",
-                "pretext_snapshot/CurationPretextTest_normalFullMap.png"
+                "pretext_snapshot/CurationPretextTest_MIN_normalFullMap.png"
             ],
             18,
             [
-                "CurationPretextTest.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_0P_telomere.bed:md5,61d1143a0b0e994c6cfd2a2f6093bf7d",
-                "CurationPretextTest_0P_telomere.bedgraph:md5,b6a0921c22eb24d9e371ff2a21ecaa51",
-                "CurationPretextTest_3P_telomere.bed:md5,34a1c051e3fd28ec10c35308105ec189",
-                "CurationPretextTest_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
-                "CurationPretextTest_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
-                "CurationPretextTest_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
-                "CurationPretextTest_longread_coverage.bigWig:md5,2b44579096cde838fe9d7b43a3267536",
-                "CurationPretextTest_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
+                "CurationPretextTest_MIN.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_MIN_0P_telomere.bed:md5,61d1143a0b0e994c6cfd2a2f6093bf7d",
+                "CurationPretextTest_MIN_0P_telomere.bedgraph:md5,b6a0921c22eb24d9e371ff2a21ecaa51",
+                "CurationPretextTest_MIN_3P_telomere.bed:md5,34a1c051e3fd28ec10c35308105ec189",
+                "CurationPretextTest_MIN_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
+                "CurationPretextTest_MIN_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
+                "CurationPretextTest_MIN_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
+                "CurationPretextTest_MIN_longread_coverage.bigWig:md5,2b44579096cde838fe9d7b43a3267536",
+                "CurationPretextTest_MIN_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
             ],
             9,
             1,
@@ -168,6 +168,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-26T14:00:48.915435926"
+        "timestamp": "2026-03-05T13:59:35.465106708"
     }
 }
