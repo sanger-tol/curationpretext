@@ -6,6 +6,8 @@ nextflow_pipeline {
     tag "pipeline_sanger_tol"
     tag "full"
 
+    config "../conf/test.config"
+
     test("Full run") {
 
         when {
