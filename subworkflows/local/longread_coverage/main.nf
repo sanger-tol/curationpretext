@@ -51,7 +51,8 @@ workflow LONGREAD_COVERAGE {
         .map { bams ->
             tuple (
                 [ id    : bams.first().name.split('_').first() ], // Change sample ID
-                bams
+                bams,
+                []
             )
         }
         .set { collected_files_for_merge }
