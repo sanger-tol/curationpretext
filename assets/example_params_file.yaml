@@ -6,9 +6,9 @@ skip_tracks: "NONE"
 run_hires: false
 run_ultra: "force"
 split_telomere: true
-input: 'https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/assembly/draft/grTriPseu1.fa'
+input: "https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/assembly/draft/grTriPseu1.fa"
 reads:
-  - 'https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/genomic_data/pacbio/seqkitPacbio50000.fasta.gz'
+  - "https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/genomic_data/pacbio/seqkitPacbio50000.fasta.gz"
 cram:
-  - 'https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/genomic_data/hic-arima/SUBSET-1000.cram'
-  - 'https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/genomic_data/hic-arima/SUBSET-2000.cram'
+  - "https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/genomic_data/hic-arima/SUBSET-1000.cram"
+  - "https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData/genomic_data/hic-arima/SUBSET-2000.cram"
