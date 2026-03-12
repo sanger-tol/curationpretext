@@ -69,8 +69,8 @@
                     "minimap2": "2.29-r1283"
                 },
                 "PRETEXTMAP": {
-                    "PretextMap": "0.1.9",
-                    "samtools": 1.21
+                    "PretextMap": "0.2.4",
+                    "samtools": 1.23
                 },
                 "PRETEXTSNAPSHOT": {
                     "PretextSnapshot": "0.0.5"
