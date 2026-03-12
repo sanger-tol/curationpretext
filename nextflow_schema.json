@@ -113,8 +113,8 @@
                     "help_text": "Switch for Ultra resolution pretextmap generation",
                     "fa_icon": "fas fa-check",
                     "enum": [
-                        "true",
-                        "false",
+                        "yes",
+                        "no",
                         "force"
                     ]
                 },

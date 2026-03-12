@@ -12,6 +12,7 @@ include { GUNZIP                                            } from '../modules/n
 //LOCAL MODULES
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_ULTRA             } from '../modules/local/pretext/graph/main'
 
 // LOCAL SUBWORKFLOWS
 include { ACCESSORY_FILES                                   } from '../subworkflows/local/accessory_files/main'
@@ -239,7 +240,21 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_HIRES (
-        CREATE_MAPS_HIRES.out.pretext.filter { val_run_hires && !dont_generate_tracks.contains("ALL") },
+        CREATE_MAPS_HIRES.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        gaps_file,
+        cove_file,
+        telo_file,
+        rept_file,
+        val_split_telomere
+    )
+
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_ULTRA (
+        CREATE_MAPS_ULTRA.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
         gaps_file,
         cove_file,
         telo_file,
