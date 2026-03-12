@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - When run as 'yes', ultra resolution maps will be generated if the genome is > 4.Gb.
     - When run as 'ultra', an ultra resolution map will be generated regardless of genome size.
 - Update to `pretextmap` to a version that supports `--ultraRes`
+- Update to config file to support the above.
 - Addition of example params file `assets/example_params_file.yaml`
 
 ### Software Dependencies
