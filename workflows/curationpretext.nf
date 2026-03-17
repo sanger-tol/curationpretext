@@ -12,6 +12,7 @@ include { GUNZIP                                            } from '../modules/n
 //LOCAL MODULES
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
+include { PRETEXT_GRAPH as PRETEXT_INGEST_ULTRA             } from '../modules/local/pretext/graph/main'
 
 // LOCAL SUBWORKFLOWS
 include { ACCESSORY_FILES                                   } from '../subworkflows/local/accessory_files/main'
@@ -20,8 +21,9 @@ include { ACCESSORY_FILES                                   } from '../subworkfl
 include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_STDRD    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_HIRES    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_ULTRA    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 
-
+// FUNCTION IMPORTS
 include { paramsSummaryMap                                  } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc                              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML                            } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -43,6 +45,7 @@ workflow CURATIONPRETEXT {
     val_aligner
     val_skip_tracks
     val_run_hires
+    val_run_ultra
     val_split_telomere
     val_cram_chunk_size
 
@@ -193,6 +196,30 @@ workflow CURATIONPRETEXT {
         []
     )
 
+    //
+    // SUBWORKFLOW: MAP THE PRETEXT FILE
+    //              IF val_run_ultra IS "true" CALCULATE WHETHER THE REF IS > 4GB AND MAP ULTRA
+    //              IF val_run_ultra IS "force" MAP ULTRA
+    //
+    def ultra_input = mapped_bam
+        .combine(ch_reference)
+        .filter { _mapped_meta, _bam, _ref_meta, ref_fasta ->
+            val_run_ultra == "force" || (val_run_ultra == "true" && ref_fasta.size() > 4.GB)
+        }
+        .map { mapped_meta, bam, ref_meta, ref_fasta ->
+            [mapped_meta, bam]
+        }
+
+    CREATE_MAPS_ULTRA (
+        ultra_input,
+        [[:],[]],
+        true,
+        false,
+        false,
+        false,
+        []
+    )
+
 
     //
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
@@ -213,7 +240,21 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_HIRES (
-        CREATE_MAPS_HIRES.out.pretext.filter { val_run_hires && !dont_generate_tracks.contains("ALL") },
+        CREATE_MAPS_HIRES.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        gaps_file,
+        cove_file,
+        telo_file,
+        rept_file,
+        val_split_telomere
+    )
+
+
+    //
+    // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
+    //          - ADAPTED FROM TREEVAL
+    //
+    PRETEXT_INGEST_ULTRA (
+        CREATE_MAPS_ULTRA.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
         gaps_file,
         cove_file,
         telo_file,

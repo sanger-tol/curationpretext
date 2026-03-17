@@ -77,9 +77,8 @@
                     },
                     "pretextmap": {
                         "branch": "master",
-                        "git_sha": "000647dd5c075642ac90213b17f67f76236a7346",
-                        "installed_by": ["modules", "pairs_create_contact_maps"],
-                        "patch": "modules/nf-core/pretextmap/pretextmap.diff"
+                        "git_sha": "b94e5739438038828eae63cdb55f8d8ac2d99bf6",
+                        "installed_by": ["modules", "pairs_create_contact_maps"]
                     },
                     "pretextsnapshot": {
                         "branch": "master",

@@ -86,9 +86,16 @@
                 },
                 "run_hires": {
                     "type": "boolean",
-                    "description": "Run HiRes pretext maps",
+                    "description": "Run High Resolution pretext maps",
                     "help_text": "Boolean to switch off HiRes pretextmap generation",
                     "fa_icon": "fas fa-check"
+                },
+                "run_ultra": {
+                    "type": "string",
+                    "description": "Run Ultra resolution pretext maps",
+                    "help_text": "Switch for Ultra resolution pretextmap generation",
+                    "fa_icon": "fas fa-check",
+                    "enum": ["yes", "no", "force"]
                 },
                 "cram_chunk_size": {
                     "type": "integer",
