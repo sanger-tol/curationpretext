@@ -82,9 +82,8 @@
                     },
                     "pretextsnapshot": {
                         "branch": "master",
-                        "git_sha": "2d0a16b1118f0112680222beeba2e4393c16dfe4",
-                        "installed_by": ["modules", "pairs_create_contact_maps"],
-                        "patch": "modules/nf-core/pretextsnapshot/pretextsnapshot.diff"
+                        "git_sha": "ab43b6911ab384892fe3753f0ce407b0c23f9d19",
+                        "installed_by": ["modules", "pairs_create_contact_maps"]
                     },
                     "samtools/faidx": {
                         "branch": "master",

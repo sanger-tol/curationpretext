@@ -85,7 +85,6 @@ workflow {
         params.show_hidden
     )
 
-    // MOVE THE CHANNEL CREATION INTO THE PIPELINE INITIALISATION
 
     //
     // WORFKLOW: Run main sanger-tol/curationpretext analysis pipeline
@@ -104,6 +103,7 @@ workflow {
         params.split_telomere,
         params.cram_chunk_size
     )
+
 
     //
     // SUBWORKFLOW: Run completion tasks

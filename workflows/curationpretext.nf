@@ -175,6 +175,7 @@ workflow CURATIONPRETEXT {
     CREATE_MAPS_STDRD (
         mapped_bam,
         [[:],[]],
+        channel.of([[:],[]]),
         true,
         true,
         false,
@@ -189,6 +190,7 @@ workflow CURATIONPRETEXT {
     CREATE_MAPS_HIRES (
         mapped_bam.filter{ val_run_hires },
         [[:],[]],
+        channel.of([[:],[]]),
         true,
         false,
         false,
@@ -206,13 +208,14 @@ workflow CURATIONPRETEXT {
         .filter { _mapped_meta, _bam, _ref_meta, ref_fasta ->
             val_run_ultra == "force" || (val_run_ultra == "true" && ref_fasta.size() > 4.GB)
         }
-        .map { mapped_meta, bam, ref_meta, ref_fasta ->
+        .map { mapped_meta, bam, _ref_meta, _ref_fasta ->
             [mapped_meta, bam]
         }
 
     CREATE_MAPS_ULTRA (
         ultra_input,
         [[:],[]],
+        channel.of([[:],[]]),
         true,
         false,
         false,

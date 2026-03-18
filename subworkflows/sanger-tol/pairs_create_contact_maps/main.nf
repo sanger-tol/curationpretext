@@ -9,6 +9,7 @@ workflow PAIRS_CREATE_CONTACT_MAPS {
     take:
     ch_pairs                    // [meta, pairs]
     ch_chrom_sizes              // [meta, sizes]
+    ch_pretext_order_file       // [meta, order]
     val_build_pretext           // bool: build pretext map
     val_create_pretext_snapshot // bool: build snapshot
     val_build_cooler            // bool: build cooler
@@ -28,7 +29,12 @@ workflow PAIRS_CREATE_CONTACT_MAPS {
     // Module: Make a PNG of the PretextMap for fast viz
     //
     PRETEXTSNAPSHOT(
-        PRETEXTMAP.out.pretext.filter { val_create_pretext_snapshot }
+        PRETEXTMAP.out.pretext
+            .filter { val_create_pretext_snapshot }
+            .combine(ch_pretext_order_file)
+            .map { meta, file, meta2, file2 ->
+                [meta, file, file2]
+            }
     )
 
     //
