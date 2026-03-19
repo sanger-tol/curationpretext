@@ -3,7 +3,6 @@
 //
 // LOCAL SUBWORKFLOW IMPORT BLOCK
 //
-include { REPEAT_DENSITY                    } from '../repeat_density/main'
 include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 
 //
@@ -11,6 +10,7 @@ include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
 //
 include { GAP_FINDER                        } from '../../sanger-tol/gap_finder/main'
 include { TELO_FINDER                       } from '../../sanger-tol/telo_finder/main'
+include { REPEAT_DENSITY                    } from '../../sanger-tol/repeat_density/main'
 
 //
 // NF_CORE MODULE IMPORT BLOCK
