@@ -34,6 +34,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     reads
     cram
     mapped
+    snapshot_order
     teloseq
     input_file_string
     aligner
@@ -50,6 +51,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         reads,
         cram,
         mapped,
+        snapshot_order,
         teloseq,
         input_file_string,
         aligner,
@@ -94,6 +96,7 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_longreads,
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.ch_mapped_bam,
+        PIPELINE_INITIALISATION.out.ch_snapshot_order,
         PIPELINE_INITIALISATION.out.teloseq,
         params.input,
         params.aligner,

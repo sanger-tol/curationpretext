@@ -83,6 +83,9 @@ Currently, the pipeline uses the following flags:
 - `--run_ultra`
   - A string argument to run the pipeline in ultra resolution mode, i.e., generate ultra resolution maps. Options are: `yes`, `force`, `no`. Default is `yes`, this runs ultra resolution maps is the genome file is > 4.Gb.
 
+- `--snapshot_order`
+  -
+
 Now, you can run the pipeline using:
 
 ```bash
