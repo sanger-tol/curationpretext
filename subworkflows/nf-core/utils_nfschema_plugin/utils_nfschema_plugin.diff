@@ -1,0 +1,19 @@
+Changes in component 'nf-core/utils_nfschema_plugin'
+'subworkflows/nf-core/utils_nfschema_plugin/meta.yml' is unchanged
+Changes in 'utils_nfschema_plugin/main.nf':
+--- subworkflows/nf-core/utils_nfschema_plugin/main.nf
++++ subworkflows/nf-core/utils_nfschema_plugin/main.nf
+@@ -38,7 +38,7 @@
+         }
+         log.info paramsHelp(
+             help_options,
+-            params.help instanceof String ? params.help : "",
++            (params.help instanceof String && params.help != "true") ? params.help : "",
+         )
+         exit 0
+     }
+
+'subworkflows/nf-core/utils_nfschema_plugin/tests/nextflow.config' is unchanged
+'subworkflows/nf-core/utils_nfschema_plugin/tests/main.nf.test' is unchanged
+'subworkflows/nf-core/utils_nfschema_plugin/tests/nextflow_schema.json' is unchanged
+************************************************************
