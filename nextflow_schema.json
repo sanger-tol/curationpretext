@@ -139,7 +139,8 @@
                     "format": "file-path",
                     "description": "Order of scaffolds in the png",
                     "help_text": "Order of scaffolds in the pretext snapshotpng",
-                    "fa_icon": "fas fa-sort"
+                    "fa_icon": "fas fa-sort",
+                    "pattern": ".*\\.txt$"
                 },
                 "outdir": {
                     "type": "string",
