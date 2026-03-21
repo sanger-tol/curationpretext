@@ -34,6 +34,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     reads
     cram
     mapped
+    snapshot_order
     teloseq
     input_file_string
     aligner
@@ -50,6 +51,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         reads,
         cram,
         mapped,
+        snapshot_order,
         teloseq,
         input_file_string,
         aligner,
@@ -85,7 +87,6 @@ workflow {
         params.show_hidden
     )
 
-    // MOVE THE CHANNEL CREATION INTO THE PIPELINE INITIALISATION
 
     //
     // WORFKLOW: Run main sanger-tol/curationpretext analysis pipeline
@@ -95,6 +96,7 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_longreads,
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.ch_mapped_bam,
+        PIPELINE_INITIALISATION.out.ch_snapshot_order,
         PIPELINE_INITIALISATION.out.teloseq,
         params.input,
         params.aligner,
@@ -104,6 +106,7 @@ workflow {
         params.split_telomere,
         params.cram_chunk_size
     )
+
 
     //
     // SUBWORKFLOW: Run completion tasks

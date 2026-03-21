@@ -40,6 +40,7 @@ workflow CURATIONPRETEXT {
     ch_reads
     ch_cram_reads
     ch_mapped_bam
+    ch_snapshot_order
     val_teloseq
     val_input_file_string
     val_aligner
@@ -170,11 +171,21 @@ workflow CURATIONPRETEXT {
 
 
     //
+    // LOGIC: IF params.snapshot_order IS PROVIDED, USE IT TO ORDER SNAPSHOTS
+    //        OTHERWISE, THE MODULE SHOULD STILL RUN WITHOUT ORDERING AND
+    //        PRODUCE AN EMPTY CHANNEL. ONLY NEEDED FOR STDRD
+    //
+    ch_snapshot_custom_order = ch_upper_ref
+        .combine(ch_snapshot_order)
+        .map { meta, _fasta, order_file -> [meta, order_file] }
+
+    //
     // SUBWORKFLOW: MAP THE PRETEXT FILE AND TAKE SNAPSHOT
     //
     CREATE_MAPS_STDRD (
         mapped_bam,
         [[:],[]],
+        ch_snapshot_custom_order,
         true,
         true,
         false,
@@ -189,6 +200,7 @@ workflow CURATIONPRETEXT {
     CREATE_MAPS_HIRES (
         mapped_bam.filter{ val_run_hires },
         [[:],[]],
+        channel.of([[:],[]]),
         true,
         false,
         false,
@@ -206,13 +218,14 @@ workflow CURATIONPRETEXT {
         .filter { _mapped_meta, _bam, _ref_meta, ref_fasta ->
             val_run_ultra == "force" || (val_run_ultra == "true" && ref_fasta.size() > 4.GB)
         }
-        .map { mapped_meta, bam, ref_meta, ref_fasta ->
+        .map { mapped_meta, bam, _ref_meta, _ref_fasta ->
             [mapped_meta, bam]
         }
 
     CREATE_MAPS_ULTRA (
         ultra_input,
         [[:],[]],
+        channel.of([[:],[]]),
         true,
         false,
         false,

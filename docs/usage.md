@@ -24,6 +24,8 @@ The `--multi_mapping` flag denotes the level of multi-mapping read filtering tha
 
 The `--teloseq` should be the expected telomeric sequence in your sample.
 
+The `--snapshot_order` allows for ordering the png in a custom order.
+
 If you do not have these file formats we have also included instructions on converting from common formats to our preferred format.
 If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
 
