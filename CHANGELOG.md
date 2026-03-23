@@ -3,6 +3,30 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
+
+## Added and Fixed
+
+- Update to add the `--run_ultra` parameter
+  - Enum of ["yes", "no", "force"]
+    - When run as 'yes', ultra resolution maps will be generated if the genome is > 4.Gb.
+    - When run as 'ultra', an ultra resolution map will be generated regardless of genome size.
+- Update to `pretextmap` to a version that supports `--ultraRes`
+- Update to add the `--snapshot_order` now supported by `pretextsnapshot`
+  - This is a `.txt` with a scaffold name per line.
+- Update the `repeat_density` subworkflow from local to `sanger-tol`
+- Update to config file to support the above fixes.
+- Addition of example params file `assets/example_params_file.yaml`
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module            | Old Version | New Versions |
+| ----------------- | ----------- | ------------ |
+| `PRETEXTMAP`      | 0.1.9       | 0.2.4        |
+| `PRETEXTSNAPSHOT` | 0.0.5       | 0.0.7        |
+
 ## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-19]
 
 ## Added and Fixed

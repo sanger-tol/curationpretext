@@ -18,17 +18,17 @@
                     "bedtools/intersect": {
                         "branch": "master",
                         "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
-                        "installed_by": ["modules"]
+                        "installed_by": ["feature_density", "modules"]
                     },
                     "bedtools/makewindows": {
                         "branch": "master",
                         "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
-                        "installed_by": ["modules"]
+                        "installed_by": ["feature_density", "modules"]
                     },
                     "bedtools/map": {
                         "branch": "master",
                         "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
-                        "installed_by": ["modules"]
+                        "installed_by": ["feature_density", "modules"]
                     },
                     "bwamem2/index": {
                         "branch": "master",
@@ -48,12 +48,19 @@
                     "gawk": {
                         "branch": "master",
                         "git_sha": "c0da8f3a26835d663873001382a708f75766fec6",
-                        "installed_by": ["gap_finder", "modules", "pairs_create_contact_maps", "telo_finder"]
+                        "installed_by": [
+                            "feature_density",
+                            "gap_finder",
+                            "modules",
+                            "pairs_create_contact_maps",
+                            "repeat_density",
+                            "telo_finder"
+                        ]
                     },
                     "gnu/sort": {
                         "branch": "master",
                         "git_sha": "5e748ff2b0f990949081c9e49792622eb3fe9ee9",
-                        "installed_by": ["modules"]
+                        "installed_by": ["feature_density", "modules"]
                     },
                     "gunzip": {
                         "branch": "master",
@@ -77,15 +84,13 @@
                     },
                     "pretextmap": {
                         "branch": "master",
-                        "git_sha": "000647dd5c075642ac90213b17f67f76236a7346",
-                        "installed_by": ["modules", "pairs_create_contact_maps"],
-                        "patch": "modules/nf-core/pretextmap/pretextmap.diff"
+                        "git_sha": "b94e5739438038828eae63cdb55f8d8ac2d99bf6",
+                        "installed_by": ["modules", "pairs_create_contact_maps"]
                     },
                     "pretextsnapshot": {
                         "branch": "master",
-                        "git_sha": "2d0a16b1118f0112680222beeba2e4393c16dfe4",
-                        "installed_by": ["modules", "pairs_create_contact_maps"],
-                        "patch": "modules/nf-core/pretextsnapshot/pretextsnapshot.diff"
+                        "git_sha": "ab43b6911ab384892fe3753f0ce407b0c23f9d19",
+                        "installed_by": ["modules", "pairs_create_contact_maps"]
                     },
                     "samtools/faidx": {
                         "branch": "master",
@@ -125,22 +130,22 @@
                     "tabix/bgziptabix": {
                         "branch": "master",
                         "git_sha": "91a902fb32d6717da38a9694eb4ad3fade53a8db",
-                        "installed_by": ["gap_finder", "telo_finder"]
+                        "installed_by": ["feature_density", "gap_finder", "telo_finder"]
                     },
                     "ucsc/bedgraphtobigwig": {
                         "branch": "master",
                         "git_sha": "b1c64e862fb5ed7f13b6f8f3ef8f04e700d41438",
-                        "installed_by": ["modules"]
+                        "installed_by": ["feature_density", "modules"]
                     },
                     "windowmasker/mkcounts": {
                         "branch": "master",
                         "git_sha": "ed6f7d2e090911f69f0f3af563f5af9ba1fc1fa0",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules", "repeat_masking"]
                     },
                     "windowmasker/ustat": {
                         "branch": "master",
                         "git_sha": "ed6f7d2e090911f69f0f3af563f5af9ba1fc1fa0",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules", "repeat_masking"]
                     }
                 }
             },
@@ -159,7 +164,8 @@
                     "utils_nfschema_plugin": {
                         "branch": "master",
                         "git_sha": "4b406a74dc0449c0401ed87d5bfff4252fd277fd",
-                        "installed_by": ["subworkflows"]
+                        "installed_by": ["subworkflows"],
+                        "patch": "subworkflows/nf-core/utils_nfschema_plugin/utils_nfschema_plugin.diff"
                     }
                 }
             }
@@ -216,6 +222,11 @@
                         "git_sha": "55f3dd54f274c9648207a82bf68d257945d27053",
                         "installed_by": ["subworkflows"]
                     },
+                    "feature_density": {
+                        "branch": "main",
+                        "git_sha": "73d7b342ca49f5e15232394c11d0d963fcd684f0",
+                        "installed_by": ["repeat_density"]
+                    },
                     "gap_finder": {
                         "branch": "main",
                         "git_sha": "c447733d1899275a01cb3bac0719d2f68750ff72",
@@ -223,8 +234,18 @@
                     },
                     "pairs_create_contact_maps": {
                         "branch": "main",
-                        "git_sha": "2e28234fb0e2970767dab28310c7eb553ad40081",
+                        "git_sha": "304455b447d7768cfc22181542f1e5b1b4fe2d8b",
                         "installed_by": ["subworkflows"]
+                    },
+                    "repeat_density": {
+                        "branch": "main",
+                        "git_sha": "a96b4bea4f13a425b8b015c96a0f088497cbc75f",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "repeat_masking": {
+                        "branch": "main",
+                        "git_sha": "45230473d69437a6048b5436d74ce464a5cc8d27",
+                        "installed_by": ["repeat_density"]
                     },
                     "telo_finder": {
                         "branch": "main",

@@ -77,6 +77,15 @@ Currently, the pipeline uses the following flags:
 - `--cram_chunk_size`
   - The number of records in a cram file should be chunked into, defaults to 10000.
 
+- `--run_hires`
+  - A boolean to run the pipeline in hires mode, i.e., generate hires resolution maps. Default is `true`
+
+- `--run_ultra`
+  - A string argument to run the pipeline in ultra resolution mode, i.e., generate ultra resolution maps. Options are: `yes`, `force`, `no`. Default is `yes`, this runs ultra resolution maps is the genome file is > 4.Gb.
+
+- `--snapshot_order`
+  - A path to a `genome`, `sizes` or `fai` file containing the scaffolds in the order required for the output snapshot png file.
+
 Now, you can run the pipeline using:
 
 ```bash
