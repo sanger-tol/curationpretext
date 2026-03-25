@@ -18,6 +18,8 @@ workflow TELO_FINDER {
 
     main:
 
+    //if G > 30% then flip else pass
+
     //
     // MODULE: FINDS THE TELOMERIC SEQEUNCE IN REFERENCE
     //
@@ -77,7 +79,6 @@ workflow TELO_FINDER {
             }
             .mix(ch_full_telomere)
 
-
     } else {
         ch_regions_for_extraction  = ch_full_telomere
     }
@@ -85,27 +86,32 @@ workflow TELO_FINDER {
 
     //
     // MODULE: GENERATES A WINDOWS FILE FROM THE ABOVE
+    //         THIS ONLY HAPPENS ON WHOLE TELOMERIC FILES
     //
     TELOMERE_WINDOWS (
-        ch_regions_for_extraction
+        ch_regions_for_extraction.filter { meta, file -> meta.direction == 0 }
     )
 
-
     //
-    // LOGIC: OUTPUT CAN HAVE SIZE 0 WHICH BREAKS gawk IN EXTRACT
+    // LOGIC: MIX THE FILES FROM THE TWO CHANNELS
+    //        REMOVE WHOLE TELOMERE FROM THE UNVALIDATED TRACK ALSO
+    //        OUTPUT CAN HAVE SIZE 0 WHICH BREAKS gawk IN EXTRACT
     //        FILTER OUT THE 0 SIZE FILES
     //
-    ch_filtered_windows_for_extraction = TELOMERE_WINDOWS.out.windows
+    ch_final_telomere_files = ch_regions_for_extraction
+        .filter { meta, _file -> meta.direction != 0 }
+        .mix(TELOMERE_WINDOWS.out.windows)
         .filter { _meta, file ->
             file.size() > 0
         }
+
 
     //
     // MODULE: EXTRACT TELOMERE DATA FROM FIND_TELOMERE
     //         AND REFORMAT INTO BEDGRAPH FILE
     //
     TELOMERE_EXTRACT(
-        ch_filtered_windows_for_extraction
+        ch_final_telomere_files
     )
 
 
@@ -124,6 +130,7 @@ workflow TELO_FINDER {
         .map { meta, bed ->
             [ meta - meta.subMap("direction"), bed ]
         }
+
 
     //
     // MODULE: BGZIP AND TABIX THE TELO BED FILES
