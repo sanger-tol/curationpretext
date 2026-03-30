@@ -7,13 +7,21 @@
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
                     ]
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                    ]
                 ],
                 "2": [
+                    
+                ],
+                "3": [
                     [
                         {
                             "id": "idFanCani4"
@@ -43,6 +51,14 @@
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
                         ]
                     ]
+                ],
+                "telomere_summary": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
+                    ]
                 ]
             }
         ],
@@ -50,7 +66,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-27T16:07:42.294323895"
+        "timestamp": "2026-03-30T14:28:02.582772623"
     },
     "idFanCani4 - no split - fasta w/o index": {
         "content": [
@@ -60,13 +76,21 @@
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
                     ]
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                    ]
                 ],
                 "2": [
+                    
+                ],
+                "3": [
                     [
                         {
                             "id": "idFanCani4"
@@ -96,6 +120,14 @@
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
                         ]
                     ]
+                ],
+                "telomere_summary": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
+                    ]
                 ]
             }
         ],
@@ -103,7 +135,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-27T16:01:40.077413969"
+        "timestamp": "2026-03-30T14:25:52.915832969"
     },
     "idFanCani4 - no split - fasta w/ index": {
         "content": [
@@ -113,10 +145,18 @@
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
                     ]
                 ],
                 "1": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                    ]
+                ],
+                "2": [
                     [
                         {
                             "id": "idFanCani4"
@@ -125,7 +165,7 @@
                         "idFanCani4.bed.gz.csi:md5,c1e8ab4feb9c52665916f33ca629e055"
                     ]
                 ],
-                "2": [
+                "3": [
                     [
                         {
                             "id": "idFanCani4"
@@ -161,6 +201,14 @@
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
                         ]
                     ]
+                ],
+                "telomere_summary": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
+                    ]
                 ]
             }
         ],
@@ -168,7 +216,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-02-27T15:55:30.275969768"
+        "timestamp": "2026-03-30T14:23:41.71430176"
     },
     "idFanCani4 - split - fasta w/o index": {
         "content": [
@@ -178,33 +226,41 @@
                         {
                             "id": "idFanCani4"
                         },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
                         "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
                     ],
                     [
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_3P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
+                        "idFanCani4_3P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
                     ],
                     [
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_5P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
+                        "idFanCani4_5P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
                     ]
                 ],
-                "1": [
+                "2": [
                     
                 ],
-                "2": [
+                "3": [
                     [
                         {
                             "id": "idFanCani4"
                         },
                         [
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72",
-                            "idFanCani4_5P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a"
+                            "idFanCani4_3P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a",
+                            "idFanCani4_5P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72"
                         ]
                     ]
                 ],
@@ -219,13 +275,13 @@
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_3P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
+                        "idFanCani4_3P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
                     ],
                     [
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_5P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
+                        "idFanCani4_5P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
                     ]
                 ],
                 "bed_gz_tbi": [
@@ -238,9 +294,17 @@
                         },
                         [
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72",
-                            "idFanCani4_5P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a"
+                            "idFanCani4_3P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a",
+                            "idFanCani4_5P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72"
                         ]
+                    ]
+                ],
+                "telomere_summary": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
                     ]
                 ]
             }
@@ -249,7 +313,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-03-25T09:41:21.745905593"
+        "timestamp": "2026-03-30T14:26:55.994519841"
     },
     "idFanCani4 - split - fasta w/ index": {
         "content": [
@@ -259,22 +323,30 @@
                         {
                             "id": "idFanCani4"
                         },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
                         "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
                     ],
                     [
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_3P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
+                        "idFanCani4_3P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
                     ],
                     [
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_5P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
+                        "idFanCani4_5P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
                     ]
                 ],
-                "1": [
+                "2": [
                     [
                         {
                             "id": "idFanCani4"
@@ -297,15 +369,15 @@
                         "idFanCani4.bed.gz.csi:md5,0f0441214ad7a769d6a4fb6b96446bf4"
                     ]
                 ],
-                "2": [
+                "3": [
                     [
                         {
                             "id": "idFanCani4"
                         },
                         [
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72",
-                            "idFanCani4_5P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a"
+                            "idFanCani4_3P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a",
+                            "idFanCani4_5P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72"
                         ]
                     ]
                 ],
@@ -320,13 +392,13 @@
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_3P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
+                        "idFanCani4_3P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
                     ],
                     [
                         {
                             "id": "idFanCani4"
                         },
-                        "idFanCani4_5P_telomere.bed:md5,f01283d96943c5b99c94476f1ebfd6c5"
+                        "idFanCani4_5P_telomere.bed:md5,05f7b8e3fb9d1b507c6f77e9a6fcf5bc"
                     ]
                 ],
                 "bed_gz_tbi": [
@@ -359,9 +431,17 @@
                         },
                         [
                             "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72",
-                            "idFanCani4_5P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a"
+                            "idFanCani4_3P_telomere.bedgraph:md5,6cefbe69d50049775dee25c3e16f8e3a",
+                            "idFanCani4_5P_telomere.bedgraph:md5,b08b2378f33635eec98cd63744d88a72"
                         ]
+                    ]
+                ],
+                "telomere_summary": [
+                    [
+                        {
+                            "id": "idFanCani4"
+                        },
+                        "idFanCani4.tsv:md5,1d21c8f15931e62f3a505dd961ae55f4"
                     ]
                 ]
             }
@@ -370,6 +450,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.10.2"
         },
-        "timestamp": "2026-03-25T09:39:48.562122487"
+        "timestamp": "2026-03-30T14:24:47.513675438"
     }
 }

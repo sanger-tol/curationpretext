@@ -11,6 +11,8 @@ components:
   - telomere/regions
   - telomere/windows
   - telomere/extract
+  - bioawk:
+      git_remote: https://github.com/nf-core/modules.git
   - gawk:
       git_remote: https://github.com/nf-core/modules.git
   - tabix/bgziptabix:
@@ -23,9 +25,11 @@ input:
         Meta is the Groovy Map containing sample information
         Reference is the fasta for analysis
   - ch_telomereseq:
-      type: string
+      type: file
       description: |
-        A string containing the DNA sequence of a telomere motif
+        Structure [ val(meta), path(telomere_motif) ]
+        Meta is the Groovy Map containing sample information
+        A fasta formatted file containing the DNA sequence of a telomere motif
   - val_split_telomere:
       type: boolean
       description: |
@@ -35,6 +39,11 @@ input:
       description: |
         Control running of tabix with boolean
 output:
+  - telomere_summary:
+      type: file
+      description: |
+        Structure: [ val(meta), path(tsv) ]
+        A tsv file summarising the telomere regions found.
   - bed_file:
       type: file
       description: |
