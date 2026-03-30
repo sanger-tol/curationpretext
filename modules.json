@@ -30,6 +30,11 @@
                         "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
                         "installed_by": ["feature_density", "modules"]
                     },
+                    "bioawk": {
+                        "branch": "master",
+                        "git_sha": "915acab108a8f19274ff30ba4cfce8099b914eaa",
+                        "installed_by": ["telo_finder"]
+                    },
                     "bwamem2/index": {
                         "branch": "master",
                         "git_sha": "5dd46a36fca68d6ad1a6b22ec47adc8c6863717d",
@@ -196,17 +201,17 @@
                     "telomere/extract": {
                         "branch": "main",
                         "git_sha": "780f0c747b0aabfe5f827f88b5bbef16b6640e64",
-                        "installed_by": ["telo_finder"]
+                        "installed_by": ["modules", "telo_finder"]
                     },
                     "telomere/regions": {
                         "branch": "main",
                         "git_sha": "88ba0abe3c06373b506509a5359092e22a912f1b",
-                        "installed_by": ["telo_finder"]
+                        "installed_by": ["modules", "telo_finder"]
                     },
                     "telomere/windows": {
                         "branch": "main",
                         "git_sha": "6dec7b4e1a28b484d56c79836c07eba37e596a5b",
-                        "installed_by": ["telo_finder"]
+                        "installed_by": ["modules", "telo_finder"]
                     }
                 }
             },
@@ -249,7 +254,7 @@
                     },
                     "telo_finder": {
                         "branch": "main",
-                        "git_sha": "3990583111317c7bfa1cfae315b3aabfef683270",
+                        "git_sha": "225aba9647dbb21c3c4a28cd1a5e9659bd052ef5",
                         "installed_by": ["subworkflows"]
                     }
                 }
