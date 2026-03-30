@@ -29,6 +29,7 @@ The top level diagram of this pipeline is:
   - `halfcoverage.bigWig`: Graph file containing coverage data where coverage is equal to half the max.
   - `maxcoverage.bigWig`: Graph file containing coverage data where coverage is max.
   - `*_gap.bedgraph`: Bed graph with locations of gaps in the sequence. For Pretext ingestion.
+  - `*.tsv`: Bioawk output file containing results of whether the telomere was converted to reverse compliment or not.
   - `*_telomere.bed`: Bed file containing telomeric motif site.
   - `*_telomere.bedgraph`: Bed graph with locations of telomeric motif. For Pretext ingestion.
   - `*_repeat_density.bigWig`: Graph file containing relative repeat density across the genome. For Pretext ingestion.
