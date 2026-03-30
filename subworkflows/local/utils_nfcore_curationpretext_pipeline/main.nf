@@ -165,13 +165,24 @@ workflow PIPELINE_INITIALISATION {
                         params.reads
                     )
 
+
+    ch_telo_file    = params.teloseq ? channel.of("""\
+        >seq
+        ${params.teloseq}
+        """.stripIndent())
+        .collectFile(name: "telomere_file.fasta", cache: true)
+        .collect { it }
+        .map { telomere ->
+            tuple([id: params.sample], telomere)
+        } : channel.empty()
+
     emit:
     ch_reference
     ch_cram_reads
     ch_mapped_bam
     ch_longreads
     ch_snapshot_order
-    teloseq             = params.teloseq
+    ch_telo_file
     versions            = ch_versions
 }
 

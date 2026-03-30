@@ -12,10 +12,12 @@ nextflow_workflow {
     tag "telomere/windows"
     tag "telomere/extract"
     tag "tabix/bgziptabix"
+    tag "subworkflows/../../modules/nf-core/bioawk"
     tag "subworkflows/../../modules/nf-core/gawk"
     tag "subworkflows/../../modules/nf-core/gunzip"
     tag "subworkflows/../../modules/nf-core/tabix/bgziptabix"
     tag "modules/nf-core/gunzip"
+    tag "modules/nf-core/bioawk"
 
     setup {
         nfcoreInitialise("${launchDir}/library/")
@@ -24,7 +26,8 @@ nextflow_workflow {
             [
                 "gawk",
                 "tabix/bgziptabix",
-                "gunzip"
+                "gunzip",
+                "bioawk"
             ]
         )
         nfcoreLink("${launchDir}/library/", "${baseDir}/modules/")
@@ -46,6 +49,7 @@ nextflow_workflow {
     test("idFanCani4 - no split - fasta w/ index") {
         when {
             params {
+                bioawk_command = "-c fastx"
                 windows_percent = "99.9"
                 bgzip_args       = "--csi"
             }
@@ -53,7 +57,10 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] = GUNZIP.out.gunzip
-                input[1] = "TTAGG"
+                input[1] = [
+                    [ id:"idFanCani4" ],
+                    file(params.modules_testdata_base_path + 'resources/modules/telomere/generic/telomere_motif.fasta', checkIfExists: true)
+                ]
                 input[2] = false
                 input[3] = true
                 """
@@ -75,6 +82,7 @@ nextflow_workflow {
     test("idFanCani4 - split - fasta w/ index") {
         when {
             params {
+                bioawk_command = "-c fastx"
                 windows_percent = "99.9"
                 bgzip_args       = "--csi"
             }
@@ -82,7 +90,10 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] = GUNZIP.out.gunzip
-                input[1] = "TTAGG"
+                input[1] = [
+                    [ id:"idFanCani4" ],
+                    file(params.modules_testdata_base_path + 'resources/modules/telomere/generic/telomere_motif.fasta', checkIfExists: true)
+                ]
                 input[2] = true
                 input[3] = true
                 """
@@ -104,6 +115,7 @@ nextflow_workflow {
     test("idFanCani4 - no split - fasta w/o index") {
         when {
             params {
+                bioawk_command = "-c fastx"
                 windows_percent = "99.9"
                 bgzip_args       = "--csi"
             }
@@ -111,7 +123,10 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] = GUNZIP.out.gunzip
-                input[1] = "TTAGG"
+                input[1] = [
+                    [ id: "idFanCani4" ],
+                    file(params.modules_testdata_base_path + 'resources/modules/telomere/generic/telomere_motif.fasta', checkIfExists: true)
+                ]
                 input[2] = false
                 input[3] = false
                 """
@@ -133,6 +148,7 @@ nextflow_workflow {
     test("idFanCani4 - split - fasta w/o index") {
         when {
             params {
+                bioawk_command = "-c fastx"
                 windows_percent = "99.9"
                 bgzip_args       = "--csi"
             }
@@ -140,7 +156,10 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] = GUNZIP.out.gunzip
-                input[1] = "TTAGG"
+                input[1] = [
+                    [ id:"idFanCani4" ],
+                    file(params.modules_testdata_base_path + 'resources/modules/telomere/generic/telomere_motif.fasta', checkIfExists: true)
+                ]
                 input[2] = true
                 input[3] = false
                 """
@@ -162,6 +181,7 @@ nextflow_workflow {
     test("idFanCani4 - no split - fasta - stub w/o index") {
         when {
             params {
+                bioawk_command = "-c fastx"
                 windows_percent = "99.9"
                 bgzip_args       = "--csi"
             }
@@ -169,7 +189,10 @@ nextflow_workflow {
             workflow {
                 """
                 input[0] = GUNZIP.out.gunzip
-                input[1] = "TTAGG"
+                input[1] = [
+                    [ id:"idFanCani4" ],
+                    file(params.modules_testdata_base_path + 'resources/modules/telomere/generic/telomere_motif.fasta', checkIfExists: true)
+                ]
                 input[2] = false
                 input[3] = false
                 """

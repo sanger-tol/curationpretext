@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H2) - [2025-03-31]
+
+## Added and Fixed
+
+- Update to `TELO_FINDER`
+  - Issue found where the creating the split files prior to validation can, in some cases, result in no identified telomeric sites.
+  - Instead, no validation will occur on split files. Whole telomere files will still be validated.
+
 ## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
 
 ## Added and Fixed

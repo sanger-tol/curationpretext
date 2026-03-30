@@ -21,7 +21,7 @@ workflow ACCESSORY_FILES {
     take:
     reference_tuple     // Channel [ val(meta), path(file)   ]
     longread_reads      // Channel [ val(meta), [path(file)] ]
-    val_teloseq         // val(telomere_sequence)
+    teloseq_file        // Channel [ val(meta), path(file)   ]
     val_split_telomere  // val(bool)
     val_skip_tracks     // val(csv_list)
     ch_reference_fai    // Channel [ val(meta), path(file)   ]
@@ -68,7 +68,7 @@ workflow ACCESSORY_FILES {
     } else {
         TELO_FINDER (
             reference_tuple,
-            val_teloseq,
+            teloseq_file,
             val_split_telomere,
             false
         )

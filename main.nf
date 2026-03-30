@@ -97,7 +97,7 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.ch_mapped_bam,
         PIPELINE_INITIALISATION.out.ch_snapshot_order,
-        PIPELINE_INITIALISATION.out.teloseq,
+        PIPELINE_INITIALISATION.out.ch_telo_file,
         params.input,
         params.aligner,
         params.skip_tracks,

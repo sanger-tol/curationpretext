@@ -41,7 +41,7 @@ workflow CURATIONPRETEXT {
     ch_cram_reads
     ch_mapped_bam
     ch_snapshot_order
-    val_teloseq
+    ch_telo_file
     val_input_file_string
     val_aligner
     val_skip_tracks
@@ -133,7 +133,7 @@ workflow CURATIONPRETEXT {
         ACCESSORY_FILES (
             ch_upper_ref,
             ch_reads,
-            val_teloseq,
+            ch_telo_file,
             val_split_telomere,
             val_skip_tracks,
             SAMTOOLS_FAIDX.out.fai
