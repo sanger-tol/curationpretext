@@ -3,6 +3,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.2)] - UNSC Trafalgar (H2) - [2025-05-11]
+
+## Added and Fixed
+
+- Added flag to control pretext snapshot generation
+
+### Paramters
+
+| Old Version | New Versions          |
+| ----------- | --------------------- |
+| NA          | --snapshot_generation |
+
+
 ## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
 
 ## Added and Fixed
