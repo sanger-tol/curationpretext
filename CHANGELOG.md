@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | ----------- | --------------------- |
 | NA          | --snapshot_generation |
 
-
 ## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
 
 ## Added and Fixed
