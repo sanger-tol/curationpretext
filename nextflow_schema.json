@@ -121,6 +121,12 @@
                     "fa_icon": "fas fa-sort",
                     "pattern": ".*\\.txt$"
                 },
+                "snapshot_generation": {
+                    "type": "boolean",
+                    "description": "Generate a snapshot of the pretext output",
+                    "help_text": "Generate a snapshot of the pretext output",
+                    "fa_icon": "fas fa-check"
+                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
