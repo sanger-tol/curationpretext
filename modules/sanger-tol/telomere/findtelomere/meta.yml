@@ -1,0 +1,141 @@
+name: "findtelomere"
+description: |
+  Run the core steps of the sanger-tol/telomere toolkit.
+keywords:
+  - telomere
+  - findtelomere
+  - windows
+  - motif
+tools:
+  - find_telomere:
+      description: |
+        Scan the assembly for a telomeric repeat motif (default TTAGGG) on both strands.
+      homepage: https://github.com/sanger-tol/telomere
+      documentation: https://github.com/sanger-tol/telomere
+      licence:
+        - "BSD-3-Clause"
+      identifier: ""
+  - FindTelomereWindows:
+      description: |
+        Slide windows along scaffolds and flag regions where telomeric hits exceed a density threshold.
+      homepage: https://github.com/sanger-tol/telomere
+      documentation: https://github.com/sanger-tol/telomere
+      licence:
+        - "BSD-3-Clause"
+      identifier: ""
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1' ]`
+    - reference:
+        type: file
+        description: Assembly for telomere.
+        pattern: "*.{fa,fna,fasta}"
+        ontologies: []
+    - telomereseq:
+        type: string
+        description: DNA sequence of a telomere motif
+  - split_windows:
+      type: boolean
+      description: Run FindTelomereWindows in split mode
+output:
+  telomere:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - "*.telomere":
+          type: file
+          description: Motif-hit intervals
+          pattern: "*.telomere"
+          ontologies: []
+  telomere_bed_fwd:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - "*.fwd.telomere.bed":
+          type: file
+          description: Forward telomeric intervals
+          pattern: "*.fwd.telomere.bed"
+          ontologies: []
+  telomere_bed_rev:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - "*.rev.telomere.bed":
+          type: file
+          description: Reverse telomeric intervals
+          pattern: "*.rev.telomere.bed"
+          ontologies: []
+  windows_all:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - "*.all.windows":
+          type: file
+          description: Telomere density windows
+          pattern: "*.all.windows"
+          ontologies: []
+  windows_fwd:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - "*.fwd.windows":
+          type: file
+          description: Forward windows
+          pattern: "*.fwd.windows"
+          ontologies: []
+  windows_rev:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - "*.rev.windows":
+          type: file
+          description: Reverse windows
+          pattern: "*.rev.windows"
+          ontologies: []
+  versions_java:
+    - - ${task.process}:
+          type: string
+          description: The process the versions were collected from
+      - java:
+          type: string
+          description: The tool name
+      - java -version 2>&1 | head -n 1 | cut -d '"' -f2:
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_find_telomere:
+    - - ${task.process}:
+          type: string
+          description: The process the versions were collected from
+      - find_telomere:
+          type: string
+          description: The tool name
+      - 0.0.2:
+          type: string
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The process the versions were collected from
+      - java:
+          type: string
+          description: The tool name
+      - java -version 2>&1 | head -n 1 | cut -d '"' -f2:
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The process the versions were collected from
+      - find_telomere:
+          type: string
+          description: The tool name
+      - 0.0.2:
+          type: string
+          description: The expression to obtain the version of the tool
+authors:
+  - "@yumisims"
+maintainers:
+  - "@yumisims"
