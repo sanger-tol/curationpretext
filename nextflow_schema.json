@@ -113,11 +113,17 @@
                     "exists": true,
                     "pattern": ".*\\.bam$"
                 },
+                "snapshot_generation": {
+                    "type": "bool",
+                    "default": true,
+                    "description": "A boolean to control pretext snapshot generation",
+                    "fa_icon": "fas fa-check"
+                },
                 "snapshot_order": {
                     "type": "string",
                     "format": "file-path",
                     "description": "Order of scaffolds in the png",
-                    "help_text": "Order of scaffolds in the pretext snapshotpng",
+                    "help_text": "Order of scaffolds in the pretext snapshot png",
                     "fa_icon": "fas fa-sort",
                     "pattern": ".*\\.txt$"
                 },
