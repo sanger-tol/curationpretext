@@ -66,15 +66,26 @@ workflow ACCESSORY_FILES {
     if (dont_generate_tracks.contains("telo") || dont_generate_tracks.contains("ALL")) {
         telo_file       = ch_empty_file
     } else {
+        telomere_ch = reference_tuple
+            .combine(val_teloseq)
+            .map{ meta, reference, telomere ->
+                tuple( meta, telomere)
+            }
+
         TELO_FINDER (
             reference_tuple,
-            val_teloseq,
+            telomere_ch,
             val_split_telomere,
             false
         )
-        telo_file       = TELO_FINDER.out.bedgraph_file
-                            .map{ it -> it[1] }
-                            .ifEmpty("${baseDir}/assets/EMPTY.txt")
+
+        telo_file       = TELO_FINDER.out.windows_all.map{it -> it[1]}
+                            .mix(TELO_FINDER.out.windows_fwd.map{it -> it[1]})
+                            .mix(TELO_FINDER.out.windows_rev.map{it -> it[1]})
+                            .collect()
+
+        TELO_FINDER.out.windows_all.view{"ALL: $it"}
+        telo_file.view{"telofiles: $it"}
     }
 
 
