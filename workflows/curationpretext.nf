@@ -187,7 +187,7 @@ workflow CURATIONPRETEXT {
         [[:],[]],
         ch_snapshot_custom_order,
         true,
-        true,
+        args.snapshot_generation,
         false,
         false,
         []
