@@ -84,8 +84,6 @@ workflow ACCESSORY_FILES {
                             .mix(TELO_FINDER.out.windows_rev.map{it -> it[1]})
                             .collect()
 
-        TELO_FINDER.out.windows_all.view{"ALL: $it"}
-        telo_file.view{"telofiles: $it"}
     }
 
 
