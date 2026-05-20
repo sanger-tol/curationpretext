@@ -3,7 +3,18 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.2)] - UNSC Trafalgar (H2) - [2025-05-11]
+## [[1.7.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.7.0)] - UNSC Stalingrad - [2026-0X-XX]
+
+## Added and Fixed
+
+- Updated the `telo_finder` subworkflow to use a customised version of the VGP `find_telomere` scripts. This correctly splits the telomere into forward and reverse directions internally after evaluation, the previous version split the telomere prior to evaluation and so some telomeric sites would be removed even if true.
+- Update to the `pretextgraph` module to cope with the new telomere output file naming.
+
+## Known Bugs
+
+- The new telo_finder subworkflow does not output the WHOLE telomere windows file when using `--split_telomere true`. We are in talks with the developer about this.
+
+## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.2)] - UNSC Trafalgar (H2) - [2026-05-11]
 
 ## Added and Fixed
 
@@ -15,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | ----------- | --------------------- |
 | NA          | --snapshot_generation |
 
-## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
+## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2026-03-13]
 
 ## Added and Fixed
 
