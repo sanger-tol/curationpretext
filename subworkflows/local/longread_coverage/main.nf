@@ -167,5 +167,7 @@ workflow LONGREAD_COVERAGE {
     )
 
     emit:
+    ch_bam              = SAMTOOLS_VIEW_FILTER_PRIMARY.out.bam
+    ch_csi              = SAMTOOLS_VIEW_FILTER_PRIMARY.out.csi
     ch_bigwig           = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
 }

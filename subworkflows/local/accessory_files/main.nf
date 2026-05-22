@@ -117,6 +117,8 @@ workflow ACCESSORY_FILES {
     }
 
     emit:
+    longread_bam    = LONGREAD_COVERAGE.out.ch_bam
+    longread_csi    = LONGREAD_COVERAGE.out.ch_csi
     gap_file
     repeat_file
     telo_file           // This is the possible collection of telomere files

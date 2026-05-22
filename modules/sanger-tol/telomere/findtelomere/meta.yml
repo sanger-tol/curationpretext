@@ -1,9 +1,9 @@
-name: "findtelomere"
+name: "telomere_findtelomere"
 description: |
   Run the core steps of the sanger-tol/telomere toolkit.
 keywords:
   - telomere
-  - findtelomere
+  - telomere/findtelomere
   - windows
   - motif
 tools:

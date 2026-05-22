@@ -52,6 +52,7 @@ workflow BAM_SAMTOOLS_MERGE_MARKDUP {
         ch_output_bam  = SAMTOOLS_MERGEDUP.out.bam.mix(SAMTOOLS_MERGEDUP.out.cram)
         ch_output_index = SAMTOOLS_MERGEDUP.out.csi.mix(SAMTOOLS_MERGEDUP.out.crai)
         ch_output_metrics = SAMTOOLS_MERGEDUP.out.metrics
+        ch_output_index.view{"BAM_INDEX-ORIGIN: $it"}
     } else {
         SAMTOOLS_MERGE(
             ch_samtools_merge_input.bam,

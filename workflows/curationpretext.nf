@@ -8,6 +8,7 @@
 include { GAWK as GAWK_UPPER_SEQUENCE                       } from '../modules/nf-core/gawk/main'
 include { SAMTOOLS_FAIDX                                    } from '../modules/nf-core/samtools/faidx/main'
 include { GUNZIP                                            } from '../modules/nf-core/gunzip/main'
+include { MOSDEPTH                                          } from '../modules/nf-core/mosdepth/main'
 
 //LOCAL MODULES
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
@@ -169,6 +170,29 @@ workflow CURATIONPRETEXT {
 
     mapped_bam = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
 
+
+    //
+    //
+    //
+    ALIGN_CRAM.out.bam.view{"BAM_CRAM: $it"}
+    ALIGN_CRAM.out.bam_index.view{"BAM_INDEX_CRAM: $it"}
+    mosdepth_input_cram = ALIGN_CRAM.out.bam
+        .combine(ALIGN_CRAM.out.bam_index, by: 0)
+        .map { meta, bam, bai -> tuple([id: meta.id + "_HIC"], bam, bai, 500 ) }
+
+    mosdepth_input_longread = ACCESSORY_FILES.out.longread_bam
+        .combine(ACCESSORY_FILES.out.longread_csi, by: 0)
+        .map { meta, bam, csi -> tuple([id: meta.id + "_LONGREAD"], bam, csi, 500 ) }
+
+    mosdepth_input_cram.view{"CRAM INPUT: $it"}
+
+    MOSDEPTH (
+        mosdepth_input_cram,
+        ch_upper_ref,
+        []
+    )
+
+    MOSDEPTH.out.summary_txt.view{"SUMMARY DEPTH: $it"}
 
     //
     // LOGIC: IF params.snapshot_order IS PROVIDED, USE IT TO ORDER SNAPSHOTS
