@@ -1,0 +1,47 @@
+{
+    "baUndUnlc1 - hifi read fasta": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-05-06T12:06:54.284993518"
+    },
+    "Escherichia - illumina read fastq": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-05-06T12:06:15.385731952"
+    },
+    "Escherichia - ont read fastq": {
+        "content": [
+            [
+                
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.3",
+            "nextflow": "25.10.4"
+        },
+        "timestamp": "2026-05-06T12:05:35.267083165"
+    }
+}
