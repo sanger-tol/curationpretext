@@ -1,16 +1,13 @@
 #!/usr/bin/env nextflow
 
 //
-// LOCAL SUBWORKFLOW IMPORT BLOCK
-//
-include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
-
-//
 // SANGER_TOL SUBWORKFLOW IMPORT BLOCK
 //
 include { GAP_FINDER                        } from '../../sanger-tol/gap_finder/main'
 include { TELO_FINDER                       } from '../../sanger-tol/telo_finder/main'
+include { READ_COVERAGE                     } from '../../sanger-tol/read_coverage/main'
 include { REPEAT_DENSITY                    } from '../../sanger-tol/repeat_density/main'
+
 
 //
 // NF_CORE MODULE IMPORT BLOCK
@@ -98,13 +95,12 @@ workflow ACCESSORY_FILES {
     if (dont_generate_tracks.contains("coverage") || dont_generate_tracks.contains("ALL"))  {
         longread_output = ch_empty_file
     } else {
-        LONGREAD_COVERAGE (
+        READ_COVERAGE (
+            longread_reads,
             reference_tuple,
-            ch_reference_fai,
-            GAWK_GENERATE_GENOME_FILE.out.output,
-            longread_reads
+            GAWK_GENERATE_GENOME_FILE.out.output.map { meta, file -> file }
         )
-        longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ it -> it[1] }
+        longread_output = READ_COVERAGE.out.bigwig.map{ it -> it[1] }
     }
 
     emit:
