@@ -1,11 +1,8 @@
 {
     "Full run": {
         "content": [
-            47,
+            42,
             {
-                "BEDTOOLS_BAMTOBED": {
-                    "bedtools": "2.31.1"
-                },
                 "BEDTOOLS_GENOMECOV": {
                     "bedtools": "2.31.1"
                 },
@@ -28,13 +25,15 @@
                 "CRAMALIGN_GENCRAMCHUNKS": {
                     "cramchunks": "1.1.0"
                 },
+                "FIND_CONCATENATE": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
                 "GAWK_EXTRACT_REPEATS": {
                     "gawk": "5.3.1"
                 },
                 "GAWK_GAP_LENGTH": {
-                    "gawk": "5.3.1"
-                },
-                "GAWK_GENERATE_GENOME_FILE": {
                     "gawk": "5.3.1"
                 },
                 "GAWK_REFORMAT_INTERSECT": {
@@ -52,9 +51,6 @@
                 "GAWK_UPPER_SEQUENCE": {
                     "gawk": "5.3.1"
                 },
-                "GNU_SORT": {
-                    "coreutils": 9.5
-                },
                 "GNU_SORT_A": {
                     "coreutils": 9.5
                 },
@@ -65,7 +61,7 @@
                     "coreutils": 9.5
                 },
                 "MINIMAP2_ALIGN": {
-                    "minimap2": "2.29-r1283"
+                    "minimap2": "2.30-r1287"
                 },
                 "PRETEXTMAP": {
                     "PretextMap": "0.2.4",
@@ -81,19 +77,10 @@
                 "SAMTOOLS_FAIDX": {
                     "samtools": "1.22.1"
                 },
-                "SAMTOOLS_MERGE": {
-                    "samtools": "1.22.1"
-                },
                 "SAMTOOLS_MERGEDUP": {
                     "samtools": 1.23
                 },
-                "SAMTOOLS_SORT": {
-                    "samtools": "1.22.1"
-                },
                 "SAMTOOLS_SPLITHEADER": {
-                    "samtools": "1.22.1"
-                },
-                "SAMTOOLS_VIEW_FILTER_PRIMARY": {
                     "samtools": "1.22.1"
                 },
                 "SEQTK_CUTN": {
@@ -134,7 +121,6 @@
                 "accessory_files/CurationPretextTest_MIN_3P_telomere.bedgraph",
                 "accessory_files/CurationPretextTest_MIN_5P_telomere.bed",
                 "accessory_files/CurationPretextTest_MIN_5P_telomere.bedgraph",
-                "accessory_files/CurationPretextTest_MIN_longread_coverage.bigWig",
                 "accessory_files/CurationPretextTest_MIN_repeat_density.bigWig",
                 "pipeline_info",
                 "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
@@ -145,7 +131,7 @@
                 "pretext_snapshot",
                 "pretext_snapshot/CurationPretextTest_MIN_normalFullMap.png"
             ],
-            18,
+            17,
             [
                 "CurationPretextTest_MIN.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "CurationPretextTest_MIN_0P_telomere.bed:md5,61d1143a0b0e994c6cfd2a2f6093bf7d",
@@ -154,10 +140,9 @@
                 "CurationPretextTest_MIN_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
                 "CurationPretextTest_MIN_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
                 "CurationPretextTest_MIN_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
-                "CurationPretextTest_MIN_longread_coverage.bigWig:md5,2b44579096cde838fe9d7b43a3267536",
-                "CurationPretextTest_MIN_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
+                "CurationPretextTest_MIN_repeat_density.bigWig:md5,ddb14d7e7a482773da2209a30bca5fd7"
             ],
-            9,
+            8,
             1,
             false,
             true,
@@ -167,10 +152,10 @@
             1,
             true
         ],
+        "timestamp": "2026-06-09T15:14:50.625672032",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-03-20T10:50:56.456473451"
+            "nf-test": "0.9.5",
+            "nextflow": "25.04.6"
+        }
     }
 }
