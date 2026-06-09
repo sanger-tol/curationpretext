@@ -1,21 +1,12 @@
 #!/usr/bin/env nextflow
 
 //
-// LOCAL SUBWORKFLOW IMPORT BLOCK
-//
-include { LONGREAD_COVERAGE                 } from '../longread_coverage/main'
-
-//
 // SANGER_TOL SUBWORKFLOW IMPORT BLOCK
 //
 include { GAP_FINDER                        } from '../../sanger-tol/gap_finder/main'
 include { TELO_FINDER                       } from '../../sanger-tol/telo_finder/main'
+include { READ_COVERAGE                     } from '../../sanger-tol/read_coverage/main'
 include { REPEAT_DENSITY                    } from '../../sanger-tol/repeat_density/main'
-
-//
-// NF_CORE MODULE IMPORT BLOCK
-//
-include { GAWK as GAWK_GENERATE_GENOME_FILE } from '../../../modules/nf-core/gawk/main'
 
 workflow ACCESSORY_FILES {
     take:
@@ -24,7 +15,7 @@ workflow ACCESSORY_FILES {
     val_teloseq         // val(telomere_sequence)
     val_split_telomere  // val(bool)
     val_skip_tracks     // val(csv_list)
-    ch_reference_fai    // Channel [ val(meta), path(file)   ]
+    ch_reference_sizes  // Channel [ val(meta), path(file)   ]
 
 
     main:
@@ -34,16 +25,6 @@ workflow ACCESSORY_FILES {
     // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW
     //
     dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
-
-
-    //
-    // MODULE: TRIMS INDEX INTO A GENOME DESCRIPTION FILE
-    //         EMITS REFERENCE GEOME FILE AND REFERENCE INDEX FILE
-    GAWK_GENERATE_GENOME_FILE (
-        ch_reference_fai,
-        [],
-        false
-    )
 
 
     //
@@ -86,7 +67,7 @@ workflow ACCESSORY_FILES {
     } else {
         REPEAT_DENSITY (
             reference_tuple,
-            GAWK_GENERATE_GENOME_FILE.out.output
+            ch_reference_sizes
         )
         repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ it -> it[1] }
     }
@@ -96,20 +77,22 @@ workflow ACCESSORY_FILES {
     // SUBWORKFLOW: Takes reference, longread reads
     //
     if (dont_generate_tracks.contains("coverage") || dont_generate_tracks.contains("ALL"))  {
-        longread_output = ch_empty_file
+        coverage_output = ch_empty_file
     } else {
-        LONGREAD_COVERAGE (
+        READ_COVERAGE (
+            longread_reads,
             reference_tuple,
-            ch_reference_fai,
-            GAWK_GENERATE_GENOME_FILE.out.output,
-            longread_reads
+            ch_reference_sizes.map{ _meta, file -> file }
         )
-        longread_output = LONGREAD_COVERAGE.out.ch_bigwig.map{ it -> it[1] }
+
+        coverage_output = READ_COVERAGE.out.bigwig.map{ it -> it[1] }
     }
+
+
 
     emit:
     gap_file
     repeat_file
     telo_file           // This is the possible collection of telomere files
-    longread_output
+    coverage_output
 }
