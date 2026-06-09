@@ -94,7 +94,7 @@ workflow CURATIONPRETEXT {
     //
     SAMTOOLS_FAIDX (
         ch_upper_ref.map { meta, file -> [meta, file, []] },
-        false
+        true
     )
 
 
