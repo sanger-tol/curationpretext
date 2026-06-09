@@ -109,7 +109,7 @@
                     "windowmasker": "1.0.0"
                 },
                 "Workflow": {
-                    "sanger-tol/curationpretext": "v1.6.1"
+                    "sanger-tol/curationpretext": "v1.6.2"
                 }
             },
             [
@@ -152,7 +152,7 @@
             1,
             true
         ],
-        "timestamp": "2026-06-09T15:14:50.625672032",
+        "timestamp": "2026-06-09T17:43:13.265520727",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "25.04.6"
