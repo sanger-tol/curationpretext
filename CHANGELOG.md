@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added and Fixed
 
 - Added flag to control pretext snapshot generation
+- Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes.
 
 ### Paramters
 

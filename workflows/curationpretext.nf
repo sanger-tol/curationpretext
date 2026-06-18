@@ -94,7 +94,7 @@ workflow CURATIONPRETEXT {
     //
     SAMTOOLS_FAIDX (
         ch_upper_ref.map { meta, file -> [meta, file, []] },
-        false
+        true
     )
 
 
@@ -136,11 +136,11 @@ workflow CURATIONPRETEXT {
             val_teloseq,
             val_split_telomere,
             val_skip_tracks,
-            SAMTOOLS_FAIDX.out.fai
+            SAMTOOLS_FAIDX.out.sizes
         )
 
         gaps_file           = ACCESSORY_FILES.out.gap_file
-        cove_file           = ACCESSORY_FILES.out.longread_output
+        cove_file           = ACCESSORY_FILES.out.coverage_output
         telo_file           = ACCESSORY_FILES.out.telo_file
         rept_file           = ACCESSORY_FILES.out.repeat_file
     }

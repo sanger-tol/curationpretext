@@ -12,8 +12,8 @@
                     },
                     "bedtools/genomecov": {
                         "branch": "master",
-                        "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
-                        "installed_by": ["modules"]
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
+                        "installed_by": ["modules", "read_coverage"]
                     },
                     "bedtools/intersect": {
                         "branch": "master",
@@ -135,7 +135,7 @@
                     "ucsc/bedgraphtobigwig": {
                         "branch": "master",
                         "git_sha": "b1c64e862fb5ed7f13b6f8f3ef8f04e700d41438",
-                        "installed_by": ["feature_density", "modules"]
+                        "installed_by": ["feature_density", "modules", "read_coverage"]
                     },
                     "windowmasker/mkcounts": {
                         "branch": "master",
@@ -188,6 +188,16 @@
                         "git_sha": "2e28234fb0e2970767dab28310c7eb553ad40081",
                         "installed_by": ["cram_map_illumina_hic"]
                     },
+                    "find/concatenate": {
+                        "branch": "main",
+                        "git_sha": "67f146035f71a0359eef05d7360151b280be5fe1",
+                        "installed_by": ["read_coverage"]
+                    },
+                    "minimap2/align": {
+                        "branch": "main",
+                        "git_sha": "2db2b347b5fd5b0e031f10982dd20b44272f6787",
+                        "installed_by": ["read_coverage"]
+                    },
                     "samtools/mergedup": {
                         "branch": "main",
                         "git_sha": "55f3dd54f274c9648207a82bf68d257945d27053",
@@ -235,6 +245,11 @@
                     "pairs_create_contact_maps": {
                         "branch": "main",
                         "git_sha": "304455b447d7768cfc22181542f1e5b1b4fe2d8b",
+                        "installed_by": ["subworkflows"]
+                    },
+                    "read_coverage": {
+                        "branch": "main",
+                        "git_sha": "6f01a1bc520f2bf723ea973b29e2d5a82b24508b",
                         "installed_by": ["subworkflows"]
                     },
                     "repeat_density": {
