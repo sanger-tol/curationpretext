@@ -124,11 +124,7 @@
         },
         {
             "@id": "main.nf",
-            "@type": [
-                "File",
-                "SoftwareSourceCode",
-                "ComputationalWorkflow"
-            ],
+            "@type": ["File", "SoftwareSourceCode", "ComputationalWorkflow"],
             "creator": [
                 {
                     "@id": "https://orcid.org/0000-0002-7860-3560"
@@ -137,16 +133,9 @@
             "dateCreated": "",
             "dateModified": "2025-05-27T10:34:43Z",
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
-            "keywords": [
-                "nf-core",
-                "nextflow"
-            ],
-            "license": [
-                "MIT"
-            ],
-            "name": [
-                "sanger-tol/curationpretext"
-            ],
+            "keywords": ["nf-core", "nextflow"],
+            "license": ["MIT"],
+            "name": ["sanger-tol/curationpretext"],
             "programmingLanguage": {
                 "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow"
             },
@@ -157,9 +146,7 @@
                 "https://github.com/sanger-tol/curationpretext",
                 "https://pipelines.tol.sanger.ac.uk/sanger-tol/curationpretext/1.4.2/"
             ],
-            "version": [
-                "1.4.2"
-            ]
+            "version": ["1.4.2"]
         },
         {
             "@id": "https://w3id.org/workflowhub/workflow-ro-crate#nextflow",
