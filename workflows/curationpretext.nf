@@ -139,6 +139,24 @@ workflow CURATIONPRETEXT {
             SAMTOOLS_FAIDX.out.sizes
         )
 
+        // dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
+        // ACCESSORY_FILES (
+        //     ch_upper_ref,
+        //     SAMTOOLS_FAIDX.out.sizes,
+        //     ch_reads,
+        //     val_teloseq,
+        //     dont_generate_tracks.contains("GAP"),
+        //     dont_generate_tracks.contains("TELOMERE"),
+        //     dont_generate_tracks.contains("REPEAT"),
+        //     dont_generate_tracks.contains("COVERAGE"),
+        //     val_split_telomere,
+        // )
+        //
+        //
+        //
+        //
+        //
+
         gaps_file           = ACCESSORY_FILES.out.gap_file
         cove_file           = ACCESSORY_FILES.out.coverage_output
         telo_file           = ACCESSORY_FILES.out.telo_file

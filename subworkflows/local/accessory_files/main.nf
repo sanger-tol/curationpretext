@@ -89,7 +89,6 @@ workflow ACCESSORY_FILES {
     }
 
 
-
     emit:
     gap_file
     repeat_file
