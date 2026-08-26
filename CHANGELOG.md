@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added and Fixed
 
 - Update nf-core template to 4.1.0.
-    - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins.
+  - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins.
 - Added flag to control pretext snapshot generation
 - Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes.
 
