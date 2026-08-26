@@ -43,6 +43,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     run_ultra
     split_telomere
     cram_chunk_size
+    outdir
 
     main:
 
@@ -59,7 +60,8 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         run_hires,
         run_ultra,
         split_telomere,
-        cram_chunk_size
+        cram_chunk_size,
+        outdir
     )
     // CURATIONPRETEXT_MAPS
 }
@@ -104,7 +106,8 @@ workflow {
         params.run_hires,
         params.run_ultra,
         params.split_telomere,
-        params.cram_chunk_size
+        params.cram_chunk_size,
+        params.outdir,
     )
 
 

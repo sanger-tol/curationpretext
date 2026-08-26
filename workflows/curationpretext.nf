@@ -49,6 +49,7 @@ workflow CURATIONPRETEXT {
     val_run_ultra
     val_split_telomere
     val_cram_chunk_size
+    outdir
 
     main:
     ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
