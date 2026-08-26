@@ -1,0 +1,190 @@
+nextflow_workflow {
+
+    name "Test Subworkflow TELO_FINDER"
+    script "../main.nf"
+    config "./nextflow.config"
+    workflow "TELO_FINDER"
+
+    tag "subworkflows"
+    tag "subworkflows_sangertol"
+    tag "subworkflows/telo_finder"
+    tag "telomere/regions"
+    tag "telomere/windows"
+    tag "telomere/extract"
+    tag "tabix/bgziptabix"
+    tag "subworkflows/../../modules/nf-core/gawk"
+    tag "subworkflows/../../modules/nf-core/gunzip"
+    tag "subworkflows/../../modules/nf-core/tabix/bgziptabix"
+    tag "modules/nf-core/gunzip"
+
+    setup {
+        nfcoreInitialise("${launchDir}/library/")
+        nfcoreInstall(
+            "${launchDir}/library/",
+            [
+                "gawk",
+                "tabix/bgziptabix",
+                "gunzip"
+            ]
+        )
+        nfcoreLink("${launchDir}/library/", "${baseDir}/modules/")
+
+        run("GUNZIP"){
+            script "../../../../modules/nf-core/gunzip/main.nf"
+            process {
+                """
+                input[0] = [
+                    [ id: "idFanCani4" ],
+                    file(params.modules_testdata_base_path + 'resources/modules/telomere/idFanCani4/idFanCani4.subset_genome.fa.gz', checkIfExists: true)
+                ]
+                """
+            }
+        }
+    }
+
+
+    test("idFanCani4 - no split - fasta w/ index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = false
+                input[3] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+
+    test("idFanCani4 - split - fasta w/ index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = true
+                input[3] = true
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+
+    test("idFanCani4 - no split - fasta w/o index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = false
+                input[3] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+
+    test("idFanCani4 - split - fasta w/o index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = true
+                input[3] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+
+    test("idFanCani4 - no split - fasta - stub w/o index") {
+        when {
+            params {
+                windows_percent = "99.9"
+                bgzip_args       = "--csi"
+            }
+
+            workflow {
+                """
+                input[0] = GUNZIP.out.gunzip
+                input[1] = "TTAGG"
+                input[2] = false
+                input[3] = false
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+
+        cleanup {
+            nfcoreUnlink("${launchDir}/library/", "${baseDir}/modules/nf-core")
+        }
+    }
+}

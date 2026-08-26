@@ -1,0 +1,161 @@
+{
+    "Full run": {
+        "content": [
+            42,
+            {
+                "BEDTOOLS_GENOMECOV": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_INTERSECT": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MAKEWINDOWS": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MAP": {
+                    "bedtools": "2.31.1"
+                },
+                "BWAMEM2_INDEX": {
+                    "bwamem2": "2.2.1"
+                },
+                "CRAMALIGN_BWAMEM2ALIGNHIC": {
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
+                },
+                "CRAMALIGN_GENCRAMCHUNKS": {
+                    "cramchunks": "1.1.0"
+                },
+                "FIND_CONCATENATE": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "GAWK_EXTRACT_REPEATS": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_GAP_LENGTH": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_REFORMAT_INTERSECT": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_RENAME_IDS": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_REPLACE_DOTS": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_SPLIT_TELOMERE": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_UPPER_SEQUENCE": {
+                    "gawk": "5.3.1"
+                },
+                "GNU_SORT_A": {
+                    "coreutils": 9.5
+                },
+                "GNU_SORT_B": {
+                    "coreutils": 9.5
+                },
+                "GNU_SORT_C": {
+                    "coreutils": 9.5
+                },
+                "MINIMAP2_ALIGN": {
+                    "minimap2": "2.30-r1287"
+                },
+                "PRETEXTMAP": {
+                    "PretextMap": "0.2.4",
+                    "samtools": 1.23
+                },
+                "PRETEXTSNAPSHOT": {
+                    "PretextSnapshot": "0.0.7"
+                },
+                "PRETEXT_INGEST_SNDRD": {
+                    "PretextGraph": "0.0.9",
+                    "ucsc": 447
+                },
+                "SAMTOOLS_FAIDX": {
+                    "samtools": "1.22.1"
+                },
+                "SAMTOOLS_MERGEDUP": {
+                    "samtools": 1.23
+                },
+                "SAMTOOLS_SPLITHEADER": {
+                    "samtools": "1.22.1"
+                },
+                "SEQTK_CUTN": {
+                    "seqtk": "1.4-r122"
+                },
+                "TABIX_BGZIPTABIX": {
+                    "bgzip": 1.21,
+                    "tabix": 1.21
+                },
+                "TELOMERE_EXTRACT": {
+                    "telomere_extract": "5.3.0"
+                },
+                "TELOMERE_REGIONS": {
+                    "find_telomere_regions": "1.0.0"
+                },
+                "TELOMERE_WINDOWS": {
+                    "find_telomere_windows": "1.0.0"
+                },
+                "UCSC_BEDGRAPHTOBIGWIG": {
+                    "ucsc": 482
+                },
+                "WINDOWMASKER_MKCOUNTS": {
+                    "windowmasker": "1.0.0"
+                },
+                "WINDOWMASKER_USTAT": {
+                    "windowmasker": "1.0.0"
+                },
+                "Workflow": {
+                    "sanger-tol/curationpretext": "v1.6.2"
+                }
+            },
+            [
+                "accessory_files",
+                "accessory_files/CurationPretextTest_MIN.gap.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_0P_telomere.bed",
+                "accessory_files/CurationPretextTest_MIN_0P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_3P_telomere.bed",
+                "accessory_files/CurationPretextTest_MIN_3P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_5P_telomere.bed",
+                "accessory_files/CurationPretextTest_MIN_5P_telomere.bedgraph",
+                "accessory_files/CurationPretextTest_MIN_repeat_density.bigWig",
+                "pipeline_info",
+                "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
+                "pretext_maps_processed",
+                "pretext_maps_processed/CurationPretextTest_MIN_normal.pretext",
+                "pretext_maps_raw",
+                "pretext_maps_raw/CurationPretextTest_MIN_normal_pi.pretext",
+                "pretext_snapshot",
+                "pretext_snapshot/CurationPretextTest_MIN_normalFullMap.png"
+            ],
+            17,
+            [
+                "CurationPretextTest_MIN.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_MIN_0P_telomere.bed:md5,61d1143a0b0e994c6cfd2a2f6093bf7d",
+                "CurationPretextTest_MIN_0P_telomere.bedgraph:md5,b6a0921c22eb24d9e371ff2a21ecaa51",
+                "CurationPretextTest_MIN_3P_telomere.bed:md5,34a1c051e3fd28ec10c35308105ec189",
+                "CurationPretextTest_MIN_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
+                "CurationPretextTest_MIN_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
+                "CurationPretextTest_MIN_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
+                "CurationPretextTest_MIN_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
+            ],
+            8,
+            1,
+            false,
+            true,
+            1,
+            false,
+            true,
+            1,
+            true
+        ],
+        "timestamp": "2026-06-09T17:43:13.265520727",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.04.6"
+        }
+    }
+}

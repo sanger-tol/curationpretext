@@ -17,6 +17,7 @@ include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
 include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
 
+include { fn_get_validated_channel  } from '../../../functions/local/utils'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUBWORKFLOW TO INITIALISE PIPELINE
@@ -28,10 +29,10 @@ workflow PIPELINE_INITIALISATION {
     take:
     version           // boolean: Display version and exit
     validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
-    monochrome_logs   // boolean: Do not use coloured log outputs
+    _monochrome_logs   // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
     outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input samplesheet
+    _input             //  string: Path to input samplesheet
     help              // boolean: Display help message and exit
     help_full         // boolean: Show the full help message
     show_hidden       // boolean: Show hidden parameters in the help message
@@ -54,11 +55,30 @@ workflow PIPELINE_INITIALISATION {
     // Validate parameters and generate parameter summary to stdout
     //
 
-    def before_text = ""
-    def after_text = ""
     if (monochrome_logs) {
         before_text = before_text.replaceAll(/\033\[[0-9;]*m/, '')
     }
+    
+    before_text = """
+-\033[2m----------------------------------------------------\033[0m-
+\033[0;34m   _____                               \033[0;32m _______   \033[0;31m _\033[0m
+\033[0;34m  / ____|                              \033[0;32m|__   __|  \033[0;31m| |\033[0m
+\033[0;34m | (___   __ _ _ __   __ _  ___ _ __ \033[0m ___ \033[0;32m| |\033[0;33m ___ \033[0;31m| |\033[0m
+\033[0;34m  \\___ \\ / _` | '_ \\ / _` |/ _ \\ '__|\033[0m|___|\033[0;32m| |\033[0;33m/ _ \\\033[0;31m| |\033[0m
+\033[0;34m  ____) | (_| | | | | (_| |  __/ |        \033[0;32m| |\033[0;33m (_) \033[0;31m| |____\033[0m
+\033[0;34m |_____/ \\__,_|_| |_|\\__, |\\___|_|        \033[0;32m|_|\033[0;33m\\___/\033[0;31m|______|\033[0m
+\033[0;34m                      __/ |\033[0m
+\033[0;34m                     |___/\033[0m
+\033[0;35m  ${workflow.manifest.name} ${workflow.manifest.version}\033[0m
+-\033[2m----------------------------------------------------\033[0m-
+        """
+    after_text = """${workflow.manifest.doi ? "\n* The pipeline\n" : ""}${workflow.manifest.doi.tokenize(",").collect { doi -> "    https://doi.org/${doi.trim().replace('https://doi.org/', '')}" }.join("\n")}${workflow.manifest.doi ? "\n" : ""}
+* The nf-core framework
+    https://doi.org/10.5281/zenodo.12773958
+
+* Software dependencies
+    https://github.com/sanger-tol/curationpretext/blob/main/CITATIONS.md
+"""
 
     command = "nextflow run ${workflow.manifest.name} -profile <docker/singularity/.../institute> --input samplesheet.csv --outdir <OUTDIR>"
 
@@ -85,30 +105,79 @@ workflow PIPELINE_INITIALISATION {
     //
     // Create channel from input file provided through params.input
     //
+    input_fasta     = channel.fromPath(
+                        params.input,
+                        checkIfExists: true,
+                        type: 'file'
+                    )
 
-    channel
-        .fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
-        .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
-        }
-        .groupTuple()
-        .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
-        }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
-        }
-        .set { ch_samplesheet }
+    ch_reference = input_fasta.map { fasta ->
+        [
+            [
+                id: params.sample,
+                map_order: params.map_order,
+                multi_mapping: params.multi_mapping,
+            ],
+            fasta
+        ]
+    }
+
+    ch_snapshot_order = params.snapshot_order ? channel.fromPath(
+                        params.snapshot_order,
+                        checkIfExists: true,
+                        type: 'file'
+                    ) : channel.empty()
+
+    if ( (params.pre_mapped_bam?.size() ?: 0) == 0 && (params.cram?.size() ?: 0) == 0 ) {
+        error "You need to supply either a --pre_mapped_bam file of an array of --cram files!"
+    }
+
+    if ( (params.pre_mapped_bam?.size() ?: 0) > 1 ) {
+        error "Using Pre-Mapped Reads supports only 1 file"
+    }
+
+    if (params.pre_mapped_bam && params.cram) {
+        error "Can only use Pre-Mapped Reads or CRAM files!"
+    }
+
+    ch_cram_reads   = params.cram ? fn_get_validated_channel(
+                        "cram",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping,
+                        ],
+                        params.cram
+                    ) : channel.empty()
+
+    ch_mapped_bam   = params.pre_mapped_bam ? fn_get_validated_channel(
+                        "bam",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping
+                        ],
+                        params.pre_mapped_bam
+                    ) : channel.empty()
+
+    ch_longreads    = fn_get_validated_channel(
+                        "pacbio",
+                        [
+                            id: params.sample,
+                            map_order: params.map_order,
+                            multi_mapping: params.multi_mapping,
+                        ],
+                        params.reads
+                    )
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    ch_reference
+    ch_cram_reads
+    ch_mapped_bam
+    ch_longreads
+    ch_snapshot_order
+    teloseq             = params.teloseq
+    versions            = ch_versions
 }
 
 /*
@@ -159,7 +228,6 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
 //
 // Validate channels from input samplesheet
 //
@@ -178,7 +246,6 @@ def validateInputSamplesheet(input) {
 // Generate methods description for MultiQC
 //
 def toolCitationText() {
-    // TODO nf-core: Optionally add in-text citation tools to this list.
     // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "Tool (Foo et al. 2023)" : "",
     // Uncomment function in methodsDescriptionText to render in MultiQC report
     def citation_text = [
@@ -190,7 +257,6 @@ def toolCitationText() {
 }
 
 def toolBibliographyText() {
-    // TODO nf-core: Optionally add bibliographic entries to this list.
     // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "<li>Author (2023) Pub name, Journal, DOI</li>" : "",
     // Uncomment function in methodsDescriptionText to render in MultiQC report
     def reference_text = [
@@ -223,7 +289,6 @@ def methodsDescriptionText(mqc_methods_yaml) {
     meta["tool_citations"] = ""
     meta["tool_bibliography"] = ""
 
-    // TODO nf-core: Only uncomment below if logic in toolCitationText/toolBibliographyText has been filled!
     // meta["tool_citations"] = toolCitationText().replaceAll(", \\.", ".").replaceAll("\\. \\.", ".").replaceAll(", \\.", ".")
     // meta["tool_bibliography"] = toolBibliographyText()
 

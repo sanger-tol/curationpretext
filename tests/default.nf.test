@@ -1,32 +1,69 @@
 nextflow_pipeline {
 
-    name "Test pipeline"
-    script "../main.nf"
+    name "Test Workflow main.nf"
+    script "main.nf"
     tag "pipeline"
+    tag "pipeline_sanger_tol"
+    tag "full"
 
-    test("-profile test") {
+    config "../conf/test.config"
+
+    test("Full run") {
 
         when {
             params {
-                outdir = "$outputDir"
+                outdir = "${outputDir}"
+                all_output = true
+                skip_tracks = "NONE"
+                split_telomere = true
+                multi_mapping = 0
             }
         }
 
         then {
-            // stable_path: All files + folders in ${params.outdir}/ with a stable path (including file name)
-            def stable_path = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-            // stable_content: All files in ${params.outdir}/ with stable content
-            def stable_content = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
-            assert workflow.success
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ["pipeline_info/*.{html,json,txt}"])
+
+            def pretext_files = getAllFilesFromDir(params.outdir, include: ['pretext_maps_processed/*.pretext'])
+
+            def pretext_maps_raw = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.pretext'])
+
+            def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_snapshot/*.png'])
+
+            def accessories = getAllFilesFromDir(params.outdir, include: ['accessory_files/*'])
+
             assertAll(
-                { assert snapshot(
-                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
-                    removeNextflowVersion("$outputDir/pipeline_info/curationpretext_software_mqc_versions.yml"),
-                    // All stable path name, with a relative path
-                    stable_path,
-                    // All files with stable contents
-                    stable_content
-                ).match() }
+                {assert workflow.success},
+                {assert snapshot(
+                    // Test for number of successful processes
+                    workflow.trace.succeeded().size(), // 42 with out needing to gunzip the assembly
+
+                    removeNextflowVersion("$outputDir/pipeline_info/sanger-tol_curationpretext_software_versions.yml"),
+
+                    // Stable name with relative path
+                    stable_name,
+                    stable_name.size(), // 18
+
+                    // Accessory files
+                    accessories,
+                    accessories.size(), // 9
+
+                    // The pretext files
+                    // We only expect 1 pretext file as when using the `test` profile
+                    // we are skipping hr pretext file generation
+                    // so size will be 1 and presence of hr file is false
+                    pretext_maps_raw.size(),
+                    pretext_maps_raw.any{it.toString().contains("_hr_pi.pretext".toString())},
+                    pretext_maps_raw.any{it.toString().contains("_normal_pi.pretext".toString())},
+
+                    pretext_files.size(),
+                    pretext_files.any{it.toString().contains("_hr.pretext".toString())},
+                    pretext_files.any{it.toString().contains("_normal.pretext".toString())},
+
+                    // The one png file - like the maps, it will be slightly different
+                    pretext_png.size(),
+                    pretext_png.any{it.toString().contains(".png".toString())}
+
+                ).match()},
             )
         }
     }

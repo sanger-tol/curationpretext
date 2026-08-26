@@ -3,14 +3,533 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.6.1 - [unreleased<!-- TODO nf-core: replace with date on release -->]
+## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.2)] - UNSC Trafalgar (H2) - [2025-05-11]
 
-Initial release of sanger-tol/curationpretext, created with the [nf-core](https://nf-co.re/) template.
+## Added and Fixed
 
-### `Added`
+- Added flag to control pretext snapshot generation
+- Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes.
 
-### `Fixed`
+### Paramters
 
-### `Dependencies`
+| Old Version | New Versions          |
+| ----------- | --------------------- |
+| NA          | --snapshot_generation |
 
-### `Deprecated`
+## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
+
+## Added and Fixed
+
+- Update to add the `--run_ultra` parameter
+  - Enum of ["yes", "no", "force"]
+    - When run as 'yes', ultra resolution maps will be generated if the genome is > 4.Gb.
+    - When run as 'ultra', an ultra resolution map will be generated regardless of genome size.
+- Update to `pretextmap` to a version that supports `--ultraRes`
+- Update to add the `--snapshot_order` now supported by `pretextsnapshot`
+  - This is a `.txt` with a scaffold name per line.
+- Update the `repeat_density` subworkflow from local to `sanger-tol`
+- Update to config file to support the above fixes.
+- Addition of example params file `assets/example_params_file.yaml`
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module            | Old Version | New Versions |
+| ----------------- | ----------- | ------------ |
+| `PRETEXTMAP`      | 0.1.9       | 0.2.4        |
+| `PRETEXTSNAPSHOT` | 0.0.5       | 0.0.7        |
+
+## [[1.6.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.0)] - UNSC Trafalgar - [2025-02-19]
+
+## Added and Fixed
+
+- Template update to 3.5.2.
+- - The previous `GENERATE_MAPS` subworkflow has been replaced with `ALIGN_CRAM` and `CREATE_MAPS_{STDRD,HIRES}` (renamed from `CRAM_MAP_ILLUMINA_HIC` and `PAIRS_CREATE_CONTACT_MAPS`, from the [`sanger-tol/nf-core-modules`](https://github.com/sanger-tol/nf-core-modules) repository, respectively)
+- Files can now be given explicitly in the `--reads` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
+- Files can now be given explicitly in the `--cram` parameter in the format of `[<file1>, <file2>, ...]`, alternatively it can accept a FOFN (File of file names).
+- `--pre_mapped_bam` parameter added in order to supply 1 pre-mapped BAM file, in this case `--cram` would be empty.
+  - Warnings have been added to ensure:
+    - Only 1 pre-mapped BAM file is provided if `--pre_mapped_bam` is used.
+    - Only 1 of `--pre_mapped_bam` or `--cram` is used`
+- `--cram_chunk_size` parameter added by `ALIGN_CRAM` to make cram chunking configurable, defaulting to 10000.
+- `LONGREAD_COVERAGE` subworkflow has been updated to accept an array list of files.
+- Major Update to modules coinciding with changes to use Nextflow topics
+- Update to move all modules/subworkflows to version topics.
+  - Required a small change to the template topic collection otherwise it would fail as there is no ch_versions channel.
+- Update docs to include the features from the past few releases.
+- Remove duplicated `selected_aligner` code from `PIPELINE_INITIALISATION`.
+- Change install for `TELOMERE` modules so that we use the `SANGER-TOL` repository rather than local.
+- Removed now unused `bin` files.
+- Migrated from `local/telo_finder` subworkflow to `sanger-tol/telo_finder`.
+- Migrated from `local/gap_finder` subworkflow to `sanger-tol/gap_finder`.
+- Updated the schema to include patterns for the correct input file and to also allow fastq for reads along with fasta.
+
+### Parameters
+
+| Old Version | New Versions      |
+| ----------- | ----------------- |
+| NA          | --pre_mapped      |
+| NA          | --cram_chunk_size |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                         | Old Version      | New Versions                                                   |
+| ------------------------------ | ---------------- | -------------------------------------------------------------- |
+| `BEDTOOLS_BAMTOBED`            | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_GENOMECOV`           | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_INTERSECT`           | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_MAKEWINDOWS`         | 2.30.0           | 2.31.1                                                         |
+| `BEDTOOLS_MAP`                 | 2.30.0           | 2.31.1                                                         |
+| `CRAMALIGN_BWAMEM2ALIGNHIC`    | NEW_ADDITION     | bwamem2: 2.2.1, samtools: 1.22.1                               |
+| `GAWK`                         | 5.2.0            | 5.3.1                                                          |
+| `GNU_SORT`                     | 9.1              | 9.5                                                            |
+| `MINIMAP2_ALIGN`               | 2.28--he4a0461_0 | 2.29-r1283                                                     |
+| `PRETEXTMAP`                   | 0.1.9            | 0.1.9 (Temporary Patch, to be updated to 0.2.4 once available) |
+| `SAMTOOLS_FAIDX`               | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_MERGE`               | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_SORT`                | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_SPLITHEADER`         | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_VIEW_FILTER_PRIMARY` | 1.21.2           | 1.22.1                                                         |
+| `SAMTOOLS_MERGEDUP`            | NEW_ADDITION     | 1.23.0                                                         |
+| `FIND_TELOMERE_WINDOWS`        | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_WINDOWS`             | NEW_ADDITION     | 1.0.0                                                          |
+| `FIND_TELOMERE_REGIONS`        | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_REGIONS`             | NEW_ADDITION     | 1.0.0                                                          |
+| `EXTRACT_TELOMERE`             | 1.0.0            | REMOVED                                                        |
+| `TELOMERE_EXTRACT`             | NEW_ADDITION     | 1.0.0                                                          |
+| `UCSC_BEDGRAPHTOBIGWIG`        | 447              | 482                                                            |
+
+## [[1.5.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.1)] - UNSC Punic (H1) - [2025-10-01]
+
+### Added and Fixed
+
+- Addition of `params.multi_mapping` to change the level of multi-mapping filtering performed by PretextMap.
+  - This corresponds to the mapq (mapping quality) value.
+- Updated `trace` scope to start collecting SummaryStat data again.
+
+### Paramters
+
+| Old Version | New Versions    |
+| ----------- | --------------- |
+| NA          | --multi_mapping |
+
+## [[1.5.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.5.0)] - UNSC Punic - [2025-08-04]
+
+### Added and Fixed
+
+- Template update to 3.3.2.
+- Addition of the `--split_telomere` boolean flag, this is false by default.
+  - When `true` the pipeline will split the telomere file into a 5 and 3 prime file.
+- Update `ACCESSORY_FILES` subworkflow:
+  - Remove `GET_LARGEST_SCAFFOLD` as we no longer need it, this was needed for TABIX so that the correct index file was used. This was used by the `TELO_FINDER` and `GAP_FINDER` subworkflows.
+- Update `TELO_FINDER` subworkflow:
+  - Remove `GAWK_MAP_TELO` as it is no longer needed.
+  - Remove `GAWK_CLEAN_TELOMERE` as it is no longer needed. The reason for its inclusion has been fixed.
+  - Update `EXTRACT_TELO` to `EXTRACT_TELOMERE` which also removed the use of the `cat {file} | awk` pattern, replacing it with just `awk`. This was supposed to happen in `1.4.0`, but was forgotten with the files lying dormant in the repo.
+  - Refactor of the `TELO_FINDER` subworkflow, introducing the `TELO_EXTRACTION` subworkflow which is run per telo file. With the introduction of `split_telomere` this can be 3 files.
+- Update `LONGREAD_COVERAGE` subworkflow:
+  - Remove `GRAPH_OVERALL_COVERAGE` as it is not in use.
+- Better formatting in some files.
+- Moved `GAWK_UPPER_SEQUENCE` from the `TELO_FINDER` subworkflow to the first step of the main `curationpretext` workflow, this simply makes more sense.
+- Removed no longer needed scripts from bin.
+- Added the module `GAWK_SPLIT_DIRECTIONS` module, a local copy of the nf-core `GAWK` module.
+- Added the `gawk_split_directions.awk` script for split telomere.
+- Addition of GUNZIP for the input reference genome.
+- Update tests.
+- Added an "AUTO" value to the `--aligner` arg. If a genome is >5Gb it will use minimap2 else bwamem2.
+- Parity update for the base.config to match TreeVal.
+- Minor Doc updates.
+- Comment out the CONDA workflow requirement, pipeline does not support conda.
+
+### Paramters
+
+| Old Version | New Versions     |
+| ----------- | ---------------- |
+| NA          | --split_telomere |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                   | Old Version   | New Versions  |
+| ------------------------ | ------------- | ------------- |
+| `GRAPH_OVERALL_COVERAGE` | perl=5.26.2   | REMOVED       |
+| `EXTRACT_TELO`           | coreutils=9.1 | REMOVED       |
+| `EXTRACT_TELOMERE`       | NA            | coreutils=9.1 |
+| `GAWK_CLEAN_TELOMERE`    | 5.3.0         | REMOVED       |
+| `GAWK_MAP_TELO`          | 5.3.0         | REMOVED       |
+| `GET_LARGEST_SCAFF`      | coreutils=9.1 | REMOVED       |
+| `GUNZIP`                 | NA            | 1.13          |
+| `GAWK_SPLIT_DIRECTIONS`  | NA            | 5.3.0         |
+
+## [[1.4.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.2)] - UNSC Nereid (H2) - [2025-07-28]
+
+### Added and Fixed
+
+- Fix to GENERATE_CRAM_CSV (by @mahesh-panchal)
+  - Missing quotations in the shell script would stop all CRAM data being taken into account.
+- Update to test data paths for Sanger local testing.
+- Corrected spelling of track value.
+- Added GNU_SORT memory allocation of 1Gb.
+
+## [[1.4.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.1)] - UNSC Nereid (H1) - [2025-04-14]
+
+### Added and Fixed
+
+- Template update to 3.2.1
+- Updated the CI testing to better match nf-core ci/cd.
+- Added `run_hires` to switch on/off hires pretextmap generation.
+- modules.config had an explicit `enabled = true` for pretext\_\*\_ingest steps
+  - In production it looks like this was actually stopping output from that module from being output from the module.
+- NF-Schema is now 2.3.0.
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+| NA          | --run_hires  |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module     | Old Version               | New Versions              |
+| ---------- | ------------------------- | ------------------------- |
+| PRETEXTMAP | PM=0.1.9 PG=0.0.1 ST=1.17 | PM=0.1.9 PG=0.0.2 ST=1.21 |
+
+## [[1.4.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.4.0)] - UNSC Nereid - [2025-04-14]
+
+### Added and Fixed
+
+- Fixed bug where occasionally and when using `minimap2` as the aligner, the pipeline would run both bwamem2 and minimap2 mapping subworkflow (fixes issue [#93](https://github.com/sanger-tol/curationpretext/issues/93))
+  - Fixed by moving the BWAMEM2 INDEX process into the subworkflow, this was a planned change anyway. Not sure why this fixed it as the subworkflow only accepts tuples with the aligner value of `bwamem2` or `minimap2` so selecting `minimap2` shouldn't have still run the BWAMAPPING subworkfow. The BWAMEM INDEX process seems to have pushed it through though.
+- Updated contributors list to include their OrcId.
+- Added `--skip_tracks` to control which tracks to generate, useful in cases where the end user may have no longread_data and must skip `coverage` generation. This can be be set to `"ALL"` to only generate the pretext maps.
+- Removed a number of processes (MINMAX, HALF_DEPTH, MIN_DEPTH, MAX_DEPTH) which are no longer in use.
+- Updated tests to account for all output files.
+- Updated all modules, versions which are the same indicate that the nf-core modules `.nf` has been updated without updating the tool.
+- Update modules and base config files for parity with TreeVal (large genome optimisations).
+- Update the PretextGraph version.
+
+### Paramters
+
+| Old Version | New Versions  |
+| ----------- | ------------- |
+| NA          | --skip_tracks |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module              | Old Version        | New Versions                         |
+| ------------------- | ------------------ | ------------------------------------ |
+| GET_MIN_MAX_PUNCHES | 1.0.0              | REMOVED                              |
+| FIND_HALF_COVERAGE  | 1.0.0              | REMOVED                              |
+| BEDTOOLS_MERGE_MAX  | 2.31.1--hf5e1c6e_0 | REMOVED                              |
+| BEDTOOLS_MERGE_MIN  | 2.31.1--hf5e1c6e_0 | REMOVED                              |
+| MINIMAP2_INDEX      | 2.28--he4a0461_0   | REMOVED                              |
+| BAMTOBEDSORT        | 2.31.1 + 1.17      | REMOVED                              |
+| TABIX_BGZIPTABIX    | 1.20--h5efdd21_2   | REMOVED                              |
+| BWAMEM2_INDEX       | 2.2.1              | 2.2.1 (samtools=1.2.1, htslib=1.2.1) |
+| SAMTOOLS_FAIDX      | 1.2.1              | 1.2.1                                |
+| SAMTOOLS_VIEW       | 1.2.1              | 1.2.1                                |
+| PRETEXT_GRAPH       | 0.0.8              | 0.0.9                                |
+
+## [[1.3.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.2)] - UNSC Pillar-of-Autumn (H2) - [2025-04-05]
+
+### Added and Fixed
+
+- GRIT found a bug in `pretext_graph` ingestion code where null values were being introduced as the track name
+  - This has now need hardcoded, there was no need for dynamic naming anyway
+
+- GRIT found a bug in `pretext_graph` ingestion where gap and telomere tracks stopped being ingested correctly and would no longer display or be zeroed out.
+  - I'm not entirely sure of the cause of this but i think it is a mix of how pretext handles unnamed tracks, assuming their datatype so a null named gap track would be treated as a repeat track, and incorrect logic in the pretext_graph module.
+
+- Added GAWK module (as GAWK_CLEAN_TELOMERE) to remove "you screwed up" (this is a legacy error message which will be changed to something more informative and professional) error lines which can appear with some telo motifs or lower case motifs. These will otherwise cause the FIND_TELOMERE_WINDOWS process to crash.
+
+- Removed the `check_max` function as no longer needed
+
+## [[1.3.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.1)] - UNSC Pillar-of-Autumn (H1) - [2025-04-02]
+
+### Added and Fixed
+
+- Changed the index format from `bai` to `csi` to be more flexible with large amount of mapping.
+- Correction to CHANGELOG entry on software versions for [[1.3.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.0)]
+
+## [[1.3.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.3.0)] - UNSC Pillar-of-Autumn - [2025-02-27]
+
+### Added and Fixed
+
+- Update to Template version 3.2.
+  - PIPELINE_INITIALISATION now initialises the channels for the pipeline.
+- `all_output` flag which, by default, will only output the post-processed pretext files.
+- Deleted the PRETEXT\*INGESTION\* subworkflow, replaced with a direct call to the PRETEXT_GRAPH module.
+- Updated PRETEXT_GRAPH for better logic and to match the same update to TreeVal.
+  - Inputs to pretext graph are now optional/conditional depedning on runs from previous steps.
+- Updated NF_TEST config to ignore modules and subworkflows.
+- Updated modules.config to reflect all the above changes.
+- Updated nextflow.config to cleanup by default -- previously this was added as a profile.
+- We no longer use the avg or log coverage tracks, processes related to these have been removed.
+- Shell blocks have been replaced with script blocks.
+- Removed the MAPS_ONLY entry point, entry points are being depreciated and the subworkflow not used. This can be re-added on request.
+- Replaced 5 modules with GAWK to remove bad practise (`cat > sed` commands).
+- Update to remaining AWK modules.
+- local_component_structure refactoring - changing structure of local module/subworkflow files to match standards.
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+| NA          | --all_output |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                             | Old Version                | New Versions |
+| ---------------------------------- | -------------------------- | ------------ |
+| `gawk`                             | -                          | 5.3.0        |
+| `rename_ids` ( coreutils )         | 9.1                        | REMOVED      |
+| `replace_dots` ( coreutils )       | 9.1                        | REMOVED      |
+| `gap_length` ( coreutils )         | 9.1                        | REMOVED      |
+| `reformat_intersect` ( coreutils ) | 9.1                        | REMOVED      |
+| `generate_genome_file` (coreutils) | 9.1                        | REMOVED      |
+| `custom_dumpsoftwareversions`      | Python 3.11.7 + yaml 5.4.1 | REMOVED      |
+
+## [[1.2.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.2.0)] - UNSC Spirit-of-Fire - [2025-02-28]
+
+### Added
+
+- Updated pretext graph (bug fix version).
+- Updated pretext module as the tool now offers version output.
+- Enums have been added to the schema to protect against invalid values for some fields.
+- Docker run options have been updated to run as User - @mahesh-panchal
+- Pipeline code has been trimmed and made more concise - @mahesh-panchal
+- Pipeline file and folder searching has been made more robust - @mahesh-panchal
+- Renamed the longread parameters to read parameters.
+- By request, cleanup is enabled by default.
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module         | Old Version | New Versions |
+| -------------- | ----------- | ------------ |
+| `pretextgraph` | 0.0.6       | 0.0.8-c1     |
+
+### Paramters
+
+| Old Version     | New Versions |
+| --------------- | ------------ |
+| --longread_type | --read_type  |
+| --longread      | --reads      |
+
+## [[1.1.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.1)] - UNSC Delphi (H1) - [2025-02-18]
+
+### Added
+
+- Added NF-Test
+- Updated pretext graph (bug fix version)
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module         | Old Version | New Versions |
+| -------------- | ----------- | ------------ |
+| `pretextgraph` | 0.0.6       | 0.0.6        |
+
+## [[1.1.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.1.0)] - UNSC Delphi - [2024-12-09]
+
+### Added
+
+- Added map_order so that the output maps are defaulted to unsorted and can be selected as sorted.
+- Updating all modules.
+- Removing Anaconda 'defaults' channel.
+- Updating local module containers.
+- Update to LICENSE and CITATIONS files.
+- Update algorithms at play for memory allocation, particulary minimap2.
+- Parity update to TreeVal as the mapping subworkflow is based on the treeval implementation.
+- Fixed some version output being generated incorrectly.
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+| -           | --map_order  |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                                         | Old Version   | New Versions               |
+| ---------------------------------------------- | ------------- | -------------------------- |
+| `get_avcov`                                    | -             | 1.0.0                      |
+| `bamtobed_sort` ( bedtools + samtools )        | 2.31.0 + 1.17 | 2.31.1 + 1.17              |
+| `bedtools` ( all modules)                      | 2.31.1        | -                          |
+| `bwamem2_index`                                | -             | 2.2.1                      |
+| `cram_filter_align_bwamem2_fixmate_sort`       | -             |                            |
+| ^ ( samtools + bwamem2 ) ^                     | 1.17 + 2.2.1  | -                          |
+| `cram_filter_minimap2_filter5end_fixmate_sort` | -             |                            |
+| ^ ( samtools + minimap2 ) ^                    | 1.17 + 2.24   | -                          |
+| `custom_dumpsoftwareversions`                  | -             | Python 3.11.7 + yaml 5.4.1 |
+| `extract_cov_id` ( coreutils )                 | 9.1           | 9.3                        |
+| `extract_repeat` ( perl )                      | 5.26.2        | -                          |
+| `extract_telo` ( coreutils )                   | -             | 9.1                        |
+| `find_telomere_regions` ( gcc )                | 7.1.0         | 7.1.0 + 1.0                |
+| `find_telomere_windows` ( java-jdk )           | 8.0.112       | 8.0.112 + 1.0              |
+| `findhalfcoverage` ( python )                  | -             | Python 3.9.1 + 1.0         |
+| `gap_length` ( coreutils )                     | 9.1           | -                          |
+| `generate_cram_csv` ( samtools )               | 1.17          | -                          |
+| `generate_genome_file` (coreutils)             | 9.1           | -                          |
+| `get_largest_scaff` ( coreutils )              | 9.1           | -                          |
+| `getminmaxpunches` ( coreutils )               | 9.1           | -                          |
+| `graphoverallcoverage` ( perl )                | -             | 5.26.2 + 1.0               |
+| `gnu-sort`                                     | 8.25          | 9.3                        |
+| `longreadcoveragescalelog`                     | -             | Python 3.9.1 + 1.0         |
+| `minimap2` + `samtools` (align, map)           |               | 2.28-r1209 + 1.20          |
+| `pretextmap` + `samtools`                      | 0.1.9 + 1.18  | 0.1.9\* + 1.20             |
+| `pretextgraph`                                 | 0.0.4         | 0.0.6                      |
+| `pretextsnapshot` + `UCSC`                     | 0.0.6b + 447  | 0.0.4 (official version)   |
+| `rename_ids` ( coreutils )                     | -             | 9.1                        |
+| `reformat_intersect` ( coreutils )             | -             | 9.1                        |
+| `replace_dots` ( coreutils )                   | -             | 9.1                        |
+| `seqtk`                                        | 1.4           | 1.4-r122                   |
+| `samtools` (faidx,merge,sort,view)             | 1.18          | 1.21                       |
+| `ucsc`                                         | 445           | 469                        |
+| `windowmasker` (blast)                         | -             | 2.14.0 + 1.0.0             |
+
+Even modules which have not had a version bump have indeed been updated through NF-core to remove defaults.
+
+Some modules now have two versions, the new addition is the script version rather than just the dependency version.
+
+## [[1.0.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.1)] - UNSC Cradle H1 - [2024-10-24]
+
+## Added
+
+- Ability for end users to select "sorted" or "unsorted" (default) for the pretext maps.
+- Adds a container for find_telomere.
+
+### Paramters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+|             | --map_order  |
+
+### Software Dependencies
+
+No updates to dependency versions
+
+### Dependencies
+
+### Deprecated
+
+## [[1.0.0](https://github.com/sanger-tol/curationpretext/releases/tag/1.0.0)] - UNSC Cradle - [2024-02-22]
+
+### Added
+
+- Subworkflows for both minimap2 and bwamem2 mapping.
+- Subworkflow for Pretext accessory file ingestion.
+- Considerations for other longread datatypes
+
+### Paramters
+
+| Old Version | New Versions    |
+| ----------- | --------------- |
+|             | --aligner       |
+|             | --longread_type |
+| --pacbio    | --longread      |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                                                              | Old Version    | New Versions   |
+| ------------------------------------------------------------------- | -------------- | -------------- |
+| bamtobed_sort ( bedtools + samtools )                               | -              | 2.31.0 + 1.17  |
+| bedtools ( genomecov, bamtobed, intersect, map, merge, makewindows) | 2.31.0         | 2.31.1         |
+| bwamem2 index                                                       | -              | 2.2.1          |
+| cram_filter_align_bwamem2_fixmate_sort                              | -              |                |
+| ^ ( samtools + bwamem2 ) ^                                          | 1.16.1 + 2.2.1 | 1.17 + 2.2.1   |
+| cram_filter_minimap2_filter5end_fixmate_sort                        | -              |                |
+| ^ ( samtools + minimap2 ) ^                                         | -              | 1.17 + 2.24    |
+| extract_cov_id ( coreutils )                                        | -              | 9.1            |
+| extract_repeat ( perl )                                             | -              | 5.26.2         |
+| extract_telo ( coreutils )                                          | -              | 9.1            |
+| find_telomere_regions ( gcc )                                       | -              | 7.1.0          |
+| find_telomere_windows ( java-jdk )                                  | -              | 8.0.112        |
+| gap_length ( coreutils )                                            | -              | 9.1            |
+| generate_cram_csv ( samtools )                                      | -              | 1.17           |
+| get_largest_scaff ( coreutils )                                     | -              | 9.1            |
+| gnu-sort                                                            | -              | 8.25           |
+| pretextmap + samtools                                               | 0.1.9 + 1.17   | 0.1.9\* + 1.18 |
+| pretextgraph                                                        |                | 0.0.4          |
+| pretextsnapshot + UCSC                                              | 0.0.6 + 447    | 0.0.6b + 447   |
+| seqtk                                                               | -              | 1.4            |
+| samtools (faidx,merge,sort,view)                                    | 1.17           | 1.18           |
+| tabix                                                               | -              | 1.11           |
+| ucsc                                                                | 377            | 445            |
+| windowmasker (blast)                                                | -              | 2.14.0         |
+
+- This version has been modified by @yumisims inorder to expose the texture buffer variable
+
+### Dependencies
+
+### Deprecated
+
+## [[0.1.0](https://github.com/sanger-tol/curationpretext/releases/tag/0.1.0)] - UNSC Infinity - [2023-10-02]
+
+Initial release of sanger-tol/curationpretext, created with the [sager-tol](https://nf-co.re/) template.
+
+### Added
+
+- Subworkflow to generate tracks containing telomeric sites.
+- Subworkflow to generate Pretext maps and images
+- Subworkflow to generate repeat density tracks.
+- Subworkflow to generate longread coverage tracks from pacbio data.
+- Subworkflow to generate gap tracks.
+
+### Parameters
+
+| Old Version | New Versions |
+| ----------- | ------------ |
+|             | --input      |
+|             | --cram       |
+|             | --pacbio     |
+|             | --sample     |
+|             | --teloseq    |
+|             | -entry       |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module                                 | Old Version | New Versions   |
+| -------------------------------------- | ----------- | -------------- |
+| bamtobed_sort ( bedtools + samtools )  | -           | 2.31.0 + 1.17  |
+| bedtools                               | -           | 2.31.0         |
+| cram_filter_align_bwamem2_fixmate_sort | -           |                |
+| ^ ( samtools + bwamem2 ) ^             | -           | 1.16.1 + 2.2.1 |
+| extract_cov_id ( coreutils )           | -           | 9.1            |
+| extract_repeat ( perl )                | -           | 5.26.2         |
+| extract_telo ( coreutils )             | -           | 9.1            |
+| find_telomere_regions ( gcc )          | -           | 7.1.0          |
+| find_telomere_windows ( java-jdk )     | -           | 8.0.112        |
+| gap_length ( coreutils )               | -           | 9.1            |
+| generate_cram_csv ( samtools )         | -           | 1.17           |
+| get_largest_scaff ( coreutils )        | -           | 9.1            |
+| gnu-sort                               | -           | 8.25           |
+| pretextmap + samtools                  | -           | 0.1.9 + 1.17   |
+| seqtk                                  | -           | 1.4            |
+| tabix                                  | -           | 1.11           |
+| ucsc                                   | -           | 377            |
+| windowmasker (blast)                   | -           | 2.14.0         |
+
+### Fixed
+
+### Dependencies
+
+### Deprecated

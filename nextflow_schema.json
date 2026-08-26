@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/sanger-tol/curationpretext/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/sanger-tol/curationpretext/main/nextflow_schema.json",
     "title": "sanger-tol/curationpretext pipeline parameters",
     "description": "A simple pipeline to generate pretext files for genomic curation.",
     "type": "object",
@@ -10,18 +10,122 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["input", "sample", "outdir", "map_order"],
             "properties": {
                 "input": {
                     "type": "string",
                     "format": "file-path",
+                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+                    "description": "Input fasta file",
+                    "help_text": "You need the input fasta file",
+                    "fa_icon": "fas fa-file-fasta",
+                    "exists": true
+                },
+                "split_telomere": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Split the telomere file into 5' and 3' files for seperate ingestion into the HiC maps",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "skip_tracks": {
+                    "type": "string",
+                    "description": "Skip generation for specified tracks",
+                    "fa_icon": "fas fa-file-signature"
+                },
+                "reads": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "path",
+                        "pattern": ".*\\.(fa|fasta|fq|fastq).gz$"
+                    },
+                    "description": "Input longread fasta files",
+                    "help_text": "You need the input fasta file array",
+                    "fa_icon": "fas fa-folder-open",
+                    "exists": true
+                },
+                "read_type": {
+                    "type": "string",
+                    "description": "Type of longread data",
+                    "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
+                    "fa_icon": "fas fa-file-signature",
+                    "enum": ["hifi", "clr", "ont", "illumina"]
+                },
+                "cram": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "path",
+                        "pattern": ".*\\.cram$"
+                    },
+                    "description": "Input cram files",
+                    "help_text": "You need the input fasta file array",
+                    "fa_icon": "fas fa-file-signature",
+                    "exists": true
+                },
+                "teloseq": {
+                    "type": "string",
+                    "description": "Telomeric Motif for search. Defaults to TTAGGG",
+                    "help_text": "Give me a telomeric motif",
+                    "fa_icon": "fas fa-file-signature"
+                },
+                "map_order": {
+                    "type": "string",
+                    "description": "HiC map scaffold order. Default to unsorted",
+                    "help_text": "How you want to display your hic map, sorted by length?",
+                    "fa_icon": "fas fa-file-signature",
+                    "enum": ["length", "unsorted"]
+                },
+                "aligner": {
+                    "type": "string",
+                    "description": "Aligner for use {minimap2, bwamem2} in generating map",
+                    "help_text": "Pick between {minimap2, bwamem2, AUTO}. Defaults to 'minimap2'",
+                    "fa_icon": "fas fa-file-signature",
+                    "enum": ["bwamem2", "minimap2", "AUTO"]
+                },
+                "run_hires": {
+                    "type": "boolean",
+                    "description": "Run High Resolution pretext maps",
+                    "help_text": "Boolean to switch off HiRes pretextmap generation",
+                    "fa_icon": "fas fa-check"
+                },
+                "run_ultra": {
+                    "type": "string",
+                    "description": "Run Ultra resolution pretext maps",
+                    "help_text": "Switch for Ultra resolution pretextmap generation",
+                    "fa_icon": "fas fa-check",
+                    "enum": ["yes", "no", "force"]
+                },
+                "cram_chunk_size": {
+                    "type": "integer",
+                    "description": "Chunk size for splitting CRAM files",
+                    "help_text": "Chunk size for splitting CRAM files",
+                    "fa_icon": "fas fa-file-code",
+                    "default": 10000
+                },
+                "pre_mapped_bam": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Pre-mapped BAM file",
+                    "help_text": "Pre-mapped BAM file",
+                    "fa_icon": "fas fa-file-code",
                     "exists": true,
-                    "schema": "assets/schema_input.json",
-                    "mimetype": "text/csv",
-                    "pattern": "^\\S+\\.csv$",
-                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
-                    "fa_icon": "fas fa-file-csv"
+                    "pattern": ".*\\.bam$"
+                },
+                "snapshot_order": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "Order of scaffolds in the png",
+                    "help_text": "Order of scaffolds in the pretext snapshotpng",
+                    "fa_icon": "fas fa-sort",
+                    "pattern": ".*\\.txt$"
+                },
+                "snapshot_generation": {
+                    "type": "boolean",
+                    "description": "Generate a snapshot of the pretext output",
+                    "help_text": "Generate a snapshot of the pretext output",
+                    "fa_icon": "fas fa-check"
                 },
                 "outdir": {
                     "type": "string",
@@ -35,6 +139,27 @@
                     "fa_icon": "fas fa-envelope",
                     "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
+                },
+                "sample": {
+                    "type": "string",
+                    "description": "A Name for the sample",
+                    "fa_icon": "fas fa-file-signature"
+                },
+                "all_output": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-check-square",
+                    "description": "Output all files",
+                    "help_text": "Output the Accessory files and unproccessed pretext files which by default are not output by the pipeline. Processed pretext files with telo, gap, repeat and coverage data ingested are still output."
+                },
+                "multi_mapping": {
+                    "type": "number",
+                    "default": 0,
+                    "fa_icon": "fas fa-numbers",
+                    "description": "MAPQ values used to filter reads.",
+                    "help_text": "In the range 0..10, pick the minumum map mapping quality of reads to be filtered. In a multi-mapping context, 0 would keep all reads and 10 removes all multimapping reads.",
+                    "minimum": 0,
+                    "maximum": 10
                 }
             }
         },
