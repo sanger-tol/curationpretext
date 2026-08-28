@@ -88,16 +88,16 @@ process PRETEXT_GRAPH {
                     echo "Found *telox.telomere* file: \$file"
                     file_telox="\$file"
                     ;;
-                *fwd.telomere*)
-                    echo "Found *fwd.telomere* file: \$file"
+                *fwd.windows_telomere*)
+                    echo "Found *fwd.windows_telomere* file: \$file"
                     file_5p="\$file"
                     ;;
-                *rev.telomere*)
-                    echo "Found *rev.telomere* file: \$file"
+                *rev.windows_telomere*)
+                    echo "Found *rev.windows_telomere* file: \$file"
                     file_3p="\$file"
                     ;;
-                *.telomere)
-                    echo "Found *.telomere file: \$file"
+                *.windows_telomere)
+                    echo "Found *.windows_telomere file: \$file"
                     file_og="\$file"
                     ;;
             esac

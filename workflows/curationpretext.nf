@@ -115,7 +115,7 @@ workflow CURATIONPRETEXT {
 
         gaps_file           = ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
         cove_file           = ACCESSORY_FILES.out.coverage_file.map{ _meta, file -> file }.ifEmpty{ [] }
-        telo_file           = ACCESSORY_FILES.out.telo_file.map{ _meta, files -> files }.collect().ifEmpty{ [] }
+        telo_file           = ACCESSORY_FILES.out.telo_windows.map{ _meta, files -> files }.collect().ifEmpty{ [] }
         rept_file           = ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
     }
 
@@ -192,11 +192,6 @@ workflow CURATIONPRETEXT {
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
     //          - ADAPTED FROM TREEVAL
     //
-    gaps_file.view{"gaps: $it"}
-    cove_file.view{"cove: $it"}
-    telo_file.view{"telo: $it"}
-    rept_file.view{"repeats: $it"}
-
     PRETEXT_INGEST_SNDRD (
         CREATE_MAPS_STDRD.out.pretext.filter { !val_no_tracks },
         gaps_file,
