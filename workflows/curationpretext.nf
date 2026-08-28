@@ -192,11 +192,6 @@ workflow CURATIONPRETEXT {
     // MODULE: INGEST ACCESSORY FILES INTO PRETEXT BY DEFAULT
     //          - ADAPTED FROM TREEVAL
     //
-    gaps_file.view{"gaps: $it"}
-    cove_file.view{"cove: $it"}
-    telo_file.view{"telo: $it"}
-    rept_file.view{"repeats: $it"}
-
     PRETEXT_INGEST_SNDRD (
         CREATE_MAPS_STDRD.out.pretext.filter { !val_no_tracks },
         gaps_file,
