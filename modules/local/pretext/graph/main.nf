@@ -79,22 +79,25 @@ process PRETEXT_GRAPH {
         file_3p=""
         file_og=""
 
-        for file in telomere/*.bedgraph; do
+        for file in telomere/*; do
             [ -e "\$file" ] || continue  # skip if no match
             fname=\$(basename "\$file")
 
             case "\$fname" in
-                *telox*)
-                    echo
+                *telox.telomere*)
+                    echo "Found *telox.telomere* file: \$file"
                     file_telox="\$file"
                     ;;
-                *5P*)
+                *fwd.telomere*)
+                    echo "Found *fwd.telomere* file: \$file"
                     file_5p="\$file"
                     ;;
-                *3P*)
+                *rev.telomere*)
+                    echo "Found *rev.telomere* file: \$file"
                     file_3p="\$file"
                     ;;
-                *)
+                *.telomere)
+                    echo "Found *.telomere file: \$file"
                     file_og="\$file"
                     ;;
             esac

@@ -28,10 +28,53 @@
                     "default": false,
                     "fa_icon": "fas fa-check"
                 },
-                "skip_tracks": {
-                    "type": "string",
-                    "description": "Skip generation for specified tracks",
-                    "fa_icon": "fas fa-file-signature"
+                "coverage_track": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Generate and ingest the coverage file",
+                    "fa_icon": "fas fa-check"
+                },
+                "repeat_track": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Generate and ingest the repeats track",
+                    "fa_icon": "fas fa-check"
+                },
+                "gap_track": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Generate and ingest the gaps track",
+                    "fa_icon": "fas fa-check"
+                },
+                "telo_track": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Generate and ingest the telomere track",
+                    "fa_icon": "fas fa-check"
+                },
+                "pebble_track": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Generate and ingest the pebble coverage track",
+                    "fa_icon": "fas fa-check"
+                },
+                "busco_track": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Generate and ingest the busco track",
+                    "fa_icon": "fas fa-check"
+                },
+                "no_tracks": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Do not generate and ingest any tracks",
+                    "fa_icon": "fas fa-check"
+                },
+                "track_indexes": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Generate the track indexes, typically needed by genomic browsers",
+                    "fa_icon": "fas fa-check"
                 },
                 "reads": {
                     "type": "array",

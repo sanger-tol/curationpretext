@@ -29,4 +29,5 @@ workflow REPEAT_MASKING {
 
     emit:
     repeat_intervals = WINDOWMASKER_USTAT.out.intervals
+    _dummy           = channel.empty()  // To force the workflow to use named outputs under "out"
 }

@@ -92,7 +92,7 @@ workflow PIPELINE_INITIALISATION {
         before_text,
         after_text,
         command,
-        false
+        true
     )
 
     //
@@ -122,11 +122,25 @@ workflow PIPELINE_INITIALISATION {
         ]
     }
 
-    ch_snapshot_order = params.snapshot_order ? channel.fromPath(
-                        params.snapshot_order,
-                        checkIfExists: true,
-                        type: 'file'
-                    ) : channel.empty()
+    ch_snapshot_order = params.snapshot_order ? channel.of(
+        [
+            [
+                id: params.sample,
+                map_order: params.map_order,
+                multi_mapping: params.multi_mapping,
+            ],
+            file(params.snapshot_order, checkIfExists: true, type: 'file' )
+        ]
+    ) : channel.of(
+        [
+            [
+                id: params.sample,
+                map_order: params.map_order,
+                multi_mapping: params.multi_mapping,
+            ],
+            []
+        ]
+    )
 
     if ( (params.pre_mapped_bam?.size() ?: 0) == 0 && (params.cram?.size() ?: 0) == 0 ) {
         error "You need to supply either a --pre_mapped_bam file of an array of --cram files!"
@@ -170,13 +184,22 @@ workflow PIPELINE_INITIALISATION {
                         params.reads
                     )
 
+    ch_teloseq      = channel.of(
+                        [
+                            [
+                                id: params.sample,
+                            ],
+                            params.teloseq
+                        ]
+                    )
+
     emit:
     ch_reference
     ch_cram_reads
     ch_mapped_bam
     ch_longreads
     ch_snapshot_order
-    teloseq             = params.teloseq
+    ch_teloseq
     versions            = ch_versions
 }
 
