@@ -115,7 +115,7 @@ workflow CURATIONPRETEXT {
 
         gaps_file           = ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
         cove_file           = ACCESSORY_FILES.out.coverage_file.map{ _meta, file -> file }.ifEmpty{ [] }
-        telo_file           = ACCESSORY_FILES.out.telo_windows.map{ _meta, files -> files }.collect().ifEmpty{ [] }
+        telo_file           = ACCESSORY_FILES.out.telo_file.map{ _meta, files -> files }.collect().ifEmpty{ [] }
         rept_file           = ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
     }
 

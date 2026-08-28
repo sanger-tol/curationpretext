@@ -1,11 +1,8 @@
 //
 // MODULE IMPORT BLOCK
 //
-include { TELOMERE_FINDTELOMERE                     } from '../../../modules/sanger-tol/telomere/findtelomere/main'
-include { TELOMERE_EXTRACT as TELOMERE_EXTRACT_FULL } from '../../../modules/sanger-tol/telomere/extract/main'
-include { TELOMERE_EXTRACT as TELOMERE_EXTRACT_FWD  } from '../../../modules/sanger-tol/telomere/extract/main'
-include { TELOMERE_EXTRACT as TELOMERE_EXTRACT_REV  } from '../../../modules/sanger-tol/telomere/extract/main'
-include { HTSLIB_BGZIPTABIX                         } from '../../../modules/nf-core/htslib/bgziptabix/main'
+include { TELOMERE_FINDTELOMERE } from '../../../modules/sanger-tol/telomere/findtelomere/main'
+include { HTSLIB_BGZIPTABIX     } from '../../../modules/nf-core/htslib/bgziptabix/main'
 
 
 workflow TELO_FINDER {
@@ -60,26 +57,14 @@ workflow TELO_FINDER {
         ch_gz_index = channel.empty()
     }
 
-    TELOMERE_EXTRACT_FULL(
-        TELOMERE_FINDTELOMERE.out.windows_all
-    )
-
-    TELOMERE_EXTRACT_FWD(
-        TELOMERE_FINDTELOMERE.out.windows_fwd
-    )
-
-    TELOMERE_EXTRACT_REV(
-        TELOMERE_FINDTELOMERE.out.windows_rev
-    )
-
 
     emit:
     telomere         = TELOMERE_FINDTELOMERE.out.telomere
     telomere_bed_fwd = TELOMERE_FINDTELOMERE.out.telomere_bed_fwd
     telomere_bed_rev = TELOMERE_FINDTELOMERE.out.telomere_bed_rev
-    windows_all      = TELOMERE_EXTRACT_FULL.out.bedgraph
-    windows_fwd      = TELOMERE_EXTRACT_FWD.out.bedgraph
-    windows_rev      = TELOMERE_EXTRACT_REV.out.bedgraph
+    windows_all      = TELOMERE_FINDTELOMERE.out.windows_all
+    windows_fwd      = TELOMERE_FINDTELOMERE.out.windows_fwd
+    windows_rev      = TELOMERE_FINDTELOMERE.out.windows_rev
     gz_index         = ch_gz_index
 
 }
