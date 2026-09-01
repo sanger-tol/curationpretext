@@ -17,4 +17,5 @@ results/
 testing/
 testing*
 *.pyc
-TreeValTinyData/
+null/
+.lineage/

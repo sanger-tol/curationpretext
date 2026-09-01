@@ -37,7 +37,7 @@ nextflow_pipeline {
                     // Test for number of successful processes
                     workflow.trace.succeeded().size(), // 42 with out needing to gunzip the assembly
 
-                    removeNextflowVersion("$outputDir/pipeline_info/sanger-tol_curationpretext_software_versions.yml"),
+                    removeNextflowVersion("$outputDir/pipeline_info/curationpretext_software_versions.yml"),
 
                     // Stable name with relative path
                     stable_name,

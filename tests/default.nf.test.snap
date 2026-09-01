@@ -123,7 +123,7 @@
                 "accessory_files/CurationPretextTest_MIN_5P_telomere.bedgraph",
                 "accessory_files/CurationPretextTest_MIN_repeat_density.bigWig",
                 "pipeline_info",
-                "pipeline_info/sanger-tol_curationpretext_software_versions.yml",
+                "pipeline_info/curationpretext_software_versions.yml",
                 "pretext_maps_processed",
                 "pretext_maps_processed/CurationPretextTest_MIN_normal.pretext",
                 "pretext_maps_raw",
@@ -140,7 +140,7 @@
                 "CurationPretextTest_MIN_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
                 "CurationPretextTest_MIN_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
                 "CurationPretextTest_MIN_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
-                "CurationPretextTest_MIN_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
+                "CurationPretextTest_MIN_repeat_density.bigWig:md5,ddb14d7e7a482773da2209a30bca5fd7"
             ],
             8,
             1,
@@ -152,10 +152,10 @@
             1,
             true
         ],
-        "timestamp": "2026-06-09T17:43:13.265520727",
+        "timestamp": "2026-08-26T12:21:46.041881864",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "25.04.6"
+            "nextflow": "26.04.0"
         }
     }
 }

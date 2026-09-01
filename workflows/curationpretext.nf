@@ -49,6 +49,7 @@ workflow CURATIONPRETEXT {
     val_run_ultra
     val_split_telomere
     val_cram_chunk_size
+    outdir
 
     main:
     ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
@@ -275,6 +276,7 @@ workflow CURATIONPRETEXT {
         val_split_telomere
     )
 
+    def ch_versions = channel.empty()
 
     //
     // Collate and save software versions
@@ -296,23 +298,16 @@ workflow CURATIONPRETEXT {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    // Removed mix as there is no more ch_versions
-    softwareVersionsToYAML(topic_versions.versions_file)
+    def ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
         .mix(topic_versions_string)
         .collectFile(
-            storeDir: "${params.outdir}/pipeline_info",
-            name: 'sanger-tol_'  +  'curationpretext_software_' + 'versions.yml',
+            storeDir: "${outdir}/pipeline_info",
+            name:  'curationpretext_software_'  + 'versions.yml',
             sort: true,
             newLine: true
-        ).set { ch_collated_versions }
-
-    _summary_params      = paramsSummaryMap(
-        workflow, parameters_schema: "nextflow_schema.json")
-
-
+        )
     emit:
-    versions       = ch_collated_versions   // channel: [ path(versions.yml) ]
-
+    versions       = ch_versions                 // channel: [ path(versions.yml) ]
 }
 
 /*
