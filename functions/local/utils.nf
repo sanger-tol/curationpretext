@@ -49,7 +49,7 @@ def fn_get_validated_channel (data_type, tolid_meta, files_list) {
 
     // This may not bring the error to the surface, check the .nextflow.log for details
     if (raw_list != unique_list) {
-        error "[Treeval: Error] There is a duplicate value in your ${data_type} list, check your inputs! Found ${raw_list} total items but only ${unique_list} unique items."
+        error "[CPretext: Error] There is a duplicate value in your ${data_type} list, check your inputs! Found ${raw_list} total items but only ${unique_list} unique items."
     }
 
     // Create the resolved channel tuple

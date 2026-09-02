@@ -24,8 +24,8 @@ process TELOMERE_EXTRACT {
     awk 'BEGIN { OFS = "\t" }
     {
         gsub(">", "")
-        print \$2, \$4, \$5 >> "${prefix}_telomere.bed"
-        print \$2, \$4, \$5, (((\$5-\$4)<0)?-(\$5-\$4):(\$5-\$4)) >> "${prefix}_telomere.bedgraph"
+        print \$1, \$3, \$4 >> "${prefix}_telomere.bed"
+        print \$1, \$3, \$4, (((\$4-\$3)<0)?-(\$4-\$3):(\$4-\$3)) >> "${prefix}_telomere.bedgraph"
     }' ${telomere}
     """
 

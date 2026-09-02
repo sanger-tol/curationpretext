@@ -36,16 +36,33 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     mapped
     snapshot_order
     teloseq
-    input_file_string
+    string_input
     aligner
-    skip_tracks
     run_hires
     run_ultra
     split_telomere
     cram_chunk_size
+    coverage_track
+    gaps_track
+    telo_track
+    repeats_track
+    pebble_track
+    busco_track
+    no_tracks
+    track_indexes
     outdir
 
     main:
+
+    //
+    // LOGIC: THIS CAN'T BE PART OF THE PIPELINE_INITIALISATION SUBWORKFLOW
+    //        OUTPUTTING A VALUE FROM A WORKFLOW WRAPS IT AS A DATAVALUE
+    //        SO CALCULATE HERE
+    //
+    def fasta_size = file(string_input).size()
+    selected_aligner = (aligner == "AUTO") ?
+        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+        aligner
 
     CURATIONPRETEXT (
         input_fasta,
@@ -54,16 +71,21 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         mapped,
         snapshot_order,
         teloseq,
-        input_file_string,
-        aligner,
-        skip_tracks,
+        selected_aligner,
         run_hires,
         run_ultra,
         split_telomere,
         cram_chunk_size,
+        coverage_track,
+        gaps_track,
+        telo_track,
+        repeats_track,
+        pebble_track,
+        busco_track,
+        track_indexes,
+        no_tracks,
         outdir
     )
-    // CURATIONPRETEXT_MAPS
 }
 
 /*
@@ -99,14 +121,21 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.ch_mapped_bam,
         PIPELINE_INITIALISATION.out.ch_snapshot_order,
-        PIPELINE_INITIALISATION.out.teloseq,
+        PIPELINE_INITIALISATION.out.ch_teloseq,
         params.input,
         params.aligner,
-        params.skip_tracks,
-        params.run_hires,
-        params.run_ultra,
-        params.split_telomere,
+        params.run_hires.toBoolean(),
+        params.run_ultra.toBoolean(),
+        params.split_telomere.toBoolean(),
         params.cram_chunk_size,
+        params.coverage_track.toBoolean(),
+        params.gap_track.toBoolean(),
+        params.telo_track.toBoolean(),
+        params.repeat_track.toBoolean(),
+        params.pebble_track.toBoolean(),
+        params.busco_track.toBoolean(),
+        params.no_tracks.toBoolean(),
+        params.track_indexes.toBoolean(),
         params.outdir,
     )
 

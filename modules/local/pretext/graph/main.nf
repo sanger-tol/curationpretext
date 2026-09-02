@@ -88,10 +88,10 @@ process PRETEXT_GRAPH {
                     echo
                     file_telox="\$file"
                     ;;
-                *5P*)
+                *fwd*)
                     file_5p="\$file"
                     ;;
-                *3P*)
+                *rev*)
                     file_3p="\$file"
                     ;;
                 *)
