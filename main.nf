@@ -35,35 +35,69 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     cram
     mapped
     snapshot_order
+    snapshot_generation
+    snapshot_annotate
+    juicer_generation
     teloseq
     input_file_string
     aligner
-    skip_tracks
+    run_gap
+    run_telomere
+    run_repeats
+    run_coverage
+    run_busco
+    run_pebble
     run_hires
     run_ultra
     split_telomere
     cram_chunk_size
+    replace_dots
+    track_indexes
+    no_tracks
     outdir
 
     main:
 
+    //
+    // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
+    //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
+    //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
+    //
+    def fasta_size = file(input_file_string).size()
+    def selected_aligner = (aligner == "AUTO") ?
+        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
+        aligner
+
+
+    //
+    // WORKFLOW: ACTUAL CURATIONPRETEXT WORKFLOW
+    //
     CURATIONPRETEXT (
         input_fasta,
         reads,
         cram,
         mapped,
         snapshot_order,
+        snapshot_generation,
+        snapshot_annotate,
+        juicer_generation,
         teloseq,
-        input_file_string,
-        aligner,
-        skip_tracks,
+        selected_aligner,
+        run_gap,
+        run_telomere,
+        run_repeats,
+        run_coverage,
+        run_busco,
+        run_pebble,
         run_hires,
         run_ultra,
+        no_tracks,
         split_telomere,
         cram_chunk_size,
+        replace_dots,
+        track_indexes,
         outdir
     )
-    // CURATIONPRETEXT_MAPS
 }
 
 /*
@@ -83,7 +117,7 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        [],                      // We are not using the samplesheet for this pipeline
+        [], // We are not using the samplesheet for this pipeline
         params.help,
         params.help_full,
         params.show_hidden
@@ -99,14 +133,25 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.ch_mapped_bam,
         PIPELINE_INITIALISATION.out.ch_snapshot_order,
+        params.snapshot_generation.toBoolean(),
+        params.snapshot_annotation.toBoolean(),
+        params.juicer_generation.toBoolean(),
         PIPELINE_INITIALISATION.out.teloseq,
         params.input,
         params.aligner,
-        params.skip_tracks,
-        params.run_hires,
+        params.run_gap.toBoolean(),
+        params.run_telomere.toBoolean(),
+        params.run_repeats.toBoolean(),
+        params.run_coverage.toBoolean(),
+        params.run_busco.toBoolean(),
+        params.run_pebble.toBoolean(),
+        params.run_hires.toBoolean(),
         params.run_ultra,
-        params.split_telomere,
+        params.split_telomere.toBoolean(),
         params.cram_chunk_size,
+        params.replace_dots.toBoolean(),
+        params.generate_track_indexes.toBoolean(),
+        params.no_tracks.toBoolean(),
         params.outdir,
     )
 

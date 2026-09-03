@@ -28,11 +28,56 @@
                     "default": false,
                     "fa_icon": "fas fa-check"
                 },
-                "skip_tracks": {
-                    "type": "string",
-                    "description": "Skip generation for specified tracks",
-                    "fa_icon": "fas fa-file-signature"
+                "run_coverage": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the coverage analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
                 },
+                "run_telomere": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the telomere analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_gap": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the gap analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_repeats": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the repeats analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_busco": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the BUSCO analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_pebble": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the Pebble coverage analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "no_tracks": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Do not generate tracks.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+
                 "reads": {
                     "type": "array",
                     "items": {
@@ -84,6 +129,12 @@
                     "fa_icon": "fas fa-file-signature",
                     "enum": ["bwamem2", "minimap2", "AUTO"]
                 },
+                "generate_track_indexes": {
+                    "type": "boolean",
+                    "description": "Generate track indexes",
+                    "help_text": "Boolean to switch off track index generation",
+                    "fa_icon": "fas fa-check"
+                },
                 "run_hires": {
                     "type": "boolean",
                     "description": "Run High Resolution pretext maps",
@@ -127,6 +178,12 @@
                     "help_text": "Generate a snapshot of the pretext output",
                     "fa_icon": "fas fa-check"
                 },
+                "juicer_generation": {
+                    "type": "boolean",
+                    "description": "Generate a juicer map output",
+                    "help_text": "Generate a juicer map output",
+                    "fa_icon": "fas fa-check"
+                },
                 "outdir": {
                     "type": "string",
                     "format": "directory-path",
@@ -160,6 +217,13 @@
                     "help_text": "In the range 0..10, pick the minumum map mapping quality of reads to be filtered. In a multi-mapping context, 0 would keep all reads and 10 removes all multimapping reads.",
                     "minimum": 0,
                     "maximum": 10
+                },
+                "replace_dots": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-dot-circle",
+                    "description": "Replace dots in FASTA headers with underscores.",
+                    "help_text": "Some tools may not handle FASTA headers with dots in them correctly, this option uses seqtk to replace dots with underscores."
                 }
             }
         },
