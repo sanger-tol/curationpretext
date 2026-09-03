@@ -10,9 +10,9 @@ nextflow_workflow {
     tag "subworkflows/gap_finder"
     tag "seqtk/cutn"
     tag "gawk"
-    tag "tabix/bgziptabix"
+    tag "htslib/bgziptabix"
     tag "subworkflows/../../modules/nf-core/gawk"
-    tag "subworkflows/../../modules/nf-core/tabix/bgziptabix"
+    tag "subworkflows/../../modules/nf-core/htslib/bgziptabix"
     tag "subworkflows/../../modules/nf-core/seqtk/cutn"
 	tag "modules/nf-core/gunzip"
 
@@ -23,7 +23,7 @@ nextflow_workflow {
             [
                 "seqtk/cutn",
                 "gawk",
-                "tabix/bgziptabix",
+                "htslib/bgziptabix",
                 "gunzip"
             ]
         )

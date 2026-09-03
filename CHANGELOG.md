@@ -3,20 +3,42 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.2)] - UNSC Trafalgar (H2) - [2025-05-11]
+## [[2.0.0](https://github.com/sanger-tol/curationpretext/releases/tag/2.0.0)] - Forerunner Audacity - [2026-08-30]
 
 ## Added and Fixed
 
 - Update nf-core template to 4.1.0.
   - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins.
+- Update NF-SCHEMA to 2.7.2.
+  - This gets around the CLI args now being strings, which stopped boolean flags from being parsed correctly.
+  - It is now preferred that boolean flags are controlled via `-params-file` due to this change.
+  - More details can be found on the [nf-core blog](https://nf-co.re/blog/2026/parameter-types).
+- Added the `FASTA_CLEAN_FAIDX` nf-core subworkflow to replace a handful of modules to clean the fasta and header.
+- Added the `PRETEXT_ACCESSORY_FILES` sanger-tol subworkflow to group together a number of subworkflows for accessory file generation.
+  - This update also updates a number of the track generation subworkflows such as `TELO_FINDER` which now relies on 1 module rather than the previous 3 for the same functionality.
+  - Removed `--skip_tracks` csv string parameter in favor of individual track flags.
+  - Each track now required its own flag , e.g., `--telo_track false` stops telomere track generation and ingestion.
 - Added flag to control pretext snapshot generation
 - Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes.
+- Fixed bug in `CREATE_MAPS_ULTRA` that was checking for "true" rather than "yes", see patch notes for `1.6.1`.
+- Added internal merge for when users want to generate a merged haplotype assembly hic map.
+- `ch_snapshot_order` is now defined in the `PIPELINE_INITIALISATION` along with other channels rather than in the  `CURATION_PRETEXT` main workflow.
+
+#### NOTE
+- Added support for new tracks (pebble and busco) which are **NOT** yet implemented.
+
 
 ### Paramters
 
-| Old Version | New Versions          |
-| ----------- | --------------------- |
-| NA          | --snapshot_generation |
+| Old Version   | New Versions          |
+| ------------- | --------------------- |
+| NA            | --snapshot_generation |
+| --skip_tracks | --telo_track          |
+| --skip_tracks | --coverage_track      |
+| --skip_tracks | --gap_track           |
+| --skip_tracks | --repeat_track        |
+| NA            | --pebble_track (hidden placeholder) |
+| NA            | --busco_track (hidden placeholder) |
 
 ## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
 
