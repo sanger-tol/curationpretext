@@ -65,7 +65,7 @@
                     "gunzip": {
                         "branch": "master",
                         "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
-                        "installed_by": ["modules"]
+                        "installed_by": ["fasta_clean_faidx", "modules"]
                     },
                     "juicertools/pre": {
                         "branch": "master",
@@ -92,10 +92,15 @@
                         "git_sha": "ab43b6911ab384892fe3753f0ce407b0c23f9d19",
                         "installed_by": ["modules", "pairs_create_contact_maps"]
                     },
+                    "samtools/dict": {
+                        "branch": "master",
+                        "git_sha": "9339809fcb90af8a8b7051e6cd914894d5c52002",
+                        "installed_by": ["fasta_clean_faidx"]
+                    },
                     "samtools/faidx": {
                         "branch": "master",
                         "git_sha": "b2e78932ef01165fd85829513eaca29eff8e640a",
-                        "installed_by": ["bam_samtools_merge_markdup", "modules"]
+                        "installed_by": ["bam_samtools_merge_markdup", "fasta_clean_faidx", "modules"]
                     },
                     "samtools/index": {
                         "branch": "master",
@@ -121,6 +126,16 @@
                         "branch": "master",
                         "git_sha": "b2e78932ef01165fd85829513eaca29eff8e640a",
                         "installed_by": ["modules"]
+                    },
+                    "seqkit/replace": {
+                        "branch": "master",
+                        "git_sha": "d07a945f421a4a91ce4e5a22db63e0e7f8741607",
+                        "installed_by": ["fasta_clean_faidx"]
+                    },
+                    "seqkit/seq": {
+                        "branch": "master",
+                        "git_sha": "d07a945f421a4a91ce4e5a22db63e0e7f8741607",
+                        "installed_by": ["fasta_clean_faidx"]
                     },
                     "seqtk/cutn": {
                         "branch": "master",
@@ -151,6 +166,11 @@
             },
             "subworkflows": {
                 "nf-core": {
+                    "fasta_clean_faidx": {
+                        "branch": "master",
+                        "git_sha": "5a987fb1332540a5fbe3f5eb27f0dd23740ea548",
+                        "installed_by": ["subworkflows"]
+                    },
                     "utils_nextflow_pipeline": {
                         "branch": "master",
                         "git_sha": "c2b22d85f30a706a3073387f30380704fcae013b",
@@ -196,6 +216,11 @@
                         "branch": "main",
                         "git_sha": "2db2b347b5fd5b0e031f10982dd20b44272f6787",
                         "installed_by": ["read_coverage"]
+                    },
+                    "pretextannotate": {
+                        "branch": "main",
+                        "git_sha": "138de7f544587ddc600dd0a3ad3229d27f27c5a9",
+                        "installed_by": ["modules"]
                     },
                     "samtools/mergedup": {
                         "branch": "main",

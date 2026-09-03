@@ -14,7 +14,14 @@ workflow ACCESSORY_FILES {
     longread_reads      // Channel [ val(meta), [path(file)] ]
     val_teloseq         // val(telomere_sequence)
     val_split_telomere  // val(bool)
-    val_skip_tracks     // val(csv_list)
+    val_run_telomere
+    val_run_repeats
+    val_run_coverage
+    val_run_busco
+    val_run_pebble
+    val_run_gap
+    val_track_indexes
+    val_no_tracks
     ch_reference_sizes  // Channel [ val(meta), path(file)   ]
 
 
@@ -22,15 +29,9 @@ workflow ACCESSORY_FILES {
     ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     //
-    // NOTE: THIS IS DUPLICATED IN THE CURATIONPRETEXT WORKFLOW
-    //
-    dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
-
-
-    //
     // SUBWORKFLOW: GENERATES A GAP.BED FILE TO ID THE LOCATIONS OF GAPS
     //
-    if (dont_generate_tracks.contains("gap") || dont_generate_tracks.contains("ALL")) {
+    if (!val_run_gap || val_no_tracks) {
         gap_file            = ch_empty_file
     } else {
         GAP_FINDER (
@@ -44,7 +45,7 @@ workflow ACCESSORY_FILES {
     //
     // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH LONGREAD READS AND REFERENCE
     //
-    if (dont_generate_tracks.contains("telo") || dont_generate_tracks.contains("ALL")) {
+    if (!val_run_telomere || val_no_tracks) {
         telo_file       = ch_empty_file
     } else {
         TELO_FINDER (
@@ -62,7 +63,7 @@ workflow ACCESSORY_FILES {
     //
     // SUBWORKFLOW: GENERATES A BIGWIG FOR A REPEAT DENSITY TRACK
     //
-    if (dont_generate_tracks.contains("repeats") || dont_generate_tracks.contains("ALL")) {
+    if (!val_run_repeats || val_no_tracks) {
         repeat_file     = ch_empty_file
     } else {
         REPEAT_DENSITY (
@@ -76,7 +77,7 @@ workflow ACCESSORY_FILES {
     //
     // SUBWORKFLOW: Takes reference, longread reads
     //
-    if (dont_generate_tracks.contains("coverage") || dont_generate_tracks.contains("ALL"))  {
+    if (!val_run_coverage || val_no_tracks) {
         coverage_output = ch_empty_file
     } else {
         READ_COVERAGE (

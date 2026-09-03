@@ -4,12 +4,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// NF-CORE MODULES
-include { GAWK as GAWK_UPPER_SEQUENCE                       } from '../modules/nf-core/gawk/main'
-include { SAMTOOLS_FAIDX                                    } from '../modules/nf-core/samtools/faidx/main'
-include { GUNZIP                                            } from '../modules/nf-core/gunzip/main'
+// NF-CORE SUBWORKFLOWS
+include { FASTA_CLEAN_FAIDX                                 } from '../subworkflows/nf-core/fasta_clean_faidx/main'
 
-//LOCAL MODULES
+// LOCAL MODULES
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_ULTRA             } from '../modules/local/pretext/graph/main'
@@ -22,6 +20,9 @@ include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkfl
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_STDRD    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_HIRES    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_ULTRA    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+
+// SANGER-TOL MODULES
+include { PRETEXTANNOTATE                                   } from '../modules/sanger-tol/pretextannotate/main'
 
 // FUNCTION IMPORTS
 include { paramsSummaryMap                                  } from 'plugin/nf-schema'
@@ -41,61 +42,37 @@ workflow CURATIONPRETEXT {
     ch_cram_reads
     ch_mapped_bam
     ch_snapshot_order
+    val_snapshot_generation
+    val_snapshot_annotate
+    val_juicer_generation
     val_teloseq
-    val_input_file_string
-    val_aligner
-    val_skip_tracks
+    val_selected_aligner
+    val_run_gap
+    val_run_telomere
+    val_run_repeats
+    val_run_coverage
+    val_run_busco
+    val_run_pebble
     val_run_hires
     val_run_ultra
+    val_no_tracks
     val_split_telomere
     val_cram_chunk_size
+    val_replace_dots
+    val_track_indexes
     outdir
 
     main:
-    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
-
-    ch_reference
-        .branch { _meta, file ->
-            zipped: file.name.endsWith('.gz')
-            unzipped: !file.name.endsWith('.gz')
-        }
-        .set {ch_input}
 
     //
-    // MODULE: UNZIP INPUTS IF NEEDED
+    // SUBWORKFLOW: UNZIP FASTA, UPPERCASE SEQUENCE,
+    //              CLEAN HEADER (optional) AND GENERATE INDEX
     //
-    GUNZIP (
-        ch_input.zipped
-    )
-
-
-    //
-    // LOGIC: MIX CHANELS WHICH MAY OR MAY NOT BE EMPTY INTO A SINGLE QUEUE CHANNEL
-    //
-    unzipped_input = channel.empty()
-
-    unzipped_input
-        .mix(ch_input.unzipped, GUNZIP.out.gunzip)
-        .set { unzipped_reference }
-
-
-    //
-    // MODULE: UPPERCASE THE REFERENCE SEQUENCE
-    //
-    GAWK_UPPER_SEQUENCE(
-        unzipped_reference,
-        [],
-        false,
-    )
-    ch_upper_ref    = GAWK_UPPER_SEQUENCE.out.output
-
-
-    //
-    // MODULE: GENERATE INDEX OF REFERENCE FASTA
-    //
-    SAMTOOLS_FAIDX (
-        ch_upper_ref.map { meta, file -> [meta, file, []] },
-        true
+    FASTA_CLEAN_FAIDX (
+        ch_reference,
+        val_replace_dots,
+        true,               // We always want the .sizes file
+        false               // We don't need the .dict file
     )
 
 
@@ -103,72 +80,66 @@ workflow CURATIONPRETEXT {
     // LOGIC: IN SOME CASES THE USER MAY NOT NEED ALL OR A SELECT GROUP OF
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
-
-    dont_generate_tracks  = val_skip_tracks ? val_skip_tracks.split(",") : "NONE"
-
     full_list = [
-        "gap",
-        "telo",
-        "repeats",
-        "coverage",
-        "NONE",
-        "ALL"
+        "gap track": val_run_gap,
+        "telomere track": val_run_telomere,
+        "repeats track": val_run_repeats,
+        "coverage track": val_run_coverage,
+        "busco track": val_run_busco,
+        "pebble track": val_run_pebble
     ]
 
-    if (!full_list.containsAll(dont_generate_tracks) && !full_list.containsAll(dont_generate_tracks)) {
-        exit 1, "There is an extra argument given on Command Line: \n Check contents of: $dont_generate_tracks\nMaster list is: $full_list"
-    }
 
-    log.info "SKIPPING TRACK GENERATION FOR: $dont_generate_tracks"
+    log.info "ACCESSORY TRACK OPTIONS: $full_list"
 
-    if (dont_generate_tracks.contains("ALL")) {
-        gaps_file           = ch_empty_file
-        cove_file           = ch_empty_file
-        telo_file           = ch_empty_file
-        rept_file           = ch_empty_file
+    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
+
+    if (val_no_tracks) {
+        gaps_file       = ch_empty_file
+        cove_file       = ch_empty_file
+        telo_file       = ch_empty_file
+        rept_file       = ch_empty_file
+        busc_file       = ch_empty_file
+        pebb_file       = ch_empty_file
 
     } else {
         //
         // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
         //
         ACCESSORY_FILES (
-            ch_upper_ref,
+            FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], file) },
             ch_reads,
             val_teloseq,
             val_split_telomere,
-            val_skip_tracks,
-            SAMTOOLS_FAIDX.out.sizes
+            val_run_telomere,
+            val_run_repeats,
+            val_run_coverage,
+            val_run_busco,
+            val_run_pebble,
+            val_run_gap,
+            val_track_indexes,
+            val_no_tracks,
+            FASTA_CLEAN_FAIDX.out.sizes
         )
 
-        gaps_file           = ACCESSORY_FILES.out.gap_file
-        cove_file           = ACCESSORY_FILES.out.coverage_output
-        telo_file           = ACCESSORY_FILES.out.telo_file
-        rept_file           = ACCESSORY_FILES.out.repeat_file
+        gaps_file       = ACCESSORY_FILES.out.gap_file
+        cove_file       = ACCESSORY_FILES.out.coverage_output
+        telo_file       = ACCESSORY_FILES.out.telo_file
+        rept_file       = ACCESSORY_FILES.out.repeat_file
     }
-
-
-    //
-    // LOGIC: IDEALLY THIS SHOULD BE DONE IN THE PIPELINE_INITIALISATION
-    //        SUBWORKFLOW, HOWEVER, THE VALUE WOULD BE CONVERTED TO A CHANNEL
-    //        WHICH THEN CANNOT BE USED TO GENERATE A STRING FOR THE SW
-    //
-    def fasta_size = file(val_input_file_string).size()
-    def selected_aligner = (val_aligner == "AUTO") ?
-        (fasta_size > 5e9 ? "minimap2" : "bwamem2") :
-        val_aligner
 
 
     //
     // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
     //
     ALIGN_CRAM (
-        ch_upper_ref,
+        FASTA_CLEAN_FAIDX.out.reference,
         ch_cram_reads,
-        selected_aligner,
+        val_selected_aligner,
         val_cram_chunk_size
     )
 
-    mapped_bam = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
+    mapped_bam          = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
 
 
     //
@@ -176,22 +147,42 @@ workflow CURATIONPRETEXT {
     //        OTHERWISE, THE MODULE SHOULD STILL RUN WITHOUT ORDERING AND
     //        PRODUCE AN EMPTY CHANNEL. ONLY NEEDED FOR STDRD
     //
-    ch_snapshot_custom_order = ch_upper_ref
+    ch_snapshot_custom_order = FASTA_CLEAN_FAIDX.out.reference
         .combine(ch_snapshot_order)
         .map { meta, _fasta, order_file -> [meta, order_file] }
 
+
     //
     // SUBWORKFLOW: MAP THE PRETEXT FILE AND TAKE SNAPSHOT
+    //              STNDRD IS THE ONLY VARIANT WE ARE ANNOTATING WITH OTHER PARAMS
+    //              DUE TO HOW RESOURCE INTENSIVE THEY SNAPSHOT IS WITH HIGHER RESOLUTION
+    //              AND WE ONLY NEED 1 JUICER MAP
     //
     CREATE_MAPS_STDRD (
         mapped_bam,
         [[:],[]],
         ch_snapshot_custom_order,
-        true,
-        params.snapshot_generation,
-        false,
-        false,
-        []
+        true,                       // Pretext generation, always true
+        val_snapshot_generation,
+        false,                      // cooler map generation, which we won't be using
+        val_juicer_generation,      // Juicer generation, optional need for genomenotes
+        []                          // Cooler cload parameters
+    )
+
+
+    //
+    // MODULE: ANNOTATE THE PRETEXT SNAPSHOT FILE WITH SCAFFOLD NAMES AND SIZES
+    //
+    filtered_sizes = FASTA_CLEAN_FAIDX.out.sizes.filter { _meta, _file -> val_snapshot_annotate }
+
+    filtered_sizes.map { _meta, _file ->
+        log.warn "Annotation currently relies on the original FASTA sizes file generated as part of this pipeline!"
+        log.warn "This means that if you've supplied a custom order for the snapshot, the annotation will be wrong!"
+    }
+
+    PRETEXTANNOTATE(
+        filtered_sizes,
+        CREATE_MAPS_STDRD.out.pretext_png
     )
 
 
@@ -214,10 +205,10 @@ workflow CURATIONPRETEXT {
     //              IF val_run_ultra IS "true" CALCULATE WHETHER THE REF IS > 4GB AND MAP ULTRA
     //              IF val_run_ultra IS "force" MAP ULTRA
     //
-    def ultra_input = mapped_bam
-        .combine(ch_reference)
+    def ultra_input     = mapped_bam
+        .combine(FASTA_CLEAN_FAIDX.out.reference)
         .filter { _mapped_meta, _bam, _ref_meta, ref_fasta ->
-            val_run_ultra == "force" || (val_run_ultra == "true" && ref_fasta.size() > 4.GB)
+            val_run_ultra == "force" || (val_run_ultra == "yes" && ref_fasta.size() > 4.GB)
         }
         .map { mapped_meta, bam, _ref_meta, _ref_fasta ->
             [mapped_meta, bam]
@@ -240,7 +231,7 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_SNDRD (
-        CREATE_MAPS_STDRD.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        CREATE_MAPS_STDRD.out.pretext.filter { val_no_tracks },
         gaps_file,
         cove_file,
         telo_file,
@@ -254,7 +245,7 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_HIRES (
-        CREATE_MAPS_HIRES.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        CREATE_MAPS_HIRES.out.pretext.filter { val_no_tracks },
         gaps_file,
         cove_file,
         telo_file,
@@ -268,7 +259,7 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_ULTRA (
-        CREATE_MAPS_ULTRA.out.pretext.filter { !dont_generate_tracks.contains("ALL") },
+        CREATE_MAPS_ULTRA.out.pretext.filter { val_no_tracks },
         gaps_file,
         cove_file,
         telo_file,
@@ -276,7 +267,7 @@ workflow CURATIONPRETEXT {
         val_split_telomere
     )
 
-    def ch_versions = channel.empty()
+    def ch_versions     = channel.empty()
 
     //
     // Collate and save software versions
@@ -307,7 +298,7 @@ workflow CURATIONPRETEXT {
             newLine: true
         )
     emit:
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
+    versions            = ch_versions                 // channel: [ path(versions.yml) ]
 }
 
 /*

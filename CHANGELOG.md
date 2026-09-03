@@ -3,20 +3,61 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [[1.6.2](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.2)] - UNSC Trafalgar (H2) - [2025-05-11]
+## [[2.0.0dev](https://github.com/sanger-tol/curationpretext/releases/tag/2.0.0dev)] - Forerunner Audacity  - [2026-09-XX]
+
+## NOTE:
+- The minimum version of nextflow for this pipeline is 26.04 due to the update of `nf-schema` to 2.7.2!
+
+- Added support for new tracks (pebble and busco) which are **NOT** yet implemented.
 
 ## Added and Fixed
 
-- Update nf-core template to 4.1.0.
-  - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins.
+- Update `nf-core` template to 4.1.0
+  - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins
+- Updated `nf-schema` to 2.7.2
+    - This version allows us to use type casting on `params` values input from the cli now that nextflow cli inputs are treated only as strings
+    - In light of this, the casting parameter has been set to `true`
+    - More details can be found on the [nf-core blog](https://nf-co.re/blog/2026/parameter-types)
 - Added flag to control pretext snapshot generation
-- Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes.
+- Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes
+- Removed the `skip_tracks` parameter
+- Replace `skip_tracks` with a series of track specific parameters
+  - `--run_{track_name}` + `--no_tracks`
+- Added `--juicer_generation` flag, this will generate a juicer map as well as a pretext map
+- Reorganised the aligner selection to the `main.nf` rather than `curationpretext.nf`
+- The `ACCESSORY_FILES` subworkflow has been adapted to closer parity with `sanger-tol/pretext_accessory_files` which will be adopted in a future update
+- Added `--snapshot_annotation` flag, this will generate an annotated pretext annotation file, where each scaffold is labelled with name and size.
+  - WARNING: currently this will not take into account the custom order.
+  - With a custom order , the pretextmap and snapshot will be changed but the annotated snapshot will contain the original order as labels.
+  - A module will be added to subset the sizes file based on the custom order before generating the snapshot.
+- Fixed bug in `CREATE_MAPS_ULTRA` that was checking for "true" rather than "yes", see patch notes for `1.6.1`.
 
 ### Paramters
 
 | Old Version | New Versions          |
 | ----------- | --------------------- |
 | NA          | --snapshot_generation |
+| NA          | --snapshot_annotation |
+| --skip_tracks | --no_tracks |
+| --skip_tracks | --run_coverage |
+| --skip_tracks | --run_gap |
+| --skip_tracks | --run_repeats |
+| --skip_tracks | --run_telomere |
+| NA | --run_busco (placeholder) |
+| NA | --run_pebble (placeholder) |
+| NA          | --juicer_generation |
+
+### Software Dependencies
+
+Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
+
+| Module            | Old Version | New Versions |
+| ----------------- | ----------- | ------------ |
+| `PRETEXTANNOTATE` | NA       | 0.1.0        |
+| `SAMTOOLS_DICT` | NA | 1.24 |
+| `SEQKIT_REPLACE` | NA | 2.13.0 |
+| `SEQKIT_SEQ` | NA | 2.13.0 |
+
 
 ## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
 
