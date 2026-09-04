@@ -54,6 +54,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     replace_dots
     track_indexes
     no_tracks
+    mapping_statistics
     outdir
 
     main:
@@ -96,6 +97,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         cram_chunk_size,
         replace_dots,
         track_indexes,
+        mapping_statistics,
         outdir
     )
 }
@@ -133,25 +135,26 @@ workflow {
         PIPELINE_INITIALISATION.out.ch_cram_reads,
         PIPELINE_INITIALISATION.out.ch_mapped_bam,
         PIPELINE_INITIALISATION.out.ch_snapshot_order,
-        params.snapshot_generation.toBoolean(),
-        params.snapshot_annotation.toBoolean(),
-        params.juicer_generation.toBoolean(),
+        params.snapshot_generation,
+        params.snapshot_annotation,
+        params.juicer_generation,
         PIPELINE_INITIALISATION.out.teloseq,
         params.input,
         params.aligner,
-        params.run_gap.toBoolean(),
-        params.run_telomere.toBoolean(),
-        params.run_repeats.toBoolean(),
-        params.run_coverage.toBoolean(),
-        params.run_busco.toBoolean(),
-        params.run_pebble.toBoolean(),
-        params.run_hires.toBoolean(),
+        params.run_gap,
+        params.run_telomere,
+        params.run_repeats,
+        params.run_coverage,
+        params.run_busco,
+        params.run_pebble,
+        params.run_hires,
         params.run_ultra,
-        params.split_telomere.toBoolean(),
+        params.split_telomere,
         params.cram_chunk_size,
-        params.replace_dots.toBoolean(),
-        params.generate_track_indexes.toBoolean(),
-        params.no_tracks.toBoolean(),
+        params.replace_dots,
+        params.generate_track_indexes,
+        params.no_tracks,
+        params.mapping_statistics,
         params.outdir,
     )
 

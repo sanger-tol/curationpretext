@@ -24,6 +24,10 @@ include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_ULTRA    } from '../subworkfl
 // SANGER-TOL MODULES
 include { PRETEXTANNOTATE                                   } from '../modules/sanger-tol/pretextannotate/main'
 
+// NF-CORE MODULES
+include { SAMTOOLS_FLAGSTAT                                 } from '../modules/nf-core/samtools/flagstat/main'
+include { SAMTOOLS_INDEX                                    } from '../modules/nf-core/samtools/index/main'
+
 // FUNCTION IMPORTS
 include { paramsSummaryMap                                  } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc                              } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -60,6 +64,7 @@ workflow CURATIONPRETEXT {
     val_cram_chunk_size
     val_replace_dots
     val_track_indexes
+    val_mapping_statistics
     outdir
 
     main:
@@ -122,10 +127,10 @@ workflow CURATIONPRETEXT {
             FASTA_CLEAN_FAIDX.out.sizes
         )
 
-        gaps_file       = ACCESSORY_FILES.out.gap_file
-        cove_file       = ACCESSORY_FILES.out.coverage_output
-        telo_file       = ACCESSORY_FILES.out.telo_file
-        rept_file       = ACCESSORY_FILES.out.repeat_file
+        gaps_file       = ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
+        cove_file       = ACCESSORY_FILES.out.coverage_output.map{ _meta, file -> file }.ifEmpty{ [] }
+        telo_file       = ACCESSORY_FILES.out.telo_file.map{ _meta, files -> files }.collect().ifEmpty{ [] }
+        rept_file       = ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
     }
 
 
@@ -140,6 +145,25 @@ workflow CURATIONPRETEXT {
     )
 
     mapped_bam          = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
+
+
+    //
+    // MODULE: IF A PRE-MAPPED BAM HAS BEEN PROVIDED THEN INDEX IT
+    //
+    SAMTOOLS_INDEX (
+        ch_mapped_bam
+    )
+    mapped_bam_bai      = SAMTOOLS_INDEX.out.csi.mix( ALIGN_CRAM.out.bam_index )
+
+
+    //
+    // MODULE: SAMTOOLS FLAGSTAT TO COLLECT SOME MAPPING STATISTICS
+    //
+    mapped_bam_input      = mapped_bam.combine(mapped_bam_bai, by: 0)
+
+    SAMTOOLS_FLAGSTAT (
+        mapped_bam_input.filter { _meta, _bam, _csi -> val_mapping_statistics }
+    )
 
 
     //
@@ -231,7 +255,7 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_SNDRD (
-        CREATE_MAPS_STDRD.out.pretext.filter { val_no_tracks },
+        CREATE_MAPS_STDRD.out.pretext.filter { !val_no_tracks },
         gaps_file,
         cove_file,
         telo_file,
@@ -245,7 +269,7 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_HIRES (
-        CREATE_MAPS_HIRES.out.pretext.filter { val_no_tracks },
+        CREATE_MAPS_HIRES.out.pretext.filter { !val_no_tracks },
         gaps_file,
         cove_file,
         telo_file,
@@ -259,7 +283,7 @@ workflow CURATIONPRETEXT {
     //          - ADAPTED FROM TREEVAL
     //
     PRETEXT_INGEST_ULTRA (
-        CREATE_MAPS_ULTRA.out.pretext.filter { val_no_tracks },
+        CREATE_MAPS_ULTRA.out.pretext.filter { !val_no_tracks },
         gaps_file,
         cove_file,
         telo_file,

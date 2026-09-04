@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update `nf-core` template to 4.1.0
   - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins
-- Updated `nf-schema` to 2.7.2
+- Updated `nf-schema` to `2.7.2` which is valid for nextflow `25.10.4`
     - This version allows us to use type casting on `params` values input from the cli now that nextflow cli inputs are treated only as strings
     - In light of this, the casting parameter has been set to `true`
     - More details can be found on the [nf-core blog](https://nf-co.re/blog/2026/parameter-types)
@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - With a custom order , the pretextmap and snapshot will be changed but the annotated snapshot will contain the original order as labels.
   - A module will be added to subset the sizes file based on the custom order before generating the snapshot.
 - Fixed bug in `CREATE_MAPS_ULTRA` that was checking for "true" rather than "yes", see patch notes for `1.6.1`.
+- Added `SAMTOOLS_FLAGSTAT` to generate mapping statistics for the aligned BAM file.
+  - This is controlled by the `--mapping_statistics` flag.
+- Updated the `modules.config` to add the needed `--write-index` flag to `SAMTOOLS_MERGE` and `SAMTOOLS_MERGEDUP` and `-c` to `SAMTOOLS_INDEX` to generate a BAM index for flagstat input.
 
 ### Paramters
 
@@ -38,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | ----------- | --------------------- |
 | NA          | --snapshot_generation |
 | NA          | --snapshot_annotation |
+| NA          | --mapping_statistics  |
 | --skip_tracks | --no_tracks |
 | --skip_tracks | --run_coverage |
 | --skip_tracks | --run_gap |
@@ -53,7 +57,7 @@ Note, since the pipeline is using Nextflow DSL2, each process will be run with i
 
 | Module            | Old Version | New Versions |
 | ----------------- | ----------- | ------------ |
-| `PRETEXTANNOTATE` | NA       | 0.1.0        |
+| `PRETEXTANNOTATE` | NA       | 1.1.2        |
 | `SAMTOOLS_DICT` | NA | 1.24 |
 | `SEQKIT_REPLACE` | NA | 2.13.0 |
 | `SEQKIT_SEQ` | NA | 2.13.0 |

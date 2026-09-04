@@ -224,6 +224,13 @@
                     "fa_icon": "fas fa-dot-circle",
                     "description": "Replace dots in FASTA headers with underscores.",
                     "help_text": "Some tools may not handle FASTA headers with dots in them correctly, this option uses seqtk to replace dots with underscores."
+                },
+                "mapping_statistics": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-chart-bar",
+                    "description": "Generate mapping statistics.",
+                    "help_text": "Generate mapping statistics of the final mapped BAM file using samtools flagstat."
                 }
             }
         },

@@ -31,69 +31,46 @@ workflow ACCESSORY_FILES {
     //
     // SUBWORKFLOW: GENERATES A GAP.BED FILE TO ID THE LOCATIONS OF GAPS
     //
-    if (!val_run_gap || val_no_tracks) {
-        gap_file            = ch_empty_file
-    } else {
-        GAP_FINDER (
-            reference_tuple,
-            false
-        )
-        gap_file            = GAP_FINDER.out.gap_file.map{ it -> it[1] }
-    }
+    GAP_FINDER (
+        reference_tuple,
+        false
+    )
 
 
     //
     // SUBWORKFLOW: GENERATE TELOMERE WINDOW FILES WITH LONGREAD READS AND REFERENCE
     //
-    if (!val_run_telomere || val_no_tracks) {
-        telo_file       = ch_empty_file
-    } else {
-        TELO_FINDER (
-            reference_tuple,
-            val_teloseq,
-            val_split_telomere,
-            false
-        )
-        telo_file       = TELO_FINDER.out.bedgraph_file
-                            .map{ it -> it[1] }
-                            .ifEmpty("${baseDir}/assets/EMPTY.txt")
-    }
+    TELO_FINDER (
+        reference_tuple.filter{ _meta, _files -> val_run_telomere },
+        val_teloseq,
+        val_split_telomere,
+        false
+    )
 
 
     //
     // SUBWORKFLOW: GENERATES A BIGWIG FOR A REPEAT DENSITY TRACK
     //
-    if (!val_run_repeats || val_no_tracks) {
-        repeat_file     = ch_empty_file
-    } else {
-        REPEAT_DENSITY (
-            reference_tuple,
-            ch_reference_sizes
-        )
-        repeat_file     = REPEAT_DENSITY.out.repeat_density.map{ it -> it[1] }
-    }
+    REPEAT_DENSITY (
+        reference_tuple.filter{ _meta, _files -> val_run_repeats },
+        ch_reference_sizes
+    )
 
 
     //
     // SUBWORKFLOW: Takes reference, longread reads
     //
-    if (!val_run_coverage || val_no_tracks) {
-        coverage_output = ch_empty_file
-    } else {
-        READ_COVERAGE (
-            longread_reads,
-            reference_tuple,
-            ch_reference_sizes.map{ _meta, file -> file }
-        )
-
-        coverage_output = READ_COVERAGE.out.bigwig.map{ it -> it[1] }
-    }
-
+    READ_COVERAGE (
+        longread_reads.filter{ _meta, _files -> val_run_coverage },
+        reference_tuple,
+        ch_reference_sizes.map{ _meta, file -> file }
+    )
 
 
     emit:
-    gap_file
-    repeat_file
-    telo_file           // This is the possible collection of telomere files
-    coverage_output
+    gap_file            = GAP_FINDER.out.gap_file
+    repeat_file         = REPEAT_DENSITY.out.repeat_density
+    telo_file           = TELO_FINDER.out.bedgraph_file // This is the possible collection of telomere files
+    coverage_output     = READ_COVERAGE.out.bigwig
+
 }

@@ -102,6 +102,11 @@
                         "git_sha": "b2e78932ef01165fd85829513eaca29eff8e640a",
                         "installed_by": ["bam_samtools_merge_markdup", "fasta_clean_faidx", "modules"]
                     },
+                    "samtools/flagstat": {
+                        "branch": "master",
+                        "git_sha": "9339809fcb90af8a8b7051e6cd914894d5c52002",
+                        "installed_by": ["modules"]
+                    },
                     "samtools/index": {
                         "branch": "master",
                         "git_sha": "1d2fbdcbca677bbe8da0f9d0d2bb7c02f2cab1c9",
