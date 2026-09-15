@@ -13,7 +13,7 @@ include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/l
 include { PRETEXT_GRAPH as PRETEXT_INGEST_ULTRA             } from '../modules/local/pretext/graph/main'
 
 // LOCAL SUBWORKFLOWS
-include { ACCESSORY_FILES                                   } from '../subworkflows/local/accessory_files/main'
+include { PRETEXT_ACCESSORY_FILES as ACCESSORY_FILES        } from '../subworkflows/sanger-tol/pretext_accessory_files/main'
 
 // SANGER-TOL SUBWORKFLOWS
 include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
@@ -27,6 +27,7 @@ include { PRETEXTANNOTATE                                   } from '../modules/s
 // NF-CORE MODULES
 include { SAMTOOLS_FLAGSTAT                                 } from '../modules/nf-core/samtools/flagstat/main'
 include { SAMTOOLS_INDEX                                    } from '../modules/nf-core/samtools/index/main'
+include { GAWK as GAWK_TELO_FIX                             } from '../modules/nf-core/gawk/main'
 
 // FUNCTION IMPORTS
 include { paramsSummaryMap                                  } from 'plugin/nf-schema'
@@ -113,24 +114,38 @@ workflow CURATIONPRETEXT {
         //
         ACCESSORY_FILES (
             FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], file) },
+            FASTA_CLEAN_FAIDX.out.sizes,
             ch_reads,
-            val_teloseq,
+            FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], meta.telomereseq) },
             val_split_telomere,
             val_run_telomere,
-            val_run_repeats,
+            val_run_gap,
             val_run_coverage,
+            val_run_repeats,
             val_run_busco,
             val_run_pebble,
-            val_run_gap,
-            val_track_indexes,
-            val_no_tracks,
-            FASTA_CLEAN_FAIDX.out.sizes
+            val_track_indexes
         )
 
         gaps_file       = ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
-        cove_file       = ACCESSORY_FILES.out.coverage_output.map{ _meta, file -> file }.ifEmpty{ [] }
-        telo_file       = ACCESSORY_FILES.out.telo_file.map{ _meta, files -> files }.collect().ifEmpty{ [] }
+        cove_file       = ACCESSORY_FILES.out.coverage_file.map{ _meta, file -> file }.ifEmpty{ [] }
         rept_file       = ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
+
+        fix_telo_windows = channel.of('''\
+            BEGIN { OFS="\\t" }
+            {
+                printf "%s\\t%s\\t%s\\t%04d\\n", $1, $2, $3, $4 * 10000
+            }'''.stripIndent())
+            .collectFile(name: "fix_telo_windows.awk", cache: true)
+            .collect()
+
+        GAWK_TELO_FIX (
+            ACCESSORY_FILES.out.telo_windows,
+            fix_telo_windows,
+            false
+        )
+
+        telo_file    = GAWK_TELO_FIX.out.output.map{ _meta, files -> files }.collect().ifEmpty{ [] }
     }
 
 
@@ -321,8 +336,25 @@ workflow CURATIONPRETEXT {
             sort: true,
             newLine: true
         )
+
     emit:
-    versions            = ch_versions                 // channel: [ path(versions.yml) ]
+    telomere_file            = telo_file
+    gap_file                 = gaps_file
+    coverage_file            = cove_file
+    repeat_file              = rept_file
+    pretext_png              = CREATE_MAPS_STDRD.out.pretext_png
+    pretext_annotated_png    = PRETEXTANNOTATE.out.png
+    pretext_annotated_gif    = PRETEXTANNOTATE.out.gif
+    pretext_annotated_tif    = PRETEXTANNOTATE.out.tif
+    pretext_standard         = CREATE_MAPS_STDRD.out.pretext
+    pretext_hires            = CREATE_MAPS_HIRES.out.pretext
+    pretext_ultra            = CREATE_MAPS_ULTRA.out.pretext
+    hic_file                 = CREATE_MAPS_STDRD.out.hic
+    pretext_standard_tracked = PRETEXT_INGEST_SNDRD.out.pretext
+    pretext_hires_tracked    = PRETEXT_INGEST_HIRES.out.pretext
+    pretext_ultra_tracked    = PRETEXT_INGEST_ULTRA.out.pretext
+
+    versions                 = ch_versions                 // channel: [ path(versions.yml) ]
 }
 
 /*

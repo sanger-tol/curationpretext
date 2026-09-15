@@ -25,7 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `--run_{track_name}` + `--no_tracks`
 - Added `--juicer_generation` flag, this will generate a juicer map as well as a pretext map
 - Reorganised the aligner selection to the `main.nf` rather than `curationpretext.nf`
-- The `ACCESSORY_FILES` subworkflow has been adapted to closer parity with `sanger-tol/pretext_accessory_files` which will be adopted in a future update
+- The `ACCESSORY_FILES` now refers to `sanger-tol/pretext_accessory_files`.
+    - `TELO_FINDER` now outputs a telomere window file containing `float` values
+    - Added `GAWK_TELO_FIX` to multiply value to 10000 and only retain 4 digits
 - Added `--snapshot_annotation` flag, this will generate an annotated pretext annotation file, where each scaffold is labelled with name and size.
   - WARNING: currently this will not take into account the custom order.
   - With a custom order , the pretextmap and snapshot will be changed but the annotated snapshot will contain the original order as labels.

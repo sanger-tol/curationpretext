@@ -100,6 +100,23 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         mapping_statistics,
         outdir
     )
+
+    emit:
+    telomere_files          = CURATIONPRETEXT.out.telomere_file
+    gap_files               = CURATIONPRETEXT.out.gap_file
+    coverage_files          = CURATIONPRETEXT.out.coverage_file
+    repeat_files            = CURATIONPRETEXT.out.repeat_file
+    pretext_snapshot        = CURATIONPRETEXT.out.pretext_png
+    pretext_annotated_png   = CURATIONPRETEXT.out.pretext_annotated_png
+    pretext_annotated_gif   = CURATIONPRETEXT.out.pretext_annotated_gif
+    pretext_annotated_tif   = CURATIONPRETEXT.out.pretext_annotated_tif
+    pretext_standard        = CURATIONPRETEXT.out.pretext_standard
+    pretext_hires           = CURATIONPRETEXT.out.pretext_hires
+    pretext_ultra           = CURATIONPRETEXT.out.pretext_ultra
+    hic_file                = CURATIONPRETEXT.out.hic_file
+    pretext_standard_tracks = CURATIONPRETEXT.out.pretext_standard_tracked
+    pretext_hires_tracks    = CURATIONPRETEXT.out.pretext_hires_tracked
+    pretext_ultra_tracks    = CURATIONPRETEXT.out.pretext_ultra_tracked
 }
 
 /*
@@ -110,6 +127,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
 
 workflow {
 
+    main:
     //
     // SUBWORKFLOW: Run initialisation tasks
     //
@@ -169,6 +187,102 @@ workflow {
         params.outdir,
         params.monochrome_logs,
     )
+
+    publish:
+    telomere_files          = SANGER_TOL_CURATIONPRETEXT.out.telomere_files
+    gap_files               = SANGER_TOL_CURATIONPRETEXT.out.gap_files
+    coverage_files          = SANGER_TOL_CURATIONPRETEXT.out.coverage_files
+    repeat_files            = SANGER_TOL_CURATIONPRETEXT.out.repeat_files
+    pretext_snapshot        = SANGER_TOL_CURATIONPRETEXT.out.pretext_snapshot
+    pretext_annotated_png   = SANGER_TOL_CURATIONPRETEXT.out.pretext_annotated_png
+    pretext_annotated_gif   = SANGER_TOL_CURATIONPRETEXT.out.pretext_annotated_gif
+    pretext_annotated_tif   = SANGER_TOL_CURATIONPRETEXT.out.pretext_annotated_tif
+    pretext_standard        = SANGER_TOL_CURATIONPRETEXT.out.pretext_standard
+    pretext_hires           = SANGER_TOL_CURATIONPRETEXT.out.pretext_hires
+    pretext_ultra           = SANGER_TOL_CURATIONPRETEXT.out.pretext_ultra
+    hic_file                = SANGER_TOL_CURATIONPRETEXT.out.hic_file
+    pretext_standard_tracks = SANGER_TOL_CURATIONPRETEXT.out.pretext_standard_tracks
+    pretext_hires_tracks    = SANGER_TOL_CURATIONPRETEXT.out.pretext_hires_tracks
+    pretext_ultra_tracks    = SANGER_TOL_CURATIONPRETEXT.out.pretext_ultra_tracks
+}
+
+output {
+    telomere_files {
+        path { files ->
+            "accessory_files/"
+        }
+    }
+    gap_files {
+        path { files ->
+            "accessory_files/"
+        }
+    }
+    coverage_files {
+        path { files ->
+            "accessory_files/"
+        }
+    }
+    repeat_files {
+        path { files ->
+            "accessory_files/"
+        }
+    }
+    pretext_snapshot {
+        path { meta, path ->
+            "pretext_snapshot/"
+        }
+    }
+    pretext_annotated_png {
+        path { meta, path ->
+            "pretext_snapshot/"
+        }
+    }
+    pretext_annotated_gif {
+        path { meta, path ->
+            "pretext_snapshot/"
+        }
+    }
+    pretext_annotated_tif {
+        path { meta, path ->
+            "pretext_snapshot/"
+        }
+    }
+    pretext_standard {
+        path { meta, path ->
+            "pretext_maps_raw/"
+        }
+    }
+    pretext_hires {
+        path { meta, path ->
+            "pretext_maps_raw/"
+        }
+    }
+    pretext_ultra {
+        path { meta, path ->
+            "pretext_maps_raw/"
+        }
+    }
+    hic_file {
+        path { meta, path ->
+            "hic_files/"
+        }
+    }
+    pretext_standard_tracks {
+        path { meta, path ->
+            "pretext_maps_processed/"
+        }
+    }
+    pretext_hires_tracks {
+        path { meta, path ->
+            "pretext_maps_processed/"
+        }
+    }
+    pretext_ultra_tracks {
+        path { meta, path ->
+            "pretext_maps_processed/"
+        }
+    }
+
 }
 
 /*

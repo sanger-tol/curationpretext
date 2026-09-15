@@ -1,375 +1,252 @@
 {
-    "idFanCani4 - no split - fasta - stub w/o index": {
+    "Cloeon_Dipeterum - split - zipbed": {
         "content": [
             {
                 "0": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                        "Cloeon_Dipeterum.telomere:md5,543e5ddbee3008d23f7a6d194914470b"
                     ]
                 ],
                 "1": [
-
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed:md5,b5318b4e0219e39538b687a6c3d9a755"
+                    ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
-                        ]
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed:md5,52e81dda4958f5c58ede54219bd78af0"
                     ]
                 ],
-                "bed_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ]
-                ],
-                "bed_gz_tbi": [
+                "3": [
 
                 ],
-                "bedgraph_file": [
+                "4": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
-                        ]
+                        "Cloeon_Dipeterum.fwd.windows:md5,0329c6280ca161abd1e20517bcf402ff"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.rev.windows:md5,808126409e6e5075f94d233a6d5cc002"
+                    ]
+                ],
+                "6": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.fwd.windows.gz:md5,0329c6280ca161abd1e20517bcf402ff",
+                        "Cloeon_Dipeterum.fwd.windows.gz.csi:md5,bbca4c53402784d4857732d597d6730e"
+                    ],
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.rev.windows.gz:md5,808126409e6e5075f94d233a6d5cc002",
+                        "Cloeon_Dipeterum.rev.windows.gz.csi:md5,3dcd271cffbecfb21ac9be2f5fbddf27"
+                    ],
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed.gz:md5,b5318b4e0219e39538b687a6c3d9a755",
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed.gz.csi:md5,a69687f7b568a289479add5c3439cfb3"
+                    ],
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed.gz:md5,52e81dda4958f5c58ede54219bd78af0",
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed.gz.csi:md5,491b39968ed5ef8f1941e31f1b66a970"
+                    ]
+                ],
+                "gz_index": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.fwd.windows.gz:md5,0329c6280ca161abd1e20517bcf402ff",
+                        "Cloeon_Dipeterum.fwd.windows.gz.csi:md5,bbca4c53402784d4857732d597d6730e"
+                    ],
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.rev.windows.gz:md5,808126409e6e5075f94d233a6d5cc002",
+                        "Cloeon_Dipeterum.rev.windows.gz.csi:md5,3dcd271cffbecfb21ac9be2f5fbddf27"
+                    ],
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed.gz:md5,b5318b4e0219e39538b687a6c3d9a755",
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed.gz.csi:md5,a69687f7b568a289479add5c3439cfb3"
+                    ],
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed.gz:md5,52e81dda4958f5c58ede54219bd78af0",
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed.gz.csi:md5,491b39968ed5ef8f1941e31f1b66a970"
+                    ]
+                ],
+                "telomere": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.telomere:md5,543e5ddbee3008d23f7a6d194914470b"
+                    ]
+                ],
+                "telomere_bed_fwd": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed:md5,b5318b4e0219e39538b687a6c3d9a755"
+                    ]
+                ],
+                "telomere_bed_rev": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed:md5,52e81dda4958f5c58ede54219bd78af0"
+                    ]
+                ],
+                "windows_all": [
+
+                ],
+                "windows_fwd": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.fwd.windows:md5,0329c6280ca161abd1e20517bcf402ff"
+                    ]
+                ],
+                "windows_rev": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.rev.windows:md5,808126409e6e5075f94d233a6d5cc002"
                     ]
                 ]
             }
         ],
+        "timestamp": "2026-05-26T23:33:20.063968372",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-27T16:07:42.294323895"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     },
-    "idFanCani4 - no split - fasta w/o index": {
+    "Cloeon_Dipeterum - no split": {
         "content": [
             {
                 "0": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ]
-                ],
-                "1": [
-
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
-                        ]
-                    ]
-                ],
-                "bed_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ]
-                ],
-                "bed_gz_tbi": [
-
-                ],
-                "bedgraph_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
-                        ]
-                    ]
-                ]
-            }
-        ],
-        "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-27T16:01:40.077413969"
-    },
-    "idFanCani4 - no split - fasta w/ index": {
-        "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                        "Cloeon_Dipeterum.telomere:md5,543e5ddbee3008d23f7a6d194914470b"
                     ]
                 ],
                 "1": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        "idFanCani4.bed.gz:md5,3ccb4acb3f33c8ff3ca3201245a42ce3",
-                        "idFanCani4.bed.gz.csi:md5,c1e8ab4feb9c52665916f33ca629e055"
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed:md5,b5318b4e0219e39538b687a6c3d9a755"
                     ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
-                        ]
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed:md5,52e81dda4958f5c58ede54219bd78af0"
                     ]
                 ],
-                "bed_file": [
+                "3": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
+                        "Cloeon_Dipeterum.all.windows:md5,df807b71106d474e1284e37234a52932"
                     ]
                 ],
-                "bed_gz_tbi": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,3ccb4acb3f33c8ff3ca3201245a42ce3",
-                        "idFanCani4.bed.gz.csi:md5,c1e8ab4feb9c52665916f33ca629e055"
-                    ]
-                ],
-                "bedgraph_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064"
-                        ]
-                    ]
-                ]
-            }
-        ],
-        "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-27T15:55:30.275969768"
-    },
-    "idFanCani4 - split - fasta w/o index": {
-        "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_3P_telomere.bed:md5,3bb5481efc9a9c7192c54413697de8dc"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_5P_telomere.bed:md5,65a96f58d21ee87ce8932b5e3e2da63b"
-                    ]
-                ],
-                "1": [
+                "4": [
 
                 ],
-                "2": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,ae30aa41f6e9c53df160ddb17ecccd09",
-                            "idFanCani4_5P_telomere.bedgraph:md5,ac00ddc89af099cfdd820495cd8c8c76"
-                        ]
-                    ]
-                ],
-                "bed_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_3P_telomere.bed:md5,3bb5481efc9a9c7192c54413697de8dc"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_5P_telomere.bed:md5,65a96f58d21ee87ce8932b5e3e2da63b"
-                    ]
-                ],
-                "bed_gz_tbi": [
+                "5": [
 
                 ],
-                "bedgraph_file": [
+                "6": [
+
+                ],
+                "gz_index": [
+
+                ],
+                "telomere": [
                     [
                         {
-                            "id": "idFanCani4"
+                            "id": "Cloeon_Dipeterum"
                         },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,ae30aa41f6e9c53df160ddb17ecccd09",
-                            "idFanCani4_5P_telomere.bedgraph:md5,ac00ddc89af099cfdd820495cd8c8c76"
-                        ]
+                        "Cloeon_Dipeterum.telomere:md5,543e5ddbee3008d23f7a6d194914470b"
                     ]
+                ],
+                "telomere_bed_fwd": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.fwd.telomere.bed:md5,b5318b4e0219e39538b687a6c3d9a755"
+                    ]
+                ],
+                "telomere_bed_rev": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "GCA_949628265.1.fasta.gz.rev.telomere.bed:md5,52e81dda4958f5c58ede54219bd78af0"
+                    ]
+                ],
+                "windows_all": [
+                    [
+                        {
+                            "id": "Cloeon_Dipeterum"
+                        },
+                        "Cloeon_Dipeterum.all.windows:md5,df807b71106d474e1284e37234a52932"
+                    ]
+                ],
+                "windows_fwd": [
+
+                ],
+                "windows_rev": [
+
                 ]
             }
         ],
+        "timestamp": "2026-05-26T23:32:47.20140847",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-27T16:04:34.967301219"
-    },
-    "idFanCani4 - split - fasta w/ index": {
-        "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_3P_telomere.bed:md5,3bb5481efc9a9c7192c54413697de8dc"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_5P_telomere.bed:md5,65a96f58d21ee87ce8932b5e3e2da63b"
-                    ]
-                ],
-                "1": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,3bb5481efc9a9c7192c54413697de8dc",
-                        "idFanCani4.bed.gz.csi:md5,ea3c693cc2c167eefef157c58ce9ca00"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,3ccb4acb3f33c8ff3ca3201245a42ce3",
-                        "idFanCani4.bed.gz.csi:md5,c1e8ab4feb9c52665916f33ca629e055"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,65a96f58d21ee87ce8932b5e3e2da63b",
-                        "idFanCani4.bed.gz.csi:md5,261e850df19711054886092b79fd3b04"
-                    ]
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,ae30aa41f6e9c53df160ddb17ecccd09",
-                            "idFanCani4_5P_telomere.bedgraph:md5,ac00ddc89af099cfdd820495cd8c8c76"
-                        ]
-                    ]
-                ],
-                "bed_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_0P_telomere.bed:md5,3ccb4acb3f33c8ff3ca3201245a42ce3"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_3P_telomere.bed:md5,3bb5481efc9a9c7192c54413697de8dc"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4_5P_telomere.bed:md5,65a96f58d21ee87ce8932b5e3e2da63b"
-                    ]
-                ],
-                "bed_gz_tbi": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,3bb5481efc9a9c7192c54413697de8dc",
-                        "idFanCani4.bed.gz.csi:md5,ea3c693cc2c167eefef157c58ce9ca00"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,3ccb4acb3f33c8ff3ca3201245a42ce3",
-                        "idFanCani4.bed.gz.csi:md5,c1e8ab4feb9c52665916f33ca629e055"
-                    ],
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        "idFanCani4.bed.gz:md5,65a96f58d21ee87ce8932b5e3e2da63b",
-                        "idFanCani4.bed.gz.csi:md5,261e850df19711054886092b79fd3b04"
-                    ]
-                ],
-                "bedgraph_file": [
-                    [
-                        {
-                            "id": "idFanCani4"
-                        },
-                        [
-                            "idFanCani4_0P_telomere.bedgraph:md5,f8df4805d7f8948a5bc74c674965d064",
-                            "idFanCani4_3P_telomere.bedgraph:md5,ae30aa41f6e9c53df160ddb17ecccd09",
-                            "idFanCani4_5P_telomere.bedgraph:md5,ac00ddc89af099cfdd820495cd8c8c76"
-                        ]
-                    ]
-                ]
-            }
-        ],
-        "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-02-27T15:58:31.397290965"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     }
 }

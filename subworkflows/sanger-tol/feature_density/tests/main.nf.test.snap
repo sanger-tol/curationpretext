@@ -38,11 +38,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-08-06T15:57:03.873167709",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-03-11T17:51:16.665854511"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     },
     "Undibacterium_unclassified genome - stub": {
         "content": [
@@ -61,7 +61,7 @@
                             "id": "test"
                         },
                         "repden_test.bed.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
-                        "repden_test.bed.gz.csi:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "repden_test.bed.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "density_file": [
@@ -78,15 +78,15 @@
                             "id": "test"
                         },
                         "repden_test.bed.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
-                        "repden_test.bed.gz.csi:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "repden_test.bed.gz.tbi:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ]
             }
         ],
+        "timestamp": "2026-08-06T15:58:34.216071486",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-03-11T17:52:33.243170453"
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.4"
+        }
     }
 }

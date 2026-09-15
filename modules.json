@@ -17,17 +17,17 @@
                     },
                     "bedtools/intersect": {
                         "branch": "master",
-                        "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["feature_density", "modules"]
                     },
                     "bedtools/makewindows": {
                         "branch": "master",
-                        "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["feature_density", "modules"]
                     },
                     "bedtools/map": {
                         "branch": "master",
-                        "git_sha": "88d43dad73a675e66bff49ebb57fe657a5909018",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["feature_density", "modules"]
                     },
                     "bwamem2/index": {
@@ -47,7 +47,7 @@
                     },
                     "gawk": {
                         "branch": "master",
-                        "git_sha": "c0da8f3a26835d663873001382a708f75766fec6",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": [
                             "feature_density",
                             "gap_finder",
@@ -59,13 +59,18 @@
                     },
                     "gnu/sort": {
                         "branch": "master",
-                        "git_sha": "5e748ff2b0f990949081c9e49792622eb3fe9ee9",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["feature_density", "modules"]
                     },
                     "gunzip": {
                         "branch": "master",
                         "git_sha": "96c57dfd98a0641886a67bd449fe33ee2ec0e374",
                         "installed_by": ["fasta_clean_faidx", "modules"]
+                    },
+                    "htslib/bgziptabix": {
+                        "branch": "master",
+                        "git_sha": "37f69c8ca3eb3d038a5d44f33a329e49f44bd4f2",
+                        "installed_by": ["feature_density", "telo_finder"]
                     },
                     "juicertools/pre": {
                         "branch": "master",
@@ -144,27 +149,27 @@
                     },
                     "seqtk/cutn": {
                         "branch": "master",
-                        "git_sha": "a46713779030a5f508117080cbf4b693dd4c6e33",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["gap_finder", "modules"]
                     },
                     "tabix/bgziptabix": {
                         "branch": "master",
-                        "git_sha": "91a902fb32d6717da38a9694eb4ad3fade53a8db",
+                        "git_sha": "54e41f4ed3aead45054380a9befeb927612ffc91",
                         "installed_by": ["feature_density", "gap_finder", "telo_finder"]
                     },
                     "ucsc/bedgraphtobigwig": {
                         "branch": "master",
-                        "git_sha": "b1c64e862fb5ed7f13b6f8f3ef8f04e700d41438",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["feature_density", "modules", "read_coverage"]
                     },
                     "windowmasker/mkcounts": {
                         "branch": "master",
-                        "git_sha": "ed6f7d2e090911f69f0f3af563f5af9ba1fc1fa0",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules", "repeat_masking"]
                     },
                     "windowmasker/ustat": {
                         "branch": "master",
-                        "git_sha": "ed6f7d2e090911f69f0f3af563f5af9ba1fc1fa0",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules", "repeat_masking"]
                     }
                 }
@@ -237,6 +242,11 @@
                         "git_sha": "780f0c747b0aabfe5f827f88b5bbef16b6640e64",
                         "installed_by": ["telo_finder"]
                     },
+                    "telomere/findtelomere": {
+                        "branch": "main",
+                        "git_sha": "047271f4596a66ee08ce26ded7509748eee6d741",
+                        "installed_by": ["telo_finder"]
+                    },
                     "telomere/regions": {
                         "branch": "main",
                         "git_sha": "88ba0abe3c06373b506509a5359092e22a912f1b",
@@ -263,38 +273,43 @@
                     },
                     "feature_density": {
                         "branch": "main",
-                        "git_sha": "73d7b342ca49f5e15232394c11d0d963fcd684f0",
+                        "git_sha": "3c555d981923f8471f41a043a1006f47f6b93744",
                         "installed_by": ["repeat_density"]
                     },
                     "gap_finder": {
                         "branch": "main",
-                        "git_sha": "c447733d1899275a01cb3bac0719d2f68750ff72",
-                        "installed_by": ["subworkflows"]
+                        "git_sha": "23bb41bc8cdefe9aff41ee048fcb0d64c10d52ce",
+                        "installed_by": ["pretext_accessory_files"]
                     },
                     "pairs_create_contact_maps": {
                         "branch": "main",
                         "git_sha": "304455b447d7768cfc22181542f1e5b1b4fe2d8b",
                         "installed_by": ["subworkflows"]
                     },
+                    "pretext_accessory_files": {
+                        "branch": "main",
+                        "git_sha": "db6ed2e84ef182d06c71789ace53bed678242ca5",
+                        "installed_by": ["subworkflows"]
+                    },
                     "read_coverage": {
                         "branch": "main",
                         "git_sha": "6f01a1bc520f2bf723ea973b29e2d5a82b24508b",
-                        "installed_by": ["subworkflows"]
+                        "installed_by": ["pretext_accessory_files"]
                     },
                     "repeat_density": {
                         "branch": "main",
-                        "git_sha": "a96b4bea4f13a425b8b015c96a0f088497cbc75f",
-                        "installed_by": ["subworkflows"]
+                        "git_sha": "c05b41d8c38d3fe3f3e3ce051cfcf0ed4d4efe11",
+                        "installed_by": ["pretext_accessory_files"]
                     },
                     "repeat_masking": {
                         "branch": "main",
-                        "git_sha": "45230473d69437a6048b5436d74ce464a5cc8d27",
+                        "git_sha": "37ede3f6958e8ca96d0e18645d0f8ee1184eef24",
                         "installed_by": ["repeat_density"]
                     },
                     "telo_finder": {
                         "branch": "main",
-                        "git_sha": "c447733d1899275a01cb3bac0719d2f68750ff72",
-                        "installed_by": ["subworkflows"]
+                        "git_sha": "10a64a83666aec16e53b9a2cff58b384664ccf34",
+                        "installed_by": ["pretext_accessory_files"]
                     }
                 }
             }

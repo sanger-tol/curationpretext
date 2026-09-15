@@ -92,7 +92,7 @@ workflow PIPELINE_INITIALISATION {
         before_text,
         after_text,
         command,
-        true
+        null
     )
 
     //
@@ -117,6 +117,7 @@ workflow PIPELINE_INITIALISATION {
                 id: params.sample,
                 map_order: params.map_order,
                 multi_mapping: params.multi_mapping,
+                telomereseq: params.teloseq
             ],
             fasta
         ]
@@ -146,6 +147,7 @@ workflow PIPELINE_INITIALISATION {
                             id: params.sample,
                             map_order: params.map_order,
                             multi_mapping: params.multi_mapping,
+                            telomereseq: params.teloseq
                         ],
                         params.cram
                     ) : channel.empty()
@@ -155,7 +157,9 @@ workflow PIPELINE_INITIALISATION {
                         [
                             id: params.sample,
                             map_order: params.map_order,
-                            multi_mapping: params.multi_mapping
+                            multi_mapping: params.multi_mapping,
+                            telomereseq: params.teloseq
+
                         ],
                         params.pre_mapped_bam
                     ) : channel.empty()
@@ -166,6 +170,8 @@ workflow PIPELINE_INITIALISATION {
                             id: params.sample,
                             map_order: params.map_order,
                             multi_mapping: params.multi_mapping,
+                            telomereseq: params.teloseq
+
                         ],
                         params.reads
                     )
