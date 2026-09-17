@@ -79,16 +79,16 @@
                     "ucsc": 447
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SAMTOOLS_FLAGSTAT": {
                     "samtools": 1.24
                 },
                 "SAMTOOLS_MERGEDUP": {
-                    "samtools": 1.23
+                    "samtools": "1.23.1"
                 },
                 "SAMTOOLS_SPLITHEADER": {
-                    "samtools": "1.22.1"
+                    "samtools": 1.24
                 },
                 "SEQKIT_SEQ": {
                     "seqkit": "2.13.0"
@@ -148,7 +148,7 @@
             2,
             true
         ],
-        "timestamp": "2026-09-15T19:48:20.82182797",
+        "timestamp": "2026-09-16T16:47:27.943224341",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.0"

@@ -70,6 +70,8 @@ workflow CURATIONPRETEXT {
 
     main:
 
+    def ch_versions     = channel.empty()
+
     //
     // SUBWORKFLOW: UNZIP FASTA, UPPERCASE SEQUENCE,
     //              CLEAN HEADER (optional) AND GENERATE INDEX
@@ -168,7 +170,7 @@ workflow CURATIONPRETEXT {
     SAMTOOLS_INDEX (
         ch_mapped_bam
     )
-    mapped_bam_bai      = SAMTOOLS_INDEX.out.csi.mix( ALIGN_CRAM.out.bam_index )
+    mapped_bam_bai      = SAMTOOLS_INDEX.out.index.mix( ALIGN_CRAM.out.bam_index )
 
 
     //
@@ -306,7 +308,6 @@ workflow CURATIONPRETEXT {
         val_split_telomere
     )
 
-    def ch_versions     = channel.empty()
 
     //
     // Collate and save software versions
