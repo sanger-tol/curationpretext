@@ -76,6 +76,11 @@
                         "git_sha": "135d883a43b1a2324b4112cd270cf22e20835533",
                         "installed_by": ["cram_map_illumina_hic"]
                     },
+                    "pairtools/parse": {
+                        "branch": "master",
+                        "git_sha": "0f58063205e6d45b9bdcea0d88f26bdecbedca1c",
+                        "installed_by": ["modules"]
+                    },
                     "pretextmap": {
                         "branch": "master",
                         "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",

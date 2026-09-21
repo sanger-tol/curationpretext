@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## NOTE:
 
 - Added support for new tracks (pebble and busco) which are **NOT** yet implemented.
+- `val_juicer_generation` has been temporarily disabled as BAM input to subworkflow is incompatible with the tool
 
 ## Added and Fixed
 

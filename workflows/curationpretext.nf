@@ -199,14 +199,18 @@ workflow CURATIONPRETEXT {
     //              DUE TO HOW RESOURCE INTENSIVE THEY SNAPSHOT IS WITH HIGHER RESOLUTION
     //              AND WE ONLY NEED 1 JUICER MAP
     //
+    for_mapping = mapped_bam
+        .combine(FASTA_CLEAN_FAIDX.out.sizes, by: 0)
+
+    // Turn off the tools which need pairs files
     CREATE_MAPS_STDRD (
-        mapped_bam,
-        [[:],[]],
+        for_mapping.map { meta, bam, sizes -> tuple(meta, bam) },
+        for_mapping.map { meta, bam, sizes -> tuple(meta, sizes) },
         ch_snapshot_custom_order,
         true,                       // Pretext generation, always true
         val_snapshot_generation,
-        false,                      // cooler map generation, which we won't be using
-        val_juicer_generation,      // Juicer generation, optional need for genomenotes
+        false,  //true,                      // cooler map generation, which we won't be using
+        false,  //val_juicer_generation,      // Juicer generation, optional need for genomenotes
         []                          // Cooler cload parameters
     )
 
@@ -219,6 +223,7 @@ workflow CURATIONPRETEXT {
     filtered_sizes.map { _meta, _file ->
         log.warn "Annotation currently relies on the original FASTA sizes file generated as part of this pipeline!"
         log.warn "This means that if you've supplied a custom order for the snapshot, the annotation will be wrong!"
+        log.warn "The custom order would have to have the same sames as the fasta after cleaning!"
     }
 
     PRETEXTANNOTATE(
