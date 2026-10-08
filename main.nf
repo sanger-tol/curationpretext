@@ -35,6 +35,9 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     cram
     mapped
     snapshot_order
+    snapshot_generation
+    snapshot_annotate
+    juicer_generation
     teloseq
     string_input
     aligner
@@ -70,10 +73,14 @@ workflow SANGER_TOL_CURATIONPRETEXT {
         cram,
         mapped,
         snapshot_order,
+        snapshot_generation,
+        snapshot_annotate,
+        juicer_generation,
         teloseq,
         selected_aligner,
         run_hires,
         run_ultra,
+        no_tracks,
         split_telomere,
         cram_chunk_size,
         coverage_track,
@@ -105,7 +112,7 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        [],                      // We are not using the samplesheet for this pipeline
+        [], // We are not using the samplesheet for this pipeline
         params.help,
         params.help_full,
         params.show_hidden

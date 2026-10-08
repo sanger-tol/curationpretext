@@ -222,6 +222,11 @@
                         "git_sha": "2db2b347b5fd5b0e031f10982dd20b44272f6787",
                         "installed_by": ["read_coverage"]
                     },
+                    "pretextannotate": {
+                        "branch": "main",
+                        "git_sha": "138de7f544587ddc600dd0a3ad3229d27f27c5a9",
+                        "installed_by": ["modules"]
+                    },
                     "samtools/mergedup": {
                         "branch": "main",
                         "git_sha": "55f3dd54f274c9648207a82bf68d257945d27053",

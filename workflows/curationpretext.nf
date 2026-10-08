@@ -7,7 +7,7 @@
 // NF-CORE SUBWORKFLOWS
 include { FASTA_CLEAN_FAIDX                                 } from '../subworkflows/nf-core/fasta_clean_faidx/main'
 
-//LOCAL MODULES
+// LOCAL MODULES
 include { PRETEXT_GRAPH as PRETEXT_INGEST_SNDRD             } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/local/pretext/graph/main'
 include { PRETEXT_GRAPH as PRETEXT_INGEST_ULTRA             } from '../modules/local/pretext/graph/main'
@@ -21,6 +21,9 @@ include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkfl
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_STDRD    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_HIRES    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_ULTRA    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
+
+// SANGER-TOL MODULES
+include { PRETEXTANNOTATE                                   } from '../modules/sanger-tol/pretextannotate/main'
 
 // FUNCTION IMPORTS
 include { paramsSummaryMap                                  } from 'plugin/nf-schema'
@@ -44,6 +47,7 @@ workflow CURATIONPRETEXT {
     val_aligner
     val_run_hires
     val_run_ultra
+    val_no_tracks
     val_split_telomere
     val_cram_chunk_size
     val_coverage_track
@@ -130,11 +134,14 @@ workflow CURATIONPRETEXT {
         val_cram_chunk_size
     )
 
-    mapped_bam = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
+    mapped_bam          = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
 
 
     //
     // SUBWORKFLOW: MAP THE PRETEXT FILE AND TAKE SNAPSHOT
+    //              STNDRD IS THE ONLY VARIANT WE ARE ANNOTATING WITH OTHER PARAMS
+    //              DUE TO HOW RESOURCE INTENSIVE THEY SNAPSHOT IS WITH HIGHER RESOLUTION
+    //              AND WE ONLY NEED 1 JUICER MAP
     //
     CREATE_MAPS_STDRD (
         mapped_bam,
@@ -229,7 +236,7 @@ workflow CURATIONPRETEXT {
         val_split_telomere
     )
 
-    def ch_versions = channel.empty()
+    def ch_versions     = channel.empty()
 
     //
     // Collate and save software versions
@@ -260,7 +267,7 @@ workflow CURATIONPRETEXT {
             newLine: true
         )
     emit:
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
+    versions            = ch_versions                 // channel: [ path(versions.yml) ]
 }
 
 /*
