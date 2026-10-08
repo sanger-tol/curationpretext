@@ -13,8 +13,7 @@ include { GNU_SORT as GNU_SORT_C            } from '../../../modules/nf-core/gnu
 include { GAWK as GAWK_RENAME_IDS           } from '../../../modules/nf-core/gawk/main'
 include { GAWK as GAWK_REPLACE_DOTS         } from '../../../modules/nf-core/gawk/main'
 include { GAWK as GAWK_REFORMAT_INTERSECT   } from '../../../modules/nf-core/gawk/main'
-include { TABIX_BGZIPTABIX                  } from '../../../modules/nf-core/tabix/bgziptabix'
-
+include { HTSLIB_BGZIPTABIX                 } from '../../../modules/nf-core/htslib/bgziptabix'
 
 workflow FEATURE_DENSITY {
     take:
@@ -72,16 +71,19 @@ workflow FEATURE_DENSITY {
     //
     // MODULE: SORTS THE ABOVE BED FILES
     //
+    ch_files_to_sort_a = GAWK_RENAME_IDS.out.output.map { meta, file -> tuple(meta, file, "intersect") }
     GNU_SORT_A (
-        GAWK_RENAME_IDS.out.output      // Intersect file
+        ch_files_to_sort_a  // Intersect file
     )
 
+    ch_files_to_sort_b = ch_chrom_sizes.map { meta, file -> tuple(meta, file, "sorted") }
     GNU_SORT_B (
-        ch_chrom_sizes                  // Genome file - Will not run unless genome file is sorted to
+        ch_files_to_sort_b  // Genome file - Will not run unless genome file is sorted to
     )
 
+    ch_files_to_sort_c = BEDTOOLS_MAKEWINDOWS.out.bed.map { meta, file -> tuple(meta, file, "bins") }
     GNU_SORT_C (
-        BEDTOOLS_MAKEWINDOWS.out.bed    // Windows file
+        ch_files_to_sort_c  // Windows file
     )
 
     //
@@ -107,9 +109,15 @@ workflow FEATURE_DENSITY {
     //
     // MODULE: TABIX AND GZIP THE DENSITY BED FILE
     //
-    TABIX_BGZIPTABIX (
-        GAWK_REFORMAT_INTERSECT.out.output
+    HTSLIB_BGZIPTABIX (
+        GAWK_REFORMAT_INTERSECT.out.output.map { meta, file -> tuple(meta, file, [], []) },
+        "compress",
+        true,
+        "bed"
     )
+
+    htslib_bed_index = HTSLIB_BGZIPTABIX.out.output
+        .combine(HTSLIB_BGZIPTABIX.out.index, by: 0)
 
     //
     // LOGIC: COMBINES THE REFORMATTED INTERSECT FILE AND WINDOWS FILE CHANNELS AND SORTS INTO
@@ -161,5 +169,5 @@ workflow FEATURE_DENSITY {
 
     emit:
     density_file    = UCSC_BEDGRAPHTOBIGWIG.out.bigwig
-    density_tabix   = TABIX_BGZIPTABIX.out.gz_index
+    density_tabix   = htslib_bed_index
 }

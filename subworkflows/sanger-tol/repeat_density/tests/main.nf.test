@@ -17,7 +17,7 @@ nextflow_workflow {
     tag "gnu/sort"
     tag "gawk"
     tag "gunzip"
-    tag "tabix/bgziptabix"
+    tag "htslib/bgziptabix"
     tag "windowmasker/ustat"
     tag "windowmasker/mkcounts"
     tag "subworkflows/../../modules/nf-core/windowmasker/ustat"
@@ -28,7 +28,7 @@ nextflow_workflow {
     tag "subworkflows/../../modules/nf-core/ucsc/bedgraphtobigwig"
     tag "subworkflows/../../modules/nf-core/gnu/sort"
     tag "subworkflows/../../modules/nf-core/gawk"
-    tag "subworkflows/../../modules/nf-core/tabix/bgziptabix"
+    tag "subworkflows/../../modules/nf-core/htslib/bgziptabix"
     tag "subworkflows/../../modules/nf-core/gunzip"
     tag "modules/nf-core/gunzip"
     tag "modules/nf-core/gawk"
@@ -46,7 +46,7 @@ nextflow_workflow {
                 "ucsc/bedgraphtobigwig",
                 "gnu/sort",
                 "gawk",
-                "tabix/bgziptabix",
+                "htslib/bgziptabix",
                 "gunzip"
             ]
         )
@@ -89,11 +89,8 @@ nextflow_workflow {
                 bedtools_makewindows_args = "-w 10000"
                 bedgraphtobw_prefix = "test_repeat_density"
                 gnu_sort_a_args = "-k1,1 -k2,2n -S5000M -T ."
-                gnu_sort_a_suffix = "intersect"
                 gnu_sort_b_args = "-k1,1 -k2,2n -S5000M -T ."
-                gnu_sort_b_suffix = "sorted"
                 gnu_sort_c_args = "-k1,1 -k2,2n -S5000M -T ."
-                gnu_sort_c_suffix = "bins"
                 gawk_extract_repeats_prefix = "test_repeats"
                 gawk_extract_repeats_suffix = "bed"
                 gawk_replace_dots_prefix = "test_nodot"
@@ -139,11 +136,8 @@ nextflow_workflow {
                 bedtools_makewindows_args = "-w 10000"
                 bedgraphtobw_prefix = "test_repeat_density"
                 gnu_sort_a_args = "-k1,1 -k2,2n -S5000M -T ."
-                gnu_sort_a_suffix = "intersect"
                 gnu_sort_b_args = "-k1,1 -k2,2n -S5000M -T ."
-                gnu_sort_b_suffix = "sorted"
                 gnu_sort_c_args = "-k1,1 -k2,2n -S5000M -T ."
-                gnu_sort_c_suffix = "bins"
                 gawk_extract_repeats_prefix = "test_repeats"
                 gawk_extract_repeats_suffix = "bed"
                 gawk_replace_dots_prefix = "test_nodot"
