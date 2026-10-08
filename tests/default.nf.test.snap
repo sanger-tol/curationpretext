@@ -140,7 +140,7 @@
                 "CurationPretextTest_MIN_3P_telomere.bedgraph:md5,23c0d6a6ec57809808a38483d4bcc6cd",
                 "CurationPretextTest_MIN_5P_telomere.bed:md5,712d150d0128fd221b27c64ee695509e",
                 "CurationPretextTest_MIN_5P_telomere.bedgraph:md5,754352b044aa0256d06b6b8054af2451",
-                "CurationPretextTest_MIN_repeat_density.bigWig:md5,ddb14d7e7a482773da2209a30bca5fd7"
+                "CurationPretextTest_MIN_repeat_density.bigWig:md5,3f66a9152d793a62f877b733c2336dfd"
             ],
             8,
             1,
