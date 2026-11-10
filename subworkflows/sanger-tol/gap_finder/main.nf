@@ -32,7 +32,7 @@ workflow GAP_FINDER {
     // MODULE: ADD THE LENGTH OF GAP TO BED FILE - INPUT FOR PRETEXT MODULE
     //
     GAWK_GAP_LENGTH (
-        SEQTK_CUTN.out.bed,
+        SEQTK_CUTN.out.bed.map { meta, files -> tuple(meta, files, 'gap.bedgraph') },
         ch_reformat_gaps,
         false
     )

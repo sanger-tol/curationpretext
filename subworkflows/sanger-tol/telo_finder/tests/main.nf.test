@@ -26,9 +26,10 @@ nextflow_workflow {
     test("Cloeon_Dipeterum - no split") {
         when {
             params {
+                split_telomere      = false
                 find_telomere_args  = ''
                 java_args           = "99.9 0.01"
-                bgzip_args          = ''
+                bgzip_args          = "-p bed --csi"
             }
             workflow {
                 """
@@ -47,13 +48,19 @@ nextflow_workflow {
                     ]
                 ])
 
-                input[2] = false
-                input[3] = false
+                input[2] = true  // val_zip_bed — zip telomere.bed + windows
                 """
             }
         }
 
         then {
+            // No-split: telomere TSV + combined telomere.bed + windows; zip BED + windows.
+            def file_names = { ch ->
+                ch.collect { meta, f -> [ meta.id, file(f).name ] }.sort()
+            }
+            def gz_names = { ch ->
+                ch.collect { meta, gz, idx -> [ meta.id, file(gz).name, file(idx).name ] }.sort()
+            }
             assertAll(
                 { assert workflow.success },
                 { assert snapshot(workflow.out).match() }
@@ -68,9 +75,10 @@ nextflow_workflow {
     test("Cloeon_Dipeterum - split - zipbed") {
         when {
             params {
+                split_telomere      = true
                 find_telomere_args  = ''
                 java_args           = "99.9 0.01"
-                bgzip_args          = "--csi"
+                bgzip_args          = "-p bed --csi"
             }
             workflow {
                 """
@@ -89,8 +97,7 @@ nextflow_workflow {
                     ]
                 ])
 
-                input[2] = true
-                input[3] = true
+                input[2] = true  // val_zip_bed
                 """
             }
         }

@@ -1,9 +1,10 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/sanger-tol/nf-core-modules/main/subworkflows/yaml-schema.json
 name: "telo_finder"
 description: |
-  Run `telomere/findtelomere` on an assembly and motif string; optionally bgzip/tabix strand BED
-  (`*.fwd.telomere.bed`, `*.rev.telomere.bed`) and windows files (`*.windows` or `*.fwd.windows` /
-  `*.rev.windows`).
+  Run `telomere/findtelomere` on an assembly and motif string; optionally bgzip/tabix
+  combined `*.telomere.bed` and `*.windows`. When split, also emit and zip strand BED
+  (`*.fwd.telomere.bed`, `*.rev.telomere.bed`) and strand windows (`*.fwd.windows` /
+  `*.rev.windows`). The combined `*.telomere` TSV is not zipped.
 keywords:
   - telomere
   - windows
@@ -24,33 +25,34 @@ input:
       description: |
         Channel shape `[ val(meta), val(telomere_motif) ]` — DNA motif sequence string (same `meta.id`
         as `ch_reference` entries).
-  - val_split_telomere:
-      type: boolean
-      description: |
-        When true, run `FindTelomereWindows` in `--split` mode (`*.fwd.windows`, `*.rev.windows`).
-        When false, emit a single `*.windows` file.
   - val_zip_bed:
       type: boolean
       description: |
-        When true, run `htslib/bgziptabix` on strand telomere BED outputs and all windows files from
-        this sample (one HTSLIB task per file). When false, `gz_index` is an empty channel.
+        When true, run `htslib/bgziptabix` (`-p bed`) on combined `*.telomere.bed` and `*.windows`,
+        and when split also on strand BED and strand windows (one HTSLIB task per file). The
+        combined `*.telomere` TSV is not zipped. When false, `gz_index` is an empty channel.
 output:
   - telomere:
       type: file
       description: |
-        `[ val(meta), path(*.telomere) ]` — merged motif-hit table from `find_telomere`.
+        `[ val(meta), path(*.telomere) ]` — motif-hit table from `find_telomere`.
+  - telomere_bed:
+      type: file
+      description: |
+        `[ val(meta), path(*.telomere.bed) ]` — combined motif BED from `FindTelomereWindows`
+        (always emitted).
   - telomere_bed_fwd:
       type: file
       description: |
-        `[ val(meta), path(*.fwd.telomere.bed) ]` (optional if tool emits).
+        `[ val(meta), path(*.fwd.telomere.bed) ]` when split is true; otherwise empty.
   - telomere_bed_rev:
       type: file
       description: |
-        `[ val(meta), path(*.rev.telomere.bed) ]` (optional if tool emits).
+        `[ val(meta), path(*.rev.telomere.bed) ]` when split is true; otherwise empty.
   - windows_all:
       type: file
       description: |
-        `[ val(meta), path(*.all.windows) ]` when `val_split_telomere` is false; otherwise empty.
+        `[ val(meta), path(*.windows) ]` — combined both-strand density windows (always emitted).
   - windows_fwd:
       type: file
       description: |

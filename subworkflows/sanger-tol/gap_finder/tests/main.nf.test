@@ -14,7 +14,7 @@ nextflow_workflow {
     tag "subworkflows/../../modules/nf-core/gawk"
     tag "subworkflows/../../modules/nf-core/htslib/bgziptabix"
     tag "subworkflows/../../modules/nf-core/seqtk/cutn"
-	tag "modules/nf-core/gunzip"
+    tag "modules/nf-core/gunzip"
 
     setup {
         nfcoreInitialise("${launchDir}/library/")

@@ -1,7 +1,7 @@
 {
     "Full run": {
         "content": [
-            40,
+            38,
             {
                 "BEDTOOLS_GENOMECOV": {
                     "bedtools": "2.31.1"
@@ -45,9 +45,6 @@
                 "GAWK_REPLACE_DOTS": {
                     "gawk": "5.3.1"
                 },
-                "GAWK_TELO_FIX": {
-                    "gawk": "5.3.1"
-                },
                 "GNU_SORT_A": {
                     "coreutils": 9.5
                 },
@@ -58,7 +55,7 @@
                     "coreutils": 9.5
                 },
                 "HTSLIB_BGZIPTABIX": {
-                    "htslib": 1.24,
+                    "htslib": 1.25,
                     "xz": "5.8.3"
                 },
                 "MINIMAP2_ALIGN": {
@@ -97,8 +94,8 @@
                     "seqtk": "1.4-r122"
                 },
                 "TELOMERE_FINDTELOMERE": {
-                    "find_telomere": "0.0.2",
-                    "java": "17.0.18"
+                    "find_telomere": "0.0.4",
+                    "java": "17.0.20.1"
                 },
                 "UCSC_BEDGRAPHTOBIGWIG": {
                     "ucsc": 482
@@ -116,9 +113,10 @@
             [
                 "accessory_files",
                 "accessory_files/CurationPretextTest_MIN.bigWig",
-                "accessory_files/CurationPretextTest_MIN.fwd.fixed.bed",
+                "accessory_files/CurationPretextTest_MIN.fwd.windows",
                 "accessory_files/CurationPretextTest_MIN.gap.bedgraph",
-                "accessory_files/CurationPretextTest_MIN.rev.fixed.bed",
+                "accessory_files/CurationPretextTest_MIN.rev.windows",
+                "accessory_files/CurationPretextTest_MIN.windows",
                 "pipeline_info",
                 "pipeline_info/curationpretext_software_versions.yml",
                 "pretext_maps_processed",
@@ -131,14 +129,15 @@
                 "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.png",
                 "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.tif"
             ],
-            16,
+            17,
             [
                 "CurationPretextTest_MIN.bigWig:md5,3f66a9152d793a62f877b733c2336dfd",
-                "CurationPretextTest_MIN.fwd.fixed.bed:md5,705f6da7438dba0eab4e457ea1c9cbd9",
+                "CurationPretextTest_MIN.fwd.windows:md5,e80e7e504ba2aa22d67ceb5fd46cec09",
                 "CurationPretextTest_MIN.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "CurationPretextTest_MIN.rev.fixed.bed:md5,ef145c8184cb299f16a392502a38a4ef"
+                "CurationPretextTest_MIN.rev.windows:md5,4a7cec66f59955c788d8d5398897280f",
+                "CurationPretextTest_MIN.windows:md5,d8e90bf88bec2d3426a79dc437173814"
             ],
-            4,
+            5,
             1,
             false,
             true,
@@ -148,7 +147,7 @@
             2,
             true
         ],
-        "timestamp": "2026-09-16T16:47:27.943224341",
+        "timestamp": "2026-11-10T17:29:17.65940161",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.0"

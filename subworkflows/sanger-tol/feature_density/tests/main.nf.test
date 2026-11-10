@@ -71,6 +71,7 @@ nextflow_workflow {
                 input[0] = [
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'Undibacterium_unclassified/assembly/draft/baUndUnlc1.bp.hap1.p_ctg.fa.fai', checkIfExists: true),
+                    "sizes",
                 ]
                 input[1] = channel.of('BEGIN { FS = OFS = "\\t" } { print \$1, \$2 }').collectFile(name: "sizes.awk")
                 input[2] = false
@@ -91,7 +92,7 @@ nextflow_workflow {
             script "../../../../modules/nf-core/gawk/main.nf"
             process {
                 """
-                input[0] = REPEAT_MASKING.out.repeat_intervals
+                input[0] = REPEAT_MASKING.out.repeat_intervals.map { meta, files -> tuple(meta, files, 'bed') }
                 input[1] = channel.of('BEGIN { FS = " - "; OFS = "\\t" } /^>/ { header = substr(\$0, 2); next } { print header, \$1, \$2 }').collectFile(name: "extract_repeats.awk")
                 input[2] = false
                 """
@@ -112,13 +113,9 @@ nextflow_workflow {
                 gnu_sort_b_args = "-k1,1 -k2,2n -S5000M -T ."
                 gnu_sort_c_args = "-k1,1 -k2,2n -S5000M -T ."
                 gawk_extract_repeats_prefix = "test_repeats"
-                gawk_extract_repeats_suffix = "bed"
                 gawk_replace_dots_prefix = "test_nodot"
-                gawk_replace_dots_suffix = 'bed'
                 gawk_rename_ids_prefix = "test_renamed"
-                gawk_rename_ids_suffix = "bed"
                 gawk_reformat_intersect_prefix = "test_repeat_mk"
-                gawk_reformat_intersect_suffix = "bed"
                 bgzip_prefix = "repden_test"
                 bgzip_args = ""
                 bgzip_args2 = "--csi"
@@ -159,13 +156,9 @@ nextflow_workflow {
                 gnu_sort_b_args = "-k1,1 -k2,2n -S5000M -T ."
                 gnu_sort_c_args = "-k1,1 -k2,2n -S5000M -T ."
                 gawk_extract_repeats_prefix = "test_repeats"
-                gawk_extract_repeats_suffix = "bed"
                 gawk_replace_dots_prefix = "test_nodot"
-                gawk_replace_dots_suffix = 'bed'
                 gawk_rename_ids_prefix = "test_renamed"
-                gawk_rename_ids_suffix = "bed"
                 gawk_reformat_intersect_prefix = "test_repeat_mk"
-                gawk_reformat_intersect_suffix = "bed"
                 bgzip_prefix = "repden_test"
                 bgzip_args = ""
                 bgzip_args2 = "--csi"

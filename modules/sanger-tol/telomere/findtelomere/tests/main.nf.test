@@ -15,8 +15,9 @@ nextflow_process {
 
         when {
             params {
-                    find_telomere_args      = ""
-                    java_args               = "99.9 0.01"
+                split_telomere          = false
+                find_telomere_args      = ""
+                java_args               = "99.9 0.01"
             }
             process {
                 """
@@ -25,7 +26,6 @@ nextflow_process {
                     file(params.modules_testdata_base_path + 'Cloeon_dipterum/assembly/release/ieCloDipt1.1/insdc/GCA_949628265.1.fasta.gz', checkIfExists: true),
                     "CCTAA"
                 ]
-                input[1] = false
                 """
             }
         }
@@ -42,8 +42,9 @@ nextflow_process {
 
         when {
             params {
-                    find_telomere_args      = ""
-                    java_args               = "99.9 0.01"
+                split_telomere           = true
+                find_telomere_args      = ""
+                java_args               = "99.9 0.01"
             }
             process {
                 """
@@ -52,7 +53,6 @@ nextflow_process {
                     file(params.modules_testdata_base_path + 'Cloeon_dipterum/assembly/release/ieCloDipt1.1/insdc/GCA_949628265.1.fasta.gz', checkIfExists: true),
                     "CCTAA"
                 ]
-                input[1] = true
                 """
             }
         }
@@ -72,8 +72,9 @@ nextflow_process {
 
         when {
             params {
-                    find_telomere_args      = ""
-                    java_args               = "99.9 0.01"
+                split_telomere          = false
+                find_telomere_args      = ""
+                java_args               = "99.9 0.01"
             }
             process {
                 """
@@ -82,7 +83,6 @@ nextflow_process {
                     file(params.modules_testdata_base_path + 'Cloeon_dipterum/assembly/release/ieCloDipt1.1/insdc/GCA_949628265.1.fasta.gz', checkIfExists: true),
                     "CCTAA"
                 ]
-                input[1] = false
                 """
             }
         }

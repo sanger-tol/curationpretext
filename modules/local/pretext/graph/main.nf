@@ -79,7 +79,7 @@ process PRETEXT_GRAPH {
         file_3p=""
         file_og=""
 
-        for file in telomere/*.bed; do
+        for file in telomere/*.windows; do
             [ -e "\$file" ] || continue  # skip if no match
             fname=\$(basename "\$file")
 

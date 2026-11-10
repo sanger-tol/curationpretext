@@ -88,6 +88,9 @@ nextflow_workflow {
         config "../nextflow.config"
 
         when {
+            params {
+                split_telomere = true
+            }
             workflow {
                 """
                 input[0] = channel.of(
@@ -118,13 +121,12 @@ nextflow_workflow {
                     ]
                 )
                 input[4]  = true
-                input[5]  = true
-                input[6]  = false
+                input[5]  = false
+                input[6]  = true
                 input[7]  = true
-                input[8]  = true
+                input[8]  = false
                 input[9]  = false
-                input[10] = false
-                input[11] = true
+                input[10] = true
 
                 """
             }
@@ -143,6 +145,9 @@ nextflow_workflow {
         config "../nextflow.config"
 
         when {
+            params {
+                split_telomere = true
+            }
             workflow {
                 """
                 input[0] = channel.of(
@@ -173,13 +178,12 @@ nextflow_workflow {
                     ]
                 )
                 input[4]  = true
-                input[5]  = true
-                input[6]  = false
+                input[5]  = false
+                input[6]  = true
                 input[7]  = true
-                input[8]  = true
+                input[8]  = false
                 input[9]  = false
                 input[10] = false
-                input[11] = false
 
                 """
             }
@@ -224,13 +228,12 @@ nextflow_workflow {
                     ]
                 )
                 input[4]  = false
-                input[5]  = false
-                input[6]  = true
+                input[5]  = true
+                input[6]  = false
                 input[7]  = false
                 input[8]  = false
                 input[9]  = false
-                input[10] = false
-                input[11] = true
+                input[10] = true
 
                 """
             }
@@ -243,5 +246,4 @@ nextflow_workflow {
             )
         }
     }
-
 }

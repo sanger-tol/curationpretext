@@ -91,6 +91,7 @@ workflow CURATIONPRETEXT {
     full_list = [
         "gap track": val_run_gap,
         "telomere track": val_run_telomere,
+        "split telomere track": params.split_telomere,
         "repeats track": val_run_repeats,
         "coverage track": val_run_coverage,
         "busco track": val_run_busco,
@@ -119,7 +120,6 @@ workflow CURATIONPRETEXT {
             FASTA_CLEAN_FAIDX.out.sizes,
             ch_reads,
             FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], meta.telomereseq) },
-            val_split_telomere,
             val_run_telomere,
             val_run_gap,
             val_run_coverage,
@@ -132,22 +132,7 @@ workflow CURATIONPRETEXT {
         gaps_file       = ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
         cove_file       = ACCESSORY_FILES.out.coverage_file.map{ _meta, file -> file }.ifEmpty{ [] }
         rept_file       = ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
-
-        fix_telo_windows = channel.of('''\
-            BEGIN { OFS="\\t" }
-            {
-                printf "%s\\t%s\\t%s\\t%04d\\n", $1, $2, $3, $4 * 10000
-            }'''.stripIndent())
-            .collectFile(name: "fix_telo_windows.awk", cache: true)
-            .collect()
-
-        GAWK_TELO_FIX (
-            ACCESSORY_FILES.out.telo_windows,
-            fix_telo_windows,
-            false
-        )
-
-        telo_file    = GAWK_TELO_FIX.out.output.map{ _meta, files -> files }.collect().ifEmpty{ [] }
+        telo_file       = ACCESSORY_FILES.out.telo_windows.map{ _meta, file -> file }.collect().ifEmpty{ [] }
     }
 
 

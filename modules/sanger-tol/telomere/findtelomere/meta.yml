@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: "telomere_findtelomere"
 description: |
-  Run the core steps of the sanger-tol/telomere toolkit.
+  Run `find_telomere` and `FindTelomereWindows` from the sanger-tol/telomere toolkit
+  (https://github.com/sanger-tol/telomere).
 keywords:
   - telomere
   - findtelomere
@@ -18,7 +19,8 @@ tools:
       identifier: ""
   - FindTelomereWindows:
       description: |
-        Slide windows along scaffolds and flag regions where telomeric hits exceed a density threshold.
+        Slide windows along scaffolds and flag regions where telomeric hits exceed a density
+        threshold; also emit sorted motif BED tracks.
       homepage: https://github.com/sanger-tol/telomere
       documentation: https://github.com/sanger-tol/telomere
       licence:
@@ -33,67 +35,80 @@ input:
     - reference:
         type: file
         description: Assembly for telomere.
-        pattern: "*.{fa,fna,fasta}"
+        pattern: "*.{fa,fna,fasta,fa.gz,fna.gz,fasta.gz}"
         ontologies: []
     - telomereseq:
         type: string
         description: DNA sequence of a telomere motif
-  - split_windows:
-      type: boolean
-      description: Run FindTelomereWindows in split mode
 output:
   telomere:
     - - meta:
           type: map
           description: Groovy Map containing sample information
-      - "*.telomere":
+      - ${prefix}.telomere:
           type: file
-          description: Motif-hit intervals
+          description: Motif-hit table from find_telomere (reformatted TSV)
           pattern: "*.telomere"
           ontologies: []
+  telomere_bed:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample information
+      - ${prefix}.telomere.bed:
+          type: file
+          description: |
+            Combined motif runs from FindTelomereWindows
+            (`chrom start end score strand`; score = run length, capped at 1000)
+          pattern: "*.telomere.bed"
+          ontologies:
+            - edam: "http://edamontology.org/format_3003"
   telomere_bed_fwd:
     - - meta:
           type: map
           description: Groovy Map containing sample information
-      - "*.fwd.telomere.bed":
+      - ${prefix}.fwd.telomere.bed:
           type: file
-          description: Forward telomeric intervals
+          description: Forward-strand motif BED (only when split_windows is true)
           pattern: "*.fwd.telomere.bed"
-          ontologies: []
+          ontologies:
+            - edam: "http://edamontology.org/format_3003"
   telomere_bed_rev:
     - - meta:
           type: map
           description: Groovy Map containing sample information
-      - "*.rev.telomere.bed":
+      - ${prefix}.rev.telomere.bed:
           type: file
-          description: Reverse telomeric intervals
+          description: Reverse-strand motif BED (only when split_windows is true)
           pattern: "*.rev.telomere.bed"
-          ontologies: []
+          ontologies:
+            - edam: "http://edamontology.org/format_3003"
   windows_all:
     - - meta:
           type: map
           description: Groovy Map containing sample information
-      - "*.all.windows":
+      - ${prefix}.windows:
           type: file
-          description: Telomere density windows
-          pattern: "*.all.windows"
+          description: |
+            Combined both-strand density windows from FindTelomereWindows
+            (bedGraph-like `chrom start end score`)
+          pattern: "*.windows"
           ontologies: []
   windows_fwd:
     - - meta:
           type: map
           description: Groovy Map containing sample information
-      - "*.fwd.windows":
+      - ${prefix}.fwd.windows:
           type: file
-          description: Forward windows
+          description: Forward-strand windows (only when split_windows is true)
           pattern: "*.fwd.windows"
           ontologies: []
   windows_rev:
     - - meta:
           type: map
           description: Groovy Map containing sample information
-      - "*.rev.windows":
+      - ${prefix}.rev.windows:
           type: file
-          description: Reverse windows
+          description: Reverse-strand windows (only when split_windows is true)
           pattern: "*.rev.windows"
           ontologies: []
   versions_java:
@@ -113,7 +128,7 @@ output:
       - find_telomere:
           type: string
           description: The tool name
-      - 0.0.2:
+      - 0.0.4:
           type: string
           description: The expression to obtain the version of the tool
 topics:
@@ -133,7 +148,7 @@ topics:
       - find_telomere:
           type: string
           description: The tool name
-      - 0.0.2:
+      - 0.0.4:
           type: string
           description: The expression to obtain the version of the tool
 authors:

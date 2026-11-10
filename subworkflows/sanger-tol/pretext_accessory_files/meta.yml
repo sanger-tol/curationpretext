@@ -37,9 +37,6 @@ input:
   - val_teloseq:
       type: string
       description: A telomeric motif sequence
-  - val_split_telomere:
-      type: boolean
-      description: Whether to split the telomere file into forward, reverse and whole files.
   - val_run_telomere:
       type: boolean
       description: Run the telomere file generation subworkflow
@@ -80,20 +77,21 @@ output:
   - telo_file:
       type: file
       description: |
-        Telomere file array, which can consist of an array of 3 bed files
-        Structure: [ val(meta), path(bed) ]
-      pattern: "*.bed"
+        Telomere tracks mixed for Pretext: `*.telomere` TSV, combined `*.telomere.bed`,
+        and when split also strand `*.fwd/.rev.telomere.bed`.
+        Structure: [ val(meta), path(file) ]
   - telo_windows:
       type: file
       description: |
-        Telomere window file array, which can consist of an array of 3 files
+        Telomere window tracks: combined `*.windows`, and when split also
+        `*.fwd.windows` / `*.rev.windows`.
         Structure: [ val(meta), path(windows) ]
-      pattern: "*.bed"
   - telo_bed_and_index:
       type: file
       description: |
-        Telomere file in bed 4 format.
-        Structure: [ val(meta), path(bed), path(csi) ]
+        bgzip+tabix outputs from `telo_finder` when indexing is enabled
+        (combined BED/windows, plus strand tracks when split).
+        Structure: [ val(meta), path(gz), path(csi) ]
       pattern: "*.gz | *.csi"
   - coverage_file:
       type: file
