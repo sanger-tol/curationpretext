@@ -32,28 +32,28 @@
                     "type": "boolean",
                     "format": "boolean",
                     "description": "Run and ingest the coverage analysis.",
-                    "default": false,
+                    "default": true,
                     "fa_icon": "fas fa-check"
                 },
                 "run_telomere": {
                     "type": "boolean",
                     "format": "boolean",
                     "description": "Run and ingest the telomere analysis.",
-                    "default": false,
+                    "default": true,
                     "fa_icon": "fas fa-check"
                 },
                 "run_gap": {
                     "type": "boolean",
                     "format": "boolean",
                     "description": "Run and ingest the gap analysis.",
-                    "default": false,
+                    "default": true,
                     "fa_icon": "fas fa-check"
                 },
                 "run_repeats": {
                     "type": "boolean",
                     "format": "boolean",
                     "description": "Run and ingest the repeats analysis.",
-                    "default": false,
+                    "default": true,
                     "fa_icon": "fas fa-check"
                 },
                 "run_busco": {
@@ -176,6 +176,12 @@
                     "type": "boolean",
                     "description": "Generate a snapshot of the pretext output",
                     "help_text": "Generate a snapshot of the pretext output",
+                    "fa_icon": "fas fa-check"
+                },
+                "snapshot_annotation": {
+                    "type": "boolean",
+                    "description": "Annotate the pretext snapshot",
+                    "help_text": "Annotate the pretext snapshot",
                     "fa_icon": "fas fa-check"
                 },
                 "juicer_generation": {

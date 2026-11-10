@@ -35,7 +35,7 @@ workflow BAM_SAMTOOLS_MERGE_MARKDUP {
         .combine(ch_assemblies, by: 0)
         .combine(ch_fai_gzi, by: 0)
         .multiMap { meta, bams, assembly, fai, gzi ->
-            bam: [meta, bams, []]
+            bam: [meta, bams.sort { b -> b.getName() }, []]
             fasta: [meta, assembly, fai, gzi]
         }
 
@@ -56,7 +56,7 @@ workflow BAM_SAMTOOLS_MERGE_MARKDUP {
         SAMTOOLS_MERGE(
             ch_samtools_merge_input.bam,
             ch_samtools_merge_input.fasta,
-            []
+            [],
         )
 
         ch_output_bam = SAMTOOLS_MERGE.out.bam.mix(SAMTOOLS_MERGE.out.cram)
