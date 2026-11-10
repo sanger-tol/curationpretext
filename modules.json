@@ -103,22 +103,22 @@
                     },
                     "samtools/flagstat": {
                         "branch": "master",
-                        "git_sha": "9339809fcb90af8a8b7051e6cd914894d5c52002",
+                        "git_sha": "80eb474060aa4aa6d7b4b00e0dc785174f156a28",
                         "installed_by": ["modules"]
                     },
                     "samtools/index": {
                         "branch": "master",
-                        "git_sha": "9339809fcb90af8a8b7051e6cd914894d5c52002",
+                        "git_sha": "80eb474060aa4aa6d7b4b00e0dc785174f156a28",
                         "installed_by": ["cram_map_illumina_hic", "modules"]
                     },
                     "samtools/merge": {
                         "branch": "master",
-                        "git_sha": "8fd5fe1c1e410ea530995d243bf49cd91e401d87",
+                        "git_sha": "80eb474060aa4aa6d7b4b00e0dc785174f156a28",
                         "installed_by": ["bam_samtools_merge_markdup"]
                     },
                     "samtools/splitheader": {
                         "branch": "master",
-                        "git_sha": "9339809fcb90af8a8b7051e6cd914894d5c52002",
+                        "git_sha": "80eb474060aa4aa6d7b4b00e0dc785174f156a28",
                         "installed_by": ["cram_map_illumina_hic"]
                     },
                     "seqkit/replace": {

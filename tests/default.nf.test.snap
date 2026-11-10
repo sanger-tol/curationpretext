@@ -76,16 +76,16 @@
                     "ucsc": 447
                 },
                 "SAMTOOLS_FAIDX": {
-                    "samtools": 1.24
+                    "samtools": 1.25
                 },
                 "SAMTOOLS_FLAGSTAT": {
-                    "samtools": 1.24
+                    "samtools": 1.25
                 },
                 "SAMTOOLS_MERGEDUP": {
                     "samtools": "1.23.1"
                 },
                 "SAMTOOLS_SPLITHEADER": {
-                    "samtools": 1.24
+                    "samtools": 1.25
                 },
                 "SEQKIT_SEQ": {
                     "seqkit": "2.13.0"
