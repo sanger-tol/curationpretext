@@ -18,13 +18,29 @@
 
   > Vasimuddin, Md. et al. 2019. ‘Efficient architecture-aware acceleration of BWA-mem for multicore systems’, 2019 IEEE International Parallel and Distributed Processing Symposium (IPDPS) [Preprint]. doi:10.1109/ipdps.2019.00041.
 
+- [cooler](https://github.com/open2c/cooler)
+
+  > Abdennur, Nezar and Mirny, Leonid A. 2020. ‘Cooler: a scalable and efficient format for storing and manipulating Hi-C data’. Bioinformatics. 36(1). pp. 311–316. doi:10.1093/bioinformatics/btz540.
+
 - [coreutils](https://github.com/coreutils/coreutils)
 
   > GNU Coreutils. 2023. coreutils [online]. https://github.com/coreutils/coreutils/releases/tag/v9.4. (Accessed on 25th September 2023).
 
-- [Find Telomere](https://github.com/VGP/vgp-assembly/tree/master/pipeline/telomere)
+- [htslib](https://github.com/samtools/htslib)
 
-  > VGP. 2022. vgp-assembly telomere [online]. https://github.com/VGP/vgp-assembly/tree/master/pipeline/telomere. (Accessed on 28th February 2023).
+  > Bonfield, James K. et al. 2021. ‘HTSlib: C library for reading/writing high-throughput sequencing data‘. GigaScience. 10(2). doi: 10.1093/gigascience/giab007.
+
+- [juicer](https://github.com/aidenlab/juicer)
+
+  > Aiden Lab. 2016. juicer [online]. https://github.com/aidenlab/juicer. (Accessed on 10 November 2026).
+
+- [filter5end](https://github.com/ArimaGenomics/mappingpipeline)
+
+  > Arima Genomics. 2018. filter5end [online]. https://github.com/ArimaGenomics/mappingpipeline. (Accessed on 10 November 2026).
+
+- [Find Telomere](https://github.com/sanger-tol/telomere)
+
+  > Sims, Y. 2026. telomere [online]. https://github.com/sanger-tol/telomere. (Accessed on 10th February 2026).
 
 - [Java](https://docs.oracle.com/javase/8/docs/api/overview-summary.html)
 
@@ -38,17 +54,37 @@
 
   > Perl Organisation. 2023. Perl Language Reference v5.36.0. https://perldoc.perl.org/perl. (Accessed 28th February 2023).
 
+- [pairtools](https://github.com/mirnylab/pairtools)
+
+  > Open2C, Nezar Abdennur, Geoffrey Fudenberg, Ilya M. Flyamer, Aleksandra A. Galitsyna, Anton Goloborodko, Maxim Imakaev, Sergey V. Venev. "Pairtools: from sequencing data to chromosome contacts" bioRxiv. February 13, 2023. doi: https://doi.org/10.1101/2023.02.13.528389
+
 - [PretextMap](https://github.com/wtsi-hpag/PretextMap)
 
   > Harry, E. 2022. PretextView [online]. https://github.com/wtsi-hpag/PretextView. (Accessed on 7th June 2023).
+
+- [PretextSnapshot](https://github.com/wtsi-hpag/PretextSnapshot)
+
+  > Harry, E. 2022. PretextSnapshot [online]. https://github.com/wtsi-hpag/PretextSnapshot. (Accessed on 10 November 2026).
+
+- [PretextAnnotate](https://github.com/sanger-tol/PretextAnnotate)
+
+  > Pointon, DL and van Niekerk, K. 2026. PretextAnnotate [online]. https://github.com/sanger-tol/PretextAnnotate. (Accessed on 10 November 2026).
 
 - [Python: 3.10](https://docs.python.org/3.10/whatsnew/3.10.html)
 
   > Python Software Foundation. 2023. Python Language Reference v3.10. https://docs.python.org/3.10/whatsnew/3.10.html. (Accessed 28th February 2023).
 
-- [Samtools](https://pubmed.ncbi.nlm.nih.gov/33590861/)
+- [pigz](https://zlib.net/pigz/pigz.pdf)
 
-  > Di Tommaso, Paolo, et al. 2017. “Nextflow Enables Reproducible Computational Workflows.” Nature Biotechnology, 35(4), pp. 316–19, https://doi.org/10.1038/nbt.3820.
+  > Adler, M. 2022. pigz: Parallel Implementation of GZip (online). https://github.com/madler/pigz. (Accessed on 10 November 2026).
+
+- [Samtools](http://www.htslib.org/)
+
+  > Li, H. et al. 2009. "The Sequence Alignment/Map format and SAMtools". 2009. doi: 10.1093/bioinformatics/btp352.
+
+- [SeqKit](https://github.com/shenwei356/seqkit)
+
+  > Shen, W. et al. 2016. "SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation". 2016. doi: 10.1371/journal.pone.016396.
 
 - [SeqTK](https://github.com/lh3/seqtk)
 
