@@ -78,7 +78,7 @@
                     },
                     "pairtools/parse": {
                         "branch": "master",
-                        "git_sha": "0f58063205e6d45b9bdcea0d88f26bdecbedca1c",
+                        "git_sha": "7b3452a23773f687ededb4befd037920e5a51341",
                         "installed_by": ["modules"]
                     },
                     "pretextmap": {

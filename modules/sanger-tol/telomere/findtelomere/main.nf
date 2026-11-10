@@ -36,8 +36,6 @@ process TELOMERE_FINDTELOMERE {
     def max_stack_size_mega = 999 //most java jdks will not allow Xss > 1GB, so fixing this to the allowed max
 
     """
-    echo "Running find_telomere with args: ${args} ${args2}"
-
     find_telomere ${args} ${reference} ${telomereseq} | awk '{print \$1"\\t"\$(NF-4)"\\t"\$(NF-3)"\\t"\$(NF-2)"\\t"\$(NF-1)"\\t"\$NF}' - > ${prefix}.telomere
 
     java \\
