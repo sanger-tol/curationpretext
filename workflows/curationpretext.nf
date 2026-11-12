@@ -13,10 +13,10 @@ include { PRETEXT_GRAPH as PRETEXT_INGEST_HIRES             } from '../modules/l
 include { PRETEXT_GRAPH as PRETEXT_INGEST_ULTRA             } from '../modules/local/pretext/graph/main'
 
 // LOCAL SUBWORKFLOWS
-include { PRETEXT_ACCESSORY_FILES as ACCESSORY_FILES        } from '../subworkflows/sanger-tol/pretext_accessory_files/main'
 
 // SANGER-TOL SUBWORKFLOWS
-include { CRAM_MAP_ILLUMINA_HIC as ALIGN_CRAM               } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
+include { CRAM_MAP_ILLUMINA_HIC                             } from '../subworkflows/sanger-tol/cram_map_illumina_hic/main'
+include { PRETEXT_ACCESSORY_FILES                           } from '../subworkflows/sanger-tol/pretext_accessory_files/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_STDRD    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_HIRES    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
 include { PAIRS_CREATE_CONTACT_MAPS as CREATE_MAPS_ULTRA    } from '../subworkflows/sanger-tol/pairs_create_contact_maps/main'
@@ -27,7 +27,6 @@ include { PRETEXTANNOTATE                                   } from '../modules/s
 // NF-CORE MODULES
 include { SAMTOOLS_FLAGSTAT                                 } from '../modules/nf-core/samtools/flagstat/main'
 include { SAMTOOLS_INDEX                                    } from '../modules/nf-core/samtools/index/main'
-include { GAWK as GAWK_TELO_FIX                             } from '../modules/nf-core/gawk/main'
 
 // FUNCTION IMPORTS
 include { paramsSummaryMap                                  } from 'plugin/nf-schema'
@@ -89,6 +88,7 @@ workflow CURATIONPRETEXT {
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
     full_list = [
+        "Generate Tracks": val_no_tracks,
         "gap track": val_run_gap,
         "telomere track": val_run_telomere,
         "split telomere track": params.split_telomere,
@@ -104,18 +104,18 @@ workflow CURATIONPRETEXT {
     ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
 
     if (val_no_tracks) {
-        gaps_file       = ch_empty_file
-        cove_file       = ch_empty_file
-        telo_file       = ch_empty_file
-        rept_file       = ch_empty_file
-        busc_file       = ch_empty_file
-        pebb_file       = ch_empty_file
+        gaps_file       = channel.empty()
+        cove_file       = channel.empty()
+        telo_file       = channel.empty()
+        rept_file       = channel.empty()
+        busc_file       = channel.empty()
+        pebb_file       = channel.empty()
 
     } else {
         //
         // SUBWORKFLOW: GENERATE SUPPLEMENTARY FILES FOR PRETEXT INGESTION
         //
-        ACCESSORY_FILES (
+        PRETEXT_ACCESSORY_FILES (
             FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], file) },
             FASTA_CLEAN_FAIDX.out.sizes,
             ch_reads,
@@ -129,24 +129,24 @@ workflow CURATIONPRETEXT {
             val_track_indexes
         )
 
-        gaps_file       = ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
-        cove_file       = ACCESSORY_FILES.out.coverage_file.map{ _meta, file -> file }.ifEmpty{ [] }
-        rept_file       = ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
-        telo_file       = ACCESSORY_FILES.out.telo_windows.map{ _meta, file -> file }.collect().ifEmpty{ [] }
+        gaps_file       = PRETEXT_ACCESSORY_FILES.out.gap_file.map{ _meta, file -> file }.ifEmpty{ [] }
+        cove_file       = PRETEXT_ACCESSORY_FILES.out.coverage_file.map{ _meta, file -> file }.ifEmpty{ [] }
+        rept_file       = PRETEXT_ACCESSORY_FILES.out.repeat_file.map{ _meta, file -> file }.ifEmpty{ [] }
+        telo_file       = PRETEXT_ACCESSORY_FILES.out.telo_windows.map{ _meta, file -> file }.collect().ifEmpty{ [] }
     }
 
 
     //
     // SUBWORKFLOW: MAP CRAM IF READS NOT ALREADY MAPPED
     //
-    ALIGN_CRAM (
+    CRAM_MAP_ILLUMINA_HIC (
         FASTA_CLEAN_FAIDX.out.reference,
         ch_cram_reads,
         val_selected_aligner,
         val_cram_chunk_size
     )
 
-    mapped_bam          = ch_mapped_bam.mix( ALIGN_CRAM.out.bam )
+    mapped_bam          = ch_mapped_bam.mix( CRAM_MAP_ILLUMINA_HIC.out.bam )
 
 
     //
@@ -155,7 +155,7 @@ workflow CURATIONPRETEXT {
     SAMTOOLS_INDEX (
         ch_mapped_bam
     )
-    mapped_bam_bai      = SAMTOOLS_INDEX.out.index.mix( ALIGN_CRAM.out.bam_index )
+    mapped_bam_bai      = SAMTOOLS_INDEX.out.index.mix( CRAM_MAP_ILLUMINA_HIC.out.bam_index )
 
 
     //

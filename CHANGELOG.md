@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `--run_{track_name}` + `--no_tracks`
 - Added `--juicer_generation` flag, this will generate a juicer map as well as a pretext map
 - Reorganised the aligner selection to the `main.nf` rather than `curationpretext.nf`
-- The `ACCESSORY_FILES` now refers to `sanger-tol/pretext_accessory_files`.
+- The `ACCESSORY_FILES` now refers to `sanger-tol/nf-core-modules/pretext_accessory_files`.
   - `TELO_FINDER` now outputs a telomere window file containing `float` values
   - Added `GAWK_TELO_FIX` to multiply value to 10000 and only retain 4 digits
 - Added `--snapshot_annotation` flag, this will generate an annotated pretext annotation file, where each scaffold is labelled with name and size
@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `SAMTOOLS_FLAGSTAT` to generate mapping statistics for the aligned BAM file.
   - This is controlled by the `--mapping_statistics` flag.
 - Updated the `modules.config` to add the needed `--write-index` flag to `SAMTOOLS_MERGE` and `SAMTOOLS_MERGEDUP` and `-c` to `SAMTOOLS_INDEX` to generate a BAM index for flagstat input.
+- Updated Citations file
 
 ### Paramters
 
@@ -58,16 +59,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Note, since the pipeline is using Nextflow DSL2, each process will be run with its own Biocontainer. This means that on occasion it is entirely possible for the pipeline to be using different versions of the same tool. However, the overall software dependency changes compared to the last release have been listed below for reference.
 
-| Module                 | Old Version | New Versions |
-| ---------------------- | ----------- | ------------ |
-| `MINIMAP2_ALIGN`       | 2.29-r1283  | 2.30-r1287   |
-| `PRETEXTANNOTATE`      | NA          | 1.1.2        |
-| `SAMTOOLS_DICT`        | NA          | 1.24         |
-| `SAMTOOLS_FAIDX`       | 1.22.1      | 1.24         |
-| `SAMTOOLS_MERGEUP`     | 1.23        | 1.23.1       |
-| `SAMTOOLS_SPLITHEADER` | 1.22.1      | 1.24         |
-| `SEQKIT_REPLACE`       | NA          | 2.13.0       |
-| `SEQKIT_SEQ`           | NA          | 2.13.0       |
+| Module                       | Tool                  | Old Version | New Version |
+| ---------------------------- | --------------------- | ----------- | ----------- |
+| BEDTOOLS_BAMTOBED            | bedtools              | 2.31.1      | NA          |
+| FIND_CONCATENATE             | coreutils             | NA          | 9.4         |
+| FIND_CONCATENATE             | find                  | NA          | 4.6.0       |
+| FIND_CONCATENATE             | pigz                  | NA          | 2.8         |
+| GAWK_GENERATE_GENOME_FILE    | gawk                  | 5.3.1       | NA          |
+| GAWK_SPLIT_TELOMERE          | gawk                  | 5.3.1       | NA          |
+| GAWK_UPPER_SEQUENCE          | gawk                  | 5.3.1       | NA          |
+| GNU_SORT                     | coreutils             | 9.5         | NA          |
+| HTSLIB_BGZIPTABIX            | htslib                | NA          | 1.25        |
+| HTSLIB_BGZIPTABIX            | xz                    | NA          | 5.8.3       |
+| MINIMAP2_ALIGN               | minimap2              | 2.29-r1283  | 2.30-r1287  |
+| PRETEXTANNOTATE              | pretextannotate       | NA          | 1.1.2       |
+| SAMTOOLS_FAIDX               | samtools              | 1.22.1      | 1.25        |
+| SAMTOOLS_FLAGSTAT            | samtools              | NA          | 1.25        |
+| SAMTOOLS_MERGE               | samtools              | 1.22.1      | NA          |
+| SAMTOOLS_MERGEDUP            | samtools              | 1.23        | 1.23.1      |
+| SAMTOOLS_SORT                | samtools              | 1.22.1      | NA          |
+| SAMTOOLS_SPLITHEADER         | samtools              | 1.22.1      | 1.25        |
+| SAMTOOLS_VIEW_FILTER_PRIMARY | samtools              | 1.22.1      | NA          |
+| SEQKIT_SEQ                   | seqkit                | NA          | 2.13.0      |
+| TABIX_BGZIPTABIX             | bgzip                 | 1.21        | NA          |
+| TABIX_BGZIPTABIX             | tabix                 | 1.21        | NA          |
+| TELOMERE_EXTRACT             | telomere_extract      | 5.3.0       | NA          |
+| TELOMERE_FINDTELOMERE        | find_telomere         | NA          | 0.0.4       |
+| TELOMERE_FINDTELOMERE        | java                  | NA          | 17.0.20.1   |
+| TELOMERE_REGIONS             | find_telomere_regions | 1.0.0       | NA          |
+| TELOMERE_WINDOWS             | find_telomere_windows | 1.0.0       | NA          |
 
 ## [[1.6.1](https://github.com/sanger-tol/curationpretext/releases/tag/1.6.1)] - UNSC Trafalgar (H1) - [2025-03-13]
 

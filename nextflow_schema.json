@@ -95,7 +95,8 @@
                     "description": "Type of longread data",
                     "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["hifi", "clr", "ont", "illumina"]
+                    "enum": ["hifi", "clr", "ont", "illumina"],
+                    "default": "hifi"
                 },
                 "cram": {
                     "type": "array",
@@ -113,40 +114,46 @@
                     "type": "string",
                     "description": "Telomeric Motif for search. Defaults to TTAGGG",
                     "help_text": "Give me a telomeric motif",
-                    "fa_icon": "fas fa-file-signature"
+                    "fa_icon": "fas fa-file-signature",
+                    "default": "TTAGGG"
                 },
                 "map_order": {
                     "type": "string",
                     "description": "HiC map scaffold order. Default to unsorted",
                     "help_text": "How you want to display your hic map, sorted by length?",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["length", "unsorted"]
+                    "enum": ["length", "unsorted"],
+                    "default": "unsorted"
                 },
                 "aligner": {
                     "type": "string",
                     "description": "Aligner for use {minimap2, bwamem2} in generating map",
                     "help_text": "Pick between {minimap2, bwamem2, AUTO}. Defaults to 'minimap2'",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["bwamem2", "minimap2", "AUTO"]
+                    "enum": ["bwamem2", "minimap2", "AUTO"],
+                    "default": "AUTO"
                 },
                 "generate_track_indexes": {
                     "type": "boolean",
                     "description": "Generate track indexes",
                     "help_text": "Boolean to switch off track index generation",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": false
                 },
                 "run_hires": {
                     "type": "boolean",
                     "description": "Run High Resolution pretext maps",
                     "help_text": "Boolean to switch off HiRes pretextmap generation",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": true
                 },
                 "run_ultra": {
                     "type": "string",
                     "description": "Run Ultra resolution pretext maps",
                     "help_text": "Switch for Ultra resolution pretextmap generation",
                     "fa_icon": "fas fa-check",
-                    "enum": ["yes", "no", "force"]
+                    "enum": ["yes", "no", "force"],
+                    "default": "no"
                 },
                 "cram_chunk_size": {
                     "type": "integer",
@@ -176,19 +183,22 @@
                     "type": "boolean",
                     "description": "Generate a snapshot of the pretext output",
                     "help_text": "Generate a snapshot of the pretext output",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": true
                 },
                 "snapshot_annotation": {
                     "type": "boolean",
                     "description": "Annotate the pretext snapshot",
                     "help_text": "Annotate the pretext snapshot",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": false
                 },
                 "juicer_generation": {
                     "type": "boolean",
                     "description": "Generate a juicer map output",
                     "help_text": "Generate a juicer map output",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": false
                 },
                 "outdir": {
                     "type": "string",
