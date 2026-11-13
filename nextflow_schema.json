@@ -28,11 +28,56 @@
                     "default": false,
                     "fa_icon": "fas fa-check"
                 },
-                "skip_tracks": {
-                    "type": "string",
-                    "description": "Skip generation for specified tracks",
-                    "fa_icon": "fas fa-file-signature"
+                "run_coverage": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the coverage analysis.",
+                    "default": true,
+                    "fa_icon": "fas fa-check"
                 },
+                "run_telomere": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the telomere analysis.",
+                    "default": true,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_gap": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the gap analysis.",
+                    "default": true,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_repeats": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the repeats analysis.",
+                    "default": true,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_busco": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the BUSCO analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "run_pebble": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Run and ingest the Pebble coverage analysis.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+                "no_tracks": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Do not generate tracks.",
+                    "default": false,
+                    "fa_icon": "fas fa-check"
+                },
+
                 "reads": {
                     "type": "array",
                     "items": {
@@ -50,7 +95,8 @@
                     "description": "Type of longread data",
                     "help_text": "Choose between {'hifi', 'clr', 'ont', 'illumina'}",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["hifi", "clr", "ont", "illumina"]
+                    "enum": ["hifi", "clr", "ont", "illumina"],
+                    "default": "hifi"
                 },
                 "cram": {
                     "type": "array",
@@ -68,34 +114,46 @@
                     "type": "string",
                     "description": "Telomeric Motif for search. Defaults to TTAGGG",
                     "help_text": "Give me a telomeric motif",
-                    "fa_icon": "fas fa-file-signature"
+                    "fa_icon": "fas fa-file-signature",
+                    "default": "TTAGGG"
                 },
                 "map_order": {
                     "type": "string",
                     "description": "HiC map scaffold order. Default to unsorted",
                     "help_text": "How you want to display your hic map, sorted by length?",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["length", "unsorted"]
+                    "enum": ["length", "unsorted"],
+                    "default": "unsorted"
                 },
                 "aligner": {
                     "type": "string",
                     "description": "Aligner for use {minimap2, bwamem2} in generating map",
                     "help_text": "Pick between {minimap2, bwamem2, AUTO}. Defaults to 'minimap2'",
                     "fa_icon": "fas fa-file-signature",
-                    "enum": ["bwamem2", "minimap2", "AUTO"]
+                    "enum": ["bwamem2", "minimap2", "AUTO"],
+                    "default": "AUTO"
+                },
+                "generate_track_indexes": {
+                    "type": "boolean",
+                    "description": "Generate track indexes",
+                    "help_text": "Boolean to switch off track index generation",
+                    "fa_icon": "fas fa-check",
+                    "default": false
                 },
                 "run_hires": {
                     "type": "boolean",
                     "description": "Run High Resolution pretext maps",
                     "help_text": "Boolean to switch off HiRes pretextmap generation",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": true
                 },
                 "run_ultra": {
                     "type": "string",
                     "description": "Run Ultra resolution pretext maps",
                     "help_text": "Switch for Ultra resolution pretextmap generation",
                     "fa_icon": "fas fa-check",
-                    "enum": ["yes", "no", "force"]
+                    "enum": ["yes", "no", "force"],
+                    "default": "no"
                 },
                 "cram_chunk_size": {
                     "type": "integer",
@@ -125,7 +183,22 @@
                     "type": "boolean",
                     "description": "Generate a snapshot of the pretext output",
                     "help_text": "Generate a snapshot of the pretext output",
-                    "fa_icon": "fas fa-check"
+                    "fa_icon": "fas fa-check",
+                    "default": true
+                },
+                "snapshot_annotation": {
+                    "type": "boolean",
+                    "description": "Annotate the pretext snapshot",
+                    "help_text": "Annotate the pretext snapshot",
+                    "fa_icon": "fas fa-check",
+                    "default": false
+                },
+                "juicer_generation": {
+                    "type": "boolean",
+                    "description": "Generate a juicer map output",
+                    "help_text": "Generate a juicer map output",
+                    "fa_icon": "fas fa-check",
+                    "default": false
                 },
                 "outdir": {
                     "type": "string",
@@ -160,6 +233,20 @@
                     "help_text": "In the range 0..10, pick the minumum map mapping quality of reads to be filtered. In a multi-mapping context, 0 would keep all reads and 10 removes all multimapping reads.",
                     "minimum": 0,
                     "maximum": 10
+                },
+                "replace_dots": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-dot-circle",
+                    "description": "Replace dots in FASTA headers with underscores.",
+                    "help_text": "Some tools may not handle FASTA headers with dots in them correctly, this option uses seqtk to replace dots with underscores."
+                },
+                "mapping_statistics": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-chart-bar",
+                    "description": "Generate mapping statistics.",
+                    "help_text": "Generate mapping statistics of the final mapped BAM file using samtools flagstat."
                 }
             }
         },
