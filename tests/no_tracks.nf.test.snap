@@ -1,0 +1,80 @@
+{
+    "no-track test": {
+        "content": [
+            16,
+            {
+                "BWAMEM2_INDEX": {
+                    "bwamem2": "2.2.1"
+                },
+                "CRAMALIGN_BWAMEM2ALIGNHIC": {
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
+                },
+                "CRAMALIGN_GENCRAMCHUNKS": {
+                    "cramchunks": "1.1.0"
+                },
+                "PRETEXTANNOTATE": {
+                    "pretextannotate": "1.1.2"
+                },
+                "PRETEXTMAP": {
+                    "PretextMap": "0.2.4",
+                    "samtools": 1.23
+                },
+                "PRETEXTSNAPSHOT": {
+                    "PretextSnapshot": "0.0.7"
+                },
+                "SAMTOOLS_FAIDX": {
+                    "samtools": 1.25
+                },
+                "SAMTOOLS_FLAGSTAT": {
+                    "samtools": 1.25
+                },
+                "SAMTOOLS_MERGEDUP": {
+                    "samtools": "1.23.1"
+                },
+                "SAMTOOLS_SPLITHEADER": {
+                    "samtools": 1.25
+                },
+                "SEQKIT_SEQ": {
+                    "seqkit": "2.13.0"
+                },
+                "Workflow": {
+                    "sanger-tol/curationpretext": "v2.0.0dev"
+                }
+            },
+            "Successful processes: 16",
+            "Stable output files: 11",
+            "Accessory track files: 1",
+            "Number of Pre-ingestion Pretext: 1",
+            "Number of Pretext files: 0",
+            "Number of Pretext pngs: 2",
+            [
+                "accessory_files",
+                "accessory_files/CurationPretextTest_MIN.flagstat",
+                "pipeline_info",
+                "pipeline_info/curationpretext_software_versions.yml",
+                "pretext_maps_raw",
+                "pretext_maps_raw/CurationPretextTest_MIN_normal_pi.pretext",
+                "pretext_snapshot",
+                "pretext_snapshot/CurationPretextTest_MIN_FullMap.png",
+                "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.gif",
+                "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.png",
+                "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.tif"
+            ],
+            [
+                "CurationPretextTest_MIN.flagstat:md5,aebd36ca9b8bc53d207b4095349cdcd2"
+            ],
+            [
+                "CurationPretextTest_MIN_normal_pi.pretext:md5,4670483355daa9e677fd238b3b9c6164"
+            ],
+            [
+                
+            ]
+        ],
+        "timestamp": "2026-11-13T21:04:09.699594914",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    }
+}

@@ -117,6 +117,7 @@ workflow SANGER_TOL_CURATIONPRETEXT {
     pretext_standard_tracks = CURATIONPRETEXT.out.pretext_standard_tracked
     pretext_hires_tracks    = CURATIONPRETEXT.out.pretext_hires_tracked
     pretext_ultra_tracks    = CURATIONPRETEXT.out.pretext_ultra_tracked
+    flagstats               = CURATIONPRETEXT.out.flagstats
 }
 
 /*
@@ -204,9 +205,15 @@ workflow {
     pretext_standard_tracks = SANGER_TOL_CURATIONPRETEXT.out.pretext_standard_tracks
     pretext_hires_tracks    = SANGER_TOL_CURATIONPRETEXT.out.pretext_hires_tracks
     pretext_ultra_tracks    = SANGER_TOL_CURATIONPRETEXT.out.pretext_ultra_tracks
+    flagstats               = SANGER_TOL_CURATIONPRETEXT.out.flagstats
 }
 
 output {
+    flagstats {
+        path { files ->
+            "accessory_files/"
+        }
+    }
     telomere_files {
         path { files ->
             "accessory_files/"

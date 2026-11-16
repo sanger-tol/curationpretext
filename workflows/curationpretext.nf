@@ -88,7 +88,7 @@ workflow CURATIONPRETEXT {
     //          ACCESSORY FILES SO WE HAVE AN OPTION TO TURN THEM OFF
     //
     full_list = [
-        "Generate Tracks": val_no_tracks,
+        "No Tracks": val_no_tracks,
         "gap track": val_run_gap,
         "telomere track": val_run_telomere,
         "split telomere track": params.split_telomere,
@@ -333,6 +333,7 @@ workflow CURATIONPRETEXT {
     gap_file                 = gaps_file
     coverage_file            = cove_file
     repeat_file              = rept_file
+    flagstats                = SAMTOOLS_FLAGSTAT.out.flagstat
     pretext_png              = CREATE_MAPS_STDRD.out.pretext_png
     pretext_annotated_png    = PRETEXTANNOTATE.out.png
     pretext_annotated_gif    = PRETEXTANNOTATE.out.gif
