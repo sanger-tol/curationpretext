@@ -19,25 +19,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - In light of this, the casting parameter has been set to `true`
   - More details can be found on the [nf-core blog](https://nf-co.re/blog/2026/parameter-types)
 - Moved from publishDir to Workflow outputs
-- Updated the `LONGREAD_COVERAGE` subworkflow to `SANGER_TOL/READ_COVERAGE` alignments. The end user shouldn't notice any changes
+- Updated the `LONGREAD_COVERAGE` subworkflow to use `sanger-tol/nf-core-modules/read_coverage` alignments. The end user shouldn't notice any changes
 - Removed the `skip_tracks` parameter
 - Replace `skip_tracks` with a series of track specific parameters
   - `--run_{track_name}` + `--no_tracks`
 - Added `--juicer_generation` flag, this will generate a juicer map as well as a pretext map
 - Reorganised the aligner selection to the `main.nf` rather than `curationpretext.nf`
-- The `ACCESSORY_FILES` now refers to `sanger-tol/nf-core-modules/pretext_accessory_files`.
+- The `ACCESSORY_FILES` now refers to `sanger-tol/nf-core-modules/pretext_accessory_files` and is renamed `PRETEXT_ACCESSORY_FILES`
   - `TELO_FINDER` now outputs a telomere window file containing `float` values
   - Added `GAWK_TELO_FIX` to multiply value to 10000 and only retain 4 digits
 - Added `--snapshot_annotation` flag, this will generate an annotated pretext annotation file, where each scaffold is labelled with name and size
   - WARNING: currently this will not take into account the custom order
-  - With a custom order , the pretextmap and snapshot will be changed but the annotated snapshot will contain the original order as labels.
+  - With a custom order , the pretextmap and snapshot will be changed but the annotated snapshot will contain the original order as labels
   - A module will be added to subset the sizes file based on the custom order before generating the snapshot
 - Added flag to control pretext snapshot generation
-- Fixed bug in `CREATE_MAPS_ULTRA` that was checking for "true" rather than "yes", see patch notes for `1.6.1`.
-- Added `SAMTOOLS_FLAGSTAT` to generate mapping statistics for the aligned BAM file.
-  - This is controlled by the `--mapping_statistics` flag.
-- Updated the `modules.config` to add the needed `--write-index` flag to `SAMTOOLS_MERGE` and `SAMTOOLS_MERGEDUP` and `-c` to `SAMTOOLS_INDEX` to generate a BAM index for flagstat input.
-- Updated Citations file
+- Fixed bug in `CREATE_MAPS_ULTRA` that was checking for "true" rather than "yes", see patch notes for `1.6.1`
+- Added `SAMTOOLS_FLAGSTAT` to generate mapping statistics for the aligned BAM file, this is output to the accessory_files folder in the output
+  - This is controlled by the `--mapping_statistics` flag
+- Updated the `modules.config` to add the needed `--write-index` flag to `SAMTOOLS_MERGE` and `SAMTOOLS_MERGEDUP` and `-c` to `SAMTOOLS_INDEX` to generate a BAM index for flagstat input
+- Updated `CITATIONS.md` file
 
 ### Paramters
 
