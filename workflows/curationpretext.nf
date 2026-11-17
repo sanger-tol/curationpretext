@@ -101,15 +101,13 @@ workflow CURATIONPRETEXT {
 
     log.info "ACCESSORY TRACK OPTIONS: $full_list"
 
-    ch_empty_file       = channel.fromPath("${baseDir}/assets/EMPTY.txt")
-
     if (val_no_tracks) {
         gaps_file       = channel.empty()
         cove_file       = channel.empty()
         telo_file       = channel.empty()
         rept_file       = channel.empty()
-        busc_file       = channel.empty()
-        pebb_file       = channel.empty()
+        _busc_file       = channel.empty()
+        _pebb_file       = channel.empty()
 
     } else {
         //
@@ -119,7 +117,7 @@ workflow CURATIONPRETEXT {
             FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], file) },
             FASTA_CLEAN_FAIDX.out.sizes,
             ch_reads,
-            FASTA_CLEAN_FAIDX.out.reference.map{ meta, file -> tuple([id: meta.id], meta.telomereseq) },
+            FASTA_CLEAN_FAIDX.out.reference.map{ meta, _file -> tuple([id: meta.id], meta.telomereseq) },
             val_run_telomere,
             val_run_gap,
             val_run_coverage,
@@ -189,8 +187,8 @@ workflow CURATIONPRETEXT {
 
     // Turn off the tools which need pairs files
     CREATE_MAPS_STDRD (
-        for_mapping.map { meta, bam, sizes -> tuple(meta, bam) },
-        for_mapping.map { meta, bam, sizes -> tuple(meta, sizes) },
+        for_mapping.map { meta, bam, _sizes -> tuple(meta, bam) },
+        for_mapping.map { meta, _bam, sizes -> tuple(meta, sizes) },
         ch_snapshot_custom_order,
         true,                       // Pretext generation, always true
         val_snapshot_generation,

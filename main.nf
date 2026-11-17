@@ -186,7 +186,7 @@ workflow {
         params.email_on_fail,
         params.plaintext_email,
         params.outdir,
-        params.monochrome_logs,
+        params.monochrome_logs
     )
 
     publish:

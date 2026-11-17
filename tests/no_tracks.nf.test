@@ -6,7 +6,7 @@ nextflow_pipeline {
     tag "pipeline_sanger_tol"
     tag "full"
 
-    config "../conf/test_notracks.config"
+    profile "test_notracks"
 
     test("no-track test") {
 
