@@ -4,8 +4,8 @@
             [
                 "@HD\tVN:1.6\tSO:coordinate",
                 "@SQ\tSN:MT192765.1\tLN:29829",
-                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 2 -a genome.fasta test_1.fastq.gz test_2.fastq.gz",
-                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 1 -o test.bam"
+                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 4 -a genome.fasta test_1.fastq.gz test_2.fastq.gz",
+                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 3 -o test.bam"
             ],
             "1bc392244f228bf52cf0b5a8f6a654c9",
             {
@@ -19,10 +19,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
         },
-        "timestamp": "2026-05-06T11:30:46.214527158"
+        "timestamp": "2026-10-08T12:32:29.353816279"
     },
     "sarscov2 - bam, fasta, true, 'bai', false, false, false - stub": {
         "content": [
@@ -182,8 +182,8 @@
             [
                 "@HD\tVN:1.6\tSO:coordinate",
                 "@SQ\tSN:MT192765.1\tLN:29829",
-                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 2 -a genome.fasta -",
-                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 1 -o test.bam"
+                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 4 -a genome.fasta -",
+                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 3 -o test.bam"
             ],
             "5d426b9a5f5b2c54f1d7f1e4c238ae94",
             {
@@ -197,10 +197,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
         },
-        "timestamp": "2026-05-06T11:31:02.868710396"
+        "timestamp": "2026-10-08T12:32:43.006531275"
     },
     "sarscov2 - fastq, fasta, true, [], false, false, false - stub": {
         "content": [
@@ -402,8 +402,8 @@
             [
                 "@HD\tVN:1.6\tSO:coordinate",
                 "@SQ\tSN:MT192765.1\tLN:29829",
-                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 2 -a genome.fasta test_1.fastq.gz",
-                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 1 -o test.bam"
+                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 4 -a genome.fasta test_1.fastq.gz",
+                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 3 -o test.bam"
             ],
             "f194745c0ccfcb2a9c0aee094a08750",
             {
@@ -417,10 +417,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
         },
-        "timestamp": "2026-05-06T11:30:29.391992943"
+        "timestamp": "2026-10-08T12:32:16.796842726"
     },
     "sarscov2 - fastq, [], true, false, false, false": {
         "content": [
@@ -526,8 +526,8 @@
                 "@SQ\tSN:ERR5069949.3258358\tLN:151",
                 "@SQ\tSN:ERR5069949.1476386\tLN:151",
                 "@SQ\tSN:ERR5069949.2415814\tLN:150",
-                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 2 -a test_1.fastq.gz test_1.fastq.gz",
-                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 1 -o test.bam"
+                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 4 -a test_1.fastq.gz test_1.fastq.gz",
+                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 3 -o test.bam"
             ],
             "16c1c651f8ec67383bcdee3c55aed94f",
             {
@@ -541,18 +541,18 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
         },
-        "timestamp": "2026-05-06T11:30:53.954763077"
+        "timestamp": "2026-10-08T12:32:35.774047037"
     },
     "sarscov2 - bam, fasta, true, 'bai', false, false, false": {
         "content": [
             [
                 "@HD\tVN:1.6\tSO:coordinate",
                 "@SQ\tSN:MT192765.1\tLN:29829",
-                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 2 -a genome.fasta -",
-                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 1 -o test.bam##idx##test.bam.bai --write-index"
+                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 4 -a genome.fasta -",
+                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 3 -o test.bam##idx##test.bam.bai --write-index"
             ],
             "5d426b9a5f5b2c54f1d7f1e4c238ae94",
             "test.bam.bai",
@@ -567,10 +567,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
         },
-        "timestamp": "2026-05-06T11:31:11.967060857"
+        "timestamp": "2026-10-08T12:32:49.407653662"
     },
     "sarscov2 - fastq, fasta, false, [], false, false, true - stub": {
         "content": [
@@ -638,8 +638,8 @@
             [
                 "@HD\tVN:1.6\tSO:coordinate",
                 "@SQ\tSN:MT192765.1\tLN:29829",
-                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 2 -a genome.fasta test_1.fastq.gz",
-                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 1 -o test.bam##idx##test.bam.bai --write-index"
+                "@PG\tID:minimap2\tPN:minimap2\tVN:2.30-r1287\tCL:minimap2 -t 4 -a genome.fasta test_1.fastq.gz",
+                "@PG\tID:samtools\tPN:samtools\tPP:minimap2\tVN:1.23.1\tCL:samtools sort -@ 3 -o test.bam##idx##test.bam.bai --write-index"
             ],
             "f194745c0ccfcb2a9c0aee094a08750",
             "test.bam.bai",
@@ -654,9 +654,9 @@
             }
         ],
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.10.4"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
         },
-        "timestamp": "2026-05-06T11:30:37.45850531"
+        "timestamp": "2026-10-08T12:32:22.928991847"
     }
 }

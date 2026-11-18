@@ -18,7 +18,7 @@ components:
       git_remote: https://github.com/nf-core/modules.git
   - gawk:
       git_remote: https://github.com/nf-core/modules.git
-  - tabix/bgziptabix:
+  - htslib/bgziptabix:
       git_remote: https://github.com/nf-core/modules.git
 
 input:

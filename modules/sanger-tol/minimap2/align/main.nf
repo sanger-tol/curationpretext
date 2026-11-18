@@ -66,7 +66,7 @@ process MINIMAP2_ALIGN {
     }
     if(bam_input && !reference) {
         error("Error: minimap2/align BAM input mode requires reference!")
-	}
+    }
     """
     touch $output_file
     ${bam_index}
