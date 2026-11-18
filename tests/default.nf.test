@@ -1,32 +1,57 @@
 nextflow_pipeline {
 
-    name "Test pipeline"
-    script "../main.nf"
+    name "Test Workflow main.nf"
+    script "main.nf"
     tag "pipeline"
+    tag "pipeline_sanger_tol"
+    tag "full"
 
-    test("-profile test") {
+    profile "test"
+
+    test("Full run") {
 
         when {
             params {
-                outdir = "$outputDir"
+                outdir = "${outputDir}"
+                all_output = true
+                multi_mapping = 0
             }
         }
 
         then {
-            // stable_path: All files + folders in ${params.outdir}/ with a stable path (including file name)
-            def stable_path = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-            // stable_content: All files in ${params.outdir}/ with stable content
-            def stable_content = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
-            assert workflow.success
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ["pipeline_info/*.{html,json,txt}"])
+
+            def pretext_files = getAllFilesFromDir(params.outdir, include: ['pretext_maps_processed/*.pretext'])
+
+            def pretext_maps_raw = getAllFilesFromDir(params.outdir, include: ['pretext_maps_raw/*.pretext'])
+
+            def pretext_png = getAllFilesFromDir(params.outdir, include: ['pretext_snapshot/*.png'])
+
+            def accessories = getAllFilesFromDir(params.outdir, include: ['accessory_files/*'])
+
             assertAll(
-                { assert snapshot(
-                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we test pipelines on multiple Nextflow versions
-                    removeNextflowVersion("$outputDir/pipeline_info/curationpretext_software_mqc_versions.yml"),
-                    // All stable path name, with a relative path
-                    stable_path,
-                    // All files with stable contents
-                    stable_content
-                ).match() }
+                {assert workflow.success},
+                {assert snapshot(
+                    // Test for number of successful processes
+                    workflow.trace.succeeded().size(), // 42 with out needing to gunzip the assembly
+
+                    removeNextflowVersion("$outputDir/pipeline_info/curationpretext_software_versions.yml"),
+
+                    // Pipeline output counts
+                    "Successful processes: ${workflow.trace.succeeded().size()}",
+                    "Stable output files: ${stable_name.size()}",
+                    "Accessory track files: ${accessories.size()}",
+                    "Number of Pre-ingestion Pretext: ${pretext_maps_raw.size()}",
+                    "Number of Pretext files: ${pretext_files.size()}",
+                    "Number of Pretext pngs: ${pretext_png.size()}",
+
+
+                    stable_name,
+                    accessories,
+                    pretext_maps_raw,
+                    pretext_files,
+
+                ).match()},
             )
         }
     }

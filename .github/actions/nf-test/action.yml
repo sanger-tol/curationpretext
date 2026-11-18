@@ -27,7 +27,7 @@ runs:
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
       with:
-        python-version: "3.14"
+        python-version: "3.13"
 
     - name: Install nf-test
       uses: nf-core/setup-nf-test@4069fbbaabe94c08faba4ad261bfa88225ba133f # v2
@@ -52,8 +52,6 @@ runs:
       with:
         auto-update-conda: true
         conda-solver: libmamba
-        channels: conda-forge
-        channel-priority: strict
         conda-remove-defaults: true
 
     - name: Run nf-test

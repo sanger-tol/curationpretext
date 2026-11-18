@@ -10,11 +10,107 @@
 
 ## Pipeline tools
 
+- [Bedtools](https://bedtools.readthedocs.io/en/latest/)
+
+  > Quinlan, A.R. and Hall, I.M. 2010. ‘BEDTools: A flexible suite of utilities for comparing genomic features’, Bioinformatics, 26(6), pp. 841–842. doi:10.1093/bioinformatics/btq033.
+
+- [bwa-mem2](https://ieeexplore.ieee.org/document/8820962)
+
+  > Vasimuddin, Md. et al. 2019. ‘Efficient architecture-aware acceleration of BWA-mem for multicore systems’, 2019 IEEE International Parallel and Distributed Processing Symposium (IPDPS) [Preprint]. doi:10.1109/ipdps.2019.00041.
+
+- [cooler](https://github.com/open2c/cooler)
+
+  > Abdennur, Nezar and Mirny, Leonid A. 2020. ‘Cooler: a scalable and efficient format for storing and manipulating Hi-C data’. Bioinformatics. 36(1). pp. 311–316. doi:10.1093/bioinformatics/btz540.
+
+- [coreutils](https://github.com/coreutils/coreutils)
+
+  > GNU Coreutils. 2023. coreutils [online]. https://github.com/coreutils/coreutils/releases/tag/v9.4. (Accessed on 25th September 2023).
+
+- [htslib](https://github.com/samtools/htslib)
+
+  > Bonfield, James K. et al. 2021. ‘HTSlib: C library for reading/writing high-throughput sequencing data‘. GigaScience. 10(2). doi: 10.1093/gigascience/giab007.
+
+- [juicer](https://github.com/aidenlab/juicer)
+
+  > Aiden Lab. 2016. juicer [online]. https://github.com/aidenlab/juicer. (Accessed on 10 November 2026).
+
+- [filter5end](https://github.com/ArimaGenomics/mappingpipeline)
+
+  > Arima Genomics. 2018. filter5end [online]. https://github.com/ArimaGenomics/mappingpipeline. (Accessed on 10 November 2026).
+
+- [Find Telomere](https://github.com/sanger-tol/telomere)
+
+  > Sims, Y. 2026. telomere [online]. https://github.com/sanger-tol/telomere. (Accessed on 10th February 2026).
+
+- [Java](https://docs.oracle.com/javase/8/docs/api/overview-summary.html)
+
+  > Oracle. 2023. Java Documentation. https://docs.oracle.com/javase/8/docs/index.html. (Accessed on 25th September 2023).
+
+- [Minimap2](https://pubmed.ncbi.nlm.nih.gov/34623391/)
+
+  > Li, H. 2021. ‘New strategies to improve MINIMAP2 alignment accuracy’, Bioinformatics, 37(23), pp. 4572–4574. doi:10.1093/bioinformatics/btab705.
+
+- [Perl](https://perldoc.perl.org/perl)
+
+  > Perl Organisation. 2023. Perl Language Reference v5.36.0. https://perldoc.perl.org/perl. (Accessed 28th February 2023).
+
+- [pairtools](https://github.com/mirnylab/pairtools)
+
+  > Open2C, Nezar Abdennur, Geoffrey Fudenberg, Ilya M. Flyamer, Aleksandra A. Galitsyna, Anton Goloborodko, Maxim Imakaev, Sergey V. Venev. "Pairtools: from sequencing data to chromosome contacts" bioRxiv. February 13, 2023. doi: https://doi.org/10.1101/2023.02.13.528389
+
+- [PretextMap](https://github.com/wtsi-hpag/PretextMap)
+
+  > Harry, E. 2022. PretextView [online]. https://github.com/wtsi-hpag/PretextView. (Accessed on 7th June 2023).
+
+- [PretextSnapshot](https://github.com/wtsi-hpag/PretextSnapshot)
+
+  > Harry, E. 2022. PretextSnapshot [online]. https://github.com/wtsi-hpag/PretextSnapshot. (Accessed on 10 November 2026).
+
+- [PretextAnnotate](https://github.com/sanger-tol/PretextAnnotate)
+
+  > Pointon, DL and van Niekerk, K. 2026. PretextAnnotate [online]. https://github.com/sanger-tol/PretextAnnotate. (Accessed on 10 November 2026).
+
+- [Python: 3.10](https://docs.python.org/3.10/whatsnew/3.10.html)
+
+  > Python Software Foundation. 2023. Python Language Reference v3.10. https://docs.python.org/3.10/whatsnew/3.10.html. (Accessed 28th February 2023).
+
+- [pigz](https://zlib.net/pigz/pigz.pdf)
+
+  > Adler, M. 2022. pigz: Parallel Implementation of GZip (online). https://github.com/madler/pigz. (Accessed on 10 November 2026).
+
+- [Samtools](http://www.htslib.org/)
+
+  > Li, H. et al. 2009. "The Sequence Alignment/Map format and SAMtools". 2009. doi: 10.1093/bioinformatics/btp352.
+
+- [SeqKit](https://github.com/shenwei356/seqkit)
+
+  > Shen, W. et al. 2016. "SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation". 2016. doi: 10.1371/journal.pone.016396.
+
+- [SeqTK](https://github.com/lh3/seqtk)
+
+  > Li, Heng. 2023. seqtk [online]. https://github.com/lh3/seqtk. (Accessed on 7th June 2023).
+
+- [staden_io_lib / iolib](https://github.com/jkbonfield/io_lib)
+
+  > Bonfield JK. 2023. io_lib [online]. https://github.com/jkbonfield/io_lib. (Accessed on 7th June 2023).
+
+- [Tabix](http://www.htslib.org/doc/tabix.html)
+
+  > Li, Heng. 2023. tabix [online]. http://www.htslib.org/doc/tabix.html. (Accessed on 7th June 2023).
+
+- [UCSC tools](https://github.com/ucscGenomeBrowser/kent/tree/master)
+
+  > UCSC Genome Browser Group. 2023. kent [online]. https://github.com/ucscGenomeBrowser/kent/tree/master. (Accessed on 7th June 2023).
+
+- [WindowMasker](https://pubmed.ncbi.nlm.nih.gov/16287941/)
+
+  > Morgulis, A., et al. 2006. WindowMasker: window-based masker for sequenced genomes. Bioinformatics. 22(2). pp.134–141. doi: 10.1093/bioinformatics/bti774.
+
 ## Software packaging/containerisation tools
 
-- [Anaconda](https://anaconda.com)
+- [Conda](https://conda.org/)
 
-  > Anaconda Software Distribution. Computer software. Vers. 2-2.4.0. Anaconda, Nov. 2016. Web.
+  > conda contributors. conda: A system-level, binary package and environment manager running on all major operating systems and platforms. Computer software. https://github.com/conda/conda
 
 - [Bioconda](https://pubmed.ncbi.nlm.nih.gov/29967506/)
 

@@ -8,6 +8,7 @@ testing/
 testing*
 *.pyc
 bin/
+CITATION.cff
 .nf-test/
 modules/nf-core/
 subworkflows/nf-core/

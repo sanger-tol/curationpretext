@@ -1,0 +1,160 @@
+{
+    "Full run": {
+        "content": [
+            38,
+            {
+                "BEDTOOLS_GENOMECOV": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_INTERSECT": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MAKEWINDOWS": {
+                    "bedtools": "2.31.1"
+                },
+                "BEDTOOLS_MAP": {
+                    "bedtools": "2.31.1"
+                },
+                "BWAMEM2_INDEX": {
+                    "bwamem2": "2.2.1"
+                },
+                "CRAMALIGN_BWAMEM2ALIGNHIC": {
+                    "bwamem2": "2.2.1",
+                    "samtools": "1.22.1"
+                },
+                "CRAMALIGN_GENCRAMCHUNKS": {
+                    "cramchunks": "1.1.0"
+                },
+                "FIND_CONCATENATE": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "GAWK_EXTRACT_REPEATS": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_GAP_LENGTH": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_REFORMAT_INTERSECT": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_RENAME_IDS": {
+                    "gawk": "5.3.1"
+                },
+                "GAWK_REPLACE_DOTS": {
+                    "gawk": "5.3.1"
+                },
+                "GNU_SORT_A": {
+                    "coreutils": 9.5
+                },
+                "GNU_SORT_B": {
+                    "coreutils": 9.5
+                },
+                "GNU_SORT_C": {
+                    "coreutils": 9.5
+                },
+                "HTSLIB_BGZIPTABIX": {
+                    "htslib": 1.25,
+                    "xz": "5.8.3"
+                },
+                "MINIMAP2_ALIGN": {
+                    "minimap2": "2.30-r1287"
+                },
+                "PRETEXTANNOTATE": {
+                    "pretextannotate": "1.1.2"
+                },
+                "PRETEXTMAP": {
+                    "PretextMap": "0.2.4",
+                    "samtools": 1.23
+                },
+                "PRETEXTSNAPSHOT": {
+                    "PretextSnapshot": "0.0.7"
+                },
+                "PRETEXT_INGEST_SNDRD": {
+                    "PretextGraph": "0.0.9",
+                    "ucsc": 447
+                },
+                "SAMTOOLS_FAIDX": {
+                    "samtools": 1.25
+                },
+                "SAMTOOLS_FLAGSTAT": {
+                    "samtools": 1.25
+                },
+                "SAMTOOLS_MERGEDUP": {
+                    "samtools": "1.23.1"
+                },
+                "SAMTOOLS_SPLITHEADER": {
+                    "samtools": 1.25
+                },
+                "SEQKIT_SEQ": {
+                    "seqkit": "2.13.0"
+                },
+                "SEQTK_CUTN": {
+                    "seqtk": "1.4-r122"
+                },
+                "TELOMERE_FINDTELOMERE": {
+                    "find_telomere": "0.0.4",
+                    "java": "17.0.20.1"
+                },
+                "UCSC_BEDGRAPHTOBIGWIG": {
+                    "ucsc": 482
+                },
+                "WINDOWMASKER_MKCOUNTS": {
+                    "windowmasker": "1.0.0"
+                },
+                "WINDOWMASKER_USTAT": {
+                    "windowmasker": "1.0.0"
+                },
+                "Workflow": {
+                    "sanger-tol/curationpretext": "v2.0.0dev"
+                }
+            },
+            "Successful processes: 38",
+            "Stable output files: 18",
+            "Accessory track files: 6",
+            "Number of Pre-ingestion Pretext: 1",
+            "Number of Pretext files: 1",
+            "Number of Pretext pngs: 2",
+            [
+                "accessory_files",
+                "accessory_files/CurationPretextTest_MIN.bigWig",
+                "accessory_files/CurationPretextTest_MIN.flagstat",
+                "accessory_files/CurationPretextTest_MIN.fwd.windows",
+                "accessory_files/CurationPretextTest_MIN.gap.bedgraph",
+                "accessory_files/CurationPretextTest_MIN.rev.windows",
+                "accessory_files/CurationPretextTest_MIN.windows",
+                "pipeline_info",
+                "pipeline_info/curationpretext_software_versions.yml",
+                "pretext_maps_processed",
+                "pretext_maps_processed/CurationPretextTest_MIN_normal.pretext",
+                "pretext_maps_raw",
+                "pretext_maps_raw/CurationPretextTest_MIN_normal_pi.pretext",
+                "pretext_snapshot",
+                "pretext_snapshot/CurationPretextTest_MIN_FullMap.png",
+                "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.gif",
+                "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.png",
+                "pretext_snapshot/CurationPretextTest_MIN_annotated_pretext.tif"
+            ],
+            [
+                "CurationPretextTest_MIN.bigWig:md5,3f66a9152d793a62f877b733c2336dfd",
+                "CurationPretextTest_MIN.flagstat:md5,aebd36ca9b8bc53d207b4095349cdcd2",
+                "CurationPretextTest_MIN.fwd.windows:md5,e80e7e504ba2aa22d67ceb5fd46cec09",
+                "CurationPretextTest_MIN.gap.bedgraph:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "CurationPretextTest_MIN.rev.windows:md5,4a7cec66f59955c788d8d5398897280f",
+                "CurationPretextTest_MIN.windows:md5,d8e90bf88bec2d3426a79dc437173814"
+            ],
+            [
+                "CurationPretextTest_MIN_normal_pi.pretext:md5,4670483355daa9e677fd238b3b9c6164"
+            ],
+            [
+                "CurationPretextTest_MIN_normal.pretext:md5,20e8c4bb203dc98c22d5af0bdbb7942f"
+            ]
+        ],
+        "timestamp": "2026-11-16T10:47:55.831985803",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.0"
+        }
+    }
+}

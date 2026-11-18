@@ -4,68 +4,185 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+This is a sister pipeline to [TreeVal](https://github.com/sanger-tol/treeval/) which generates a plurality of data for the curation of reference-quality genomes. curationpretext is a subset of TreeVal that produces soley the Pretext maps and accessory files
 
-## Samplesheet input
+Currently, the pipeline expects input data to be in a specific format.
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+The `--input` should be `.fasta` or `.fa` (the same format but differing suffix).
 
-```bash
---input '[path to samplesheet file]'
+The `--sample` is your chosen naming for the output files.
+
+The `--cram` should point to the folder containing `.cram` files along with a `.crai` per `.cram`.
+
+The `--reads` should point to the folder containing `.fasta.gz` files.
+
+The `--read_type` should be the data type of your data, e.g, ont, illumina, hifi.
+
+The `--aligner` should be the prefered aligner for analysis, e.g, AUTO, bwamem2 or minimap2. AUTO will default to bwamem2 for genomes < 5Gb, genomes above this threshold will default to minimap2
+
+The `--multi_mapping` flag denotes the level of multi-mapping read filtering that should be performed on the pretextmap. 0 = no filtering, whilst 10 = all filtering.
+
+The `--teloseq` should be the expected telomeric sequence in your sample.
+
+The `--snapshot_order` allows for ordering the png in a custom order.
+
+If you do not have these file formats we have also included instructions on converting from common formats to our preferred format.
+If there is a popular public preference for a particular format, we can modify the pipeline to utilise those formats. Just submit an issue.
+
+## Prior to running CurationPretext
+
+<details markdown="1">
+  <summary>Details</summary>
+
+Download the pipeline!
+`git clone https://github.com/sanger-tol/curationpretext.git`
+Or use:
+`git clone https://github.com/sanger-tol/curationpretext.git --branch 1.0.0 --single-branch`
+
+This will pull the released version and not an in development version.
+
+Now move into the folder with `cd curationpretext`
+
+We provide a complete set of data that can be used to test the pipeline locally.
+
+By default the test.config file is set up to run on GitHub, however, should you want to test this locally you can follow the below instructions.
+
+First, choose a download location `${PRETEXT_TEST_DATA}` and run this command (this assumes you are inside the curationpretext directory):
+
+```
+PRETEXT_TEST_DATA=$(pwd)
+curl https://tolit.cog.sanger.ac.uk/test-data/resources/treeval/TreeValTinyData.tar.gz | tar xzf -
 ```
 
-### Multiple runs of the same sample
+Then replace some of the variables in the config file:
 
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
+```
+sed -i'' -e "s|/home/runner/work/curationpretext/curationpretext|${PRETEXT_TEST_DATA}|" conf/test.config
 ```
 
-### Full samplesheet
+You should then check this with `cat conf/test.config` you should now see paths that make sense rather than what would have been `/home/runner` paths.
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
+If using singularity like we do you should also set your `$NXF_SINGULARITY_CACHEDIR={PATH OF YOUR CHOOSING}`. This will be where nextflow stores your singularity containers, for this and any subsequent runs. So clean it out when you update the pipeline otherwise it will fill with oldd containers.
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
+Then, you should be able to run the pipeline (taking into account changes needed to run jobs on your local compute environment) with the test profile as follows:
 
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
+```
+nextflow run . -profile test,singularity
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+</details>
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+### HiC data Preparation
+
+<details markdown="1">
+  <summary>Details</summary>
+
+Illumina HiC read files should be presented in an unmapped CRAM format, each must be accompanied by an index file (.crai) generated by samtools index. If your unmapped HiC reads are in FASTQ format, you should first convert them to CRAM format by using samtools import methods. Examples are below:
+
+#### Conversion of FASTQ to CRAM
+
+```
+samtools import -@8 -r ID:{prefix} -r CN:{hic-kit} -r PU:{prefix} -r SM:{sample_name} {prefix}_R1.fastq.gz {prefix}_R2.fastq.gz -o {prefix}.cram
+```
+
+#### Indexing of CRAM
+
+```
+samtools index {prefix}.cram
+```
+
+</details>
+
+### Longread Data Preparation
+
+<details markdown="1">
+  <summary>Details</summary>
+
+Before running the pipeline data has to be in the `fasta.gz` format. Because of the software we use this data with it must also be long-read data as well as single stranded. This means you could use ONT too (except duplex reads).
+
+The below commands should help you convert from mapped bam to fasta.gz, or from fastq to fasta.
+
+If your data isn't already in these formats, then let us know and we'll see how we can help.
+
+#### BAM -> FASTQ
+
+This command iterates through your bam files and converts them to fastq via samtools.
+
+```
+cd { TO FOLDER OF BAM FILES }
+mkdir fastq
+for i in *bam
+do
+  echo $i
+  j=${i%.bam}
+  echo $j
+  samtools bam2fq ${i} > fastq/${j}.fq
+done
+```
+
+#### FASTQ -> FASTA
+
+This command creates a `fasta` folder (to store our fasta files), moves into the `fastq` folder and then converts `fastq` to `fasta` using seqtk seq.
+
+```
+mkdir fasta
+cd fastq
+for i in *fq; do
+  echo $i
+  j=${i%.fq}
+  echo $j
+  seqtk seq -a $i > ../fasta/${j}.fasta
+done
+```
+
+#### FASTA -> FASTA.GZ
+
+This simply gzips the fasta files.
+
+```
+for i in .fasta; do
+  echo $i
+  gzip $i
+done
+```
+
+#### Or if you're a command line ninja
+
+```
+samtools bam2fq {prefix}.bam| seqtk seq -a - | gzip - > {prefix}.fasta.gz
+```
+
+</details>
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run sanger-tol/curationpretext --input ./samplesheet.csv --outdir ./results  -profile docker
+nextflow run sanger-tol/curationpretext \
+  --input { input.fasta } \
+  --cram { path/to/cram/ } \
+  --reads { path/to/pacbio/fasta/ } \
+  --read_type { default is "hifi" }
+  --sample { default is "pretext_rerun" } \
+  --teloseq { deafault is "TTAGGG" } \
+  --outdir { OUTDIR } \
+  --all_output <true/false> \
+  -profile <docker/singularity/{institute}> \
+  -entry MAPS_ONLY # This line is opnly needed for the truncated pipeline, FULL runs do not need this line at all.
 ```
 
-This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
+Above arguments surrounded with `{}` are user-defined values, those in `<>` are choices made between the shown values.
+
+By default the `all_output` flag is set to false, this means that _ONLY_ post-ingestion pretext maps are output from the pipeline, removing the output files which may not be used by the end user. Changing this to `--all_output true` will once again output all files.
 
 Note that the pipeline will create the following files in your working directory:
 
 ```bash
-work                # Directory containing the nextflow working files
-<OUTDIR>            # Finished results in specified location (defined with --outdir)
-.nextflow_log       # Log file from Nextflow
+work                    # Directory containing the nextflow working files
+<OUTDIR>/pipeline_info  # Finished results in specified location (defined with --outdir)
+<OUTDIR>/hic_files      # Finished results in specified location (defined with --outdir)
+.nextflow_log           # Log file from Nextflow
 # Other nextflow hidden files, eg. history of pipeline runs and old logs.
 ```
 
@@ -85,9 +202,13 @@ nextflow run sanger-tol/curationpretext -profile docker -params-file params.yaml
 with:
 
 ```yaml title="params.yaml"
-input: './samplesheet.csv'
-outdir: './results/'
-<...>
+input: "./samplesheet.csv"
+outdir: "./results/"
+teloseq: "GRCh37"
+sample: "data"
+reads: "longread_path"
+cram: "cram_path"
+all_output: boolean
 ```
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
@@ -104,7 +225,7 @@ nextflow pull sanger-tol/curationpretext
 
 It is a good idea to specify the pipeline version when running the pipeline on your data. This ensures that a specific version of the pipeline code and software are used when you run your pipeline. If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [sanger-tol/curationpretext releases page](https://github.com/sanger-tol/curationpretext/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
+First, go to the [sanger-tol/curationpretext releases page](https://github.com/sanger-tol/curationpretext/releases) and find the latest pipeline version - numeric only (eg. `1.3.2`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.2`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 

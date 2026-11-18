@@ -1,7 +1,7 @@
-# sanger-tol/curationpretext
+# ![sanger-tol/curationpretext](docs/images/curationpretext-light.png#gh-light-mode-only) ![sanger-tol/curationpretext](docs/images/curationpretext-dark.png#gh-dark-mode-only)
 
 [![GitHub Actions CI Status](https://github.com/sanger-tol/curationpretext/actions/workflows/nf-test.yml/badge.svg)](https://github.com/sanger-tol/curationpretext/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/sanger-tol/curationpretext/actions/workflows/linting.yml/badge.svg)](https://github.com/sanger-tol/curationpretext/actions/workflows/linting.yml)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions Linting Status](https://github.com/sanger-tol/curationpretext/actions/workflows/linting.yml/badge.svg)](https://github.com/sanger-tol/curationpretext/actions/workflows/linting.yml)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.12773958-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.12773958)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
@@ -13,52 +13,107 @@
 
 ## Introduction
 
-**sanger-tol/curationpretext** is a bioinformatics pipeline that ...
+**sanger-tol/curationpretext** is a bioinformatics pipeline typically used in conjunction with [TreeVal](https://github.com/sanger-tol/treeval) to generate pretext maps (and optionally telomeric, gap, coverage, and repeat density plots which can be ingested into pretext) for the manual curation of high quality genomes.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+This is intended as a supplementary pipeline for the [treeval](https://github.com/sanger-tol/treeval) project. This pipeline can be simply used to generate pretext maps, information on how to run this pipeline can be found in the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage).
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/community/brand/workflow-schematics#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+![Workflow Diagram](./docs/images/CurationPretext-1.6.0.jpeg)
+
+The above image shows the use of this pipeline inside of the manual curation process and follows the below major steps.
+
+1. CRAM_MAP_ILLUMINA_HIC (ALIGN_CRAM) + PAIRS_CREATE_CONTACT_MAPS (CREATE_MAPS) - Generates pretext maps as well as a static image.
+
+2. ACCESSORY_FILES - Generates the repeat density, gap, telomere, and coverage tracks.
+
+3. PRETEXT_INGEST - Imports the generated tracks into pretext for visualisation.
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/get_started/environment_setup/overview) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/get_started/run-your-first-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+Currently, the pipeline uses the following flags:
 
-First, prepare a samplesheet with your input data that looks as follows:
+- `--input`
+  - The absolute path to the assembled genome in, e.g., `/path/to/assembly.fa`
 
-`samplesheet.csv`:
+- `--sample`
+  - Sample is the naming prefix of the output files, e.g. iyTipFemo
 
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-```
+- `--reads`
+  - The directory of the fasta files generated from longread reads, e.g., `/path/to/fasta/`
+  - This folder _must_ contain files in a `.fasta.gz` format, or they will be skipped by the internal file search function.
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+- `--read_type`
+  - The type of longread data you are utilising, e.g., ont, illumina, hifi.
 
--->
+- `--aligner`
+  - The aligner you wish to use for the coverage generation, defaults to `AUTO` but options include `bwamem2` and `minimap2`.
+
+- `--cram`
+  - The directory of the cram _and_ cram.crai files, e.g., `/path/to/cram/`
+
+- `--map_order`
+  - hic map scaffold order, input either `length` or `unsorted`
+
+- `--teloseq`
+  - A telomeric sequence, e.g., `TTAGGG`
+
+- `--multi_mapping`
+  - Level of multi-mapping read filtering to perform whilst building the pretext map.
+
+- `--all_output`
+  - An option to output all maps + accessory files, the default will only output the pretextmaps where ingestion has occured.
+
+- `--skip_tracks`
+  - A csv list of accessory tracks to skip, options are: `ALL`, `gap`, `coverage`, `telo`, `repeats`, `NONE`. Default is `NONE`. Please note that capitalization matters.
+
+- `--split_telomere`
+  - A boolean to also generate the telomere track in 5Prime and 3Prime styles, this is also include the original telomere track.
+
+- `--pre_mapped_bam`
+  - A boolean option to use `--cram` as input for _A_ pre-mapped bam file.
+
+- `--cram_chunk_size`
+  - The number of records in a cram file should be chunked into, defaults to 10000.
+
+- `--run_hires`
+  - A boolean to run the pipeline in hires mode, i.e., generate hires resolution maps. Default is `true`
+
+- `--run_ultra`
+  - A string argument to run the pipeline in ultra resolution mode, i.e., generate ultra resolution maps. Options are: `yes`, `force`, `no`. Default is `yes`, this runs ultra resolution maps is the genome file is > 4.Gb.
+
+- `--snapshot_order`
+  - A path to a `genome`, `sizes` or `fai` file containing the scaffolds in the order required for the output snapshot png file.
 
 Now, you can run the pipeline using:
 
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
-
 ```bash
 nextflow run sanger-tol/curationpretext \
-   -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
-   --outdir <OUTDIR>
+  --input { input.fasta } \
+  --cram { path/to/cram/ } \
+  --reads { path/to/longread/fasta/ } \
+  --read_type { default is "hifi" }
+  --sample { default is "pretext_rerun" } \
+  --teloseq { default is "TTAGGG" } \
+  --map_order { default is "unsorted" } \
+  --multi_mapping { default is "0" (for no filtering of multi-mapping reads)} \
+  --all_output <true/false> \
+  --outdir { OUTDIR } \
+  -profile <docker/singularity/{institute}>
+
 ```
 
-> [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/running/run-pipelines#using-parameter-files).
+> **Warning:**
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
+
+For more details, please refer to the [usage documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/usage) and the [parameter documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/parameters).
+
+## Pipeline output
+
+To see the the results of a test run with a full size dataset refer to the [results](https://pipelines.tol.sanger.ac.uk/curationpretext/results) tab on the sanger-tol/curationpretext website pipeline page.
+For more details about the output files and reports, please refer to the
+[output documentation](https://pipelines.tol.sanger.ac.uk/curationpretext/output).
 
 ## Credits
 
@@ -66,7 +121,19 @@ sanger-tol/curationpretext was originally written by Damon-Lee B Pointon (@DLBPo
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- @muffato - For reviews.
+
+- @yumisims - TreeVal and Software.
+
+- @weaglesBio - TreeVal and Software.
+
+- @josieparis - Help with better docs and testing.
+
+- @mahesh-panchal - Large support with 1.2.0 in making the pipeline more robust with other HPC environments.
+
+- @GRIT - For feedback and feature requests.
+
+- @prototaxites - Support with 1.3.0 and showing me the power of GAWK.
 
 ## Contributions and Support
 
@@ -74,10 +141,7 @@ If you would like to contribute to this pipeline, please see the [contributing g
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use sanger-tol/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
+If you use sanger-tol/curationpretext for your analysis, please cite it using the following doi: [10.5281/zenodo.12773958](https://doi.org/10.5281/zenodo.12773958)
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
