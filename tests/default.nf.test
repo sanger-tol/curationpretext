@@ -6,7 +6,7 @@ nextflow_pipeline {
     tag "pipeline_sanger_tol"
     tag "full"
 
-    config "../conf/test.config"
+    profile "test"
 
     test("Full run") {
 
@@ -14,8 +14,6 @@ nextflow_pipeline {
             params {
                 outdir = "${outputDir}"
                 all_output = true
-                skip_tracks = "NONE"
-                split_telomere = true
                 multi_mapping = 0
             }
         }
@@ -37,31 +35,21 @@ nextflow_pipeline {
                     // Test for number of successful processes
                     workflow.trace.succeeded().size(), // 42 with out needing to gunzip the assembly
 
-                    removeNextflowVersion("$outputDir/pipeline_info/sanger-tol_curationpretext_software_versions.yml"),
+                    removeNextflowVersion("$outputDir/pipeline_info/curationpretext_software_versions.yml"),
 
-                    // Stable name with relative path
+                    // Pipeline output counts
+                    "Successful processes: ${workflow.trace.succeeded().size()}",
+                    "Stable output files: ${stable_name.size()}",
+                    "Accessory track files: ${accessories.size()}",
+                    "Number of Pre-ingestion Pretext: ${pretext_maps_raw.size()}",
+                    "Number of Pretext files: ${pretext_files.size()}",
+                    "Number of Pretext pngs: ${pretext_png.size()}",
+
+
                     stable_name,
-                    stable_name.size(), // 18
-
-                    // Accessory files
                     accessories,
-                    accessories.size(), // 9
-
-                    // The pretext files
-                    // We only expect 1 pretext file as when using the `test` profile
-                    // we are skipping hr pretext file generation
-                    // so size will be 1 and presence of hr file is false
-                    pretext_maps_raw.size(),
-                    pretext_maps_raw.any{it.toString().contains("_hr_pi.pretext".toString())},
-                    pretext_maps_raw.any{it.toString().contains("_normal_pi.pretext".toString())},
-
-                    pretext_files.size(),
-                    pretext_files.any{it.toString().contains("_hr.pretext".toString())},
-                    pretext_files.any{it.toString().contains("_normal.pretext".toString())},
-
-                    // The one png file - like the maps, it will be slightly different
-                    pretext_png.size(),
-                    pretext_png.any{it.toString().contains(".png".toString())}
+                    pretext_maps_raw,
+                    pretext_files,
 
                 ).match()},
             )

@@ -17,4 +17,7 @@ results/
 testing/
 testing*
 *.pyc
-TreeValTinyData/
+null/
+.lineage/
+.nf-test/
+.nf-test.log

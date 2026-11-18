@@ -10,6 +10,12 @@
                         "test.interval:md5,4643a7c3b07e980844758b750305d0d2"
                     ]
                 ],
+                "1": [
+                    
+                ],
+                "_dummy": [
+                    
+                ],
                 "repeat_intervals": [
                     [
                         {
@@ -20,11 +26,11 @@
                 ]
             }
         ],
+        "timestamp": "2026-05-20T14:37:38.668803016",
         "meta": {
-            "nf-test": "0.9.3",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-03-11T15:22:05.946463897"
+        }
     },
     "Undibacterium_unclassified genome - stub": {
         "content": [
@@ -37,6 +43,12 @@
                         "test.interval:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
+                "1": [
+                    
+                ],
+                "_dummy": [
+                    
+                ],
                 "repeat_intervals": [
                     [
                         {
@@ -47,10 +59,10 @@
                 ]
             }
         ],
+        "timestamp": "2026-05-20T14:38:46.82128",
         "meta": {
-            "nf-test": "0.9.3",
+            "nf-test": "0.9.5",
             "nextflow": "25.10.2"
-        },
-        "timestamp": "2026-03-11T15:22:34.478677095"
+        }
     }
 }
