@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added and Fixed
 
-- Update `nf-core` template to 4.1.0
-  - Note that this update removes the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins
+- Update `nf-core` template to 4.2.2
+  - Note that the update to 4.1.0 removed the existing Teams and Slack notification functionality. If you were using this functionality, please configure the [nf-slack](https://github.com/seqeralabs/nf-slack) or [nf-teams](https://github.com/nvnieuwk/nf-teams) Nextflow plugins
 - Updated `nf-schema` to `2.7.2` which is valid for nextflow `25.10.4`
   - This version allows us to use type casting on `params` values input from the cli now that nextflow cli inputs are treated only as strings
   - In light of this, the casting parameter has been set to `true`
